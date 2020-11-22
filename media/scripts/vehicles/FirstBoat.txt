@@ -1,0 +1,257 @@
+module Base
+{
+	model BoatZeroPatientBase
+    {
+        mesh = boats/BoatZeroPatient,
+        shader = vehicle_multiuv,
+        invertX = FALSE,
+        scale = 0.015,
+    }
+	model WheelNull
+	{
+		mesh = WheelNull,
+	}
+	vehicle BoatZeroPatient
+	{
+		mechanicType = 1,
+		offRoadEfficiency = 2,
+		engineRepairLevel = 5,
+		playerDamageProtection = 1.3,
+
+		model
+		{
+			file = BoatZeroPatientBase,
+			scale = 1.9000,
+			offset = 0.0000 -1.2579 0.2526,
+		}
+
+		spawnOffsetY = 0.3565027,
+
+		skin
+		{
+			texture = Boats/BoatZeroPatient_bake,
+		}
+
+		extents = 1.0211 0.1158 3.8000,
+		mass = 900,
+		physicsChassisShape = 0.7895 0.1158 3.5684,
+		centerOfMassOffset = 0.0000 0.3526 0.0316,
+		engineForce = 4400,
+		maxSpeed = 90f,
+		engineLoudness = 90,
+		engineQuality = 70,
+		brakingForce = 90,
+		stoppingMovementForce = 2.0f,
+		rollInfluence = 1.0f,
+		steeringIncrement = 0.03,
+		steeringClamp = 0.3,
+		suspensionStiffness = 30,
+		suspensionCompression = 2.83,
+		suspensionDamping = 2.88,
+		maxSuspensionTravelCm = 10,
+		suspensionRestLength = 0.2,
+		wheelFriction = 1.6f,
+		frontEndHealth = 150,
+		rearEndHealth = 150,
+		seats = 2,
+
+		wheel FrontLeft
+		{
+			front = true,
+			offset = 0.7632 -0.6474 1.8526,
+			radius = 0.15f,
+			width = 0.2f,
+		}
+
+		wheel FrontRight
+		{
+			front = true,
+			offset = -0.7684 -0.6526 1.8526,
+			radius = 0.15f,
+			width = 0.2f,
+		}
+
+		wheel RearLeft
+		{
+			front = false,
+			offset = 0.9211 -0.6421 -2.4842,
+			radius = 0.15f,
+			width = 0.2f,
+		}
+
+		wheel RearRight
+		{
+			front = false,
+			offset = -0.9263 -0.6421 -2.4842,
+			radius = 0.15f,
+			width = 0.2f,
+		}
+
+		template = PassengerSeat2,
+
+		passenger FrontLeft
+		{
+			position inside
+			{
+				offset = 0.2737 -0.1000 -0.9316,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = 0.5737 -0.4632 -0.0684,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatFrontLeft,
+			}
+		}
+
+		passenger FrontRight
+		{
+			position inside
+			{
+				offset = -0.3316 -0.1000 -0.9789,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = -0.5737 -0.4632 -0.0684,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatFrontRight,
+			}
+		}
+
+		area Engine
+		{
+			xywh = 0.0000 1.1474 0.8421 0.4737,
+		}
+
+		area TruckBed
+		{
+			xywh = 0.0000 -1.1474 0.8421 0.4737,
+		}
+
+		area SeatFrontLeft
+		{
+			xywh = -0.0105 3.0789 0.4737 0.4737,
+		}
+
+		area SeatFrontRight
+		{
+			xywh = -0.0158 3.0684 0.4737 0.4737,
+		}
+
+		area GasTank
+		{
+			xywh = 0.6526 -0.5368 0.4737 0.4737,
+		}
+
+		area TireFrontLeft
+		{
+			xywh = 0.6526 0.6000 0.4737 0.4737,
+		}
+
+		area TireFrontRight
+		{
+			xywh = -0.6526 0.6000 0.4737 0.4737,
+		}
+
+		area TireRearLeft
+		{
+			xywh = 0.6526 -0.5368 0.4737 0.4737,
+		}
+
+		area TireRearRight
+		{
+			xywh = -0.6526 -0.5368 0.4737 0.4737,
+		}
+
+		template = TrunkDoor,
+
+		part TrunkDoor
+		{
+			hasLightsRear = true,
+		}
+
+		template = Trunk/part/TruckBed,
+
+		part TruckBed
+		{
+			itemType = Base.SmallTrunk,
+
+			container
+			{
+				capacity = 40,
+			}
+		}
+
+		template = Seat/part/SeatFrontLeft,
+		template = Seat/part/SeatFrontRight,
+
+		part Seat*
+		{
+			container
+			{
+				capacity = 20,
+			}
+
+			table install
+			{
+				skills = Mechanics:2,
+			}
+
+			table uninstall
+			{
+				skills = Mechanics:2,
+			}
+		}
+
+		template = GloveBox,
+
+		part GloveBox
+		{
+			container
+			{
+				capacity = 5,
+			}
+		}
+
+		template = GasTank,
+		template = Battery,
+		template = Engine,
+		template = Muffler,
+		template = Tire,
+
+		part TireFrontLeft
+		{
+			model InflatedTirePlusWheel
+			{
+				file = WheelNull,
+			}
+		}
+
+		part TireFrontRight
+		{
+			model InflatedTirePlusWheel
+			{
+				file = WheelNull,
+			}
+		}
+
+		part TireRearLeft
+		{
+			model InflatedTirePlusWheel
+			{
+				file = WheelNull,
+			}
+		}
+
+		part TireRearRight
+		{
+			model InflatedTirePlusWheel
+			{
+				file = WheelNull,
+			}
+		}
+	}
+}
