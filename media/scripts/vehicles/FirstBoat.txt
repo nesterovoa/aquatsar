@@ -33,10 +33,10 @@ module Base
 			texture = Boats/BoatZeroPatient_bake,
 		}
 
-		extents = 1.8581 0.0645 5.5355,
+		extents = 1.8581 0.0645 5.7806,
 		mass = 900,
 		physicsChassisShape = 3.1484 0.0645 5.6000,
-		centerOfMassOffset = 0.0000 0.5097 0.2452,
+		centerOfMassOffset = 0.0000 0.4452 -0.1161,
 		engineForce = 5700,
 		maxSpeed = 140f,
 		engineLoudness = 90,
@@ -59,7 +59,7 @@ module Base
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 1.5161 1.0968 1.8516,
+			offset = 0.5226 1.0968 1.8516,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -67,7 +67,7 @@ module Base
 		wheel FrontRight
 		{
 			front = true,
-			offset = -1.5161 1.0968 1.8516,
+			offset = -0.5161 1.0968 1.8516,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -75,7 +75,7 @@ module Base
 		wheel RearLeft
 		{
 			front = false,
-			offset = 1.5161 1.0968 -2.4839,
+			offset = 0.7484 1.0968 -2.4839,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -83,7 +83,7 @@ module Base
 		wheel RearRight
 		{
 			front = false,
-			offset = -1.5677 1.0968 -2.4839,
+			offset = -0.7484 1.0968 -2.4839,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -94,13 +94,13 @@ module Base
 		{
 			position inside
 			{
-				offset = 0.2710 -0.1032 -0.9290,
+				offset = 0.2710 -0.0645 -0.9290,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
 			position outside
 			{
-				offset = 0.5742 -0.4645 -0.0710,
+				offset = 0.5742 -0.0645 -1.0710,
 				rotate = 0.0000 0.0000 0.0000,
 				area = SeatFrontLeft,
 			}
@@ -116,7 +116,7 @@ module Base
 
 			position outside
 			{
-				offset = -0.5742 -0.4645 -0.0710,
+				offset = -0.5742 -0.0645 -0.9871,
 				rotate = 0.0000 0.0000 0.0000,
 				area = SeatFrontRight,
 			}
@@ -145,26 +145,6 @@ module Base
 		area GasTank
 		{
 			xywh = 0.6516 -0.5355 0.4774 0.4774,
-		}
-
-		area TireFrontLeft
-		{
-			xywh = 0.6516 0.6000 0.4774 0.4774,
-		}
-
-		area TireFrontRight
-		{
-			xywh = -0.6516 0.6000 0.4774 0.4774,
-		}
-
-		area TireRearLeft
-		{
-			xywh = 0.6516 -0.5355 0.4774 0.4774,
-		}
-
-		area TireRearRight
-		{
-			xywh = -0.6516 -0.5355 0.4774 0.4774,
 		}
 
 		template = TrunkDoor,
@@ -222,38 +202,6 @@ module Base
 		template = Engine,
 		template = Muffler,
 		template = Tire,
-
-		part TireFrontLeft
-		{
-			model InflatedTirePlusWheel
-			{
-				file = WheelNull,
-			}
-		}
-
-		part TireFrontRight
-		{
-			model InflatedTirePlusWheel
-			{
-				file = WheelNull,
-			}
-		}
-
-		part TireRearLeft
-		{
-			model InflatedTirePlusWheel
-			{
-				file = WheelNull,
-			}
-		}
-
-		part TireRearRight
-		{
-			model InflatedTirePlusWheel
-			{
-				file = WheelNull,
-			}
-		}
 
 		attachment trailer
 		{
