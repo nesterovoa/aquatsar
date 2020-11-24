@@ -74,7 +74,8 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 	onStart = function()
 		local chr = getPlayer();
 		local inv = chr:getInventory();
-	
+		ibrrusDEBUG = true
+		
 		chr:setGhostMode(true);
 		
 		local car = addVehicleDebug("Base.BoatZeroPatient", IsoDirections.S, nil, getCell():getGridSquare(11832, 6595, 0));

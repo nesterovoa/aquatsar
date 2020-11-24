@@ -203,16 +203,30 @@ module Base
 		template = Muffler,
 		template = Tire,
 
-		attachment trailer
+		attachment frontLeft
 		{
-			offset = 0.0000 -0.2632 -1.7842,
+			offset = 1.4000 -0.2645 3.0839,
 			rotate = 0.0000 0.0000 0.0000,
 			zoffset = -1.0000,
 		}
 
-		attachment trailerfront
+		attachment frontRight
 		{
-			offset = 0.0000 -0.2632 1.7842,
+			offset = -1.4000 -0.2645 3.0839,
+			rotate = 0.0000 0.0000 0.0000,
+			zoffset = 1.0000,
+		}
+
+		attachment rearLeft
+		{
+			offset = 1.4000 -0.2645 -3.5290,
+			rotate = 0.0000 0.0000 0.0000,
+			zoffset = 1.0000,
+		}
+
+		attachment rearRight
+		{
+			offset = -1.4000 -0.2645 -3.5290,
 			rotate = 0.0000 0.0000 0.0000,
 			zoffset = 1.0000,
 		}
