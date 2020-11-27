@@ -230,5 +230,23 @@ module Base
 			rotate = 0.0000 0.0000 0.0000,
 			zoffset = 1.0000,
 		}
+
+		attachment exitLeft
+		{
+			offset = 1.2258 0.0000 -2.0968,
+			rotate = 0.0000 0.0000 0.0000,
+		}
+
+		attachment exitRear
+		{
+			offset = 0.0000 0.0000 -3.3935,
+			rotate = 0.0000 0.0000 0.0000,
+		}
+
+		attachment exitRight
+		{
+			offset = -1.2258 0.0000 -2.0968,
+			rotate = 0.0000 0.0000 0.0000,
+		}
 	}
 }
