@@ -2,6 +2,7 @@ WaterVehicles = {}
 
 local waterVehicleMode = false
 
+
 function WaterVehicles.moveFunction(vehicle, a, b)
    local field = getClassField(vehicle, 157)
    print(field)
@@ -23,7 +24,7 @@ end
 
 
 
-
+objectIsoTest = nil
 
 local function waterVehicleControl(key)
    local player = getSpecificPlayer(0)
@@ -33,7 +34,21 @@ local function waterVehicleControl(key)
       waterVehicleMode = not waterVehicleMode
    end
 
+   if key == Keyboard.KEY_7 then
+      local sq = player:getSquare()
+      objectIsoTest = IsoObject.new()
+      objectIsoTest:setSquare(sq)
+   end
+   
+
+
    local veh = player:getVehicle()
+   
+   if key == Keyboard.KEY_8 then
+      local vec2 = Vector3.fromLengthDirection(1, 1)
+      print(veh:testCollisionWithObject(objectIsoTest, 1, vec2))
+   end
+   
    if player and veh and waterVehicleMode then
       if key == Keyboard.KEY_W then
          WaterVehicles.moveFunction(veh, 1, 0)

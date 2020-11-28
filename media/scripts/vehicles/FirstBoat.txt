@@ -33,10 +33,10 @@ module Base
 			texture = Boats/BoatZeroPatient_bake,
 		}
 
-		extents = 1.8581 0.0645 5.7806,
+		extents = 1.8581 0.4387 5.6129,
 		mass = 900,
-		physicsChassisShape = 3.1484 0.0645 5.6000,
-		centerOfMassOffset = 0.0000 0.4452 -0.1161,
+		physicsChassisShape = 3.1484 0.4516 5.6000,
+		centerOfMassOffset = 0.0000 0.6581 -0.1161,
 		engineForce = 5700,
 		maxSpeed = 140f,
 		engineLoudness = 90,
@@ -227,6 +227,20 @@ module Base
 		attachment rearRight
 		{
 			offset = -1.4000 -0.2645 -3.5290,
+			rotate = 0.0000 0.0000 0.0000,
+			zoffset = 1.0000,
+		}
+
+		attachment trailer
+		{
+			offset = 0.0000 -0.3226 -2.8000,
+			rotate = 0.0000 0.0000 0.0000,
+			zoffset = -1.0000,
+		}
+
+		attachment trailerfront
+		{
+			offset = 0.0000 -0.3226 2.8000,
 			rotate = 0.0000 0.0000 0.0000,
 			zoffset = 1.0000,
 		}

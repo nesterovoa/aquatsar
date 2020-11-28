@@ -1,5 +1,7 @@
+
+
 function DefenderWater ()
 	
 end
 
-Events.OnRenderTick.Add(DefenderWater)
+Events.OnTick.Add(DefenderWater)
