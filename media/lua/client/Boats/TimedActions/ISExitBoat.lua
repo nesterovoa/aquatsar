@@ -1,5 +1,5 @@
 --***********************************************************
---**                    THE INDIE STONE                    **
+--**                      AQUATSAR       	               **
 --***********************************************************
 
 require 'Boats/Init'
@@ -26,13 +26,6 @@ function ISExitBoat:start()
 	self.action:setBlockMovementEtc(true) -- ignore 'E' while exiting
 	local vehicle = self.character:getVehicle()
 	local seat = vehicle:getSeat(self.character)
---	if vehicle:isDriver(self.character) and vehicle:isEngineRunning() then
---		if isClient() then
---			sendClientCommand(self.character, 'vehicle', 'shutOff', {})
---		else
---			vehicle:shutOff()
---		end
---	end
 	self.character:SetVariable("bExitingVehicle", "true")
 	vehicle:playPassengerSound(seat, "exit")
 end
@@ -49,34 +42,24 @@ end
 function ISExitBoat:perform()
 	local vehicle = self.character:getVehicle()
 	local seat = vehicle:getSeat(self.character)
---	if vehicle:isDriver(self.character) and vehicle:isEngineRunning() then
---		if isClient() then
---			sendClientCommand(self.character, 'vehicle', 'shutOff', {})
---		else
---			vehicle:shutOff()
---		end
---	end
 	vehicle:exit(self.character)
-	vehicle:setCharacterPosition(self.character, seat, "outside")
+	--vehicle:setCharacterPosition(self.character, seat, "outside")
 	self.character:PlayAnim("Idle")
 	triggerEvent("OnExitVehicle", self.character)
     vehicle:updateHasExtendOffsetForExitEnd(self.character)
-	vehicle:getAttachmentWorldPos("exitLeft", AquatsarYachts.exitLeftVector)
-	vehicle:getAttachmentWorldPos("exitRight", AquatsarYachts.exitRightVector)
-	vehicle:getAttachmentWorldPos("exitRear", AquatsarYachts.exitRearVector)
-	
-	self.character:setX(AquatsarYachts.exitLeftVector:x())
-	self.character:setY(AquatsarYachts.exitLeftVector:y())
+	self.character:setX(self.exitPos:x())
+	self.character:setY(self.exitPos:y())
 	-- needed to remove from queue / start next.
 	ISBaseTimedAction.perform(self)
 end
 
-function ISExitBoat:new(character)
+function ISExitBoat:new(character, exitPos)
 	local o = {}
 	setmetatable(o, self)
 	self.__index = self
 	o.character = character
 	o.maxTime = -1
+	o.exitPos = exitPos
 	return o
 end
 

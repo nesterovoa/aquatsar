@@ -33,10 +33,10 @@ module Base
 			texture = Boats/BoatZeroPatient_bake,
 		}
 
-		extents = 1.8581 0.4387 5.6129,
-		mass = 900,
+		extents = 1.8581 0.4387 5.8581,
+		mass = 300,
 		physicsChassisShape = 3.1484 0.4516 5.6000,
-		centerOfMassOffset = 0.0000 0.6581 -0.1161,
+		centerOfMassOffset = 0.0000 0.6581 -0.0452,
 		engineForce = 5700,
 		maxSpeed = 140f,
 		engineLoudness = 90,
@@ -59,7 +59,7 @@ module Base
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 0.5226 1.0968 1.8516,
+			offset = 0.5161 1.0968 1.3032,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -67,7 +67,7 @@ module Base
 		wheel FrontRight
 		{
 			front = true,
-			offset = -0.5161 1.0968 1.8516,
+			offset = -0.5161 1.0968 1.3032,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -75,7 +75,7 @@ module Base
 		wheel RearLeft
 		{
 			front = false,
-			offset = 0.7484 1.0968 -2.4839,
+			offset = 0.5742 1.0968 -2.1355,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -83,7 +83,7 @@ module Base
 		wheel RearRight
 		{
 			front = false,
-			offset = -0.7484 1.0968 -2.4839,
+			offset = -0.5742 1.0968 -2.1355,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -203,51 +203,22 @@ module Base
 		template = Muffler,
 		template = Tire,
 
-		attachment frontLeft
-		{
-			offset = 1.4000 -0.2645 3.0839,
-			rotate = 0.0000 0.0000 0.0000,
-			zoffset = -1.0000,
-		}
-
-		attachment frontRight
-		{
-			offset = -1.4000 -0.2645 3.0839,
-			rotate = 0.0000 0.0000 0.0000,
-			zoffset = 1.0000,
-		}
-
-		attachment rearLeft
-		{
-			offset = 1.4000 -0.2645 -3.5290,
-			rotate = 0.0000 0.0000 0.0000,
-			zoffset = 1.0000,
-		}
-
-		attachment rearRight
-		{
-			offset = -1.4000 -0.2645 -3.5290,
-			rotate = 0.0000 0.0000 0.0000,
-			zoffset = 1.0000,
-		}
-
 		attachment exitLeft
 		{
-			offset = 1.2258 0.0000 -2.0968,
+			offset = 1.3097 0.0000 -2.0968,
 			rotate = 0.0000 0.0000 0.0000,
 		}
 
 		attachment exitRear
 		{
-			offset = 0.0000 0.0000 -3.3935,
+			offset = 0.0000 0.0000 -3.4968,
 			rotate = 0.0000 0.0000 0.0000,
 		}
 
 		attachment exitRight
 		{
-			offset = -1.2258 0.0000 -2.0968,
+			offset = -1.3161 0.0000 -2.0968,
 			rotate = 0.0000 0.0000 0.0000,
-
 		}
 	}
 }

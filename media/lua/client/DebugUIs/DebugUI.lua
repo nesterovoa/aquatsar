@@ -29,7 +29,8 @@ local function OpenDebug(key)
 	if key == KEY_0 then
 		print(Go_To:Debug())
 	elseif key == KEY_9 then
-		AquatsarYachts.Physics.stopVehicleMove(vehicleDB, 3500)
+		vehicleDB:applyImpulseFromHitZombies()
+		--AquatsarYachts.Physics.stopVehicleMove(vehicleDB, 3500)
 	end
 end
 	
@@ -43,6 +44,11 @@ local screenY = 1;
 local r = 0.1
 local g = 0.8
 local b = 1
+
+local function round(_num)
+	local number = _num;
+	return number <= 0 and floor(number) or floor(number + 0.5);
+end
 
 local function getCoords()
 	local player = getSpecificPlayer(0)
@@ -61,52 +67,61 @@ local function getCoords()
 		end
 	
 		if vehicleDB:getScriptName() == "Base.BoatZeroPatient" then  
-			squareDB = getSquare(vehicleDB:getX(), vehicleDB:getY(), 0)
-			floorR = squareDB:getFloor()
-			vehicleDB:getAttachmentWorldPos("frontLeft", AquatsarYachts.frontLeftVector)
-			vehicleDB:getAttachmentWorldPos("frontRight", AquatsarYachts.frontRightVector)
-			vehicleDB:getAttachmentWorldPos("rearLeft", AquatsarYachts.rearLeftVector)
-			vehicleDB:getAttachmentWorldPos("rearRight", AquatsarYachts.rearRightVector)
-			local x = squareDB:getX()
-			local y = squareDB:getY()
-			local z = squareDB:getZ()
-			txt = txt .. "squareDB coordinats: ".. x .. " Y:" .. y .. "\n"
+			-- squareDB = getSquare(vehicleDB:getX(), vehicleDB:getY(), 0)
+			-- floorR = squareDB:getFloor()
+			-- vehicleDB:getAttachmentWorldPos("frontLeft", AquatsarYachts.frontLeftVector)
+			-- vehicleDB:getAttachmentWorldPos("frontRight", AquatsarYachts.frontRightVector)
+			-- vehicleDB:getAttachmentWorldPos("rearLeft", AquatsarYachts.rearLeftVector)
+			-- vehicleDB:getAttachmentWorldPos("rearRight", AquatsarYachts.rearRightVector)
+			-- local x = squareDB:getX()
+			-- local y = squareDB:getY()
+			-- local z = squareDB:getZ()
+			-- txt = txt .. "squareDB coordinats: ".. tonumber(x) .. " Y:" .. tonumber(y) .. "\n"
 			
-			local tile = floorR:getTextureName()
+			-- local tile = floorR:getTextureName()
 
-			txt = txt .. "FrontLeftTile: " .. "\n"
-			x = AquatsarYachts.frontLeftVector:x()
-			y = AquatsarYachts.frontLeftVector:y()
-			tile = getSquare(x, y, 0):getFloor():getTextureName()
-			txt = txt  .. tile .. "\n"
-			if not string.match(string.lower(tile), "blends_natural_02") then
-				--print("ACHTUNG! FrontLeftTile")
-			end
-			txt = txt .. "FrontRightTile: " .. "\n"
-			x = AquatsarYachts.frontRightVector:x()
-			y = AquatsarYachts.frontRightVector:y()
-			tile = getSquare(x, y, 0):getFloor():getTextureName()
-			txt = txt .. tile .. "\n"
-			if not string.match(string.lower(tile), "blends_natural_02") then
-				--print("ACHTUNG! FrontRightTile")
-			end
-			txt = txt .. "RearLeftTile: " .. "\n"
-			x = AquatsarYachts.rearLeftVector:x()
-			y = AquatsarYachts.rearLeftVector:y()
-			tile = getSquare(x, y, 0):getFloor():getTextureName()
-			txt = txt .. tile .. "\n"
-			if not string.match(string.lower(tile), "blends_natural_02") then
-				--print("ACHTUNG! RearLeftTile")
-			end
-			txt = txt .. "RearRightTile: " .. "\n"
-			x = AquatsarYachts.rearRightVector:x()
-			y = AquatsarYachts.rearRightVector:y()
-			tile = getSquare(x, y, 0):getFloor():getTextureName()
-			txt = txt .. tile
-			if not string.match(string.lower(tile), "blends_natural_02") then
-				--print("ACHTUNG! RearRightTile")
-			end
 			
+			-- x = AquatsarYachts.frontLeftVector:x()
+			-- y = AquatsarYachts.frontLeftVector:y()
+			-- txt = txt .. "FrontLeftTile: " .. tonumber(x) .. " Y:" .. tonumber(y) .. "\n"
+			-- tile = getSquare(x, y, 0):getFloor():getTextureName()
+			-- txt = txt  .. tile .. "\n"
+			-- if not string.match(string.lower(tile), "blends_natural_02") then
+				--print("ACHTUNG! FrontLeftTile")
+			-- end
+			-- x = AquatsarYachts.frontRightVector:x()
+			-- y = AquatsarYachts.frontRightVector:y()
+			-- txt = txt .. "FrontRightTile: " .. tonumber(x) .. " Y:" .. tonumber(y) .. "\n"
+			
+			-- tile = getSquare(x, y, 0):getFloor():getTextureName()
+			-- txt = txt .. tile .. "\n"
+			-- if not string.match(string.lower(tile), "blends_natural_02") then
+				--print("ACHTUNG! FrontRightTile")
+			-- end
+			-- x = AquatsarYachts.rearLeftVector:x()
+			-- y = AquatsarYachts.rearLeftVector:y()
+			-- txt = txt .. "RearLeftTile: " .. tonumber(x) .. " Y:" .. tonumber(y) .. "\n"
+			
+			-- tile = getSquare(x, y, 0):getFloor():getTextureName()
+			-- txt = txt .. tile .. "\n"
+			-- if not string.match(string.lower(tile), "blends_natural_02") then
+				--print("ACHTUNG! RearLeftTile")
+			-- end
+			-- x = AquatsarYachts.rearRightVector:x()
+			-- y = AquatsarYachts.rearRightVector:y()
+			-- txt = txt .. "RearRightTile: " .. tonumber(x) .. " Y:" .. tonumber(y) .. "\n"
+			
+			-- tile = getSquare(x, y, 0):getFloor():getTextureName()
+			-- txt = txt .. tile
+			-- if not string.match(string.lower(tile), "blends_natural_02") then
+				--print("ACHTUNG! RearRightTile")
+			-- end
+			
+			vehicleDB:getLinearVelocity(tempVector1)
+			txt = txt .. "\n" .. "getLinearVelocity: " .. tonumber(tempVector1:x()) .. " Y:" .. tonumber(tempVector1:y()) .. "\n"
+			
+			vehicleDB:getForwardVector(tempVector1)
+			txt = txt .. "\n" .. "getForwardVector: " .. tonumber(tempVector1:x()) .. " Y:" .. tonumber(tempVector1:y()) .. "\n"
 			textManager:DrawString(UIFont.Large, screenX, screenY + 7, txt, r, g, b, 1);
 			
 			

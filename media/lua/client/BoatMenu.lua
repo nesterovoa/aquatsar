@@ -3,18 +3,13 @@ require 'Boats/Init'
 function AquatsarYachts.getBoat(player)
 	local square = player:getSquare()
 	if square == nil then return nil end
-	--print(square)
 	for y=square:getY() - 6, square:getY() + 6 do
 		for x=square:getX() - 6, square:getX() + 6 do
 			local square2 = getCell():getGridSquare(x, y, 0)
 			if square2 then
-				-- print(square2:getX())
-				-- print(square2:getY())
-				-- print(square2:getZ())
 				for i=1, square2:getMovingObjects():size() do
 					local obj = square2:getMovingObjects():get(i-1)
 					if obj~= nil and instanceof(obj, "BaseVehicle") then
-						-- print(obj:getScript():getName())
 						if string.match(string.lower(obj:getScript():getName()), "boat") then
 							print("BOAT FOUND")
 							return obj
@@ -34,8 +29,6 @@ function AquatsarYachts.enterBoat(key)
 		-- for i,v in ipairs(MainOptions.keys) do
 			-- print(v.value)
 		-- end
-		
-	
 		print("BOAT-E")
 		local vehicle = playerObj:getVehicle()
 		if vehicle == nil then
@@ -58,12 +51,17 @@ function AquatsarYachts.enterBoat(key)
 			vehicle:getAttachmentWorldPos("exitLeft", AquatsarYachts.exitLeftVector)
 			vehicle:getAttachmentWorldPos("exitRight", AquatsarYachts.exitRightVector)
 			vehicle:getAttachmentWorldPos("exitRear", AquatsarYachts.exitRearVector)
-			--ISVehicleMenu.onExitAux(playerObj, 0)
-			ISTimedActionQueue.add(ISExitBoat:new(playerObj))
-		end
-				
+			local xExit = AquatsarYachts.exitLeftVector:x()
+			local yExit = AquatsarYachts.exitLeftVector:y()
+			local squareUnderVehicle = getSquare(xExit, yExit, 0)
+			tile = squareUnderVehicle:getFloor():getTextureName()
+			print(tile)
+			if squareUnderVehicle ~= nil and not string.match(string.lower(tile), "blends_natural_02") then
+				ISTimedActionQueue.add(ISExitBoat:new(playerObj, AquatsarYachts.exitLeftVector))
+			end
+		end		
 	end
 end
 
 
-Events.OnKeyStartPressed.Add(AquatsarYachts.enterBoat)
+--Events.OnKeyStartPressed.Add(AquatsarYachts.enterBoat)
