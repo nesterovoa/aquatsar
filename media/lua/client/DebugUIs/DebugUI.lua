@@ -80,7 +80,7 @@ local function getCoords()
 			tile = getSquare(x, y, 0):getFloor():getTextureName()
 			txt = txt  .. tile .. "\n"
 			if not string.match(string.lower(tile), "blends_natural_02") then
-				print("ACHTUNG! FrontLeftTile")
+				--print("ACHTUNG! FrontLeftTile")
 			end
 			txt = txt .. "FrontRightTile: " .. "\n"
 			x = AquatsarYachts.frontRightVector:x()
@@ -88,7 +88,7 @@ local function getCoords()
 			tile = getSquare(x, y, 0):getFloor():getTextureName()
 			txt = txt .. tile .. "\n"
 			if not string.match(string.lower(tile), "blends_natural_02") then
-				print("ACHTUNG! FrontRightTile")
+				--print("ACHTUNG! FrontRightTile")
 			end
 			txt = txt .. "RearLeftTile: " .. "\n"
 			x = AquatsarYachts.rearLeftVector:x()
@@ -96,7 +96,7 @@ local function getCoords()
 			tile = getSquare(x, y, 0):getFloor():getTextureName()
 			txt = txt .. tile .. "\n"
 			if not string.match(string.lower(tile), "blends_natural_02") then
-				print("ACHTUNG! RearLeftTile")
+				--print("ACHTUNG! RearLeftTile")
 			end
 			txt = txt .. "RearRightTile: " .. "\n"
 			x = AquatsarYachts.rearRightVector:x()
@@ -104,7 +104,7 @@ local function getCoords()
 			tile = getSquare(x, y, 0):getFloor():getTextureName()
 			txt = txt .. tile
 			if not string.match(string.lower(tile), "blends_natural_02") then
-				print("ACHTUNG! RearRightTile")
+				--print("ACHTUNG! RearRightTile")
 			end
 			
 			textManager:DrawString(UIFont.Large, screenX, screenY + 7, txt, r, g, b, 1);

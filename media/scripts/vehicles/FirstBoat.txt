@@ -231,18 +231,23 @@ module Base
 			zoffset = 1.0000,
 		}
 
-		attachment trailer
+		attachment exitLeft
 		{
-			offset = 0.0000 -0.3226 -2.8000,
+			offset = 1.2258 0.0000 -2.0968,
 			rotate = 0.0000 0.0000 0.0000,
-			zoffset = -1.0000,
 		}
 
-		attachment trailerfront
+		attachment exitRear
 		{
-			offset = 0.0000 -0.3226 2.8000,
+			offset = 0.0000 0.0000 -3.3935,
 			rotate = 0.0000 0.0000 0.0000,
-			zoffset = 1.0000,
+		}
+
+		attachment exitRight
+		{
+			offset = -1.2258 0.0000 -2.0968,
+			rotate = 0.0000 0.0000 0.0000,
+
 		}
 	}
 }
