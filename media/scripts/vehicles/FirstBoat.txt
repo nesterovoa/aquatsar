@@ -202,10 +202,43 @@ module Base
 		template = Engine,
 		template = Muffler,
 		template = Tire,
+		
+		part TireFrontLeft
+		{
+			model InflatedTirePlusWheel
+			{
+				file = WheelNull,
+			}
+		}
 
+		part TireFrontRight
+		{
+			model InflatedTirePlusWheel
+			{
+				file = WheelNull,
+			}
+		}
+
+		part TireRearLeft
+		{
+			model InflatedTirePlusWheel
+			{
+				file = WheelNull,
+			}
+		}
+
+		part TireRearRight
+		{
+			model InflatedTirePlusWheel
+			{
+				file = WheelNull,
+			}
+		}
+		
+		
 		attachment exitLeft
 		{
-			offset = 1.3097 0.0000 -2.0968,
+			offset = 1.4065 0.0000 -2.0968,
 			rotate = 0.0000 0.0000 0.0000,
 		}
 
@@ -217,7 +250,7 @@ module Base
 
 		attachment exitRight
 		{
-			offset = -1.3161 0.0000 -2.0968,
+			offset = -1.4000 0.0000 -2.0968,
 			rotate = 0.0000 0.0000 0.0000,
 		}
 	}

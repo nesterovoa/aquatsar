@@ -78,9 +78,8 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		
 		chr:setGhostMode(true);
 		
-		local car = addVehicleDebug("Base.BoatZeroPatient", IsoDirections.S, nil, getCell():getGridSquare(11832, 6583, 0));
-		car:repair();
-		inv:AddItem(car:createVehicleKey());
-	
+		local boat = addVehicleDebug("Base.BoatZeroPatient", IsoDirections.S, nil, getCell():getGridSquare(11832, 6583, 0));
+		boat:repair();
+		inv:AddItem(boat:createVehicleKey());
 	end
 }

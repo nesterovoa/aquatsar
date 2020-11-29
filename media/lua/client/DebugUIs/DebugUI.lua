@@ -118,6 +118,9 @@ local function getCoords()
 			-- end
 			
 			vehicleDB:getLinearVelocity(tempVector1)
+			txt = txt .. "\n" .. "getZ: " .. tonumber(vehicleDB:getDebugZ()) .. "\n"
+			
+			vehicleDB:getLinearVelocity(tempVector1)
 			txt = txt .. "\n" .. "getLinearVelocity: " .. tonumber(tempVector1:x()) .. " Y:" .. tonumber(tempVector1:y()) .. "\n"
 			
 			vehicleDB:getForwardVector(tempVector1)

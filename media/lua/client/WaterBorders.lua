@@ -51,6 +51,9 @@ function WaterBorders.updateVehicles()
         if veh ~= nil and WaterBorders.isBoat(veh) then
             local squareUnderVehicle = getCell():getGridSquare(veh:getX(), veh:getY(), 0)
             if squareUnderVehicle ~= nil and WaterBorders.isWater(squareUnderVehicle) then
+				if veh:getDebugZ() < 0.65 then
+					veh:setDebugZ(0.68)
+				end
                 local notWaterSquares = WaterBorders.getCollisionSquaresNear(5, 5, squareUnderVehicle)
                 local a = 1
 				for _, square in ipairs(notWaterSquares) do
@@ -67,6 +70,10 @@ function WaterBorders.updateVehicles()
 						veh:ApplyImpulse(tempIsoObj, 200)
                     end
                 end
+			else
+				if vehicle:getDebugZ() < 0.65 then
+					vehicle:setZ(0.65 - vehicle:getDebugZ())
+				end
 			end
         end
     end
