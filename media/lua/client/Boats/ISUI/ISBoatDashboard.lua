@@ -60,8 +60,8 @@ function ISBoatDashboard:createChildren()
 	-- self.heaterTex.target = self;
 	-- self:addChild(self.heaterTex);
 	
-	x = 251
-	y = 213
+	x = 243
+	y = 118
 	self.ignitionTex = ISImage:new(300, 300, self.iconIgnition:getWidthOrig(), self.iconIgnition:getHeightOrig(), self.iconIgnition);
 	self.ignitionTex:initialise();
 	self.ignitionTex:instantiate();
@@ -97,28 +97,35 @@ function ISBoatDashboard:createChildren()
 --	self.outsidetemp.tooltip = getText("Tooltip_Dashboard_OutsideTemp");
 --	self:addChild(self.outsidetemp);
 
-	x = 78
+	x = 68
 	y = 113
 	self.fuelGauge = ISVehicleGauge:new(x, y, self.gaugeFull, 30, 30, -135, -45)
 	self.fuelGauge:initialise()
 	self.fuelGauge:instantiate()
 	self.fuelGauge:setNeedleWidth(20)
-	--self.fuelGauge:setNeedleWidth(25)
 	self:addChild(self.fuelGauge)
+	
+	x = 401
+	y = 113
+	self.batteryGauge = ISVehicleGauge:new(x, y, self.batteryFull, 30, 30, -135, -45)
+	self.batteryGauge:initialise()
+	self.batteryGauge:instantiate()
+	self.batteryGauge:setNeedleWidth(20)
+	self:addChild(self.batteryGauge)
 
-	x = 285
+	x = 128
 	y = 22
-	self.engineGauge = ISVehicleGauge:new(x, y, self.engineGaugeTex, 64, 60, -225, 0)
-	self.engineGauge:initialise()
-	self.engineGauge:instantiate()
-	self:addChild(self.engineGauge)
-
-	x = 138
-	y = 22
-	self.speedGauge = ISVehicleGauge:new(x, y, self.speedGaugeTex, 64, 60, -225, 0) -- красная полоска скорости
+	self.speedGauge = ISVehicleGauge:new(x, y, self.speedGaugeTex, 63, 63, -225, 0) -- красная полоска скорости
 	self.speedGauge:initialise()
 	self.speedGauge:instantiate()
 	self:addChild(self.speedGauge)
+	
+	x = 275
+	y = 22
+	self.engineGauge = ISVehicleGauge:new(x, y, self.engineGaugeTex, 63, 63, -225, 45)
+	self.engineGauge:initialise()
+	self.engineGauge:instantiate()
+	self:addChild(self.engineGauge)
 
 	self:onResolutionChange()
 end
@@ -171,6 +178,7 @@ print("ISBoatDashboard:setBoat")
 		self:removeFromUIManager()
 		return
 	end
+	
 	local part = vehicle:getPartById("GasTank")
 	if part and part:isContainer() and part:getContainerContentType() then
 		self.gasTank = part
@@ -185,10 +193,28 @@ print("ISBoatDashboard:setBoat")
 		self.gasTank = nil
 		self.fuelGauge:setVisible(false)
 	end
+	
+	part = vehicle:getPartById("Battery")
+	if part then
+		self.battery = part
+		if self.vehicle:isEngineRunning() then
+			self.initialBattery = part:getInventoryItem():getUsedDelta()
+			-- print(getPlayer():getVehicle():getPartById("Battery"):getInventoryItem():getUsedDelta())
+			self.batteryValue = part:getInventoryItem():getUsedDelta()
+		else
+			self.batteryValue = 0.0
+		end
+	else
+		self.battery = nil
+		self.batteryGauge:setVisible(false)
+	end
+	
 	self.engineGauge:setVisible(true)
 	table.insert(self.gauges, self.engineGauge)
+	
 	self.speedGauge:setVisible(true)
 	table.insert(self.gauges, self.speedGauge)
+	
 	if #self.gauges > 0 then
 		self:setVisible(true)
 		self:addToUIManager()
@@ -219,13 +245,27 @@ function ISBoatDashboard:prerender()
 		local engineSpeedValue = 0;
 		local speedValue = 0;
 		if self.vehicle:isEngineRunning() then
-			engineSpeedValue = math.max(0,math.min(1,(self.vehicle:getEngineSpeed()-1000)/7000));
-			speedValue = math.max(0,math.min(1,math.abs(self.vehicle:getCurrentSpeedKmHour())/120));
+			engineSpeedValue = math.max(0,math.min(1,(self.vehicle:getEngineSpeed()-1000)/4000));
+			speedValue = math.max(0,math.min(1,math.abs(self.vehicle:getCurrentSpeedKmHour())/138));
 		end
 		self.engineGauge:setValue(engineSpeedValue)
 		-- RJ: Fake the speedometer a tad
 		self.speedGauge:setValue(speedValue * BaseVehicle.getFakeSpeedModifier())
 	end
+	if self.battery then
+		local current = 0.0
+		if self.vehicle:isEngineRunning() or self.vehicle:isKeysInIgnition() then
+			current = self.battery:getInventoryItem():getUsedDelta()
+		end
+		if self.batteryValue < current then
+			self.batteryValue = math.min(self.batteryValue + 0.015 * (30 / getPerformance():getUIRenderFPS()), current)
+		elseif self.batteryValue > current then
+			self.batteryValue = math.max(self.batteryValue - 0.05 * (30 / getPerformance():getUIRenderFPS()), current)
+		end
+		self.batteryGauge:setValue(self.batteryValue)
+	end
+	
+	
 	-- self.batteryTex.backgroundColor = greyBg;
 	-- if not self:checkEngineFull() and self.vehicle:isKeysInIgnition() and (not self.vehicle:isEngineRunning() and not self.vehicle:isEngineStarted()) then
 		-- self.engineTex.backgroundColor = {r=1, g=0, b=0, a=alpha};
@@ -311,6 +351,17 @@ function ISBoatDashboard:prerender()
 	else
 		self.fuelGauge:setTexture(self.gaugeFull);
 	end
+	
+	if (self.vehicle:isEngineRunning() or self.vehicle:isKeysInIgnition()) and self.battery:getInventoryItem():getUsedDelta() < 0.1 then
+		if self.battery:getInventoryItem():getUsedDelta() == 0 then
+			self.batteryGauge:setTexture(self.batteryEmpty)
+		else
+			self.batteryGauge:setTexture(self.batteryLow)
+		end
+	else
+		self.batteryGauge:setTexture(self.batteryFull);
+	end
+	
 end
 
 function ISBoatDashboard:checkEngineFull()
@@ -403,7 +454,7 @@ function ISBoatDashboard:onResolutionChange()
 	-- end
 
 	if self.ignitionTex then
-		local x = 253
+		local x = 243
 		local y = 118
 		self.ignitionTex:setX(x);
 		self.ignitionTex:setY(y);
@@ -478,11 +529,17 @@ function ISBoatDashboard:new(playerNum, chr)
 	o.iconIgnitionStarted = getTexture("media/ui/vehicles/boat_ignition_key_on.png");
 	o.iconIgnitionHotwired = getTexture("media/ui/vehicles/boat_ignition_hotwired.png");
 	
-	o.engineGaugeTex = getTexture("media/ui/vehicles/boat_vehicle_engineguage.png")
-	o.dashboardBG = getTexture("media/ui/vehicles/boat-dashboard.png");
-	o.gaugeFull = getTexture("media/ui/vehicles/boat_vehicle_fuelguage_full.png");
-	o.gaugeLow = getTexture("media/ui/vehicles/boat_vehicle_fuelguage_low.png");
-	o.gaugeEmpty = getTexture("media/ui/vehicles/boat_vehicle_fuelguage_empty.png");
+	o.batteryFull = getTexture("media/ui/vehicles/boat_batteryguage.png")
+	o.batteryLow = getTexture("media/ui/vehicles/boat_batteryguage_low.png")
+	o.batteryEmpty = getTexture("media/ui/vehicles/boat_batteryguage_empty.png")
+	
+	o.gaugeFull = getTexture("media/ui/vehicles/boat_fuelguage_full.png");
+	o.gaugeLow = getTexture("media/ui/vehicles/boat_fuelguage_low.png");
+	o.gaugeEmpty = getTexture("media/ui/vehicles/boat_fuelguage_empty.png");
+	
+	o.engineGaugeTex = getTexture("media/ui/vehicles/boat_engineguage.png")
+	o.dashboardBG = getTexture("media/ui/vehicles/boat_dashboard.png");
+	
 	o.speedGaugeTex = getTexture("media/ui/vehicles/boat_spedometer.png")
 	o.flickingTimer = 0;
 	o:setWidth(o.dashboardBG:getWidth());

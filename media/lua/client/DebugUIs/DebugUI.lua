@@ -125,7 +125,7 @@ local function getCoords()
 			
 			vehicleDB:getForwardVector(tempVector1)
 			txt = txt .. "\n" .. "getForwardVector: " .. tonumber(tempVector1:x()) .. " Y:" .. tonumber(tempVector1:y()) .. "\n"
-			textManager:DrawString(UIFont.Large, screenX, screenY + 7, txt, r, g, b, 1);
+			--textManager:DrawString(UIFont.Large, screenX, screenY + 7, txt, r, g, b, 1);
 			
 			
 			
