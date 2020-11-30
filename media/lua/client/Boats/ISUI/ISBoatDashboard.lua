@@ -245,7 +245,7 @@ function ISBoatDashboard:prerender()
 		local engineSpeedValue = 0;
 		local speedValue = 0;
 		if self.vehicle:isEngineRunning() then
-			engineSpeedValue = math.max(0,math.min(1,(self.vehicle:getEngineSpeed()-1000)/4000));
+			engineSpeedValue = math.max(0,math.min(1,(self.vehicle:getEngineSpeed()-1000)/6000));
 			speedValue = math.max(0,math.min(1,math.abs(self.vehicle:getCurrentSpeedKmHour())/138));
 		end
 		self.engineGauge:setValue(engineSpeedValue)
@@ -389,6 +389,10 @@ function ISBoatDashboard:render()
 --			self.outsidetemp:setWidthToName()
 --		end
 --	end
+end
+
+function ISBoatDashboard:isBoatDashboard()
+	return true
 end
 
 function ISBoatDashboard:onResolutionChange()
@@ -567,11 +571,21 @@ function ISBoatDashboard.onEnterVehicle(character)
 	end
 end
 
--- function ISBoatDashboard.onExitVehicle(character)
-	-- if instanceof(character, 'IsoPlayer') and character:isLocalPlayer() then
-		-- getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(nil)
-	-- end
--- end
+function ISBoatDashboard.onExitVehicle(character)
+	if instanceof(character, 'IsoPlayer') and character:isLocalPlayer() then
+		if getPlayerVehicleDashboard(character:getPlayerNum()) then
+			print(getPlayerVehicleDashboard(character:getPlayerNum()).dashboardBG:getName())
+			if string.match(getPlayerVehicleDashboard(character:getPlayerNum()).dashboardBG:getName(), "boat_dashboard") then
+				getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(nil)
+				local data = getPlayerData(character:getPlayerNum())
+				data.vehicleDashboard = ISVehicleDashboard:new(character:getPlayerNum(), character)
+				data.vehicleDashboard:initialise()
+				data.vehicleDashboard:instantiate()
+				print("RESETboatDASH")
+			end
+		end
+	end
+end
 
 -- function ISBoatDashboard.onSwitchVehicleSeat(character)
 	-- if instanceof(character, 'IsoPlayer') and character:isLocalPlayer() then
@@ -597,7 +611,7 @@ end
 -- LuaEventManager.AddEvent("OnExitVehicle")
 -- LuaEventManager.AddEvent("OnSwitchVehicleSeat")
 Events.OnEnterVehicle.Add(ISBoatDashboard.onEnterVehicle)
---Events.OnExitVehicle.Add(ISBoatDashboard.onExitVehicle)
+Events.OnExitVehicle.Add(ISBoatDashboard.onExitVehicle)
 -- Events.OnSwitchVehicleSeat.Add(ISBoatDashboard.onSwitchVehicleSeat)
 -- Events.OnGameStart.Add(ISBoatDashboard.OnGameStart)
 -- Events.OnVehicleDamageTexture.Add(ISBoatDashboard.damageFlick)

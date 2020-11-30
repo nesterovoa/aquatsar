@@ -42,6 +42,11 @@ module Base
 		engineLoudness = 90,
 		engineQuality = 70,
 		brakingForce = 90,
+		gearRatioCount = 3,
+		gearRatioR = 4.7,
+		gearRatio1 = 4,
+		gearRatio2 = 3,
+		gearRatio3 = 1,
 		stoppingMovementForce = 2.0f,
 		rollInfluence = 1.0f,
 		steeringIncrement = 0.03,
@@ -201,10 +206,13 @@ module Base
 		template = Battery,
 		template = Engine,
 		template = Muffler,
+
 		template = Tire,
 		
 		part TireFrontLeft
 		{
+			category = nodisplay,
+
 			model InflatedTirePlusWheel
 			{
 				file = WheelNull,
@@ -213,6 +221,8 @@ module Base
 
 		part TireFrontRight
 		{
+			category = nodisplay,
+
 			model InflatedTirePlusWheel
 			{
 				file = WheelNull,
@@ -221,6 +231,8 @@ module Base
 
 		part TireRearLeft
 		{
+			category = nodisplay,
+
 			model InflatedTirePlusWheel
 			{
 				file = WheelNull,
@@ -229,12 +241,13 @@ module Base
 
 		part TireRearRight
 		{
+			category = nodisplay,
+
 			model InflatedTirePlusWheel
 			{
 				file = WheelNull,
 			}
 		}
-		
 		
 		attachment exitLeft
 		{
