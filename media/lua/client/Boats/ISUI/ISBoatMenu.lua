@@ -66,9 +66,9 @@ function ISBoatMenu.getBoatOutside(player)
 end
 
 
-function ISBoatMenu.getExitPoint(vehicle)
+function ISBoatMenu.getExitPoint(boat)
 	local exitVector = Vector3f.new()
-	vehicle:getAttachmentWorldPos("exitLeft", exitVector)
+	boat:getAttachmentWorldPos("exitLeft", exitVector)
 	local squareUnderExit = getSquare(exitVector:x(), exitVector:y(), 0)
 	if squareUnderExit ~= nil then 
 		local tile = squareUnderExit:getFloor():getTextureName()
@@ -76,7 +76,7 @@ function ISBoatMenu.getExitPoint(vehicle)
 			return exitVector
 		end
 	end
-	vehicle:getAttachmentWorldPos("exitRight", exitVector)
+	boat:getAttachmentWorldPos("exitRight", exitVector)
 	squareUnderExit = getSquare(exitVector:x(), exitVector:y(), 0)
 	if squareUnderExit ~= nil then 
 		local tile = squareUnderExit:getFloor():getTextureName()
@@ -84,7 +84,7 @@ function ISBoatMenu.getExitPoint(vehicle)
 			return exitVector
 		end
 	end
-	vehicle:getAttachmentWorldPos("exitRear", exitVector)
+	boat:getAttachmentWorldPos("exitRear", exitVector)
 	squareUnderExit = getSquare(exitVector:x(), exitVector:y(), 0)
 	if squareUnderExit ~= nil then 
 		local tile = squareUnderExit:getFloor():getTextureName()
@@ -95,8 +95,8 @@ function ISBoatMenu.getExitPoint(vehicle)
 	return false
 end
 
-function ISBoatMenu.getNearLand(vehicle)
-	local square = vehicle:getSquare()
+function ISBoatMenu.getNearLand(boat)
+	local square = boat:getSquare()
 	if square == nil then return nil end
 	for y=square:getY() - 5, square:getY() + 5 do
 		for x=square:getX() - 5, square:getX() + 5 do
@@ -113,17 +113,19 @@ function ISBoatMenu.getNearLand(vehicle)
 end
 
 function ISBoatMenu.onExit(playerObj, seatFrom)
-    local vehicle = playerObj:getVehicle()
-	if not vehicle then return end
-    vehicle:updateHasExtendOffsetForExit(playerObj)
-	if string.match(string.lower(vehicle:getScript():getName()), "boat") then
-		if vehicle:getCurrentSpeedKmHour() < 1 and vehicle:getCurrentSpeedKmHour() > -1 then 
-			local exitPoint = ISBoatMenu.getExitPoint(vehicle)
+    local boat = playerObj:getVehicle()
+	if not boat then return end
+    boat:updateHasExtendOffsetForExit(playerObj)
+	if string.match(string.lower(boat:getScript():getName()), "boat") then
+		if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 then 
+			local exitPoint = ISBoatMenu.getExitPoint(boat)
+			print(exitPoint)	
 			if exitPoint then
+				print("ExitPoint found")
 				ISTimedActionQueue.add(ISExitBoat:new(playerObj, exitPoint))
 				return
 			end
-			exitPoint = ISBoatMenu.getNearLand(vehicle)
+			exitPoint = ISBoatMenu.getNearLand(boat)
 			if exitPoint then
 				ISTimedActionQueue.add(ISExitBoat:new(playerObj, exitPoint))
 				return
@@ -134,18 +136,18 @@ function ISBoatMenu.onExit(playerObj, seatFrom)
 end
 
 function ISBoatMenu.onExitAux(playerObj, seat)
-	local vehicle = playerObj:getVehicle()
-	local doorPart = vehicle:getPassengerDoor(seat)
+	local boat = playerObj:getVehicle()
+	local doorPart = boat:getPassengerDoor(seat)
 	if doorPart and doorPart:getDoor() and doorPart:getInventoryItem() then
 		local door = doorPart:getDoor()
 		if door:isLocked() then
 			ISTimedActionQueue.add(ISUnlockVehicleDoor:new(playerObj, doorPart))
 		end
 		if not door:isOpen() then
-			ISTimedActionQueue.add(ISOpenVehicleDoor:new(playerObj, vehicle, seat))
+			ISTimedActionQueue.add(ISOpenVehicleDoor:new(playerObj, boat, seat))
 		end
 		ISTimedActionQueue.add(ISExitVehicle:new(playerObj))
-		ISTimedActionQueue.add(ISCloseVehicleDoor:new(playerObj, vehicle, doorPart))
+		ISTimedActionQueue.add(ISCloseVehicleDoor:new(playerObj, boat, doorPart))
 	else
 		ISTimedActionQueue.add(ISExitVehicle:new(playerObj))
 	end
@@ -153,8 +155,8 @@ end
 
 -- function ISBoatMenu.OnFillWorldObjectContextMenu(player, context, worldobjects, test)
 	-- local playerObj = getSpecificPlayer(player)
-	-- local vehicle = playerObj:getVehicle()
-	-- if not vehicle then
+	-- local boat = playerObj:getVehicle()
+	-- if not boat then
 		-- if JoypadState.players[player+1] then
 			-- local px = playerObj:getX()
 			-- local py = playerObj:getY()
@@ -172,16 +174,16 @@ end
 			-- elseif (dir == IsoDirections.NW) then   sqs[2] = getCell():getGridSquare(px-1, py, pz);   sqs[3] = getCell():getGridSquare(px-1, py-1, pz); sqs[4] = getCell():getGridSquare(px, py-1, pz);
 			-- end
 			-- for _,sq in ipairs(sqs) do
-				-- vehicle = sq:getVehicleContainer()
-				-- if vehicle then
-					-- return ISBoatMenu.FillMenuOutsideVehicle(player, context, vehicle, test)
+				-- boat = sq:getVehicleContainer()
+				-- if boat then
+					-- return ISBoatMenu.FillMenuOutsideVehicle(player, context, boat, test)
 				-- end
 			-- end
 			-- return
 		-- end
-		-- vehicle = IsoObjectPicker.Instance:PickVehicle(getMouseXScaled(), getMouseYScaled())
-		-- if vehicle then
-			-- return ISBoatMenu.FillMenuOutsideVehicle(player, context, vehicle, test)
+		-- boat = IsoObjectPicker.Instance:PickVehicle(getMouseXScaled(), getMouseYScaled())
+		-- if boat then
+			-- return ISBoatMenu.FillMenuOutsideVehicle(player, context, boat, test)
 		-- end
 		-- return
 	-- end
@@ -228,7 +230,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 				elseif not boat:isHotwired() and (playerObj:getInventory():haveThisKeyId(boat:getKeyId()) or boat:isKeysInIgnition()) then
 					menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
 				elseif not boat:isHotwired() and ((playerObj:getPerkLevel(Perks.Electricity) >= 1 and playerObj:getPerkLevel(Perks.Mechanics) >= 2) or playerObj:HasTrait("Burglar"))then
---					menu:addSlice("Hotwire Vehicle", getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onHotwire, playerObj)
+--					menu:addSlice("Hotwire boat", getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onHotwire, playerObj)
 				elseif boat:isHotwired() then
 					menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
 				else
@@ -317,7 +319,9 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	if boat:getCurrentSpeedKmHour() > 1 then
 		menu:addSlice(getText("ContextMenu_VehicleMechanicsStopCar"), getTexture("media/ui/vehicles/vehicle_repair.png"), nil, playerObj, boat )
 	else
-	menu:addSlice(getText("ContextMenu_VehicleMechanics"), getTexture("media/ui/vehicles/vehicle_repair.png"), ISBoatMenu.onMechanic, playerObj, boat )
+	if seat > 0 then
+		menu:addSlice(getText("ContextMenu_VehicleMechanics"), getTexture("media/ui/vehicles/vehicle_repair.png"), ISBoatMenu.onMechanic, playerObj, boat )
+	end
 	end
 	if (not isClient() or getServerOptions():getBoolean("SleepAllowed")) then
 		local doSleep = true;
@@ -361,12 +365,12 @@ function ISBoatMenu.showRadialMenu(playerObj)
 end
 
 -- function ISBoatMenu.getVehicleToInteractWith(playerObj)
-	-- local vehicle = playerObj:getVehicle()
-	-- if not vehicle then
-		-- vehicle = playerObj:getUseableVehicle()
+	-- local boat = playerObj:getVehicle()
+	-- if not boat then
+		-- boat = playerObj:getUseableVehicle()
 	-- end
-	-- if not vehicle then
-		-- vehicle = playerObj:getNearVehicle()
+	-- if not boat then
+		-- boat = playerObj:getNearVehicle()
 -- --[[
 		-- local px = playerObj:getX()
 		-- local py = playerObj:getY()
@@ -386,13 +390,13 @@ end
 		-- for _,sq in ipairs(sqs) do
 			-- local vehicle2 = sq:getVehicleContainer()
 			-- if vehicle2 then
-				-- vehicle = vehicle2
+				-- boat = vehicle2
 				-- break
 			-- end
 		-- end
 -- --]]
 	-- end
-	-- return vehicle
+	-- return boat
 -- end
 
 function ISBoatMenu.showRadialMenuOutside(playerObj)
@@ -474,27 +478,27 @@ function ISBoatMenu.showRadialMenuOutside(playerObj)
 	end
 end
 
--- function ISBoatMenu.doTowingMenu(playerObj, vehicle, menu)
-	-- if vehicle:getVehicleTowing() then
-		-- menu:addSlice(getText("ContextMenu_Vehicle_DetachTrailer"), getTexture("media/ui/ZoomOut.png"), ISBoatMenu.onDetachTrailer, playerObj, vehicle, vehicle:getTowAttachmentSelf())
+-- function ISBoatMenu.doTowingMenu(playerObj, boat, menu)
+	-- if boat:getVehicleTowing() then
+		-- menu:addSlice(getText("ContextMenu_Vehicle_DetachTrailer"), getTexture("media/ui/ZoomOut.png"), ISBoatMenu.onDetachTrailer, playerObj, boat, boat:getTowAttachmentSelf())
 		-- return
 	-- end
-	-- if vehicle:getVehicleTowedBy() then
-		-- menu:addSlice(getText("ContextMenu_Vehicle_DetachTrailer"), getTexture("media/ui/ZoomOut.png"), ISBoatMenu.onDetachTrailer, playerObj, vehicle:getVehicleTowedBy(), vehicle:getVehicleTowedBy():getTowAttachmentSelf())
+	-- if boat:getVehicleTowedBy() then
+		-- menu:addSlice(getText("ContextMenu_Vehicle_DetachTrailer"), getTexture("media/ui/ZoomOut.png"), ISBoatMenu.onDetachTrailer, playerObj, boat:getVehicleTowedBy(), boat:getVehicleTowedBy():getTowAttachmentSelf())
 		-- return
 	-- end
 
 	-- local attachmentA, attachmentB = "trailer", "trailer"
-	-- local vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(vehicle:getSquare(), vehicle, attachmentA, attachmentB)
+	-- local vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(boat:getSquare(), boat, attachmentA, attachmentB)
 	-- if vehicleB then
-		-- local aName = ISBoatMenu.getVehicleDisplayName(vehicle)
+		-- local aName = ISBoatMenu.getVehicleDisplayName(boat)
 		-- local bName = ISBoatMenu.getVehicleDisplayName(vehicleB)
 		-- local attachNameA = getText("IGUI_TrailerAttachName_" .. attachmentA)
 		-- local attachNameB = getText("IGUI_TrailerAttachName_" .. attachmentB)
-		-- local burntA = string.contains(vehicle:getScriptName(), "Burnt")
-		-- local trailerA = string.contains(vehicle:getScriptName(), "Trailer")
+		-- local burntA = string.contains(boat:getScriptName(), "Burnt")
+		-- local trailerA = string.contains(boat:getScriptName(), "Trailer")
 		-- local trailerB = string.contains(vehicleB:getScriptName(), "Trailer")
-		-- local vehicleTowing = vehicle
+		-- local vehicleTowing = boat
 		-- if burntA or trailerA then
 			-- vehicleTowing = vehicleB
 		-- end
@@ -507,35 +511,35 @@ end
 	-- end
 
 	-- attachmentA, attachmentB = "trailerfront", "trailerfront"
-	-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(vehicle:getSquare(), vehicle, attachmentA, attachmentB)
+	-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(boat:getSquare(), boat, attachmentA, attachmentB)
 	-- if vehicleB then
 		-- local aName = ISBoatMenu.getVehicleDisplayName(vehicleB)
-		-- local bName = ISBoatMenu.getVehicleDisplayName(vehicle)
+		-- local bName = ISBoatMenu.getVehicleDisplayName(boat)
 		-- local attachNameA = getText("IGUI_TrailerAttachName_" .. attachmentA)
 		-- local attachNameB = getText("IGUI_TrailerAttachName_" .. attachmentB)
 		-- local text = getText("ContextMenu_Vehicle_AttachVehicle", aName, bName, attachNameA, attachNameB);
-		-- menu:addSlice(text, getTexture("media/ui/ZoomIn.png"), ISBoatMenu.onAttachTrailer, playerObj, vehicle, attachmentB, attachmentA)
+		-- menu:addSlice(text, getTexture("media/ui/ZoomIn.png"), ISBoatMenu.onAttachTrailer, playerObj, boat, attachmentB, attachmentA)
 		-- return
 	-- end
 
 	-- attachmentA, attachmentB = "trailer", "trailerfront"
-	-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(vehicle:getSquare(), vehicle, attachmentA, attachmentB)
+	-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(boat:getSquare(), boat, attachmentA, attachmentB)
 	-- if vehicleB then
-		-- local aName = ISBoatMenu.getVehicleDisplayName(vehicle)
+		-- local aName = ISBoatMenu.getVehicleDisplayName(boat)
 		-- local bName = ISBoatMenu.getVehicleDisplayName(vehicleB)
 		-- local attachNameA = getText("IGUI_TrailerAttachName_" .. attachmentA)
 		-- local attachNameB = getText("IGUI_TrailerAttachName_" .. attachmentB)
 		-- local attachName = getText("IGUI_TrailerAttachName_" .. attachmentA)
 		-- local text = getText("ContextMenu_Vehicle_AttachVehicle", aName, bName, attachNameA, attachNameB);
-		-- menu:addSlice(text, getTexture("media/ui/ZoomIn.png"), ISBoatMenu.onAttachTrailer, playerObj, vehicle, attachmentA, attachmentB)
+		-- menu:addSlice(text, getTexture("media/ui/ZoomIn.png"), ISBoatMenu.onAttachTrailer, playerObj, boat, attachmentA, attachmentB)
 		-- return
 	-- end
 
 	-- attachmentA, attachmentB = "trailerfront", "trailer"
-	-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(vehicle:getSquare(), vehicle, attachmentA, attachmentB)
+	-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(boat:getSquare(), boat, attachmentA, attachmentB)
 	-- if vehicleB then
 		-- local aName = ISBoatMenu.getVehicleDisplayName(vehicleB)
-		-- local bName = ISBoatMenu.getVehicleDisplayName(vehicle)
+		-- local bName = ISBoatMenu.getVehicleDisplayName(boat)
 		-- local attachNameA = getText("IGUI_TrailerAttachName_" .. attachmentA)
 		-- local attachNameB = getText("IGUI_TrailerAttachName_" .. attachmentB)
 		-- local text = getText("ContextMenu_Vehicle_AttachVehicle", aName, bName, attachNameA, attachNameB);
@@ -546,90 +550,90 @@ end
 
 -- local TowMenu = {}
 
--- function TowMenu.isBurnt(vehicle)
-	-- return string.contains(vehicle:getScriptName(), "Burnt")
+-- function TowMenu.isBurnt(boat)
+	-- return string.contains(boat:getScriptName(), "Burnt")
 -- end
 
--- function TowMenu.isTrailer(vehicle)
-	-- return string.contains(vehicle:getScriptName(), "Trailer")
+-- function TowMenu.isTrailer(boat)
+	-- return string.contains(boat:getScriptName(), "Trailer")
 -- end
 
--- function TowMenu.attachBurntToOther(playerObj, vehicle, menu)
+-- function TowMenu.attachBurntToOther(playerObj, boat, menu)
 	-- local attachmentA, attachmentB = "trailer", "trailer"
-	-- local vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(vehicle:getSquare(), vehicle, attachmentA, attachmentB)
+	-- local vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(boat:getSquare(), boat, attachmentA, attachmentB)
 
 	-- if not vehicleB then
 		-- attachmentA, attachmentB = "trailer", "trailerfront"
-		-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(vehicle:getSquare(), vehicle, attachmentA, attachmentB)
+		-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(boat:getSquare(), boat, attachmentA, attachmentB)
 	-- end
 
 	-- if not vehicleB then
 		-- attachmentA, attachmentB = "trailerfront", "trailer"
-		-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(vehicle:getSquare(), vehicle, attachmentA, attachmentB)
+		-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(boat:getSquare(), boat, attachmentA, attachmentB)
 	-- end
 
 	-- if not vehicleB then
 		-- attachmentA, attachmentB = "trailerfront", "trailerfront"
-		-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(vehicle:getSquare(), vehicle, attachmentA, attachmentB)
+		-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(boat:getSquare(), boat, attachmentA, attachmentB)
 	-- end
 
 	-- if vehicleB then
 		-- if TowMenu.isBurnt(vehicleB) then
-			-- TowMenu.addOption(playerObj, menu, vehicle, vehicleB, attachmentA, attachmentB)
+			-- TowMenu.addOption(playerObj, menu, boat, vehicleB, attachmentA, attachmentB)
 		-- elseif TowMenu.isTrailer(vehicleB) then
-			-- TowMenu.addOption(playerObj, menu, vehicle, vehicleB, attachmentA, attachmentB)
+			-- TowMenu.addOption(playerObj, menu, boat, vehicleB, attachmentA, attachmentB)
 		-- else
-			-- TowMenu.addOption(playerObj, menu, vehicleB, vehicle, attachmentB, attachmentA)
+			-- TowMenu.addOption(playerObj, menu, vehicleB, boat, attachmentB, attachmentA)
 		-- end
 	-- end
 -- end
 
--- function TowMenu.attachTrailerToOther(playerObj, vehicle, menu)
+-- function TowMenu.attachTrailerToOther(playerObj, boat, menu)
 	-- local attachmentA, attachmentB = "trailer", "trailer"
-	-- local vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(vehicle:getSquare(), vehicle, attachmentA, attachmentB)
+	-- local vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(boat:getSquare(), boat, attachmentA, attachmentB)
 
 	-- if not vehicleB then
 		-- attachmentA, attachmentB = "trailer", "trailerfront"
-		-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(vehicle:getSquare(), vehicle, attachmentA, attachmentB)
+		-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(boat:getSquare(), boat, attachmentA, attachmentB)
 	-- end
 
 	-- if vehicleB then
 		-- if TowMenu.isBurnt(vehicleB) then
-			-- TowMenu.addOption(playerObj, menu, vehicleB, vehicle, attachmentB, attachmentA)
+			-- TowMenu.addOption(playerObj, menu, vehicleB, boat, attachmentB, attachmentA)
 		-- elseif TowMenu.isTrailer(vehicleB) then
-			-- TowMenu.addOption(playerObj, menu, vehicle, vehicleB, attachmentA, attachmentB)
+			-- TowMenu.addOption(playerObj, menu, boat, vehicleB, attachmentA, attachmentB)
 		-- else
-			-- TowMenu.addOption(playerObj, menu, vehicleB, vehicle, attachmentB, attachmentA)
+			-- TowMenu.addOption(playerObj, menu, vehicleB, boat, attachmentB, attachmentA)
 		-- end
 	-- end
 -- end
 
--- function TowMenu.attachVehicleToOther(playerObj, vehicle, menu)
+-- function TowMenu.attachVehicleToOther(playerObj, boat, menu)
 	-- local attachmentA, attachmentB = "trailer", "trailer"
-	-- local vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(vehicle:getSquare(), vehicle, attachmentA, attachmentB)
+	-- local vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(boat:getSquare(), boat, attachmentA, attachmentB)
 
 	-- if not vehicleB then
 		-- attachmentA, attachmentB = "trailer", "trailerfront"
-		-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(vehicle:getSquare(), vehicle, attachmentA, attachmentB)
+		-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(boat:getSquare(), boat, attachmentA, attachmentB)
 	-- end
 
 	-- if not vehicleB then
 		-- attachmentA, attachmentB = "trailerfront", "trailer"
-		-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(vehicle:getSquare(), vehicle, attachmentA, attachmentB)
+		-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(boat:getSquare(), boat, attachmentA, attachmentB)
 	-- end
 
 	-- if not vehicleB then
 		-- attachmentA, attachmentB = "trailerfront", "trailerfront"
-		-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(vehicle:getSquare(), vehicle, attachmentA, attachmentB)
+		-- vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(boat:getSquare(), boat, attachmentA, attachmentB)
 	-- end
 
 	-- if vehicleB then
 		-- if TowMenu.isBurnt(vehicleB) then
-			-- TowMenu.addOption(playerObj, menu, vehicle, vehicleB, attachmentA, attachmentB)
+			-- TowMenu.addOption(playerObj, menu, boat, vehicleB, attachmentA, attachmentB)
 		-- elseif TowMenu.isTrailer(vehicleB) then
-			-- TowMenu.addOption(playerObj, menu, vehicle, vehicleB, attachmentA, attachmentB)
+			-- TowMenu.addOption(playerObj, menu, boat, vehicleB, attachmentA, attachmentB)
 		-- else
-			-- TowMenu.addOption(playerObj, menu, vehicle, vehicleB, attachmentA, attachmentB)
+			-- TowMenu.addOption(playerObj, menu, boat, vehicleB, attachmentA, attachmentB)
 		-- end
 	-- end
 -- end
@@ -641,42 +645,42 @@ end
 	-- menu:addSlice(text, getTexture("media/ui/ZoomIn.png"), ISBoatMenu.onAttachTrailer, playerObj, vehicleA, attachmentA, attachmentB)
 -- end
 
--- function ISBoatMenu.doTowingMenu(playerObj, vehicle, menu)
-	-- if vehicle:getVehicleTowing() then
-		-- local bName = ISBoatMenu.getVehicleDisplayName(vehicle:getVehicleTowing())
-		-- menu:addSlice(getText("ContextMenu_Vehicle_DetachTrailer", bName), getTexture("media/ui/ZoomOut.png"), ISBoatMenu.onDetachTrailer, playerObj, vehicle, vehicle:getTowAttachmentSelf())
+-- function ISBoatMenu.doTowingMenu(playerObj, boat, menu)
+	-- if boat:getVehicleTowing() then
+		-- local bName = ISBoatMenu.getVehicleDisplayName(boat:getVehicleTowing())
+		-- menu:addSlice(getText("ContextMenu_Vehicle_DetachTrailer", bName), getTexture("media/ui/ZoomOut.png"), ISBoatMenu.onDetachTrailer, playerObj, boat, boat:getTowAttachmentSelf())
 		-- return
 	-- end
 
-	-- if vehicle:getVehicleTowedBy() then
-		-- local aName = ISBoatMenu.getVehicleDisplayName(vehicle)
-		-- menu:addSlice(getText("ContextMenu_Vehicle_DetachTrailer", aName), getTexture("media/ui/ZoomOut.png"), ISBoatMenu.onDetachTrailer, playerObj, vehicle:getVehicleTowedBy(), vehicle:getVehicleTowedBy():getTowAttachmentSelf())
+	-- if boat:getVehicleTowedBy() then
+		-- local aName = ISBoatMenu.getVehicleDisplayName(boat)
+		-- menu:addSlice(getText("ContextMenu_Vehicle_DetachTrailer", aName), getTexture("media/ui/ZoomOut.png"), ISBoatMenu.onDetachTrailer, playerObj, boat:getVehicleTowedBy(), boat:getVehicleTowedBy():getTowAttachmentSelf())
 		-- return
 	-- end
 
-	-- if TowMenu.isBurnt(vehicle) then
-		-- TowMenu.attachBurntToOther(playerObj, vehicle, menu)
-	-- elseif TowMenu.isTrailer(vehicle) then
-		-- TowMenu.attachTrailerToOther(playerObj, vehicle, menu)
+	-- if TowMenu.isBurnt(boat) then
+		-- TowMenu.attachBurntToOther(playerObj, boat, menu)
+	-- elseif TowMenu.isTrailer(boat) then
+		-- TowMenu.attachTrailerToOther(playerObj, boat, menu)
 	-- else
-		-- TowMenu.attachVehicleToOther(playerObj, vehicle, menu)
+		-- TowMenu.attachVehicleToOther(playerObj, boat, menu)
 	-- end
 -- end
 
--- function ISBoatMenu.FillMenuOutsideVehicle(player, context, vehicle, test)
+-- function ISBoatMenu.FillMenuOutsideVehicle(player, context, boat, test)
 	-- local playerObj = getSpecificPlayer(player)
 -- --[[
-	-- local subOption = context:addOption("Vehicle")
+	-- local subOption = context:addOption("boat")
 	-- local vehicleMenu = ISContextMenu:getNew(context)
 	-- context:addSubMenu(subOption, vehicleMenu)
-	-- vehicleMenu:addOption("Info", playerObj, ISBoatMenu.onInfo, vehicle)
+	-- vehicleMenu:addOption("Info", playerObj, ISBoatMenu.onInfo, boat)
 -- --]]
--- --	context:addOption("Vehicle Info", playerObj, ISBoatMenu.onInfo, vehicle)
-	-- ISBoatMenu.FillPartMenu(player, context, nil, vehicle);
+-- --	context:addOption("boat Info", playerObj, ISBoatMenu.onInfo, boat)
+	-- ISBoatMenu.FillPartMenu(player, context, nil, boat);
 	
-	-- context:addOption(getText("ContextMenu_VehicleMechanics"), playerObj, ISBoatMenu.onMechanic, vehicle);
+	-- context:addOption(getText("ContextMenu_VehicleMechanics"), playerObj, ISBoatMenu.onMechanic, boat);
 	
-	-- local part = vehicle:getClosestWindow(playerObj);
+	-- local part = boat:getClosestWindow(playerObj);
 	-- if part then
 		-- local window = part:getWindow()
 		-- if not window:isDestroyed() and not window:isOpen() then
@@ -685,8 +689,8 @@ end
 	-- end
 	
 	-- -- remove burnt vehicles
-	-- if string.match(vehicle:getScript():getName(), "Burnt") then
-		-- local option = context:addOption(getText("ContextMenu_RemoveBurntVehicle"), playerObj, ISBoatMenu.onRemoveBurntVehicle, vehicle);
+	-- if string.match(boat:getScript():getName(), "Burnt") then
+		-- local option = context:addOption(getText("ContextMenu_RemoveBurntVehicle"), playerObj, ISBoatMenu.onRemoveBurntVehicle, boat);
 		-- local toolTip = ISToolTip:new();
 		-- toolTip:initialise();
 		-- toolTip:setVisible(false);
@@ -716,8 +720,8 @@ end
 		-- end
 	-- end
 
-	-- if ISWashVehicle.hasBlood(vehicle) then
-		-- local option = context:addOption(getText("ContextMenu_Vehicle_Wash"), playerObj, ISBoatMenu.onWash, vehicle);
+	-- if ISWashVehicle.hasBlood(boat) then
+		-- local option = context:addOption(getText("ContextMenu_Vehicle_Wash"), playerObj, ISBoatMenu.onWash, boat);
 		-- local toolTip = ISToolTip:new();
 		-- toolTip:initialise();
 		-- toolTip:setVisible(false);
@@ -735,37 +739,37 @@ end
 
 	-- local vehicleMenu = nil
 	-- if getCore():getDebug() or ISVehicleMechanics.cheat or (isClient() and isAdmin()) then
-		-- local subOption = context:addOption("[DEBUG] Vehicle")
+		-- local subOption = context:addOption("[DEBUG] boat")
 		-- vehicleMenu = ISContextMenu:getNew(context)
 		-- context:addSubMenu(subOption, vehicleMenu)
 	-- end
 	
 	-- if getCore():getDebug() then
-		-- vehicleMenu:addOption("Reload Vehicle Textures", vehicle:getScript():getName(), reloadVehicleTextures)
+		-- vehicleMenu:addOption("Reload boat Textures", boat:getScript():getName(), reloadVehicleTextures)
 		-- if ISVehicleMechanics.cheat then
 			-- vehicleMenu:addOption("ISVehicleMechanics.cheat=false", playerObj, ISVehicleMechanics.onCheatToggle)
 		-- else
 			-- vehicleMenu:addOption("ISVehicleMechanics.cheat=true", playerObj, ISVehicleMechanics.onCheatToggle)
 		-- end
 		-- vehicleMenu:addOption("Roadtrip UI", playerObj, ISBoatMenu.onRoadtrip);
-		-- vehicleMenu:addOption("Vehicle Angles UI", playerObj, ISBoatMenu.onDebugAngles, vehicle);
-		-- vehicleMenu:addOption("Vehicle HSV UI", playerObj, ISBoatMenu.onDebugColor, vehicle);
-		-- vehicleMenu:addOption("Vehicle Blood UI", playerObj, ISBoatMenu.onDebugBlood, vehicle);
-		-- vehicleMenu:addOption("Vehicle Editor", playerObj, ISBoatMenu.onDebugEditor, vehicle);
+		-- vehicleMenu:addOption("boat Angles UI", playerObj, ISBoatMenu.onDebugAngles, boat);
+		-- vehicleMenu:addOption("boat HSV UI", playerObj, ISBoatMenu.onDebugColor, boat);
+		-- vehicleMenu:addOption("boat Blood UI", playerObj, ISBoatMenu.onDebugBlood, boat);
+		-- vehicleMenu:addOption("boat Editor", playerObj, ISBoatMenu.onDebugEditor, boat);
 		-- if not isClient() then
-			-- ISBoatMenu.addSetScriptMenu(vehicleMenu, playerObj, vehicle)
+			-- ISBoatMenu.addSetScriptMenu(vehicleMenu, playerObj, boat)
 		-- end
 	-- end
 	
 	-- if getCore():getDebug() or ISVehicleMechanics.cheat or (isClient() and isAdmin()) then
-		-- vehicleMenu:addOption("Remove vehicle", playerObj, ISVehicleMechanics.onCheatRemove, vehicle);
+		-- vehicleMenu:addOption("Remove boat", playerObj, ISVehicleMechanics.onCheatRemove, boat);
 	-- end
 -- end
 
--- function ISBoatMenu.getVehicleDisplayName(vehicle)
-	-- local name = getText("IGUI_VehicleName" .. vehicle:getScript():getName())
-	-- if string.match(vehicle:getScript():getName(), "Burnt") then
-		-- local unburnt = string.gsub(vehicle:getScript():getName(), "Burnt", "")
+-- function ISBoatMenu.getVehicleDisplayName(boat)
+	-- local name = getText("IGUI_VehicleName" .. boat:getScript():getName())
+	-- if string.match(boat:getScript():getName(), "Burnt") then
+		-- local unburnt = string.gsub(boat:getScript():getName(), "Burnt", "")
 		-- if getTextOrNull("IGUI_VehicleName" .. unburnt) then
 			-- name = getText("IGUI_VehicleName" .. unburnt)
 		-- end
@@ -778,14 +782,14 @@ end
 	-- return item:getType() == "BlowTorch" and item:getDrainableUsesInt() >= 20
 -- end
 
--- function ISBoatMenu.onRemoveBurntVehicle(player, vehicle)
-	-- if luautils.walkAdj(player, vehicle:getSquare()) then
+-- function ISBoatMenu.onRemoveBurntVehicle(player, boat)
+	-- if luautils.walkAdj(player, boat:getSquare()) then
 		-- ISWorldObjectContextMenu.equip(player, player:getPrimaryHandItem(), predicateBlowTorch, true);
 		-- local mask = player:getInventory():getFirstTypeRecurse("WeldingMask");
 		-- if mask then
 			-- ISInventoryPaneContextMenu.wearItem(mask, player:getPlayerNum());
 		-- end
-		-- ISTimedActionQueue.add(ISRemoveBurntVehicle:new(player, vehicle));
+		-- ISTimedActionQueue.add(ISRemoveBurntVehicle:new(player, boat));
 	-- end
 -- end
 
@@ -795,23 +799,23 @@ end
 	-- ui:addToUIManager();
 -- end
 
--- function ISBoatMenu.onDebugAngles(playerObj, vehicle)
-	-- debugVehicleAngles(vehicle)
+-- function ISBoatMenu.onDebugAngles(playerObj, boat)
+	-- debugVehicleAngles(boat)
 -- end
 
--- function ISBoatMenu.onDebugColor(playerObj, vehicle)
-	-- debugVehicleColor(vehicle)
+-- function ISBoatMenu.onDebugColor(playerObj, boat)
+	-- debugVehicleColor(boat)
 -- end
 
--- function ISBoatMenu.onDebugBlood(playerObj, vehicle)
-	-- debugVehicleBloodUI(vehicle)
+-- function ISBoatMenu.onDebugBlood(playerObj, boat)
+	-- debugVehicleBloodUI(boat)
 -- end
 
--- function ISBoatMenu.onDebugEditor(playerObj, vehicle)
-	-- showVehicleEditor(vehicle:getScript():getFullName())
+-- function ISBoatMenu.onDebugEditor(playerObj, boat)
+	-- showVehicleEditor(boat:getScript():getFullName())
 -- end
 
--- function ISBoatMenu.addSetScriptMenu(context, playerObj, vehicle)
+-- function ISBoatMenu.addSetScriptMenu(context, playerObj, boat)
 	-- local option = context:addOption("Set Script", nil, nil)
 	-- local subMenu = ISContextMenu:getNew(context)
 	-- context:addSubMenu(option, subMenu)
@@ -829,21 +833,21 @@ end
 	-- table.sort(sorted, function(a,b) return not string.sort(a:getName(), b:getName()) end)
 	-- for _,script in ipairs(sorted) do
 		-- if script:getPartCount() == 0 then
-			-- subMenuBurnt:addOption(script:getName(), playerObj, ISBoatMenu.onDebugSetScript, vehicle, script:getFullName())
+			-- subMenuBurnt:addOption(script:getName(), playerObj, ISBoatMenu.onDebugSetScript, boat, script:getFullName())
 		-- else
-			-- subMenu:addOption(script:getName(), playerObj, ISBoatMenu.onDebugSetScript, vehicle, script:getFullName())
+			-- subMenu:addOption(script:getName(), playerObj, ISBoatMenu.onDebugSetScript, boat, script:getFullName())
 		-- end
 	-- end
 -- end
 
--- function ISBoatMenu.onDebugSetScript(playerObj, vehicle, scriptName)
-	-- vehicle:setScriptName(scriptName)
-	-- vehicle:scriptReloaded()
-	-- vehicle:setSkinIndex(ZombRand(vehicle:getSkinCount()))
-	-- vehicle:repair() -- so engine loudness/power/quality are recalculated
+-- function ISBoatMenu.onDebugSetScript(playerObj, boat, scriptName)
+	-- boat:setScriptName(scriptName)
+	-- boat:scriptReloaded()
+	-- boat:setSkinIndex(ZombRand(boat:getSkinCount()))
+	-- boat:repair() -- so engine loudness/power/quality are recalculated
 -- end
 
-function ISBoatMenu.onMechanic(playerObj, vehicle)
+function ISBoatMenu.onMechanic(playerObj, boat)
 	local ui = getPlayerMechanicsUI(playerObj:getPlayerNum())
 	if ui:isReallyVisible() then
 		ui:close()
@@ -851,50 +855,54 @@ function ISBoatMenu.onMechanic(playerObj, vehicle)
 	end
 
 	local engineHood = nil;
-	local cheat = getCore():getDebug() and getDebugOptions():getBoolean("Cheat.Vehicle.MechanicsAnywhere")
+	local cheat = getCore():getDebug() and getDebugOptions():getBoolean("Cheat.boat.MechanicsAnywhere")
 	-- if ISVehicleMechanics.cheat or (isClient() and isAdmin()) or cheat then
-		-- ISTimedActionQueue.add(ISOpenMechanicsUIAction:new(playerObj, vehicle))
+		-- ISTimedActionQueue.add(ISOpenMechanicsUIAction:new(playerObj, boat))
 		-- return;
 	-- end
-	-- engineHood = vehicle:getPartById("EngineDoor");
+	--engineHood = boat:getPartById("EngineDoor");
 	-- if playerObj:getVehicle() then
 		-- ISBoatMenu.onExit(playerObj)
 	-- end
 --		local closestDist;
 --		local closestPart;
---		for i=0,vehicle:getPartCount()-1 do
---			local part = vehicle:getPartByIndex(i);
---			if (part:getCategory() == "tire" or part:getCategory() == "bodywork") and (not closestDist or closestDist > vehicle:getAreaDist(part:getArea(), playerObj))then
+--		for i=0,boat:getPartCount()-1 do
+--			local part = boat:getPartByIndex(i);
+--			if (part:getCategory() == "tire" or part:getCategory() == "bodywork") and (not closestDist or closestDist > boat:getAreaDist(part:getArea(), playerObj))then
 ----				print("TIRE: ", part:getId(), " CLOSER");
---				closestDist = vehicle:getAreaDist(part:getArea(), playerObj);
+--				closestDist = boat:getAreaDist(part:getArea(), playerObj);
 --				closestPart = part;
 --			end
 --		end
 	-- if engineHood then
-		-- ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, vehicle, engineHood:getArea()))
+		-- ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, boat, engineHood:getArea()))
 		-- if not engineHood:getDoor() or not engineHood:getInventoryItem() then
 			-- engineHood = nil
 		-- end
 		-- if engineHood and not engineHood:getDoor():isOpen() then
 			-- -- The hood is magically unlocked if any door/window is broken/open/uninstalled.
-			-- -- If the player can get in the vehicle, they can pop the hood, no key required.
-			-- if engineHood:getDoor():isLocked() and VehicleUtils.RequiredKeyNotFound(vehicle:getPartById("Engine"), playerObj) then
+			-- -- If the player can get in the boat, they can pop the hood, no key required.
+			-- if engineHood:getDoor():isLocked() and VehicleUtils.RequiredKeyNotFound(boat:getPartById("Engine"), playerObj) then
 				-- ISTimedActionQueue.add(ISUnlockVehicleDoor:new(playerObj, engineHood))
 			-- end
-			-- ISTimedActionQueue.add(ISOpenVehicleDoor:new(playerObj, vehicle, engineHood))
+			-- ISTimedActionQueue.add(ISOpenVehicleDoor:new(playerObj, boat, engineHood))
 		-- end
 	-- else
 		-- -- Burned vehicles and trailers don't have a hood
-		-- ISTimedActionQueue.add(ISPathFindAction:pathToVehicleAdjacent(playerObj, vehicle))
+		-- ISTimedActionQueue.add(ISPathFindAction:pathToVehicleAdjacent(playerObj, boat))
 	-- end
 	local data = getPlayerData(playerObj:getPlayerNum())
+	print(data.mechanicsUI)
 	data.mechanicsUI = ISBoatMechanics:new(0,0,playerObj,nil);
-	data.mechanicsUI:initialise();
     data.mechanicsUI:setVisible(false);
     data.mechanicsUI:setEnabled(false);
-
-	ISTimedActionQueue.add(ISOpenMechanicsUIAction:new(playerObj, vehicle, engineHood))
---	local ui = ISVehicleMechanics:new(0,0,playerObj,vehicle);
+	data.mechanicsUI:initialise();
+	--data.mechanicsUI:addToUIManager();
+	print(playerObj)
+	print(boat)
+	
+	ISTimedActionQueue.add(ISOpenMechanicsUIAction:new(playerObj, boat, engineHood))
+--	local ui = ISVehicleMechanics:new(0,0,playerObj,boat);
 --	ui:initialise();
 --	ui:addToUIManager();
 --	local ui = getPlayerMechanicsUI(playerObj:getPlayerNum());
@@ -902,7 +910,7 @@ function ISBoatMenu.onMechanic(playerObj, vehicle)
 --		ui:close()
 --		return
 --	end
---	ui.vehicle = vehicle;
+--	ui.boat = boat;
 --	ui.usedHood = usedHood
 --	ui:initParts();
 --	ui:setVisible(true, JoypadState.players[playerObj:getPlayerNum()+1])
@@ -912,27 +920,27 @@ function ISBoatMenu.onMechanic(playerObj, vehicle)
 	-- get the closest tire to the player
 --	local closestDist;
 --	local closestPart;
---	for i=0,vehicle:getPartCount()-1 do
---		local part = vehicle:getPartByIndex(i);
---		if part:getCategory() == "tire" and (not closestDist or closestDist < vehicle:getAreaDist(part:getArea(), playerObj))then
+--	for i=0,boat:getPartCount()-1 do
+--		local part = boat:getPartByIndex(i);
+--		if part:getCategory() == "tire" and (not closestDist or closestDist < boat:getAreaDist(part:getArea(), playerObj))then
 --			print("TIRE: ", part:getId(), " CLOSER");
---			closestDist = vehicle:getAreaDist(part:getArea(), playerObj);
+--			closestDist = boat:getAreaDist(part:getArea(), playerObj);
 --			closestPart = part:getId();
 --		end
 --	end
---	local tire = vehicle:getPartById(closestPart);
---	ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, vehicle, tire:getArea()))
+--	local tire = boat:getPartById(closestPart);
+--	ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, boat, tire:getArea()))
 --	closestPart = ISBoatMenu.getNextTire(closestPart);
---	local tire = vehicle:getPartById(closestPart);
---	ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, vehicle, tire:getArea()))
+--	local tire = boat:getPartById(closestPart);
+--	ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, boat, tire:getArea()))
 --	closestPart = ISBoatMenu.getNextTire(closestPart);
---	local tire = vehicle:getPartById(closestPart);
---	ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, vehicle, tire:getArea()))
+--	local tire = boat:getPartById(closestPart);
+--	ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, boat, tire:getArea()))
 --	closestPart = ISBoatMenu.getNextTire(closestPart);
---	local tire = vehicle:getPartById(closestPart);
---	ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, vehicle, tire:getArea()))
---	local tire = vehicle:getPartById("TireFrontRight");
---	ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, vehicle, tire:getArea()))
+--	local tire = boat:getPartById(closestPart);
+--	ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, boat, tire:getArea()))
+--	local tire = boat:getPartById("TireFrontRight");
+--	ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, boat, tire:getArea()))
 end
 
 -- -- cicle thru each tires clockwise
@@ -943,12 +951,12 @@ end
 	-- if currentTire == "TireRearLeft" then return "TireFrontLeft"; end
 -- end
 
--- function ISBoatMenu.FillPartMenu(playerIndex, context, slice, vehicle)
+-- function ISBoatMenu.FillPartMenu(playerIndex, context, slice, boat)
 	-- local playerObj = getSpecificPlayer(playerIndex);
 	-- local typeToItem = VehicleUtils.getItems(playerIndex)
-	-- for i=1,vehicle:getPartCount() do
-		-- local part = vehicle:getPartByIndex(i-1)
-		-- if not vehicle:isEngineStarted() and part:isContainer() and part:getContainerContentType() == "Gasoline" then
+	-- for i=1,boat:getPartCount() do
+		-- local part = boat:getPartByIndex(i-1)
+		-- if not boat:isEngineStarted() and part:isContainer() and part:getContainerContentType() == "Gasoline" then
 			-- if typeToItem["Base.PetrolCan"] and part:getContainerContentAmount() < part:getContainerCapacity() then
 				-- if slice then
 					-- slice:addSlice(getText("ContextMenu_VehicleAddGas"), getTexture("Item_Petrol"), ISVehiclePartMenu.onAddGasoline, playerObj, part)
@@ -963,7 +971,7 @@ end
 					-- context:addOption(getText("ContextMenu_VehicleSiphonGas"), playerObj, ISVehiclePartMenu.onTakeGasoline, part)
 				-- end
 			-- end
-			-- local square = ISVehiclePartMenu.getNearbyFuelPump(vehicle)
+			-- local square = ISVehiclePartMenu.getNearbyFuelPump(boat)
 			-- if square and ((SandboxVars.AllowExteriorGenerator and square:haveElectricity()) or (SandboxVars.ElecShutModifier > -1 and GameTime:getInstance():getNightsSurvived() < SandboxVars.ElecShutModifier)) then
 				-- if square and part:getContainerContentAmount() < part:getContainerCapacity() then
 					-- if slice then
@@ -978,21 +986,21 @@ end
 -- end
 
 -- function ISBoatMenu.onSwitchSeat(playerObj, seatTo)
-	-- local vehicle = playerObj:getVehicle()
-	-- if not vehicle then return end
+	-- local boat = playerObj:getVehicle()
+	-- if not boat then return end
 	-- ISTimedActionQueue.add(ISSwitchVehicleSeat:new(playerObj, seatTo))
 -- end
 
 -- function ISBoatMenu.onToggleHeadlights(playerObj)
-	-- local vehicle = playerObj:getVehicle()
-	-- if not vehicle then return end
-	-- sendClientCommand(playerObj, 'vehicle', 'setHeadlightsOn', { on = not vehicle:getHeadlightsOn() })
+	-- local boat = playerObj:getVehicle()
+	-- if not boat then return end
+	-- sendClientCommand(playerObj, 'boat', 'setHeadlightsOn', { on = not boat:getHeadlightsOn() })
 -- end
 
 -- function ISBoatMenu.onToggleTrunkLocked(playerObj)
-	-- local vehicle = playerObj:getVehicle();
-	-- if not vehicle then return end
-	-- sendClientCommand(playerObj, 'vehicle', 'setTrunkLocked', { locked = not vehicle:isTrunkLocked() });
+	-- local boat = playerObj:getVehicle();
+	-- if not boat then return end
+	-- sendClientCommand(playerObj, 'boat', 'setTrunkLocked', { locked = not boat:isTrunkLocked() });
 -- end
 
 -- function ISBoatMenu.onToggleHeater(playerObj)
@@ -1026,10 +1034,10 @@ end
 -- end
 
 -- function ISBoatMenu.onStartEngine(playerObj)
--- --	local vehicle = playerObj:getVehicle()
--- --	if not vehicle then return end
--- --	if not vehicle:isEngineWorking() then return end
--- --	if not vehicle:isDriver(playerObj) then return end
+-- --	local boat = playerObj:getVehicle()
+-- --	if not boat then return end
+-- --	if not boat:isEngineWorking() then return end
+-- --	if not boat:isDriver(playerObj) then return end
 	-- ISTimedActionQueue.add(ISStartVehicleEngine:new(playerObj))
 -- end
 
@@ -1038,16 +1046,16 @@ end
 -- end
 
 -- function ISBoatMenu.onShutOff(playerObj)
--- --	local vehicle = playerObj:getVehicle()
--- --	if not vehicle then return end
--- --	if not vehicle:isEngineStarted() then return end
--- --	if not vehicle:isDriver(playerObj) then return end
+-- --	local boat = playerObj:getVehicle()
+-- --	if not boat then return end
+-- --	if not boat:isEngineStarted() then return end
+-- --	if not boat:isDriver(playerObj) then return end
 	-- ISTimedActionQueue.add(ISShutOffVehicleEngine:new(playerObj))
 -- end
 
--- function ISBoatMenu.onInfo(playerObj, vehicle)
+-- function ISBoatMenu.onInfo(playerObj, boat)
 	-- local ui = getPlayerVehicleUI(playerObj:getPlayerNum())
-	-- ui:setVehicle(vehicle)
+	-- ui:setVehicle(boat)
 	-- ui:setVisible(true)
 	-- ui:bringToTop()
 	-- if JoypadState.players[playerObj:getPlayerNum()+1] then
@@ -1055,8 +1063,8 @@ end
 	-- end
 -- end
 
--- function ISBoatMenu.onSleep(playerObj, vehicle)
-	-- if vehicle:getCurrentSpeedKmHour() > 1 or vehicle:getCurrentSpeedKmHour() < -1 then
+-- function ISBoatMenu.onSleep(playerObj, boat)
+	-- if boat:getCurrentSpeedKmHour() > 1 or boat:getCurrentSpeedKmHour() < -1 then
 		-- playerObj:Say(getText("IGUI_PlayerText_CanNotSleepInMovingCar"))
 		-- return;
 	-- end
@@ -1076,17 +1084,17 @@ end
 -- end
 
 -- function ISBoatMenu.onOpenDoor(playerObj, part)
-	-- local vehicle = part:getVehicle()
+	-- local boat = part:getVehicle()
 	-- if part:getDoor():isLocked() then
 		-- -- The hood is magically unlocked if any door/window is broken/open/uninstalled.
-		-- -- If the player can get in the vehicle, they can pop the hood, no key required.
+		-- -- If the player can get in the boat, they can pop the hood, no key required.
 		-- if not (part:getId() == "EngineDoor" and VehicleUtils.RequiredKeyNotFound(part, playerObj)) then
 			-- ISTimedActionQueue.add(ISUnlockVehicleDoor:new(playerObj, part))
 		-- end
 	-- end
 	-- ISTimedActionQueue.add(ISOpenVehicleDoor:new(playerObj, part:getVehicle(), part))
 	-- if part:getId() == "EngineDoor" then
-		-- ISTimedActionQueue.add(ISOpenMechanicsUIAction:new(playerObj, vehicle, part))
+		-- ISTimedActionQueue.add(ISOpenMechanicsUIAction:new(playerObj, boat, part))
 	-- end
 -- end
 
@@ -1102,29 +1110,29 @@ end
 	-- ISTimedActionQueue.add(ISUnlockVehicleDoor:new(playerObj, part))
 -- end
 
--- function ISBoatMenu.onWash(playerObj, vehicle)
-	-- local area = ISWashVehicle.chooseArea(playerObj, vehicle)
+-- function ISBoatMenu.onWash(playerObj, boat)
+	-- local area = ISWashVehicle.chooseArea(playerObj, boat)
 	-- if not area then return end
-	-- ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, vehicle, area.area))
-	-- ISTimedActionQueue.add(ISWashVehicle:new(playerObj, vehicle, area.id, area.area))
+	-- ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, boat, area.area))
+	-- ISTimedActionQueue.add(ISWashVehicle:new(playerObj, boat, area.id, area.area))
 -- end
 
 -- local SORTVARS = {
 	-- pos = Vector3f.new()
 -- }
 -- local function distanceToPassengerPosition(seat)
-	-- local script = SORTVARS.vehicle:getScript()
-	-- local outside = SORTVARS.vehicle:getPassengerPosition(seat, "outside")
-	-- local worldPos = SORTVARS.vehicle:getWorldPos(outside:getOffset(), SORTVARS.pos)
+	-- local script = SORTVARS.boat:getScript()
+	-- local outside = SORTVARS.boat:getPassengerPosition(seat, "outside")
+	-- local worldPos = SORTVARS.boat:getWorldPos(outside:getOffset(), SORTVARS.pos)
 	-- return SORTVARS.playerObj:DistTo(worldPos:x(), worldPos:y())
 -- end
--- local function getClosestSeat(playerObj, vehicle, seats)
+-- local function getClosestSeat(playerObj, boat, seats)
 	-- if #seats == 0 then
 		-- return nil
 	-- end
 	-- -- Sort by distance from the player to the 'outside' position.
 	-- SORTVARS.playerObj = playerObj
-	-- SORTVARS.vehicle = vehicle
+	-- SORTVARS.boat = boat
 	-- table.sort(seats, function(a,b)
 		-- local distA = distanceToPassengerPosition(a)
 		-- local distB = distanceToPassengerPosition(b)
@@ -1137,30 +1145,30 @@ end
 -- -- position, which is the case for VanSeats' rear seats that are not accessible
 -- -- by any door.  The player must enter through a front or middle door then
 -- -- switch to the rear seat.
--- function ISBoatMenu.getBestSwitchSeatEnter(playerObj, vehicle, seat)
+-- function ISBoatMenu.getBestSwitchSeatEnter(playerObj, boat, seat)
 	-- local seats = {}
-	-- for seat2=0,vehicle:getMaxPassengers()-1 do
+	-- for seat2=0,boat:getMaxPassengers()-1 do
 		-- if seat ~= seat2 and
-				-- vehicle:canSwitchSeat(seat2, seat) and
-				-- not vehicle:isSeatOccupied(seat2) and
-				-- not vehicle:isEnterBlocked(playerObj, seat2) then
+				-- boat:canSwitchSeat(seat2, seat) and
+				-- not boat:isSeatOccupied(seat2) and
+				-- not boat:isEnterBlocked(playerObj, seat2) then
 			-- table.insert(seats, seat2)
 		-- end
 	-- end
-	-- return getClosestSeat(playerObj, vehicle, seats)
+	-- return getClosestSeat(playerObj, boat, seats)
 -- end
 
--- function ISBoatMenu.getBestSwitchSeatExit(playerObj, vehicle, seat)
+-- function ISBoatMenu.getBestSwitchSeatExit(playerObj, boat, seat)
 	-- local seats = {}
-	-- for seat2=0,vehicle:getMaxPassengers()-1 do
+	-- for seat2=0,boat:getMaxPassengers()-1 do
 		-- if seat ~= seat2 and
-				-- vehicle:canSwitchSeat(seat, seat2) and
-				-- not vehicle:isSeatOccupied(seat2) and
-				-- not vehicle:isExitBlocked(seat2) then
+				-- boat:canSwitchSeat(seat, seat2) and
+				-- not boat:isSeatOccupied(seat2) and
+				-- not boat:isExitBlocked(seat2) then
 			-- table.insert(seats, seat2)
 		-- end
 	-- end
-	-- return getClosestSeat(playerObj, vehicle, seats)
+	-- return getClosestSeat(playerObj, boat, seats)
 -- end
 
 -- function ISBoatMenu.moveItemsOnSeat(seat, newSeat, playerObj, moveThem, itemListIndex)
@@ -1186,16 +1194,16 @@ end
 	-- return #itemList + itemListIndex;
 -- end
 
--- function ISBoatMenu.tryMoveItemsFromSeat(playerObj, vehicle, seat, moveThem, doEnter, seatTo, itemListIndex)
-	-- local currentSeat = vehicle:getPartForSeatContainer(seat);
+-- function ISBoatMenu.tryMoveItemsFromSeat(playerObj, boat, seat, moveThem, doEnter, seatTo, itemListIndex)
+	-- local currentSeat = boat:getPartForSeatContainer(seat);
 	-- if currentSeat:getItemContainer():getItems():isEmpty() then return 0; end
-	-- local newSeat = vehicle:getPartById(seatTo);
+	-- local newSeat = boat:getPartById(seatTo);
 	-- if not newSeat then return 0; end
-	-- if newSeat == currentSeat or (vehicle:getCharacter(newSeat:getContainerSeatNumber()) and playerObj ~= vehicle:getCharacter(newSeat:getContainerSeatNumber())) then return 0; end
+	-- if newSeat == currentSeat or (boat:getCharacter(newSeat:getContainerSeatNumber()) and playerObj ~= boat:getCharacter(newSeat:getContainerSeatNumber())) then return 0; end
 	-- if newSeat then
 		-- local movedItems = ISBoatMenu.moveItemsOnSeat(currentSeat, newSeat, playerObj, moveThem, itemListIndex);
 		-- if doEnter and (movedItems == currentSeat:getItemContainer():getItems():size() or movedItems == currentSeat:getItemContainer():getItems():isEmpty()) then
-			-- ISBoatMenu.processEnter(playerObj, vehicle, seat);
+			-- ISBoatMenu.processEnter(playerObj, boat, seat);
 			-- return movedItems;
 		-- end
 		-- return movedItems;
@@ -1203,147 +1211,147 @@ end
 	-- return 0;
 -- end
 
--- function ISBoatMenu.moveItemsFromSeat(playerObj, vehicle, seat, moveThem, doEnter)
+-- function ISBoatMenu.moveItemsFromSeat(playerObj, boat, seat, moveThem, doEnter)
 	-- -- if items are on the seats we'll try to move them to another empty seat, first rear seat then middle, then front left seats, never on driver's seat
 	-- -- first rear seats
-	-- local currentSeat = vehicle:getPartForSeatContainer(seat);
-	-- local movedItems = ISBoatMenu.tryMoveItemsFromSeat(playerObj, vehicle, seat, moveThem, doEnter, "SeatRearLeft", 0);
+	-- local currentSeat = boat:getPartForSeatContainer(seat);
+	-- local movedItems = ISBoatMenu.tryMoveItemsFromSeat(playerObj, boat, seat, moveThem, doEnter, "SeatRearLeft", 0);
 	-- if movedItems == currentSeat:getItemContainer():getItems():size() then return true; end
-	-- movedItems = ISBoatMenu.tryMoveItemsFromSeat(playerObj, vehicle, seat, moveThem, doEnter, "SeatRearRight", movedItems);
+	-- movedItems = ISBoatMenu.tryMoveItemsFromSeat(playerObj, boat, seat, moveThem, doEnter, "SeatRearRight", movedItems);
 	-- if movedItems == currentSeat:getItemContainer():getItems():size() then return true; end
-	-- movedItems = ISBoatMenu.tryMoveItemsFromSeat(playerObj, vehicle, seat, moveThem, doEnter, "SeatFrontRight", movedItems);
+	-- movedItems = ISBoatMenu.tryMoveItemsFromSeat(playerObj, boat, seat, moveThem, doEnter, "SeatFrontRight", movedItems);
 	-- if movedItems == currentSeat:getItemContainer():getItems():size() then return true; end
-	-- movedItems = ISBoatMenu.tryMoveItemsFromSeat(playerObj, vehicle, seat, moveThem, doEnter, "SeatMiddleLeft", movedItems);
+	-- movedItems = ISBoatMenu.tryMoveItemsFromSeat(playerObj, boat, seat, moveThem, doEnter, "SeatMiddleLeft", movedItems);
 	-- if movedItems == currentSeat:getItemContainer():getItems():size() then return true; end
-	-- movedItems = ISBoatMenu.tryMoveItemsFromSeat(playerObj, vehicle, seat, moveThem, doEnter, "SeatMiddleRight", movedItems);
+	-- movedItems = ISBoatMenu.tryMoveItemsFromSeat(playerObj, boat, seat, moveThem, doEnter, "SeatMiddleRight", movedItems);
 	-- if movedItems == currentSeat:getItemContainer():getItems():size() then return true; end
 	-- return false;
 -- end
 
--- function ISBoatMenu.onEnter(playerObj, vehicle, seat)
-	-- if vehicle:isSeatOccupied(seat) then
-		-- if vehicle:getCharacter(seat) then
+-- function ISBoatMenu.onEnter(playerObj, boat, seat)
+	-- if boat:isSeatOccupied(seat) then
+		-- if boat:getCharacter(seat) then
 			-- playerObj:Say(getText("IGUI_PlayerText_VehicleSomeoneInSeat"))
 		-- else
-			-- if not ISBoatMenu.moveItemsFromSeat(playerObj, vehicle, seat, true, true) then
+			-- if not ISBoatMenu.moveItemsFromSeat(playerObj, boat, seat, true, true) then
 				-- playerObj:Say(getText("IGUI_PlayerText_VehicleItemInSeat"))
 			-- end
 		-- end
 	-- else
-		-- if vehicle:isPassengerUseDoor2(playerObj, seat) then
-			-- ISBoatMenu.processEnter2(playerObj, vehicle, seat);
+		-- if boat:isPassengerUseDoor2(playerObj, seat) then
+			-- ISBoatMenu.processEnter2(playerObj, boat, seat);
 		-- else 
-			-- ISBoatMenu.processEnter(playerObj, vehicle, seat);
+			-- ISBoatMenu.processEnter(playerObj, boat, seat);
 		-- end
 	-- end
 -- end
 
--- function ISBoatMenu.processEnter(playerObj, vehicle, seat)
-	-- if not vehicle:isSeatInstalled(seat) then
+-- function ISBoatMenu.processEnter(playerObj, boat, seat)
+	-- if not boat:isSeatInstalled(seat) then
 		-- playerObj:Say(getText("IGUI_PlayerText_VehicleSeatRemoved"))
 	-- elseif not playerObj:isBlockMovement() then
-		-- if vehicle:isEnterBlocked(playerObj, seat) then
-			-- local seat2 = ISBoatMenu.getBestSwitchSeatEnter(playerObj, vehicle, seat)
+		-- if boat:isEnterBlocked(playerObj, seat) then
+			-- local seat2 = ISBoatMenu.getBestSwitchSeatEnter(playerObj, boat, seat)
 			-- if seat2 then
-				-- ISBoatMenu.onEnterAux(playerObj, vehicle, seat2)
+				-- ISBoatMenu.onEnterAux(playerObj, boat, seat2)
 				-- ISTimedActionQueue.add(ISSwitchVehicleSeat:new(playerObj, seat))
 			-- end
 		-- else
-			-- ISBoatMenu.onEnterAux(playerObj, vehicle, seat)
+			-- ISBoatMenu.onEnterAux(playerObj, boat, seat)
 		-- end
 	-- end
 -- end
 
--- function ISBoatMenu.onEnterAux(playerObj, vehicle, seat)
-		-- ISTimedActionQueue.add(ISPathFindAction:pathToVehicleSeat(playerObj, vehicle, seat))
-		-- local doorPart = vehicle:getPassengerDoor(seat)
+-- function ISBoatMenu.onEnterAux(playerObj, boat, seat)
+		-- ISTimedActionQueue.add(ISPathFindAction:pathToVehicleSeat(playerObj, boat, seat))
+		-- local doorPart = boat:getPassengerDoor(seat)
 		-- if doorPart and doorPart:getDoor() and doorPart:getInventoryItem() then
 			-- local door = doorPart:getDoor()
 			-- if door:isLocked() then
 				-- -- if the keys on on the car, we take them and open
-				-- if vehicle:isKeyIsOnDoor() then
-					-- local key = vehicle:getCurrentKey()
-					-- vehicle:setKeyIsOnDoor(false);
-					-- vehicle:setCurrentKey(nil)
+				-- if boat:isKeyIsOnDoor() then
+					-- local key = boat:getCurrentKey()
+					-- boat:setKeyIsOnDoor(false);
+					-- boat:setCurrentKey(nil)
 					-- playerObj:getInventory():AddItem(key)
 					-- if isClient() then
-						-- sendClientCommand(playerObj, 'vehicle', 'removeKeyFromDoor', { vehicle = vehicle:getId() })
+						-- sendClientCommand(playerObj, 'boat', 'removeKeyFromDoor', { boat = boat:getId() })
 					-- end
 				-- else
 					-- ISTimedActionQueue.add(ISUnlockVehicleDoor:new(playerObj, doorPart, seat))
 				-- end
 			-- end
 			-- if not door:isOpen() then
-				-- ISTimedActionQueue.add(ISOpenVehicleDoor:new(playerObj, vehicle, doorPart))
+				-- ISTimedActionQueue.add(ISOpenVehicleDoor:new(playerObj, boat, doorPart))
 			-- end
-			-- ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, vehicle, seat))
-			-- ISTimedActionQueue.add(ISCloseVehicleDoor:new(playerObj, vehicle, seat))
+			-- ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, seat))
+			-- ISTimedActionQueue.add(ISCloseVehicleDoor:new(playerObj, boat, seat))
 		-- else
-			-- ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, vehicle, seat))
+			-- ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, seat))
 		-- end
 -- end
 
--- function ISBoatMenu.onEnter2(playerObj, vehicle, seat)
-	-- if vehicle:isSeatOccupied(seat) then
-		-- if vehicle:getCharacter(seat) then
+-- function ISBoatMenu.onEnter2(playerObj, boat, seat)
+	-- if boat:isSeatOccupied(seat) then
+		-- if boat:getCharacter(seat) then
 			-- playerObj:Say(getText("IGUI_PlayerText_VehicleSomeoneInSeat"))
 		-- else
-			-- if not ISBoatMenu.moveItemsFromSeat(playerObj, vehicle, seat, true, true) then
+			-- if not ISBoatMenu.moveItemsFromSeat(playerObj, boat, seat, true, true) then
 				-- playerObj:Say(getText("IGUI_PlayerText_VehicleItemInSeat"))
 			-- end
 		-- end
 	-- else
-		-- ISBoatMenu.processEnter2(playerObj, vehicle, seat);
+		-- ISBoatMenu.processEnter2(playerObj, boat, seat);
 	-- end
 -- end
 
--- function ISBoatMenu.processEnter2(playerObj, vehicle, seat)
-	-- if not vehicle:isSeatInstalled(seat) then
+-- function ISBoatMenu.processEnter2(playerObj, boat, seat)
+	-- if not boat:isSeatInstalled(seat) then
 		-- playerObj:Say(getText("IGUI_PlayerText_VehicleSeatRemoved"))
 	-- elseif not playerObj:isBlockMovement() then
-		-- if vehicle:isEnterBlocked2(playerObj, seat) then
-			-- local seat2 = ISBoatMenu.getBestSwitchSeatEnter(playerObj, vehicle, seat)
+		-- if boat:isEnterBlocked2(playerObj, seat) then
+			-- local seat2 = ISBoatMenu.getBestSwitchSeatEnter(playerObj, boat, seat)
 			-- if seat2 then
-				-- ISBoatMenu.onEnterAux(playerObj, vehicle, seat2)
+				-- ISBoatMenu.onEnterAux(playerObj, boat, seat2)
 				-- ISTimedActionQueue.add(ISSwitchVehicleSeat:new(playerObj, seat))
 			-- end
 		-- else
-			-- ISBoatMenu.onEnterAux2(playerObj, vehicle, seat)
+			-- ISBoatMenu.onEnterAux2(playerObj, boat, seat)
 		-- end
 	-- end
 -- end
 
--- function ISBoatMenu.onEnterAux2(playerObj, vehicle, seat)
-		-- ISTimedActionQueue.add(ISPathFindAction:pathToVehicleSeat(playerObj, vehicle, seat))
-		-- local doorPart = vehicle:getPassengerDoor2(seat)
+-- function ISBoatMenu.onEnterAux2(playerObj, boat, seat)
+		-- ISTimedActionQueue.add(ISPathFindAction:pathToVehicleSeat(playerObj, boat, seat))
+		-- local doorPart = boat:getPassengerDoor2(seat)
 		-- if doorPart and doorPart:getDoor() and doorPart:getInventoryItem() then
 			-- local door = doorPart:getDoor()
 			-- if door:isLocked() then
 				-- -- if the keys on on the car, we take them and open
-				-- if vehicle:isKeyIsOnDoor() then
-					-- local key = vehicle:getCurrentKey()
-					-- vehicle:setKeyIsOnDoor(false);
-					-- vehicle:setCurrentKey(nil)
+				-- if boat:isKeyIsOnDoor() then
+					-- local key = boat:getCurrentKey()
+					-- boat:setKeyIsOnDoor(false);
+					-- boat:setCurrentKey(nil)
 					-- playerObj:getInventory():AddItem(key)
 					-- if isClient() then
-						-- sendClientCommand(playerObj, 'vehicle', 'removeKeyFromDoor', { vehicle = vehicle:getId() })
+						-- sendClientCommand(playerObj, 'boat', 'removeKeyFromDoor', { boat = boat:getId() })
 					-- end
 				-- else
 					-- ISTimedActionQueue.add(ISUnlockVehicleDoor:new(playerObj, doorPart, seat))
 				-- end
 			-- end
 			-- if not door:isOpen() then
-				-- ISTimedActionQueue.add(ISOpenVehicleDoor:new(playerObj, vehicle, doorPart))
+				-- ISTimedActionQueue.add(ISOpenVehicleDoor:new(playerObj, boat, doorPart))
 			-- end
-			-- ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, vehicle, seat))
-			-- ISTimedActionQueue.add(ISCloseVehicleDoor:new(playerObj, vehicle, doorPart))
+			-- ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, seat))
+			-- ISTimedActionQueue.add(ISCloseVehicleDoor:new(playerObj, boat, doorPart))
 		-- else
-			-- ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, vehicle, seat))
+			-- ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, seat))
 		-- end
 -- end
 
 
--- function ISBoatMenu.onShowSeatUI(playerObj, vehicle)
+-- function ISBoatMenu.onShowSeatUI(playerObj, boat)
 	-- local isPaused = UIManager.getSpeedControls() and UIManager.getSpeedControls():getCurrentGameSpeed() == 0
 	-- if isPaused then return end
 
@@ -1364,7 +1372,7 @@ end
 			-- setJoypadFocus(playerNum, nil)
 		-- end
 	-- else
-		-- ui:setVehicle(vehicle)
+		-- ui:setVehicle(boat)
 		-- ui:addToUIManager()
 		-- if JoypadState.players[playerNum+1] then
 			-- JoypadState.players[playerNum+1].focus = ui
@@ -1380,19 +1388,19 @@ end
 	-- local playerObj = getSpecificPlayer(0)
 	-- if not playerObj then return end
 	-- if playerObj:isDead() then return end
-	-- local vehicle = playerObj:getVehicle()
-	-- if not vehicle then
-		-- vehicle = ISBoatMenu.getVehicleToInteractWith(playerObj)
-		-- if vehicle then
+	-- local boat = playerObj:getVehicle()
+	-- if not boat then
+		-- boat = ISBoatMenu.getVehicleToInteractWith(playerObj)
+		-- if boat then
 			-- if key == getCore():getKey("VehicleMechanics") then
-				-- ISBoatMenu.onMechanic(playerObj, vehicle)
+				-- ISBoatMenu.onMechanic(playerObj, boat)
 				-- return
 			-- end
 		-- end
 		-- return
 	-- end
 	-- if key == getCore():getKey("StartVehicleEngine") then
-		-- if vehicle:isEngineRunning() then
+		-- if boat:isEngineRunning() then
 			-- ISBoatMenu.onShutOff(playerObj)
 		-- else
 			-- ISBoatMenu.onStartEngine(playerObj)
@@ -1400,15 +1408,15 @@ end
 	-- elseif key == getCore():getKey("VehicleHeater") then
 		-- ISBoatMenu.onToggleHeater(playerObj)
 	-- elseif key == getCore():getKey("VehicleMechanics") then
-		-- ISBoatMenu.onMechanic(playerObj, vehicle)
+		-- ISBoatMenu.onMechanic(playerObj, boat)
 	-- elseif key == getCore():getKey("VehicleHorn") then
-		-- if vehicle:isDriver(playerObj) then
+		-- if boat:isDriver(playerObj) then
 			-- ISBoatMenu.onHornStop(playerObj)
 		-- end
 	-- end
 	-- -- Could be same as VehicleHorn key
 	-- if key == getCore():getKey("Shout") then
-		-- if not vehicle:isDriver(playerObj) then
+		-- if not boat:isDriver(playerObj) then
 			-- playerObj:Callout()
 		-- end
 	-- end
@@ -1422,22 +1430,22 @@ end
 
 -- function ISBoatMenu.onHornStart(playerObj)
 -- --	print "onHornStart"
-	-- local vehicle = playerObj:getVehicle()
-	-- if vehicle:getBatteryCharge() <= 0.0 then return end
+	-- local boat = playerObj:getVehicle()
+	-- if boat:getBatteryCharge() <= 0.0 then return end
 	-- if isClient() then
-		-- sendClientCommand(playerObj, 'vehicle', 'onHorn', {state="start"})
+		-- sendClientCommand(playerObj, 'boat', 'onHorn', {state="start"})
 	-- else
-		-- vehicle:onHornStart();
+		-- boat:onHornStart();
 	-- end
 -- end
 
 -- function ISBoatMenu.onHornStop(playerObj)
 -- --	print "onHornStop"
-	-- local vehicle = playerObj:getVehicle()
+	-- local boat = playerObj:getVehicle()
 	-- if isClient() then
-		-- sendClientCommand(playerObj, 'vehicle', 'onHorn', {state="stop"})
+		-- sendClientCommand(playerObj, 'boat', 'onHorn', {state="stop"})
 	-- else
-		-- vehicle:onHornStop();
+		-- boat:onHornStop();
 	-- end
 -- end
 
@@ -1445,17 +1453,17 @@ end
 	-- ISTimedActionQueue.add(ISLightbarUITimedAction:new(playerObj))
 -- end
 
--- function ISBoatMenu.onAttachTrailer(playerObj, vehicle, attachmentA, attachmentB)
-	-- local square = vehicle:getCurrentSquare()
-	-- local vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(square, vehicle, attachmentA, attachmentB)
+-- function ISBoatMenu.onAttachTrailer(playerObj, boat, attachmentA, attachmentB)
+	-- local square = boat:getCurrentSquare()
+	-- local vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(square, boat, attachmentA, attachmentB)
 	-- if not vehicleB then return end
-	-- local nextAction = ISAttachTrailerToVehicle:new(playerObj, vehicle, vehicleB, attachmentA, attachmentB)
-	-- if not ISVehicleTrailerUtils.walkToTrailer(playerObj, vehicle, attachmentA, nextAction) then return end
+	-- local nextAction = ISAttachTrailerToVehicle:new(playerObj, boat, vehicleB, attachmentA, attachmentB)
+	-- if not ISVehicleTrailerUtils.walkToTrailer(playerObj, boat, attachmentA, nextAction) then return end
 -- end
 
--- function ISBoatMenu.onDetachTrailer(playerObj, vehicle, attachmentA)
-	-- local nextAction = ISDetachTrailerFromVehicle:new(playerObj, vehicle, attachmentA)
-	-- if not ISVehicleTrailerUtils.walkToTrailer(playerObj, vehicle, attachmentA, nextAction) then return end
+-- function ISBoatMenu.onDetachTrailer(playerObj, boat, attachmentA)
+	-- local nextAction = ISDetachTrailerFromVehicle:new(playerObj, boat, attachmentA)
+	-- if not ISVehicleTrailerUtils.walkToTrailer(playerObj, boat, attachmentA, nextAction) then return end
 -- end
 
 -- Events.OnFillWorldObjectContextMenu.Add(ISBoatMenu.OnFillWorldObjectContextMenu)
