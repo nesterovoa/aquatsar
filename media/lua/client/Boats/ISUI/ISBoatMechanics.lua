@@ -22,9 +22,11 @@ local FONT_HGT_SMALL = getTextManager():getFontHeight(UIFont.Small)
 local FONT_HGT_MEDIUM = getTextManager():getFontHeight(UIFont.Medium)
 
 function ISBoatMechanics:initialise()
+	print("ISBoatMechanics:initialise()")
 	ISCollapsableWindow.initialise(self);
 end
 
+-- tick
 function ISBoatMechanics:update()
 	if self.vehicle and self.chr:DistTo(self.vehicle:getX(), self.vehicle:getY()) > 6 then
 		self:close()
@@ -35,6 +37,7 @@ function ISBoatMechanics:update()
 	end
 end
 
+-- tick
 function ISBoatMechanics:updateLayout()
 	self.listbox:setWidth(self.listWidth)
 	self.bodyworklist:setWidth(self.listWidth)
@@ -48,6 +51,7 @@ function ISBoatMechanics:updateLayout()
 end
 
 function ISBoatMechanics:initParts()
+print("ISBoatMechanics:initParts()")
 	if not self.vehicle then return; end
 	self.listbox:clear();
 	self.bodyworklist:clear();
@@ -110,6 +114,7 @@ function ISBoatMechanics:initParts()
 	if self.bodyworklist:size() > 1 then self.rightListSelection = 2 end
 end
 
+-- tick
 function ISBoatMechanics:recalculGeneralCondition()
 	if not self.vehicle then return; end
 	local generalCondition = 0;
@@ -128,6 +133,7 @@ function ISBoatMechanics:recalculGeneralCondition()
 	self.generalCondRGB = self:getConditionRGB(self.generalCondition);
 end
 
+-- tick
 function ISBoatMechanics:checkEngineFull()
 	local checkEngine = true;
 	for i,v in pairs(self.vehiclePart) do
@@ -143,6 +149,7 @@ function ISBoatMechanics:checkEngineFull()
 end
 
 function ISBoatMechanics:createChildren()
+print("ISBoatMechanics:createChildren()")
 	ISCollapsableWindow.createChildren(self);
 	if self.resizeWidget then self.resizeWidget.yonly = true end
 	self:setInfo(getText("IGUI_InfoPanel_Mechanics"))	;
@@ -763,6 +770,7 @@ function ISBoatMechanics:doMenuTooltip(part, option, lua, name)
 	end
 end
 
+-- tick
 function ISBoatMechanics:doDrawItem(y, item, alt)
 	if not item.item.cat then
 		if item.itemindex == self.selected then
@@ -791,9 +799,10 @@ function ISBoatMechanics:doDrawItem(y, item, alt)
 	return y + self.itemheight;
 end
 
--- render the car overlay on the left based on ISCarMechanicsOverlay
+-- tick
+-- render the car overlay on the left based on ISBoatMechanicsOverlay
 function ISBoatMechanics:renderCarOverlay()
-	--	print(self.vehicle:getScriptName(), ISCarMechanicsOverlay.CarList[self.vehicle:getScriptName()]);
+	--	print(self.vehicle:getScriptName(), ISBoatMechanicsOverlay.BoatList[self.vehicle:getScriptName()]);
 	local scale = 1;
 	if ISBoatMechanics.alphaOverlayInc then
 		ISBoatMechanics.alphaOverlay = ISBoatMechanics.alphaOverlay + 0.08 * (UIManager.getMillisSinceLastRender() / 33.3);
@@ -809,13 +818,13 @@ function ISBoatMechanics:renderCarOverlay()
 		end
 	end
 	self.hidetooltip = true;
-	if ISCarMechanicsOverlay.CarList[self.vehicle:getScriptName()] then
-		local props = ISCarMechanicsOverlay.CarList[self.vehicle:getScriptName()];
-		self:drawTextureScaledUniform(getTexture("media/ui/vehicles/mechanic overlay/" .. props.imgPrefix .. "base.png"), props.x, props.y, scale,1,1,1,1);
+	if ISBoatMechanicsOverlay.BoatList[self.vehicle:getScriptName()] then
+		local props = ISBoatMechanicsOverlay.BoatList[self.vehicle:getScriptName()];
+		self:drawTextureScaledUniform(getTexture("media/ui/boats/mechanic overlay/" .. props.imgPrefix .. "base.png"), props.x, props.y, scale,1,1,1,1);
 		for i=1,self.vehicle:getPartCount() do
 			local part = self.vehicle:getPartByIndex(i-1)
-			if ISCarMechanicsOverlay.PartList[part:getId()] then
-				local partProps = ISCarMechanicsOverlay.PartList[part:getId()];
+			if ISBoatMechanicsOverlay.PartList[part:getId()] then
+				local partProps = ISBoatMechanicsOverlay.PartList[part:getId()];
 				local condRGB = {r=0,g=0,b=0};
 				if part:getCondition() < 60 then
 					condRGB = self:getConditionRGB(part:getCondition());
@@ -832,13 +841,13 @@ function ISBoatMechanics:renderCarOverlay()
 					alpha = ISBoatMechanics.alphaOverlay;
 				end
 				if not partProps.multipleImg then
-					self:drawTextureScaledUniform(getTexture("media/ui/vehicles/mechanic overlay/" .. props.imgPrefix .. partProps.img .. ".png"), props.x, props.y, scale,alpha,condRGB.r,condRGB.g,condRGB.b);
+					self:drawTextureScaledUniform(getTexture("media/ui/boats/mechanic overlay/" .. props.imgPrefix .. partProps.img .. ".png"), props.x, props.y, scale,alpha,condRGB.r,condRGB.g,condRGB.b);
 				else
 					for i,v in ipairs(partProps.img) do
-						self:drawTextureScaledUniform(getTexture("media/ui/vehicles/mechanic overlay/" .. props.imgPrefix .. v .. ".png"), props.x, props.y, scale,alpha,condRGB.r,condRGB.g,condRGB.b);
+						self:drawTextureScaledUniform(getTexture("media/ui/boats/mechanic overlay/" .. props.imgPrefix .. v .. ".png"), props.x, props.y, scale,alpha,condRGB.r,condRGB.g,condRGB.b);
 					end
 				end
-				if self:renderCarOverlayTooltip(partProps, part, ISCarMechanicsOverlay.CarList[self.vehicle:getScriptName()].imgPrefix) then
+				if self:renderCarOverlayTooltip(partProps, part, ISBoatMechanicsOverlay.BoatList[self.vehicle:getScriptName()].imgPrefix) then
 					self.hidetooltip = false;
 				end
 			end
@@ -850,6 +859,7 @@ function ISBoatMechanics:renderCarOverlay()
 end
 
 function ISBoatMechanics:selectPart(part)
+print("ISBoatMechanics:selectPart()")
 	if not part then return end
 	for i=1,self.listbox:size() do
 		local item = self.listbox.items[i]
@@ -876,9 +886,9 @@ end
 function ISBoatMechanics:isMouseOverPart(x, y, part)
 	if not self:isMouseOver() then return false end -- other windows in front
 	if not part then return false end
-	local props = ISCarMechanicsOverlay.CarList[self.vehicle:getScriptName()]
+	local props = ISBoatMechanicsOverlay.BoatList[self.vehicle:getScriptName()]
 	if not props then return end
-	local partProps = ISCarMechanicsOverlay.PartList[part:getId()]
+	local partProps = ISBoatMechanicsOverlay.PartList[part:getId()]
 	if not partProps then return false end
 	local xTest = partProps.x
 	local yTest = partProps.y
@@ -1029,6 +1039,7 @@ function ISBoatMechanics:prerender()
 	self:updateLayout()
 end
 
+-- tick
 function ISBoatMechanics:render()
 	ISCollapsableWindow.render(self)
 	if self.isCollapsed then return end
@@ -1133,6 +1144,7 @@ function ISBoatMechanics:render()
 	end
 end
 
+-- tick
 function ISBoatMechanics:renderPartDetail(part)
 	local y = self:titleBarHeight() + 10 + FONT_HGT_MEDIUM + 5;
 	local x = self.xCarTexOffset + (self.width - 10 - self.xCarTexOffset) / 2;
@@ -1317,6 +1329,7 @@ function ISBoatMechanics:setVisible(bVisible, joypadData)
 end
 
 function ISBoatMechanics:close()
+print("ISBoatMechanics:close()")
 	self:setVisible(false)
 	self:setEnabled(false);
 	
@@ -1449,6 +1462,7 @@ function ISBoatMechanics:onKeyRelease(key)
 end
 
 ISBoatMechanics.OnMechanicActionDone = function(chr, success, vehicleId, partId, itemId, installing)
+print("ISBoatMechanics:OnMechanicActionDone()")
 	if success and itemId ~= -1 then
 		local vehicle = getVehicleById(vehicleId);
 		if not vehicle then noise('no such vehicle ' .. vehicleId); return; end

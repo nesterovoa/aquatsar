@@ -196,14 +196,16 @@ print("ISBoatDashboard:setBoat")
 	
 	part = vehicle:getPartById("Battery")
 	if part then
+		print("BatteryPart: ", part)
 		self.battery = part
 		if self.vehicle:isEngineRunning() then
-			self.initialBattery = part:getInventoryItem():getUsedDelta()
+			--self.initialBattery = part:getInventoryItem():getUsedDelta()
 			-- print(getPlayer():getVehicle():getPartById("Battery"):getInventoryItem():getUsedDelta())
 			self.batteryValue = part:getInventoryItem():getUsedDelta()
 		else
 			self.batteryValue = 0.0
 		end
+		self.batteryGauge:setVisible(true)
 	else
 		self.battery = nil
 		self.batteryGauge:setVisible(false)
@@ -241,18 +243,21 @@ function ISBoatDashboard:prerender()
 		elseif self.fuelValue > current then
 			self.fuelValue = math.max(self.fuelValue - 0.05 * (30 / getPerformance():getUIRenderFPS()), current)
 		end
+		if not self.vehicle:isEngineRunning() and not self.battery:getInventoryItem() then
+			self.fuelValue = 0.0
+		end
 		self.fuelGauge:setValue(self.fuelValue)
 		local engineSpeedValue = 0;
 		local speedValue = 0;
 		if self.vehicle:isEngineRunning() then
-			engineSpeedValue = math.max(0,math.min(1,(self.vehicle:getEngineSpeed()-1000)/6000));
+			engineSpeedValue = math.max(0,math.min(1,(self.vehicle:getEngineSpeed())/6000));
 			speedValue = math.max(0,math.min(1,math.abs(self.vehicle:getCurrentSpeedKmHour())/138));
 		end
 		self.engineGauge:setValue(engineSpeedValue)
 		-- RJ: Fake the speedometer a tad
 		self.speedGauge:setValue(speedValue * BaseVehicle.getFakeSpeedModifier())
 	end
-	if self.battery then
+	if self.battery and self.battery:getInventoryItem() then
 		local current = 0.0
 		if self.vehicle:isEngineRunning() or self.vehicle:isKeysInIgnition() then
 			current = self.battery:getInventoryItem():getUsedDelta()
@@ -263,6 +268,8 @@ function ISBoatDashboard:prerender()
 			self.batteryValue = math.max(self.batteryValue - 0.05 * (30 / getPerformance():getUIRenderFPS()), current)
 		end
 		self.batteryGauge:setValue(self.batteryValue)
+	else
+		self.batteryGauge:setValue(0)
 	end
 	
 	
@@ -352,7 +359,7 @@ function ISBoatDashboard:prerender()
 		self.fuelGauge:setTexture(self.gaugeFull);
 	end
 	
-	if (self.vehicle:isEngineRunning() or self.vehicle:isKeysInIgnition()) and self.battery:getInventoryItem():getUsedDelta() < 0.1 then
+	if (self.vehicle:isEngineRunning() or self.vehicle:isKeysInIgnition()) and self.battery:getInventoryItem() and self.battery:getInventoryItem():getUsedDelta() < 0.1 then
 		if self.battery:getInventoryItem():getUsedDelta() == 0 then
 			self.batteryGauge:setTexture(self.batteryEmpty)
 		else
@@ -587,16 +594,16 @@ function ISBoatDashboard.onExitVehicle(character)
 	end
 end
 
--- function ISBoatDashboard.onSwitchVehicleSeat(character)
-	-- if instanceof(character, 'IsoPlayer') and character:isLocalPlayer() then
-		-- local vehicle = character:getVehicle()
-		-- if vehicle:isDriver(character) then
-			-- getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(vehicle)
-		-- else
-			-- getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(nil)
-		-- end
-	-- end
--- end
+function ISBoatDashboard.onSwitchVehicleSeat(character)
+	if instanceof(character, 'IsoPlayer') and character:isLocalPlayer() then
+		local vehicle = character:getVehicle()
+		if vehicle:isDriver(character) then
+			getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(vehicle)
+		else
+			getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(nil)
+		end
+	end
+end
 
 -- function ISBoatDashboard.OnGameStart()
 	-- if isServer() then return end
@@ -612,6 +619,6 @@ end
 -- LuaEventManager.AddEvent("OnSwitchVehicleSeat")
 Events.OnEnterVehicle.Add(ISBoatDashboard.onEnterVehicle)
 Events.OnExitVehicle.Add(ISBoatDashboard.onExitVehicle)
--- Events.OnSwitchVehicleSeat.Add(ISBoatDashboard.onSwitchVehicleSeat)
+Events.OnSwitchVehicleSeat.Add(ISBoatDashboard.onSwitchVehicleSeat)
 -- Events.OnGameStart.Add(ISBoatDashboard.OnGameStart)
 -- Events.OnVehicleDamageTexture.Add(ISBoatDashboard.damageFlick)

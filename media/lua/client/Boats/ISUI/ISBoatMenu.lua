@@ -319,9 +319,13 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	if boat:getCurrentSpeedKmHour() > 1 then
 		menu:addSlice(getText("ContextMenu_VehicleMechanicsStopCar"), getTexture("media/ui/vehicles/vehicle_repair.png"), nil, playerObj, boat )
 	else
-	if seat > 0 then
+		-- if seat == 1 then
+			-- if boat:isEngineRunning() then
+				-- menu:addSlice(getText("NEWContextMenu_EngineMustBeStop"), getTexture("media/ui/vehicles/vehicle_repair.png"), nil, nil, nil) -- Необходимо заглушить двигатель
+			-- else
 		menu:addSlice(getText("ContextMenu_VehicleMechanics"), getTexture("media/ui/vehicles/vehicle_repair.png"), ISBoatMenu.onMechanic, playerObj, boat )
-	end
+			-- end
+		--end
 	end
 	if (not isClient() or getServerOptions():getBoolean("SleepAllowed")) then
 		local doSleep = true;
@@ -991,67 +995,67 @@ end
 	-- ISTimedActionQueue.add(ISSwitchVehicleSeat:new(playerObj, seatTo))
 -- end
 
--- function ISBoatMenu.onToggleHeadlights(playerObj)
-	-- local boat = playerObj:getVehicle()
-	-- if not boat then return end
-	-- sendClientCommand(playerObj, 'boat', 'setHeadlightsOn', { on = not boat:getHeadlightsOn() })
--- end
+function ISBoatMenu.onToggleHeadlights(playerObj)
+	local boat = playerObj:getVehicle()
+	if not boat then return end
+	sendClientCommand(playerObj, 'vehicle', 'setHeadlightsOn', { on = not boat:getHeadlightsOn() })
+end
 
 -- function ISBoatMenu.onToggleTrunkLocked(playerObj)
 	-- local boat = playerObj:getVehicle();
 	-- if not boat then return end
-	-- sendClientCommand(playerObj, 'boat', 'setTrunkLocked', { locked = not boat:isTrunkLocked() });
+	-- sendClientCommand(playerObj, 'vehicle', 'setTrunkLocked', { locked = not boat:isTrunkLocked() });
 -- end
 
--- function ISBoatMenu.onToggleHeater(playerObj)
-	-- local playerNum = playerObj:getPlayerNum()
-	-- if not ISBoatMenu.acui then
-		-- ISBoatMenu.acui = {}
-	-- end
-	-- local ui = ISBoatMenu.acui[playerNum]
-	-- if not ui or ui.character ~= playerObj then
-		-- ui = ISVehicleACUI:new(0,0,playerObj)
-		-- ui:initialise()
-		-- ui:instantiate()
-		-- ISBoatMenu.acui[playerNum] = ui
-	-- end
-	-- if ui:isReallyVisible() then
-		-- ui:removeFromUIManager()
-		-- if JoypadState.players[playerNum+1] then
-			-- setJoypadFocus(playerNum, nil)
-		-- end
-	-- else
-		-- ui:setVehicle(playerObj:getVehicle())
-		-- ui:addToUIManager()
-		-- if JoypadState.players[playerNum+1] then
-			-- JoypadState.players[playerNum+1].focus = ui
-		-- end
-	-- end
--- end
+function ISBoatMenu.onToggleHeater(playerObj)
+	local playerNum = playerObj:getPlayerNum()
+	if not ISBoatMenu.acui then
+		ISBoatMenu.acui = {}
+	end
+	local ui = ISBoatMenu.acui[playerNum]
+	if not ui or ui.character ~= playerObj then
+		ui = ISVehicleACUI:new(0,0,playerObj)
+		ui:initialise()
+		ui:instantiate()
+		ISBoatMenu.acui[playerNum] = ui
+	end
+	if ui:isReallyVisible() then
+		ui:removeFromUIManager()
+		if JoypadState.players[playerNum+1] then
+			setJoypadFocus(playerNum, nil)
+		end
+	else
+		ui:setVehicle(playerObj:getVehicle())
+		ui:addToUIManager()
+		if JoypadState.players[playerNum+1] then
+			JoypadState.players[playerNum+1].focus = ui
+		end
+	end
+end
 
--- function ISBoatMenu.onSignalDevice(playerObj, part)
-	-- ISRadioWindow.activate(playerObj, part)
--- end
+function ISBoatMenu.onSignalDevice(playerObj, part)
+	ISRadioWindow.activate(playerObj, part)
+end
 
--- function ISBoatMenu.onStartEngine(playerObj)
--- --	local boat = playerObj:getVehicle()
--- --	if not boat then return end
--- --	if not boat:isEngineWorking() then return end
--- --	if not boat:isDriver(playerObj) then return end
-	-- ISTimedActionQueue.add(ISStartVehicleEngine:new(playerObj))
--- end
+function ISBoatMenu.onStartEngine(playerObj)
+--	local boat = playerObj:getVehicle()
+--	if not boat then return end
+--	if not boat:isEngineWorking() then return end
+--	if not boat:isDriver(playerObj) then return end
+	ISTimedActionQueue.add(ISStartVehicleEngine:new(playerObj))
+end
 
--- function ISBoatMenu.onHotwire(playerObj)
-	-- ISTimedActionQueue.add(ISHotwireVehicle:new(playerObj))
--- end
+function ISBoatMenu.onHotwire(playerObj)
+	ISTimedActionQueue.add(ISHotwireVehicle:new(playerObj))
+end
 
--- function ISBoatMenu.onShutOff(playerObj)
--- --	local boat = playerObj:getVehicle()
--- --	if not boat then return end
--- --	if not boat:isEngineStarted() then return end
--- --	if not boat:isDriver(playerObj) then return end
-	-- ISTimedActionQueue.add(ISShutOffVehicleEngine:new(playerObj))
--- end
+function ISBoatMenu.onShutOff(playerObj)
+--	local boat = playerObj:getVehicle()
+--	if not boat then return end
+--	if not boat:isEngineStarted() then return end
+--	if not boat:isDriver(playerObj) then return end
+	ISTimedActionQueue.add(ISShutOffVehicleEngine:new(playerObj))
+end
 
 -- function ISBoatMenu.onInfo(playerObj, boat)
 	-- local ui = getPlayerVehicleUI(playerObj:getPlayerNum())
@@ -1275,7 +1279,7 @@ end
 					-- boat:setCurrentKey(nil)
 					-- playerObj:getInventory():AddItem(key)
 					-- if isClient() then
-						-- sendClientCommand(playerObj, 'boat', 'removeKeyFromDoor', { boat = boat:getId() })
+						-- sendClientCommand(playerObj, 'vehicle', 'removeKeyFromDoor', { boat = boat:getId() })
 					-- end
 				-- else
 					-- ISTimedActionQueue.add(ISUnlockVehicleDoor:new(playerObj, doorPart, seat))
@@ -1334,7 +1338,7 @@ end
 					-- boat:setCurrentKey(nil)
 					-- playerObj:getInventory():AddItem(key)
 					-- if isClient() then
-						-- sendClientCommand(playerObj, 'boat', 'removeKeyFromDoor', { boat = boat:getId() })
+						-- sendClientCommand(playerObj, 'vehicle', 'removeKeyFromDoor', { boat = boat:getId() })
 					-- end
 				-- else
 					-- ISTimedActionQueue.add(ISUnlockVehicleDoor:new(playerObj, doorPart, seat))
@@ -1424,30 +1428,30 @@ end
 
 
 
--- function ISBoatMenu.onHorn(playerObj)
-	-- ISTimedActionQueue.add(ISHorn:new(playerObj))
--- end
+function ISBoatMenu.onHorn(playerObj)
+	ISTimedActionQueue.add(ISHorn:new(playerObj))
+end
 
--- function ISBoatMenu.onHornStart(playerObj)
--- --	print "onHornStart"
-	-- local boat = playerObj:getVehicle()
-	-- if boat:getBatteryCharge() <= 0.0 then return end
-	-- if isClient() then
-		-- sendClientCommand(playerObj, 'boat', 'onHorn', {state="start"})
-	-- else
-		-- boat:onHornStart();
-	-- end
--- end
+function ISBoatMenu.onHornStart(playerObj)
+--	print "onHornStart"
+	local boat = playerObj:getVehicle()
+	if boat:getBatteryCharge() <= 0.0 then return end
+	if isClient() then
+		sendClientCommand(playerObj, 'vehicle', 'onHorn', {state="start"})
+	else
+		boat:onHornStart();
+	end
+end
 
--- function ISBoatMenu.onHornStop(playerObj)
--- --	print "onHornStop"
-	-- local boat = playerObj:getVehicle()
-	-- if isClient() then
-		-- sendClientCommand(playerObj, 'boat', 'onHorn', {state="stop"})
-	-- else
-		-- boat:onHornStop();
-	-- end
--- end
+function ISBoatMenu.onHornStop(playerObj)
+--	print "onHornStop"
+	local boat = playerObj:getVehicle()
+	if isClient() then
+		sendClientCommand(playerObj, 'vehicle', 'onHorn', {state="stop"})
+	else
+		boat:onHornStop();
+	end
+end
 
 -- function ISBoatMenu.onLightbar(playerObj)
 	-- ISTimedActionQueue.add(ISLightbarUITimedAction:new(playerObj))
