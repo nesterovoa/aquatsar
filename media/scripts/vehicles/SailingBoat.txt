@@ -18,12 +18,12 @@ module Base
 		engineRepairLevel = 5,
 		playerDamageProtection = 1.3,
 		engineRPMType = firebird,
-	
+
 		sound
 		{
 			horn = VehicleHorn,
 		}
-			
+
 		model
 		{
 			file = SailingBoat,
@@ -63,7 +63,7 @@ module Base
 		wheelFriction = 1.6f,
 		frontEndHealth = 150,
 		rearEndHealth = 150,
-		seats = 2,
+		seats = 6,
 
 		wheel FrontLeft
 		{
@@ -97,13 +97,13 @@ module Base
 			width = 0.2f,
 		}
 
-		template = PassengerSeat2,
+		template = PassengerSeat6,
 
 		passenger FrontLeft
 		{
 			position inside
 			{
-				offset = 0.2700 -0.0600 -0.9300,
+				offset = 0.7200 0.4600 -4.3000,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
@@ -119,7 +119,71 @@ module Base
 		{
 			position inside
 			{
-				offset = -0.3300 -0.1000 -0.9800,
+				offset = -0.7200 0.4600 -4.3000,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = -0.5700 -0.0600 -0.9900,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatFrontRight,
+			}
+		}
+
+		passenger MiddleLeft
+		{
+			position inside
+			{
+				offset = 0.8000 0.2900 -0.8300,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = -0.5700 -0.0600 -0.9900,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatFrontRight,
+			}
+		}
+
+		passenger MiddleRight
+		{
+			position inside
+			{
+				offset = -0.8700 0.3400 -0.9800,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = -0.5700 -0.0600 -0.9900,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatFrontRight,
+			}
+		}
+
+		passenger RearLeft
+		{
+			position inside
+			{
+				offset = 0.6900 0.3600 0.9700,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = -0.5700 -0.0600 -0.9900,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatFrontRight,
+			}
+		}
+
+		passenger RearRight
+		{
+			position inside
+			{
+				offset = -0.7600 0.2700 0.7500,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
@@ -438,6 +502,12 @@ module Base
 			}
 		}
 
+		template = Radio,
+		template = Headlight/part/HeadlightLeft,
+		template = Headlight/part/HeadlightRight,
+		template = Heater,
+		template = Windshield/part/Windshield,
+
 		attachment exitLeft
 		{
 			offset = 1.4065 0.0000 -2.0968,
@@ -455,12 +525,5 @@ module Base
 			offset = -1.4000 0.0000 -2.0968,
 			rotate = 0.0000 0.0000 0.0000,
 		}
-		
-		template = Radio,
-		template = Headlight/part/HeadlightLeft,
-		template = Headlight/part/HeadlightRight,
-		template = Heater,
-		template = Windshield/part/Windshield,
-		
 	}
 }

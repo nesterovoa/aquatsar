@@ -472,37 +472,37 @@ function ISBoatMechanics.onTakeEngineParts(playerObj, part)
 	end
 end
 
-function ISBoatMechanics.onConfigHeadlight(playerObj, part, dir)
-	if ISVehicleMechanics.cheat then
-		local time = 1
-		ISTimedActionQueue.add(ISConfigHeadlight:new(playerObj, part, dir, time))
-		return
-	end
+-- function ISBoatMechanics.onConfigHeadlight(playerObj, part, dir)
+	-- if ISVehicleMechanics.cheat then
+		-- local time = 1
+		-- ISTimedActionQueue.add(ISConfigHeadlight:new(playerObj, part, dir, time))
+		-- return
+	-- end
 
-	if playerObj:getVehicle() then
-		ISVehicleMenu.onExit(playerObj)
-	end
+	-- if playerObj:getVehicle() then
+		-- ISVehicleMenu.onExit(playerObj)
+	-- end
 	
-	ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, part:getVehicle(), part:getArea()))
+	-- ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, part:getVehicle(), part:getArea()))
 	
-	local engineCover = nil
-	local doorPart = part:getVehicle():getPartById("EngineDoor")
-	if doorPart and doorPart:getDoor() and not doorPart:getDoor():isOpen() then
-		engineCover = doorPart
-	end
+	-- local engineCover = nil
+	-- local doorPart = part:getVehicle():getPartById("EngineDoor")
+	-- if doorPart and doorPart:getDoor() and not doorPart:getDoor():isOpen() then
+		-- engineCover = doorPart
+	-- end
 	
-	local time = 300;
-	if engineCover then
-		if engineCover:getDoor():isLocked() and VehicleUtils.RequiredKeyNotFound(part, playerObj) then
-			ISTimedActionQueue.add(ISUnlockVehicleDoor:new(playerObj, engineCover))
-		end
-		ISTimedActionQueue.add(ISOpenVehicleDoor:new(playerObj, part:getVehicle(), engineCover))
-		ISTimedActionQueue.add(ISConfigHeadlight:new(playerObj, part, dir, time))
-		ISTimedActionQueue.add(ISCloseVehicleDoor:new(playerObj, part:getVehicle(), engineCover))
-	else
-		ISTimedActionQueue.add(ISConfigHeadlight:new(playerObj, part, dir, time))
-	end
-end
+	-- local time = 300;
+	-- if engineCover then
+		-- if engineCover:getDoor():isLocked() and VehicleUtils.RequiredKeyNotFound(part, playerObj) then
+			-- ISTimedActionQueue.add(ISUnlockVehicleDoor:new(playerObj, engineCover))
+		-- end
+		-- ISTimedActionQueue.add(ISOpenVehicleDoor:new(playerObj, part:getVehicle(), engineCover))
+		-- ISTimedActionQueue.add(ISConfigHeadlight:new(playerObj, part, dir, time))
+		-- ISTimedActionQueue.add(ISCloseVehicleDoor:new(playerObj, part:getVehicle(), engineCover))
+	-- else
+		-- ISTimedActionQueue.add(ISConfigHeadlight:new(playerObj, part, dir, time))
+	-- end
+-- end
 
 function ISBoatMechanics.onCheatGetKey(playerObj, vehicle)
 	sendClientCommand(playerObj, "vehicle", "getKey", { vehicle = vehicle:getId() })

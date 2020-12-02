@@ -290,6 +290,9 @@ function ISBoatMenu.showRadialMenu(playerObj)
 			end
 		end
 	end
+	if seat <= 2 then
+		ISBoatMenu.FillPartMenu(playerIndex, nil, menu, boat)
+	end
 
 	-- local door = boat:getPassengerDoor(seat)
 	-- local windowPart = VehicleUtils.getChildWindow(door)
@@ -429,7 +432,7 @@ function ISBoatMenu.showRadialMenuOutside(playerObj)
 			menu:addSlice(getText("NEWIGUI_EnterBoat"), getTexture("media/ui/vehicles/vehicle_changeseats.png"), ISBoatMenu.onShowSeatUI, playerObj, boat )
 		end
 		
-		--ISBoatMenu.FillPartMenu(playerIndex, nil, menu, boat)
+		--
 	
 		-- local doorPart = boat:getUseablePart(playerObj)
 		-- if doorPart and doorPart:getDoor() and doorPart:getInventoryItem() then
@@ -955,26 +958,26 @@ end
 	-- if currentTire == "TireRearLeft" then return "TireFrontLeft"; end
 -- end
 
--- function ISBoatMenu.FillPartMenu(playerIndex, context, slice, boat)
-	-- local playerObj = getSpecificPlayer(playerIndex);
-	-- local typeToItem = VehicleUtils.getItems(playerIndex)
-	-- for i=1,boat:getPartCount() do
-		-- local part = boat:getPartByIndex(i-1)
-		-- if not boat:isEngineStarted() and part:isContainer() and part:getContainerContentType() == "Gasoline" then
-			-- if typeToItem["Base.PetrolCan"] and part:getContainerContentAmount() < part:getContainerCapacity() then
-				-- if slice then
-					-- slice:addSlice(getText("ContextMenu_VehicleAddGas"), getTexture("Item_Petrol"), ISVehiclePartMenu.onAddGasoline, playerObj, part)
-				-- else
-					-- context:addOption(getText("ContextMenu_VehicleAddGas"), playerObj,ISVehiclePartMenu.onAddGasoline, part)
-				-- end
-			-- end
-			-- if ISVehiclePartMenu.getGasCanNotFull(playerObj, typeToItem) and part:getContainerContentAmount() > 0 then
-				-- if slice then
-					-- slice:addSlice(getText("ContextMenu_VehicleSiphonGas"), getTexture("Item_Petrol"), ISVehiclePartMenu.onTakeGasoline, playerObj, part)
-				-- else
-					-- context:addOption(getText("ContextMenu_VehicleSiphonGas"), playerObj, ISVehiclePartMenu.onTakeGasoline, part)
-				-- end
-			-- end
+function ISBoatMenu.FillPartMenu(playerIndex, context, slice, boat)
+	local playerObj = getSpecificPlayer(playerIndex);
+	local typeToItem = VehicleUtils.getItems(playerIndex)
+	for i=1,boat:getPartCount() do
+		local part = boat:getPartByIndex(i-1)
+		if not boat:isEngineStarted() and part:isContainer() and part:getContainerContentType() == "Gasoline" then
+			if typeToItem["Base.PetrolCan"] and part:getContainerContentAmount() < part:getContainerCapacity() then
+				if slice then
+					slice:addSlice(getText("ContextMenu_VehicleAddGas"), getTexture("Item_Petrol"), ISVehiclePartMenu.onAddGasoline, playerObj, part)
+				else
+					context:addOption(getText("ContextMenu_VehicleAddGas"), playerObj,ISVehiclePartMenu.onAddGasoline, part)
+				end
+			end
+			if ISVehiclePartMenu.getGasCanNotFull(playerObj, typeToItem) and part:getContainerContentAmount() > 0 then
+				if slice then
+					slice:addSlice(getText("ContextMenu_VehicleSiphonGas"), getTexture("Item_Petrol"), ISVehiclePartMenu.onTakeGasoline, playerObj, part)
+				else
+					context:addOption(getText("ContextMenu_VehicleSiphonGas"), playerObj, ISVehiclePartMenu.onTakeGasoline, part)
+				end
+			end
 			-- local square = ISVehiclePartMenu.getNearbyFuelPump(boat)
 			-- if square and ((SandboxVars.AllowExteriorGenerator and square:haveElectricity()) or (SandboxVars.ElecShutModifier > -1 and GameTime:getInstance():getNightsSurvived() < SandboxVars.ElecShutModifier)) then
 				-- if square and part:getContainerContentAmount() < part:getContainerCapacity() then
@@ -985,9 +988,9 @@ end
 					-- end
 				-- end
 			-- end
-		-- end
-	-- end
--- end
+		end
+	end
+end
 
 -- function ISBoatMenu.onSwitchSeat(playerObj, seatTo)
 	-- local boat = playerObj:getVehicle()
