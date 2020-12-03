@@ -72,13 +72,68 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		}
 	end,
 	onStart = function()
-		local chr = getPlayer();
-		local inv = chr:getInventory();
+		-- climate
+		local clim = getClimateManager();
+		local w = clim:getWeatherPeriod();
+		if w:isRunning() then
+			clim:stopWeatherAndThunder();
+		end
+		-- remove fog
+		local var = clim:getClimateFloat(5);
+		var:setEnableOverride(true);
+		var:setOverride(0, 1);
+		--------------------------------
+	
+		local playerObj = getPlayer();
+		local inv = playerObj:getInventory();
+		
 		ibrrusDEBUG = true
 		
-		chr:setGhostMode(true);
+		playerObj:setGhostMode(true);
+		playerObj:setGodMod(true)
 		
-		local boat = addVehicleDebug("Base.BoatZeroPatient", IsoDirections.S, nil, getCell():getGridSquare(11835, 6583, 0));
+		-- Visual
+		local visual = playerObj:getHumanVisual();
+		playerObj:setFemale(false);
+		playerObj:getDescriptor():setFemale(false);
+		playerObj:getDescriptor():setForename("IBrRus")
+		playerObj:getDescriptor():setSurname("")
+		visual:setBeardModel("Full");
+		visual:setHairModel("Messy");
+		local immutableColor = ImmutableColor.new(0.105, 0.09, 0.086, 1)
+		visual:setHairColor(immutableColor)
+		visual:setBeardColor(immutableColor)
+		visual:setSkinTextureIndex(2);
+		playerObj:resetModel();
+
+		local clothe = inv:AddItem("Base.Tshirt_DefaultTEXTURE_TINT");
+		local color = ImmutableColor.new(0.25, 0.36, 0.36, 1)
+		clothe:getVisual():setTint(color);
+		playerObj:setWornItem(clothe:getBodyLocation(), clothe);
+		clothe = inv:AddItem("Base.Trousers_Denim");
+		clothe:getVisual():setTextureChoice(1);
+		playerObj:setWornItem(clothe:getBodyLocation(), clothe);
+		clothe = inv:AddItem("Base.Socks_Ankle");
+		playerObj:setWornItem(clothe:getBodyLocation(), clothe);
+		clothe = inv:AddItem("Base.Shoes_Black");
+		playerObj:setWornItem(clothe:getBodyLocation(), clothe);
+		--------------------------------------
+		
+		
+		playerObj:getKnownRecipes():add("Basic Mechanics");
+		playerObj:getKnownRecipes():add("Intermediate Mechanics");
+		playerObj:getKnownRecipes():add("Advanced Mechanics");
+		
+		-- Items
+		playerObj:getInventory():AddItem("Base.EmptyPetrolCan");
+		playerObj:getInventory():AddItem("Base.PetrolCan");
+		playerObj:getInventory():AddItem("Base.Wrench");
+		
+		for i=1, 10 do
+			playerObj:LevelPerk(Perks.Mechanics);
+		end
+		
+		local boat = addVehicleDebug("Base.BoatZeroPatient", IsoDirections.S, nil, getCell():getGridSquare(11833, 6583, 0));
 		boat:repair();
 		inv:AddItem(boat:createVehicleKey());
 		local boat2 = addVehicleDebug("Base.SailingBoat", IsoDirections.S, nil, getCell():getGridSquare(11823, 6583, 0));

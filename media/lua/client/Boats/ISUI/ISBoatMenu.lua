@@ -45,15 +45,85 @@ function ISBoatMenu.getBoatOutside(player)
 	else
 		local square = player:getSquare()
 		if square == nil then return nil end
-		for y=square:getY() - 5, square:getY() + 5 do
-			for x=square:getX() - 5, square:getX() + 5 do
-				local square2 = getCell():getGridSquare(x, y, 0)
+		-- local angle = player:getLookAngleRadians()
+		-- print(angle)
+		-- if angle > -math.pi/2 and angle < math.pi/2 then 
+			-- print("1")
+			-- for x=0, 5 do
+				-- for y=-5, 5 do
+					-- local square2 = getCell():getGridSquare(square:getX()+x, square:getY()+y, 0)
+					-- if square2 then
+						-- for i=1, square2:getMovingObjects():size() do
+							-- local boat = square2:getMovingObjects():get(i-1)
+							-- if boat~= nil and instanceof(boat, "BaseVehicle") then
+								-- if string.match(string.lower(boat:getScript():getName()), "boat") then
+									-- return boat
+								-- end
+							-- end
+						-- end
+					-- end
+				-- end
+			-- end
+		-- else
+			-- print("2")
+			-- for x=-5, 0 do
+				-- for y=-5, 5 do
+					-- local square2 = getCell():getGridSquare(square:getX()+x, square:getY()+y, 0)
+					-- if square2 then
+						-- for i=1, square2:getMovingObjects():size() do
+							-- local boat = square2:getMovingObjects():get(i-1)
+							-- if boat~= nil and instanceof(boat, "BaseVehicle") then
+								-- if string.match(string.lower(boat:getScript():getName()), "boat") then
+									-- return boat
+								-- end
+							-- end
+						-- end
+					-- end
+				-- end
+			-- end
+		-- end
+				
+		for y=0, 5 do
+			for x=0, 5 do
+				local square2 = getCell():getGridSquare(square:getX()+x, square:getY()+y, 0)
 				if square2 then
 					for i=1, square2:getMovingObjects():size() do
 						local boat = square2:getMovingObjects():get(i-1)
 						if boat~= nil and instanceof(boat, "BaseVehicle") then
 							if string.match(string.lower(boat:getScript():getName()), "boat") then
-								print("BOAT FOUND")
+								return boat
+							end
+						end
+					end
+				end
+				square2 = getCell():getGridSquare(square:getX()+x, square:getY()-y, 0)
+				if square2 then
+					for i=1, square2:getMovingObjects():size() do
+						local boat = square2:getMovingObjects():get(i-1)
+						if boat~= nil and instanceof(boat, "BaseVehicle") then
+							if string.match(string.lower(boat:getScript():getName()), "boat") then
+								return boat
+							end
+						end
+					end
+				end
+				square2 = getCell():getGridSquare(square:getX()-x, square:getY()+y, 0)
+				if square2 then
+					for i=1, square2:getMovingObjects():size() do
+						local boat = square2:getMovingObjects():get(i-1)
+						if boat~= nil and instanceof(boat, "BaseVehicle") then
+							if string.match(string.lower(boat:getScript():getName()), "boat") then
+								return boat
+							end
+						end
+					end
+				end
+				square2 = getCell():getGridSquare(square:getX()-x, square:getY()-y, 0)
+				if square2 then
+					for i=1, square2:getMovingObjects():size() do
+						local boat = square2:getMovingObjects():get(i-1)
+						if boat~= nil and instanceof(boat, "BaseVehicle") then
+							if string.match(string.lower(boat:getScript():getName()), "boat") then
 								return boat
 							end
 						end
@@ -98,14 +168,31 @@ end
 function ISBoatMenu.getNearLand(boat)
 	local square = boat:getSquare()
 	if square == nil then return nil end
-	for y=square:getY() - 5, square:getY() + 5 do
-		for x=square:getX() - 5, square:getX() + 5 do
-			local square2 = getCell():getGridSquare(x, y, 0)
-			if square2 then
-				--print(square2)
-				if not WaterBorders.isWater(square2) and square2:isNotBlocked(true) then
-					return Vector3f.new(square2:getX(), square2:getY(), 0)
-				end
+	for y=0, 5 do
+		local square2 = getCell():getGridSquare(square:getX(), square:getY()+y, 0)
+		if square2 then
+			if not WaterBorders.isWater(square2) and square2:isNotBlocked(true) then
+				return Vector3f.new(square2:getX(), square2:getY(), 0)
+			end
+		end
+		square2 = getCell():getGridSquare(square:getX(), square:getY()-y, 0)
+		if square2 then
+			if not WaterBorders.isWater(square2) and square2:isNotBlocked(true) then
+				return Vector3f.new(square2:getX(), square2:getY(), 0)
+			end
+		end
+	end
+	for x=0, 5 do
+		local square2 = getCell():getGridSquare(square:getX()+x, square:getY(), 0)
+		if square2 then
+			if not WaterBorders.isWater(square2) and square2:isNotBlocked(true) then
+				return Vector3f.new(square2:getX(), square2:getY(), 0)
+			end
+		end
+		square2 = getCell():getGridSquare(square:getX()-x, square:getY(), 0)
+		if square2 then
+			if not WaterBorders.isWater(square2) and square2:isNotBlocked(true) then
+				return Vector3f.new(square2:getX(), square2:getY(), 0)
 			end
 		end
 	end
@@ -291,6 +378,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		end
 	end
 	if seat <= 2 then
+		local playerIndex = playerObj:getPlayerNum()
 		ISBoatMenu.FillPartMenu(playerIndex, nil, menu, boat)
 	end
 
@@ -966,16 +1054,16 @@ function ISBoatMenu.FillPartMenu(playerIndex, context, slice, boat)
 		if not boat:isEngineStarted() and part:isContainer() and part:getContainerContentType() == "Gasoline" then
 			if typeToItem["Base.PetrolCan"] and part:getContainerContentAmount() < part:getContainerCapacity() then
 				if slice then
-					slice:addSlice(getText("ContextMenu_VehicleAddGas"), getTexture("Item_Petrol"), ISVehiclePartMenu.onAddGasoline, playerObj, part)
+					slice:addSlice(getText("ContextMenu_BoatAddGas"), getTexture("Item_Petrol"), ISBoatPartMenu.onAddGasoline, playerObj, part)
 				else
-					context:addOption(getText("ContextMenu_VehicleAddGas"), playerObj,ISVehiclePartMenu.onAddGasoline, part)
+					context:addOption(getText("ContextMenu_BoatAddGas"), playerObj,ISBoatPartMenu.onAddGasoline, part)
 				end
 			end
-			if ISVehiclePartMenu.getGasCanNotFull(playerObj, typeToItem) and part:getContainerContentAmount() > 0 then
+			if ISBoatPartMenu.getGasCanNotFull(playerObj, typeToItem) and part:getContainerContentAmount() > 0 then
 				if slice then
-					slice:addSlice(getText("ContextMenu_VehicleSiphonGas"), getTexture("Item_Petrol"), ISVehiclePartMenu.onTakeGasoline, playerObj, part)
+					slice:addSlice(getText("ContextMenu_BoatSiphonGas"), getTexture("Item_Petrol"), ISBoatPartMenu.onTakeGasoline, playerObj, part)
 				else
-					context:addOption(getText("ContextMenu_VehicleSiphonGas"), playerObj, ISVehiclePartMenu.onTakeGasoline, part)
+					context:addOption(getText("ContextMenu_BoatSiphonGas"), playerObj, ISBoatPartMenu.onTakeGasoline, part)
 				end
 			end
 			-- local square = ISVehiclePartMenu.getNearbyFuelPump(boat)
@@ -1358,34 +1446,34 @@ end
 -- end
 
 
--- function ISBoatMenu.onShowSeatUI(playerObj, boat)
-	-- local isPaused = UIManager.getSpeedControls() and UIManager.getSpeedControls():getCurrentGameSpeed() == 0
-	-- if isPaused then return end
+function ISBoatMenu.onShowSeatUI(playerObj, boat)
+	local isPaused = UIManager.getSpeedControls() and UIManager.getSpeedControls():getCurrentGameSpeed() == 0
+	if isPaused then return end
 
-	-- local playerNum = playerObj:getPlayerNum()
-	-- if not ISBoatMenu.seatUI then
-		-- ISBoatMenu.seatUI = {}
-	-- end
-	-- local ui = ISBoatMenu.seatUI[playerNum]
-	-- if not ui or ui.character ~= playerObj then
-		-- ui = ISVehicleSeatUI:new(0, 0, playerObj)
-		-- ui:initialise()
-		-- ui:instantiate()
-		-- ISBoatMenu.seatUI[playerNum] = ui
-	-- end
-	-- if ui:isReallyVisible() then
-		-- ui:removeFromUIManager()
-		-- if JoypadState.players[playerNum+1] then
-			-- setJoypadFocus(playerNum, nil)
-		-- end
-	-- else
-		-- ui:setVehicle(boat)
-		-- ui:addToUIManager()
-		-- if JoypadState.players[playerNum+1] then
-			-- JoypadState.players[playerNum+1].focus = ui
-		-- end
-	-- end
--- end
+	local playerNum = playerObj:getPlayerNum()
+	if not ISBoatMenu.seatUI then
+		ISBoatMenu.seatUI = {}
+	end
+	local ui = ISBoatMenu.seatUI[playerNum]
+	if not ui or ui.character ~= playerObj then
+		ui = ISVehicleSeatUI:new(0, 0, playerObj)
+		ui:initialise()
+		ui:instantiate()
+		ISBoatMenu.seatUI[playerNum] = ui
+	end
+	if ui:isReallyVisible() then
+		ui:removeFromUIManager()
+		if JoypadState.players[playerNum+1] then
+			setJoypadFocus(playerNum, nil)
+		end
+	else
+		ui:setVehicle(boat)
+		ui:addToUIManager()
+		if JoypadState.players[playerNum+1] then
+			JoypadState.players[playerNum+1].focus = ui
+		end
+	end
+end
 
 -- function ISBoatMenu.onWalkPath(playerObj)
 	-- ISTimedActionQueue.add(ISPathFindAction:new(playerObj))

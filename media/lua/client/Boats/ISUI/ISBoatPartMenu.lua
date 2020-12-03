@@ -191,30 +191,30 @@ function ISBoatPartMenu.onPumpGasolinePathFail(playerObj)
 end
 
 function ISBoatPartMenu.onAddGasoline(playerObj, part)
-	if playerObj:getVehicle() then
-		ISVehicleMenu.onExit(playerObj)
-	end
+	-- if playerObj:getVehicle() then
+		-- ISVehicleMenu.onExit(playerObj)
+	-- end
 	local typeToItem = VehicleUtils.getItems(playerObj:getPlayerNum())
 	local item = ISBoatPartMenu.getGasCanNotEmpty(playerObj, typeToItem)
 	if item then
 		ISBoatPartMenu.toPlayerInventory(playerObj, item)
-		ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, part:getVehicle(), part:getArea()))
+		--ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, part:getVehicle(), part:getArea()))
 		ISInventoryPaneContextMenu.equipWeapon(item, true, false, playerObj:getPlayerNum())
-		ISTimedActionQueue.add(ISAddGasolineToVehicle:new(playerObj, part, item, 50))
+		ISTimedActionQueue.add(ISAddGasolineToBoat:new(playerObj, part, item, 50))
 	end
 end
 
 function ISBoatPartMenu.onTakeGasoline(playerObj, part)
-	if playerObj:getVehicle() then
-		ISVehicleMenu.onExit(playerObj)
-	end
+	-- if playerObj:getVehicle() then
+		-- ISVehicleMenu.onExit(playerObj)
+	-- end
 	local typeToItem = VehicleUtils.getItems(playerObj:getPlayerNum())
 	local item = ISBoatPartMenu.getGasCanNotFull(playerObj, typeToItem)
 	if item then
 		ISBoatPartMenu.toPlayerInventory(playerObj, item)
-		ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, part:getVehicle(), part:getArea()))
+		--ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, part:getVehicle(), part:getArea()))
 		ISInventoryPaneContextMenu.equipWeapon(item, false, false, playerObj:getPlayerNum())
-		ISTimedActionQueue.add(ISTakeGasolineFromVehicle:new(playerObj, part, item, 50))
+		ISTimedActionQueue.add(ISTakeGasolineFromBoat:new(playerObj, part, item, 50))
 	end
 end
 
