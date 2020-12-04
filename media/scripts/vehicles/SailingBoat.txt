@@ -510,19 +510,19 @@ module Base
 
 		attachment exitLeft
 		{
-			offset = 1.4065 0.0000 -2.0968,
+			offset = 2.4600 0.0000 -3.1700,
 			rotate = 0.0000 0.0000 0.0000,
 		}
 
 		attachment exitRear
 		{
-			offset = 0.0000 0.0000 -3.4968,
+			offset = 0.0000 0.0000 -6.3000,
 			rotate = 0.0000 0.0000 0.0000,
 		}
 
 		attachment exitRight
 		{
-			offset = -1.4000 0.0000 -2.0968,
+			offset = -2.4600 0.0000 -3.1700,
 			rotate = 0.0000 0.0000 0.0000,
 		}
 	}

@@ -67,7 +67,7 @@ function WaterBorders.updateVehicles()
                     if collisionVector then
 						--print(collisionVector:getX(), " ", collisionVector:getY())
                         vehicle:ApplyImpulse4Break(tempIsoObj, 0.2)
-						vehicle:ApplyImpulse(tempIsoObj, 200)
+						vehicle:ApplyImpulse(tempIsoObj, 180)
                     end
                 end
 			else

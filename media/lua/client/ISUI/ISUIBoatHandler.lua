@@ -10,14 +10,13 @@ ISUIBoatHandler.onKeyStartPressed = function(key)
 	if playerObj:isDead() then return end
 	if key == getCore():getKey("VehicleRadialMenu") and playerObj then
 		-- 'V' can be 'Toggle UI' when outside a vehicle
-		local boat = ISBoatMenu.getNearBoat(playerObj)
+		local boat = ISBoatMenu.getBoatToInteractWith(playerObj)
 		if boat then
 			ISBoatMenu.showRadialMenuOutside(playerObj)
 			return
 		end
 		boat = ISBoatMenu.getBoatInside(playerObj)
 		if boat then
-			print("Must show")
 			ISBoatMenu.showRadialMenu(playerObj)
 		end
 	end
@@ -33,14 +32,13 @@ ISUIBoatHandler.onKeyPressed = function(key)
 			-- Hide radial menu when 'V' is released.
 			local menu = getPlayerRadialMenu(0)
 			if menu:isReallyVisible() then
-				local boat = ISBoatMenu.getNearBoat(playerObj)
+				local boat = ISBoatMenu.getBoatToInteractWith(playerObj)
 				if boat then
 					ISBoatMenu.showRadialMenuOutside(playerObj)
 					return
 				end
 				boat = ISBoatMenu.getBoatInside(playerObj)
 				if boat then
-					print("Must show")
 					ISBoatMenu.showRadialMenu(playerObj)
 				end
 			end

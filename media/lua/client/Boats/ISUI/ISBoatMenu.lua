@@ -14,7 +14,7 @@ function ISBoatMenu.onKeyStartPressed(key)
 		print("BOAT-E")
 		local boat = playerObj:getVehicle()
 		if boat == nil then
-			boat = ISBoatMenu.getBoatOutside(playerObj)
+			boat = ISBoatMenu.getBoatToInteractWith(playerObj)
 			if boat then
 				ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, 0))
 			end
@@ -38,103 +38,70 @@ function ISBoatMenu.getNearBoat(player)
 	end
 end
 
-function ISBoatMenu.getBoatOutside(player)
-	local boat = ISBoatMenu.getNearBoat(player)
-	if boat then
-		return boat
-	else
-		local square = player:getSquare()
-		if square == nil then return nil end
-		-- local angle = player:getLookAngleRadians()
-		-- print(angle)
-		-- if angle > -math.pi/2 and angle < math.pi/2 then 
-			-- print("1")
-			-- for x=0, 5 do
-				-- for y=-5, 5 do
-					-- local square2 = getCell():getGridSquare(square:getX()+x, square:getY()+y, 0)
-					-- if square2 then
-						-- for i=1, square2:getMovingObjects():size() do
-							-- local boat = square2:getMovingObjects():get(i-1)
-							-- if boat~= nil and instanceof(boat, "BaseVehicle") then
-								-- if string.match(string.lower(boat:getScript():getName()), "boat") then
-									-- return boat
-								-- end
-							-- end
-						-- end
-					-- end
-				-- end
-			-- end
-		-- else
-			-- print("2")
-			-- for x=-5, 0 do
-				-- for y=-5, 5 do
-					-- local square2 = getCell():getGridSquare(square:getX()+x, square:getY()+y, 0)
-					-- if square2 then
-						-- for i=1, square2:getMovingObjects():size() do
-							-- local boat = square2:getMovingObjects():get(i-1)
-							-- if boat~= nil and instanceof(boat, "BaseVehicle") then
-								-- if string.match(string.lower(boat:getScript():getName()), "boat") then
-									-- return boat
-								-- end
-							-- end
-						-- end
-					-- end
-				-- end
-			-- end
-		-- end
-				
-		for y=0, 5 do
-			for x=0, 5 do
-				local square2 = getCell():getGridSquare(square:getX()+x, square:getY()+y, 0)
-				if square2 then
-					for i=1, square2:getMovingObjects():size() do
-						local boat = square2:getMovingObjects():get(i-1)
-						if boat~= nil and instanceof(boat, "BaseVehicle") then
-							if string.match(string.lower(boat:getScript():getName()), "boat") then
-								return boat
-							end
-						end
-					end
-				end
-				square2 = getCell():getGridSquare(square:getX()+x, square:getY()-y, 0)
-				if square2 then
-					for i=1, square2:getMovingObjects():size() do
-						local boat = square2:getMovingObjects():get(i-1)
-						if boat~= nil and instanceof(boat, "BaseVehicle") then
-							if string.match(string.lower(boat:getScript():getName()), "boat") then
-								return boat
-							end
-						end
-					end
-				end
-				square2 = getCell():getGridSquare(square:getX()-x, square:getY()+y, 0)
-				if square2 then
-					for i=1, square2:getMovingObjects():size() do
-						local boat = square2:getMovingObjects():get(i-1)
-						if boat~= nil and instanceof(boat, "BaseVehicle") then
-							if string.match(string.lower(boat:getScript():getName()), "boat") then
-								return boat
-							end
-						end
-					end
-				end
-				square2 = getCell():getGridSquare(square:getX()-x, square:getY()-y, 0)
-				if square2 then
-					for i=1, square2:getMovingObjects():size() do
-						local boat = square2:getMovingObjects():get(i-1)
-						if boat~= nil and instanceof(boat, "BaseVehicle") then
-							if string.match(string.lower(boat:getScript():getName()), "boat") then
-								return boat
-							end
-						end
-					end
+function ISBoatMenu.getSquaresFromDir(playerObj, lastx, lasty)
+    local sqs = {}
+	local px = playerObj:getX()
+	local py = playerObj:getY()
+	local pz = playerObj:getZ()
+	local dx = math.floor(lastx/math.abs(lastx))
+	local dy = math.floor(lasty/math.abs(lasty))
+	local index = 1
+	if math.abs(lastx) == math.abs(lasty) then
+		local ymin = -1
+		local ymax = 1
+		for x = 0,lastx,dx do 
+			for y = ymin,ymax,1 do
+				table.insert(sqs, getCell():getGridSquare(px+x, py+y, 0))
+				--print("getSquaresFromDir: ", x, " ", y, " ", index)  
+			end
+			ymin = ymin + dy
+			ymax = ymax + dy
+		end
+    elseif lastx == 0 then
+		for y = 0, lasty, dy do
+			for x = -1,1 do
+				table.insert(sqs, getCell():getGridSquare(px+x, py+y, 0))
+				--print("getSquaresFromDir: ", x, y)
+			end
+		end
+	elseif lasty == 0 then
+		for x = 0, lastx, dx do
+			for y = -1,1 do
+				table.insert(sqs, getCell():getGridSquare(px+x, py+y, 0))
+				--print("getSquaresFromDir: ", x, y)
+			end
+		end
+	end
+	return sqs
+end
+
+function ISBoatMenu.getBoatToInteractWith(playerObj)
+	local boat = ISBoatMenu.getNearBoat(playerObj)
+	if not boat then
+		local sqs = {}
+		local dir = playerObj:getDir()
+		if (dir == IsoDirections.N) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 0,-4)
+		elseif (dir == IsoDirections.NE) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 3,-3)
+		elseif (dir == IsoDirections.E) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 4,0)
+		elseif (dir == IsoDirections.SE) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 3,3)
+		elseif (dir == IsoDirections.S) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 0,4)
+		elseif (dir == IsoDirections.SW) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, -3,3)
+		elseif (dir == IsoDirections.W) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, -4,0)
+		elseif (dir == IsoDirections.NW) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, -3,-3)
+		end
+		
+		for _,sq in ipairs(sqs) do
+			local boat2 = sq:getVehicleContainer()
+			if boat2 then
+				if string.match(string.lower(boat2:getScript():getName()), "boat") then
+					boat = boat2
+					break
 				end
 			end
 		end
 	end
-	return nil
+	return boat
 end
-
 
 function ISBoatMenu.getExitPoint(boat)
 	local exitVector = Vector3f.new()
@@ -165,10 +132,11 @@ function ISBoatMenu.getExitPoint(boat)
 	return false
 end
 
-function ISBoatMenu.getNearLand(boat)
+function ISBoatMenu.getNearLandForExit(boat)
 	local square = boat:getSquare()
 	if square == nil then return nil end
-	for y=0, 5 do
+	local max_distance = 6
+	for y=0, max_distance do
 		local square2 = getCell():getGridSquare(square:getX(), square:getY()+y, 0)
 		if square2 then
 			if not WaterBorders.isWater(square2) and square2:isNotBlocked(true) then
@@ -182,7 +150,7 @@ function ISBoatMenu.getNearLand(boat)
 			end
 		end
 	end
-	for x=0, 5 do
+	for x=0, max_distance do
 		local square2 = getCell():getGridSquare(square:getX()+x, square:getY(), 0)
 		if square2 then
 			if not WaterBorders.isWater(square2) and square2:isNotBlocked(true) then
@@ -206,13 +174,11 @@ function ISBoatMenu.onExit(playerObj, seatFrom)
 	if string.match(string.lower(boat:getScript():getName()), "boat") then
 		if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 then 
 			local exitPoint = ISBoatMenu.getExitPoint(boat)
-			print(exitPoint)	
 			if exitPoint then
-				print("ExitPoint found")
 				ISTimedActionQueue.add(ISExitBoat:new(playerObj, exitPoint))
 				return
 			end
-			exitPoint = ISBoatMenu.getNearLand(boat)
+			exitPoint = ISBoatMenu.getNearLandForExit(boat)
 			if exitPoint then
 				ISTimedActionQueue.add(ISExitBoat:new(playerObj, exitPoint))
 				return
@@ -282,8 +248,10 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	if isPaused then return end
 
 	local boat = playerObj:getVehicle()
+	print(boat)
 	if not boat then
-		-- ISBoatMenu.showRadialMenuOutside(playerObj)
+		print("NO BAT")
+		ISBoatMenu.showRadialMenuOutside(playerObj)
 		return
 	end
 
@@ -459,42 +427,10 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	end
 end
 
--- function ISBoatMenu.getVehicleToInteractWith(playerObj)
-	-- local boat = playerObj:getVehicle()
-	-- if not boat then
-		-- boat = playerObj:getUseableVehicle()
-	-- end
-	-- if not boat then
-		-- boat = playerObj:getNearVehicle()
--- --[[
-		-- local px = playerObj:getX()
-		-- local py = playerObj:getY()
-		-- local pz = playerObj:getZ()
-		-- local sqs = {}
-		-- sqs[1] = getCell():getGridSquare(px, py, pz)
-		-- local dir = playerObj:getDir()
-		-- if (dir == IsoDirections.N) then        sqs[2] = getCell():getGridSquare(px-1, py-1, pz); sqs[3] = getCell():getGridSquare(px, py-1, pz);   sqs[4] = getCell():getGridSquare(px+1, py-1, pz);
-		-- elseif (dir == IsoDirections.NE) then   sqs[2] = getCell():getGridSquare(px, py-1, pz);   sqs[3] = getCell():getGridSquare(px+1, py-1, pz); sqs[4] = getCell():getGridSquare(px+1, py, pz);
-		-- elseif (dir == IsoDirections.E) then    sqs[2] = getCell():getGridSquare(px+1, py-1, pz); sqs[3] = getCell():getGridSquare(px+1, py, pz);   sqs[4] = getCell():getGridSquare(px+1, py+1, pz);
-		-- elseif (dir == IsoDirections.SE) then   sqs[2] = getCell():getGridSquare(px+1, py, pz);   sqs[3] = getCell():getGridSquare(px+1, py+1, pz); sqs[4] = getCell():getGridSquare(px, py+1, pz);
-		-- elseif (dir == IsoDirections.S) then    sqs[2] = getCell():getGridSquare(px+1, py+1, pz); sqs[3] = getCell():getGridSquare(px, py+1, pz);   sqs[4] = getCell():getGridSquare(px-1, py+1, pz);
-		-- elseif (dir == IsoDirections.SW) then   sqs[2] = getCell():getGridSquare(px, py+1, pz);   sqs[3] = getCell():getGridSquare(px-1, py+1, pz); sqs[4] = getCell():getGridSquare(px-1, py, pz);
-		-- elseif (dir == IsoDirections.W) then    sqs[2] = getCell():getGridSquare(px-1, py+1, pz); sqs[3] = getCell():getGridSquare(px-1, py, pz);   sqs[4] = getCell():getGridSquare(px-1, py-1, pz);
-		-- elseif (dir == IsoDirections.NW) then   sqs[2] = getCell():getGridSquare(px-1, py, pz);   sqs[3] = getCell():getGridSquare(px-1, py-1, pz); sqs[4] = getCell():getGridSquare(px, py-1, pz);
-		-- end
-		-- for _,sq in ipairs(sqs) do
-			-- local vehicle2 = sq:getVehicleContainer()
-			-- if vehicle2 then
-				-- boat = vehicle2
-				-- break
-			-- end
-		-- end
--- --]]
-	-- end
-	-- return boat
--- end
+
 
 function ISBoatMenu.showRadialMenuOutside(playerObj)
+	print("showRadialMenuOutside ISBoatMenu")
 	if playerObj:getVehicle() then return end
 	
 	local playerIndex = playerObj:getPlayerNum()
@@ -511,7 +447,7 @@ function ISBoatMenu.showRadialMenuOutside(playerObj)
 
 	menu:clear()
 
-	local boat = ISBoatMenu.getNearBoat(playerObj)
+	local boat = ISBoatMenu.getBoatToInteractWith(playerObj)
 
 	if boat then
 		-- menu:addSlice(getText("ContextMenu_VehicleMechanics"), getTexture("media/ui/vehicles/vehicle_repair.png"), ISBoatMenu.onMechanic, playerObj, boat)
