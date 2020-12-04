@@ -1,0 +1,159 @@
+module Base
+{
+	template vehicle Fridge
+	{
+		part Counter
+		{
+			area = SeatRearRight,
+			itemType = filcher.SFCarCounter,
+			container
+			{
+				capacity = 15,
+				test = Vehicles.ContainerAccess.Counter,
+			}
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:1,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+					type = Base.Screwdriver,
+					count = 1,
+					keep = true,
+					equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:1,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part Oven
+		{
+			area = SeatRearRight,
+			specificItem = false,
+			itemType = filcher.SFCarOven,
+			container
+			{
+				capacity = 20,
+				test = Vehicles.ContainerAccess.Counter,
+			}
+		    	table install
+				{
+					items
+					{
+							1
+							{
+								type = Base.Screwdriver,
+								count = 1,
+								keep = true,
+								equip = primary,
+							}
+					}
+					time = 300,
+					skills = Mechanics:1,
+					recipes = Basic Mechanics,
+					test = Vehicles.InstallTest.Default,
+				}
+				table uninstall
+				{
+					items
+					{
+							1
+							{
+								type = Base.Screwdriver,
+								count = 1,
+								keep = true,
+					equip = primary,
+							}
+					}
+					time = 300,
+					skills = Mechanics:1,
+					recipes = Basic Mechanics,
+					test = Vehicles.UninstallTest.Default,
+				}
+			lua
+			{
+				create = Vehicles.Create.Oven,
+				init = Vehicles.Init.Oven,
+				update = Vehicles.Update.Oven,
+			}
+		}
+
+		part Fridge
+		{
+			area = SeatRearRight,
+			specificItem = false,
+			itemType = filcher.SFCarFridge,
+			container
+			{
+				capacity = 20,
+				test = Vehicles.ContainerAccess.Counter,
+			}
+		    	table install
+				{
+					items
+					{
+							1
+							{
+							type = Base.Screwdriver,
+							count = 1,
+							keep = true,
+							equip = primary,
+							}
+					}
+					time = 300,
+					skills = Mechanics:1,
+					recipes = Basic Mechanics,
+					test = Vehicles.InstallTest.Default,
+				}
+				table uninstall
+				{
+					items
+					{
+							1
+							{
+								type = Base.Screwdriver,
+								count = 1,
+								keep = true,
+					equip = primary,
+							}
+					}
+					time = 300,
+					skills = Mechanics:1,
+					recipes = Basic Mechanics,
+					test = Vehicles.UninstallTest.Default,
+				}
+			lua
+			{
+				create = Vehicles.Create.Fridge,
+				init = Vehicles.Init.Fridge,
+				update = Vehicles.Update.Fridge,
+			}
+		}
+	}
+}
+

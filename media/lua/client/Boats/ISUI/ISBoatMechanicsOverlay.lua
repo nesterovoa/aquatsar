@@ -47,5 +47,6 @@ ISBoatMechanicsOverlay.PartList["WindowRearRight"].vehicles["salingboat_"] = {x=
 ISBoatMechanicsOverlay.PartList["Windshield"] = {img="window_windshield", vehicles = {}};
 ISBoatMechanicsOverlay.PartList["Windshield"].vehicles["salingboat_"] = {x=120+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].x,y=214+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].y,x2=140+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].x,y2=237+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].y};
 
-
+ISBoatMechanicsOverlay.PartList["Propeller"] = {img="propeller", vehicles = {}};
+ISBoatMechanicsOverlay.PartList["Propeller"].vehicles["salingboat_"] = {x=106+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].x,y=538+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].y,x2=157+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].x,y2=589+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].y};
 

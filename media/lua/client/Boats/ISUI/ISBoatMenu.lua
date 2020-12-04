@@ -248,9 +248,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	if isPaused then return end
 
 	local boat = playerObj:getVehicle()
-	print(boat)
 	if not boat then
-		print("NO BAT")
 		ISBoatMenu.showRadialMenuOutside(playerObj)
 		return
 	end

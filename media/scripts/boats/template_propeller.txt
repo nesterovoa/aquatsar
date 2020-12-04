@@ -1,0 +1,51 @@
+module Base
+{
+	template vehicle Propeller
+	{
+		part Propeller
+		{
+			area = SeatFrontLeft,
+			itemType = Base.BoatPropeller,
+			specificItem = false,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:1,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+					type = Base.Screwdriver,
+					count = 1,
+					keep = true,
+					equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:1,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Boats.Create.Propeller,
+			}
+		}
+	}
+}
+

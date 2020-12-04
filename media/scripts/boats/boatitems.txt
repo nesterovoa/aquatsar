@@ -1,0 +1,14 @@
+module Base
+{
+	item BoatPropeller
+    {
+        Weight	=	20.0,
+        Type	=	Normal,
+        DisplayName	=	Propeller,
+        Icon	=	icon/Propeller,
+        VehicleType =   1,
+        ChanceToSpawnDamaged = 0,
+        ConditionMax = 100,
+        MechanicsItem = TRUE,
+    }
+}

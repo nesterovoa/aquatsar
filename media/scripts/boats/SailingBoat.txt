@@ -229,8 +229,12 @@ module Base
 		template = GasTank,
 		template = Battery,
 		template = Engine,
-		template = Tire,
-
+		template = Tire/part/TireFrontLeft,
+		template = Tire/part/TireFrontRight,
+		template = Tire/part/TireRearLeft,
+		template = Tire/part/TireRearRight,
+		template = Propeller,
+		
 		part TireFrontLeft
 		{
 			category = nodisplay,
@@ -260,7 +264,7 @@ module Base
 				file = WheelNull,
 			}
 		}
-
+		
 		part TireRearRight
 		{
 			category = nodisplay,
