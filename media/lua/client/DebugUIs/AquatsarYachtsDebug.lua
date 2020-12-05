@@ -123,11 +123,17 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		playerObj:getKnownRecipes():add("Basic Mechanics");
 		playerObj:getKnownRecipes():add("Intermediate Mechanics");
 		playerObj:getKnownRecipes():add("Advanced Mechanics");
+		playerObj:getKnownRecipes():add("Powerboats Mechanics");
 		
 		-- Items
 		playerObj:getInventory():AddItem("Base.EmptyPetrolCan");
 		playerObj:getInventory():AddItem("Base.PetrolCan");
 		playerObj:getInventory():AddItem("Base.Wrench");
+		playerObj:getInventory():AddItem("Aqua.DivingMask");
+		playerObj:getInventory():AddItem("Aqua.BoatMag1");
+		playerObj:getInventory():AddItem("Aqua.BoatMag2");
+		playerObj:getInventory():AddItem("Aqua.BoatMag3");
+		playerObj:getInventory():AddItem("Base.Screwdriver");
 		
 		for i=1, 10 do
 			playerObj:LevelPerk(Perks.Mechanics);

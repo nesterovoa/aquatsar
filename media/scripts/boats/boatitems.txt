@@ -1,14 +1,161 @@
-module Base
+module Aqua
 {
+	/************************ Mechanic Items ************************/
+
+	item DivingMask
+    {
+        Weight	=	1,
+        Type	=	Normal,
+        DisplayName	=	Diving Mask,
+        Icon	=	DivingMask,
+        MechanicsItem = TRUE,
+    }
+
+
+
+	/************************ Propellers ************************/
+	
 	item BoatPropeller
     {
         Weight	=	20.0,
         Type	=	Normal,
         DisplayName	=	Propeller,
-        Icon	=	icon/Propeller,
+        Icon	=	Propeller,
         VehicleType =   1,
         ChanceToSpawnDamaged = 0,
         ConditionMax = 100,
         MechanicsItem = TRUE,
     }
+	
+	/************************ Seats ************************/
+	
+	
+	item NotRemovableBoatSeat1
+	{
+		 Weight	=	15.0,
+		 Type	=	Normal,
+		 DisplayName	=	Boat Seat,
+		 Icon	=	CarSeat,
+		 VehicleType =   1,
+		 MaxCapacity = 20,
+		 ChanceToSpawnDamaged = 0,
+		 ConditionMax = 100,
+		 MechanicsItem = TRUE,
+	}
+	
+	item NotRemovableBoatSeat2
+	{
+		 Weight	=	15.0,
+		 Type	=	Normal,
+		 DisplayName	=	Boat Seat,
+		 Icon	=	CarSeat,
+		 VehicleType =   2,
+		 MaxCapacity = 20,
+		 ChanceToSpawnDamaged = 0,
+		 ConditionMax = 100,
+		 MechanicsItem = TRUE,
+	}
+	
+	item NotRemovableBoatSeat3
+	{
+		 Weight	=	15.0,
+		 Type	=	Normal,
+		 DisplayName	=	Boat Seat,
+		 Icon	=	CarSeat,
+		 VehicleType =   3,
+		 MaxCapacity = 20,
+		 ChanceToSpawnDamaged = 0,
+		 ConditionMax = 100,
+		 MechanicsItem = TRUE,
+	}
+	
+	
+	/************************ AirBags ************************/
+	
+	item AirBagNormal1
+    {
+        Weight	=	15.0,
+        Type	=	Normal,
+        DisplayName	=	Boat Tire,
+        Icon	=	CarTire,
+        VehicleType =   1,
+        MaxCapacity = 35,
+        ChanceToSpawnDamaged = 0,
+        ConditionMax = 100,
+        ConditionLowerStandard = 0,
+        ConditionLowerOffroad = 0,
+        WheelFriction = 10,
+        MechanicsItem = TRUE,
+    }
+	item AirBagNormal2
+    {
+        Weight	=	15.0,
+        Type	=	Normal,
+        DisplayName	=	Boat Tire,
+        Icon	=	CarTire,
+        VehicleType =   2,
+        MaxCapacity = 35,
+        ChanceToSpawnDamaged = 0,
+        ConditionMax = 100,
+        ConditionLowerStandard = 0,
+        ConditionLowerOffroad = 0,
+        WheelFriction = 10,
+        MechanicsItem = TRUE,
+    }
+	item AirBagNormal3
+    {
+        Weight	=	15.0,
+        Type	=	Normal,
+        DisplayName	=	Boat Tire,
+        Icon	=	CarTire,
+        VehicleType =   3,
+        MaxCapacity = 35,
+        ChanceToSpawnDamaged = 0,
+        ConditionMax = 100,
+        ConditionLowerStandard = 0,
+        ConditionLowerOffroad = 0,
+        WheelFriction = 10,
+        MechanicsItem = TRUE,
+    }
+	
+	
+	/************************ Magazines ************************/
+	
+	item BoatMag1
+    {
+        Weight	=	0.1,
+        Type	=	Literature,
+        DisplayName	=	Tsar Boat Manual - Powerboats,
+        Icon	=	MagazineMechanic1,
+        TeachedRecipes  =   Powerboats Mechanics,
+        ReplaceOnUse    =   BoatMag1,
+        Tooltip = Tooltip_item_BoatMag1,
+        StaticModel = Magazine,
+    }
+	
+	item BoatMag2
+    {
+        Weight	=	0.1,
+        Type	=	Literature,
+        DisplayName	=	Tsar Boat Manual - Sailboats,
+        Icon	=	MagazineMechanic2,
+        TeachedRecipes  =   Sailboats Mechanics,
+        ReplaceOnUse    =   BoatMag2,
+        Tooltip = Tooltip_item_BoatMag2,
+        StaticModel = Magazine,
+    }
+
+    item BoatMag3
+    {
+        Weight	=	0.1,
+        Type	=	Literature,
+        DisplayName	=	Tsar Boat Manual - Performance Models,
+        Icon	=	MagazineMechanic3,
+        TeachedRecipes  =   Performance Boat Mechanics,
+        ReplaceOnUse    =   BoatMag3,
+        Tooltip = Tooltip_item_BoatMag3,
+        StaticModel = Magazine,
+    }
+	
+	
 }

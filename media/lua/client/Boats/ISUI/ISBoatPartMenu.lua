@@ -105,18 +105,14 @@ end
 
 function ISBoatPartMenu.onInstallPart(playerObj, part, item)
 	if not ISVehicleMechanics.cheat then
-		if playerObj:getVehicle() then
-			ISVehicleMenu.onExit(playerObj)
-		end
-		
+		-- if playerObj:getVehicle() then
+			-- ISVehicleMenu.onExit(playerObj)
+		-- end
 		ISBoatPartMenu.toPlayerInventory(playerObj, item)
-		
 		local tbl = part:getTable("install")
 		ISBoatPartMenu.transferRequiredItems(playerObj, part, tbl)
-
 		local area = tbl.area or part:getArea()
-		ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, part:getVehicle(), area))
-		
+		-- ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, part:getVehicle(), area))
 		ISBoatPartMenu.equipRequiredItems(playerObj, part, tbl)
 	end
 	

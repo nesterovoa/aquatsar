@@ -207,24 +207,25 @@ module Base
 
 		template = Seat/part/SeatFrontLeft,
 		template = Seat/part/SeatFrontRight,
-
-		part Seat*
+		
+		part SeatFrontLeft
 		{
-			container
-			{
-				capacity = 20,
-			}
-
-			table install
-			{
-				skills = Mechanics:2,
-			}
-
-			table uninstall
-			{
-				skills = Mechanics:2,
-			}
+			itemType = Aqua.NotRemovableBoatSeat,
+			mechanicRequireKey = false,
+			category = nodisplay,
 		}
+		
+		part SeatFrontRight
+		{
+			itemType = Aqua.NotRemovableBoatSeat,
+			mechanicRequireKey = false,
+			category = nodisplay,
+		}
+		
+		template = Seat/part/SeatMiddleLeft,
+		template = Seat/part/SeatMiddleRight,
+		template = Seat/part/SeatRearLeft,
+		template = Seat/part/SeatRearRight,
 
 		template = GasTank,
 		template = Battery,
@@ -234,11 +235,11 @@ module Base
 		template = Tire/part/TireRearLeft,
 		template = Tire/part/TireRearRight,
 		template = Propeller,
-		
+
 		part TireFrontLeft
 		{
+			itemType = Aqua.AirBagNormal,
 			category = nodisplay,
-
 			model InflatedTirePlusWheel
 			{
 				file = WheelNull,
@@ -247,8 +248,8 @@ module Base
 
 		part TireFrontRight
 		{
+			itemType = Aqua.AirBagNormal,
 			category = nodisplay,
-
 			model InflatedTirePlusWheel
 			{
 				file = WheelNull,
@@ -257,32 +258,29 @@ module Base
 
 		part TireRearLeft
 		{
+			itemType = Aqua.AirBagNormal,
 			category = nodisplay,
-
 			model InflatedTirePlusWheel
 			{
 				file = WheelNull,
 			}
 		}
-		
+
 		part TireRearRight
 		{
+			itemType = Aqua.AirBagNormal,
 			category = nodisplay,
-
 			model InflatedTirePlusWheel
 			{
 				file = WheelNull,
 			}
 		}
-
+		template = Window/part/WindowFrontLeft,
+		template = Window/part/WindowFrontRight,
+		template = Window/part/WindowRearLeft,
+		template = Window/part/WindowRearRight,
 		part WindowFrontLeft
 		{
-			parent = DoorFrontLeft,
-			area = SeatFrontLeft,
-			itemType = Base.FrontWindow,
-			category = door,
-			mechanicRequireKey = true,
-
 			window
 			{
 				openable = false,
@@ -290,57 +288,18 @@ module Base
 
 			table install
 			{
-				items
-				{
-					1
-					{
-						type = Base.Screwdriver,
-						count = 1,
-						keep = true,
-						equip = primary,
-					}
-				}
-
-				time = 300,
-				skills = Mechanics:3,
-				recipes = Basic Mechanics,
-				test = Vehicles.InstallTest.Default,
-				complete = Vehicles.InstallComplete.Window,
+				requireInstalled = ,
 			}
 
 			table uninstall
 			{
-				items
-				{
-					1
-					{
-						type = Base.Screwdriver,
-						count = 1,
-						keep = true,
-						equip = primary,
-					}
-				}
-
-				time = 300,
-				skills = Mechanics:3,
-				recipes = Basic Mechanics,
-				test = Vehicles.UninstallTest.Default,
-			}
-
-			lua
-			{
-				create = Vehicles.Create.Window,
+				requireInstalled = ,
 			}
 		}
 
 		part WindowFrontRight
 		{
-			parent = DoorFrontRight,
-			area = SeatFrontRight,
-			itemType = Base.FrontWindow,
-			category = door,
-			mechanicRequireKey = true,
-
+			
 			window
 			{
 				openable = false,
@@ -348,161 +307,50 @@ module Base
 
 			table install
 			{
-				items
-				{
-					1
-					{
-						type = Base.Screwdriver,
-						count = 1,
-						keep = true,
-						equip = primary,
-					}
-				}
-
-				time = 300,
-				skills = Mechanics:3,
-				recipes = Basic Mechanics,
-				test = Vehicles.InstallTest.Default,
-				complete = Vehicles.InstallComplete.Window,
+				requireInstalled = ,
 			}
 
 			table uninstall
 			{
-				items
-				{
-					1
-					{
-						type = Base.Screwdriver,
-						count = 1,
-						keep = true,
-						equip = primary,
-					}
-				}
-
-				time = 300,
-				skills = Mechanics:3,
-				recipes = Basic Mechanics,
-				test = Vehicles.UninstallTest.Default,
-			}
-
-			lua
-			{
-				create = Vehicles.Create.Window,
+				requireInstalled = ,
 			}
 		}
 
 		part WindowRearLeft
 		{
-			parent = DoorRearLeft,
-			area = SeatRearLeft,
-			itemType = Base.RearWindow,
-			category = door,
-			mechanicRequireKey = true,
-
+			
 			window
 			{
-				openable = true,
+				openable = false,
 			}
 
 			table install
 			{
-				items
-				{
-					1
-					{
-						type = Base.Screwdriver,
-						count = 1,
-						keep = true,
-						equip = primary,
-					}
-				}
-
-				time = 300,
-				skills = Mechanics:3,
-				recipes = Basic Mechanics,
-				test = Vehicles.InstallTest.Default,
-				complete = Vehicles.InstallComplete.Window,
+				requireInstalled = ,
 			}
 
 			table uninstall
 			{
-				items
-				{
-					1
-					{
-						type = Base.Screwdriver,
-						count = 1,
-						keep = true,
-						equip = primary,
-					}
-				}
-
-				time = 300,
-				skills = Mechanics:3,
-				recipes = Basic Mechanics,
-				test = Vehicles.UninstallTest.Default,
-			}
-
-			lua
-			{
-				create = Vehicles.Create.Window,
+				requireInstalled = ,
 			}
 		}
 
 		part WindowRearRight
 		{
-			area = SeatRearRight,
-			itemType = Base.RearWindow,
-			category = door,
-			mechanicRequireKey = true,
-
+			
 			window
 			{
-				openable = true,
+				openable = false,
 			}
 
 			table install
 			{
-				items
-				{
-					1
-					{
-						type = Base.Screwdriver,
-						count = 1,
-						keep = true,
-						equip = primary,
-					}
-				}
-
-				time = 300,
-				skills = Mechanics:3,
-				recipes = Basic Mechanics,
-				test = Vehicles.InstallTest.Default,
-				complete = Vehicles.InstallComplete.Window,
+				requireInstalled = ,
 			}
 
 			table uninstall
 			{
-				items
-				{
-					1
-					{
-						type = Base.Screwdriver,
-						count = 1,
-						keep = true,
-						equip = primary,
-					}
-				}
-
-				time = 300,
-				skills = Mechanics:3,
-				recipes = Basic Mechanics,
-				test = Vehicles.UninstallTest.Default,
-			}
-
-			lua
-			{
-				create = Vehicles.Create.Window,
+				requireInstalled = ,
 			}
 		}
 
@@ -514,7 +362,7 @@ module Base
 
 		attachment exitLeft
 		{
-			offset = 2.4600 0.0000 -3.1700,
+			offset = 3.2200 0.0000 -3.1700,
 			rotate = 0.0000 0.0000 0.0000,
 		}
 
@@ -526,7 +374,7 @@ module Base
 
 		attachment exitRight
 		{
-			offset = -2.4600 0.0000 -3.1700,
+			offset = -3.2200 0.0000 -3.1700,
 			rotate = 0.0000 0.0000 0.0000,
 		}
 	}
