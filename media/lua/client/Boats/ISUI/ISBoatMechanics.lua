@@ -234,7 +234,6 @@ function ISBoatMechanics:doPartContextMenu(part, x,y)
 			end
 			
 			if part:getTable("uninstall") then
-				print("ISBoatMechanics:doPartContextMenu___uninstall")
 				option = self.context:addOption(getText("IGUI_Uninstall"), playerObj, ISBoatPartMenu.onUninstallPart, part)
 				self:doMenuTooltip(part, option, "uninstall");
 				if not ISVehicleMechanics.cheat and not part:getVehicle():canUninstallPart(playerObj, part) then
@@ -1062,17 +1061,17 @@ function ISBoatMechanics:render()
 	if getCore():getDebug() then
 		debugLine = " (" .. self.vehicle:getScript():getName() .. " )";
 	end
-	local name = getText("IGUI_VehicleName" .. self.vehicle:getScript():getName());
+	local name = getText("IGUI_BoatName" .. self.vehicle:getScript():getName());
 	if string.match(self.vehicle:getScript():getName(), "Burnt") then
 		local unburnt = string.gsub(self.vehicle:getScript():getName(), "Burnt", "")
-		if getTextOrNull("IGUI_VehicleName" .. unburnt) then
-			name = getText("IGUI_VehicleName" .. unburnt)
+		if getTextOrNull("IGUI_BoatName" .. unburnt) then
+			name = getText("IGUI_BoatName" .. unburnt)
 		end
-		name = getText("IGUI_VehicleNameBurntCar", name);
+		name = getText("IGUI_BoatNameBurnt", name);
 	end
 	self:drawTextCentre(name .. debugLine, x + (rectWidth / 2), y, self.partCatRGB.r, self.partCatRGB.g, self.partCatRGB.b, self.partCatRGB.a, UIFont.Medium);
 	y = y + FONT_HGT_MEDIUM;
-	self:drawText(getText("Tooltip_item_Mechanic") .. ": " .. getText("IGUI_VehicleType_" .. self.vehicle:getScript():getMechanicType()), x, y, self.partCatRGB.r, self.partCatRGB.g, self.partCatRGB.b, self.partCatRGB.a, UIFont.Small);
+	self:drawText(getText("Tooltip_item_BoatMechanic") .. ": " .. getText("IGUI_VehicleType_" .. self.vehicle:getScript():getMechanicType()), x, y, self.partCatRGB.r, self.partCatRGB.g, self.partCatRGB.b, self.partCatRGB.a, UIFont.Small);
 	y = y + lineHgt;
 	self:drawText(getText("IGUI_OverallCondition") .. ": ", x, y, self.partCatRGB.r, self.partCatRGB.g, self.partCatRGB.b, self.partCatRGB.a, UIFont.Small);
 	self:drawText(self.generalCondition .. "%", x + getTextManager():MeasureStringX(UIFont.Small, getText("IGUI_OverallCondition") .. ": ") + 2, y, self.generalCondRGB.r, self.generalCondRGB.g, self.generalCondRGB.b, self.partCatRGB.a, UIFont.Small);

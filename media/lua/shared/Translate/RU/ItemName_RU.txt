@@ -1,0 +1,4 @@
+ItemName_RU = {
+	ItemName_Base.223Bullets = "Патрон .223",
+	
+}

@@ -4,6 +4,7 @@ module Base
 	{
 		part Propeller
 		{
+			category = MechanicalSystem,
 			area = SeatFrontLeft,
 			itemType = Aqua.BoatPropeller,
 			specificItem = false,

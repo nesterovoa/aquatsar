@@ -414,7 +414,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 			menu:addSlice(getText("ContextMenu_Sleep"), getTexture("media/ui/vehicles/vehicle_sleep.png"), ISBoatMenu.onSleep, playerObj, boat);
 		end
 	end
-	menu:addSlice(getText("IGUI_ExitVehicle"), getTexture("media/ui/vehicles/vehicle_exit.png"), ISBoatMenu.onExit, playerObj)
+	menu:addSlice(getText("IGUI_ExitBoat"), getTexture("media/ui/vehicles/vehicle_exit.png"), ISBoatMenu.onExit, playerObj)
 
 	menu:addToUIManager()
 
@@ -451,7 +451,7 @@ function ISBoatMenu.showRadialMenuOutside(playerObj)
 		-- menu:addSlice(getText("ContextMenu_VehicleMechanics"), getTexture("media/ui/vehicles/vehicle_repair.png"), ISBoatMenu.onMechanic, playerObj, boat)
 		
 		if boat:getScript() and boat:getScript():getPassengerCount() > 0 then
-			menu:addSlice(getText("NEWIGUI_EnterBoat"), getTexture("media/ui/vehicles/vehicle_changeseats.png"), ISBoatMenu.onShowSeatUI, playerObj, boat )
+			menu:addSlice(getText("IGUI_EnterBoat"), getTexture("media/ui/vehicles/vehicle_changeseats.png"), ISBoatMenu.onShowSeatUI, playerObj, boat )
 		end
 		
 		--
@@ -995,9 +995,9 @@ function ISBoatMenu.FillPartMenu(playerIndex, context, slice, boat)
 			end
 			if ISBoatPartMenu.getGasCanNotFull(playerObj, typeToItem) and part:getContainerContentAmount() > 0 then
 				if slice then
-					slice:addSlice(getText("ContextMenu_BoatSiphonGas"), getTexture("Item_Petrol"), ISBoatPartMenu.onTakeGasoline, playerObj, part)
+					slice:addSlice(getText("ContextMenu_VehicleSiphonGas"), getTexture("Item_Petrol"), ISBoatPartMenu.onTakeGasoline, playerObj, part)
 				else
-					context:addOption(getText("ContextMenu_BoatSiphonGas"), playerObj, ISBoatPartMenu.onTakeGasoline, part)
+					context:addOption(getText("ContextMenu_VehicleSiphonGas"), playerObj, ISBoatPartMenu.onTakeGasoline, part)
 				end
 			end
 			-- local square = ISVehiclePartMenu.getNearbyFuelPump(boat)

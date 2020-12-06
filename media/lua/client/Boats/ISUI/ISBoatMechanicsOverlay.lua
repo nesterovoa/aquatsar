@@ -16,10 +16,12 @@
 ISBoatMechanicsOverlay = {};
 ISBoatMechanicsOverlay.BoatList = {};
 ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"] = {imgPrefix = "salingboat_", x=10,y=-30};
+ISBoatMechanicsOverlay.BoatList["Base.SailingBoatWithSails"] = {imgPrefix = "salingboat_", x=10,y=-30};
 
 ISBoatMechanicsOverlay.PartList = {};
 ISBoatMechanicsOverlay.PartList["Battery"] = {img="battery", vehicles={}};
-ISBoatMechanicsOverlay.PartList["Battery"].vehicles["salingboat_"] = {x=50+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].x,y=96+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].y,x2=93+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].x,y2=126+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].y};
+ISBoatMechanicsOverlay.PartList["Battery"].vehicles["salingboat_"] = {x=4+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].x,y=373+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].y,x2=47+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].x,y2=403+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].y};
+
 ISBoatMechanicsOverlay.PartList["Engine"] = {img="engine", vehicles = {}};
 ISBoatMechanicsOverlay.PartList["Engine"].vehicles["salingboat_"] = {x=5+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].x,y=500+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].y,x2=86+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].x,y2=550+ISBoatMechanicsOverlay.BoatList["Base.SailingBoat"].y};
 

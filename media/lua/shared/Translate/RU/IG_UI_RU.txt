@@ -1,0 +1,14 @@
+IGUI_RU = {
+	-- All the UI text used in game
+	-- InventoryPane
+	IGUI_invpanel_Type = "“ип",
+	IGUI_VehiclePartPropeller = "Ћодочный пропеллер",
+	IGUI_VehiclePartCatHouseholdSystem = "Ѕытова€ система",
+	IGUI_VehiclePartCatMechanicalSystem = "ћеханическа€ система",
+	IGUI_VehiclePartCatElecticalSystem = "Ёлектрическа€ система",
+	IGUI_VehiclePartCatBoatBody = "Ёлементы корпуса",
+	
+	IGUI_VehicleNameSailingBoatWithSales = "яхта",
+	IGUI_ExitBoat = "—ойти на берег",
+	IGUI_EnterBoat = "¬зойти на лодку",
+}
