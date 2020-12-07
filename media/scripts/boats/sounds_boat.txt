@@ -1,15 +1,14 @@
 module Base
 {
 	sound BoatHorn
+	{
+		category = Vehicle,
+		loop = false,
+		clip
 		{
-			category = Vehicle,
-			loop = true,
-			clip
-			{
-				/* Not 'event' because it switches between 2D/3D. */
-				file = media/sound/vehicle_horn.wav,
-				distanceMin = 10,
-				distanceMax = 300,
-			}
+			file = media/sound/boats/boat_horn.wav,
+			distanceMin = 10,
+			distanceMax = 300,
 		}
+	}
 }

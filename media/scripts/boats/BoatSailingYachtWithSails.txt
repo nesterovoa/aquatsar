@@ -1,17 +1,17 @@
 module Base
 {
-	model SailingBoat
+	model SailingBoatWithSailsBody
     {
-        mesh = boats/SailingBoat,
+        mesh = boats/SailingBoatWithSails,
         shader = vehicle_multiuv,
         invertX = FALSE,
-        scale = 0.012,
+        scale = 0.010,
     }
 	model WheelNull
 	{
 		mesh = WheelNull,
 	}
-	vehicle SailingBoat
+	vehicle BoatSailingYachtWithSails
 	{
 		mechanicType = 3,
 		offRoadEfficiency = 2,
@@ -21,26 +21,28 @@ module Base
 
 		sound
 		{
-			horn = VehicleHorn,
+			horn = BoatHorn,
 		}
 
 		model
 		{
-			file = SailingBoat,
+			file = SailingBoatWithSailsBody,
 			scale = 1.0000,
-			offset = 0.0000 -1.6700 0.4600,
+			offset = 0.0000 -1.6700 1.1400,
 		}
 
 		spawnOffsetY = 0.3565027,
 
 		skin
 		{
-			texture = Boats/SailingYacht,
+			texture = Boats/SailingYachtWithSail_body,
 		}
 
-		extents = 4.0200 0.4600 11.9000,
+		textureLights = Boats/SailingYachtWithSail_light,
+		textureMask = Boats/SailingYachtWithSail_mask,
+		extents = 3.8000 0.4600 11.9000,
 		mass = 700,
-		physicsChassisShape = 4.0000 0.4600 11.9000,
+		physicsChassisShape = 3.8000 0.4600 11.9000,
 		centerOfMassOffset = 0.0000 0.6400 0.5600,
 		engineForce = 5700,
 		maxSpeed = 140f,
@@ -68,7 +70,7 @@ module Base
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 1.4900 1.8700 2.5900,
+			offset = 1.3000 1.8700 2.5900,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -76,7 +78,7 @@ module Base
 		wheel FrontRight
 		{
 			front = true,
-			offset = -1.4900 1.8700 2.5900,
+			offset = -1.3700 1.8700 2.5900,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -84,7 +86,7 @@ module Base
 		wheel RearLeft
 		{
 			front = false,
-			offset = 1.4900 1.8700 -3.6700,
+			offset = 1.6700 1.8700 -3.6700,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -92,7 +94,7 @@ module Base
 		wheel RearRight
 		{
 			front = false,
-			offset = -1.4900 1.8700 -3.6700,
+			offset = -1.1600 1.8700 -3.6700,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -207,29 +209,70 @@ module Base
 
 		template = Seat/part/SeatFrontLeft,
 		template = Seat/part/SeatFrontRight,
-		
+
 		part SeatFrontLeft
 		{
 			itemType = Aqua.NotRemovableBoatSeat,
 			mechanicRequireKey = false,
 			category = nodisplay,
 		}
-		
+
 		part SeatFrontRight
 		{
 			itemType = Aqua.NotRemovableBoatSeat,
 			mechanicRequireKey = false,
 			category = nodisplay,
 		}
-		
+
 		template = Seat/part/SeatMiddleLeft,
+
+		part SeatMiddleLeft
+		{
+			category = HouseholdSystem,
+		}
+
 		template = Seat/part/SeatMiddleRight,
+
+		part SeatMiddleRight
+		{
+			category = HouseholdSystem,
+		}
+
 		template = Seat/part/SeatRearLeft,
+
+		part SeatRearLeft
+		{
+			category = HouseholdSystem,
+		}
+
 		template = Seat/part/SeatRearRight,
 
+		part SeatRearRight
+		{
+			category = HouseholdSystem,
+		}
+
 		template = GasTank,
+
+		part GasTank
+		{
+			category = MechanicalSystem,
+		}
+
 		template = Battery,
+
+		part Battery
+		{
+			category = ElecticalSystem,
+		}
+
 		template = Engine,
+
+		part Engine
+		{
+			category = MechanicalSystem,
+		}
+
 		template = Tire/part/TireFrontLeft,
 		template = Tire/part/TireFrontRight,
 		template = Tire/part/TireRearLeft,
@@ -240,6 +283,7 @@ module Base
 		{
 			itemType = Aqua.AirBagNormal,
 			category = nodisplay,
+
 			model InflatedTirePlusWheel
 			{
 				file = WheelNull,
@@ -250,6 +294,7 @@ module Base
 		{
 			itemType = Aqua.AirBagNormal,
 			category = nodisplay,
+
 			model InflatedTirePlusWheel
 			{
 				file = WheelNull,
@@ -260,6 +305,7 @@ module Base
 		{
 			itemType = Aqua.AirBagNormal,
 			category = nodisplay,
+
 			model InflatedTirePlusWheel
 			{
 				file = WheelNull,
@@ -270,17 +316,28 @@ module Base
 		{
 			itemType = Aqua.AirBagNormal,
 			category = nodisplay,
+
 			model InflatedTirePlusWheel
 			{
 				file = WheelNull,
 			}
 		}
+
 		template = Window/part/WindowFrontLeft,
 		template = Window/part/WindowFrontRight,
 		template = Window/part/WindowRearLeft,
 		template = Window/part/WindowRearRight,
+		template = Windshield/part/Windshield,
+
+		part Windshield
+		{
+			category = BoatBody,
+		}
+
 		part WindowFrontLeft
 		{
+			category = BoatBody,
+
 			window
 			{
 				openable = false,
@@ -288,18 +345,19 @@ module Base
 
 			table install
 			{
-				requireInstalled = ,
+				requireInstalled =,
 			}
 
 			table uninstall
 			{
-				requireInstalled = ,
+				requireInstalled =,
 			}
 		}
 
 		part WindowFrontRight
 		{
-			
+			category = BoatBody,
+
 			window
 			{
 				openable = false,
@@ -307,18 +365,19 @@ module Base
 
 			table install
 			{
-				requireInstalled = ,
+				requireInstalled =,
 			}
 
 			table uninstall
 			{
-				requireInstalled = ,
+				requireInstalled =,
 			}
 		}
 
 		part WindowRearLeft
 		{
-			
+			category = BoatBody,
+
 			window
 			{
 				openable = false,
@@ -326,18 +385,19 @@ module Base
 
 			table install
 			{
-				requireInstalled = ,
+				requireInstalled =,
 			}
 
 			table uninstall
 			{
-				requireInstalled = ,
+				requireInstalled =,
 			}
 		}
 
 		part WindowRearRight
 		{
-			
+			category = BoatBody,
+
 			window
 			{
 				openable = false,
@@ -345,20 +405,42 @@ module Base
 
 			table install
 			{
-				requireInstalled = ,
+				requireInstalled =,
 			}
 
 			table uninstall
 			{
-				requireInstalled = ,
+				requireInstalled =,
 			}
 		}
 
 		template = Radio,
+
+		part Radio
+		{
+			category = ElecticalSystem,
+		}
+
 		template = Headlight/part/HeadlightLeft,
+
+		part HeadlightLeft
+		{
+			category = ElecticalSystem,
+		}
+
 		template = Headlight/part/HeadlightRight,
+
+		part HeadlightRight
+		{
+			category = ElecticalSystem,
+		}
+
 		template = Heater,
-		template = Windshield/part/Windshield,
+
+		part Heater
+		{
+			category = ElecticalSystem,
+		}
 
 		attachment exitLeft
 		{
