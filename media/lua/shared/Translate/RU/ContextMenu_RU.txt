@@ -2,4 +2,8 @@ ContextMenu_RU = {
 	ContextMenu_BoatAddGas = "Заправить лодку",
 	ContextMenu_BoatCabinelightsOff = "Выключить свет",
 	ContextMenu_BoatCabinelightsOn = "Включить свет",
+	
+	ContextMenu_BoatHeadlightsOff = "Выключить прожекторы",
+	ContextMenu_BoatHeadlightsOn = "Включить прожекторы",
+	
 }

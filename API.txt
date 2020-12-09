@@ -1,3 +1,13 @@
 Транспорт считается лодкой если имеет в названии слово "Boat".
+
 Слово "Yacht" говорит о том, что место водителя и одного пассажира находится в хвосте. 
-Для включения света в кабине используется setStoplightsOn(true).
+
+Для корректной работы света на лодках необходимо использовать шаблоны: template_ApiBoatLight, template_BoatLight.
+	template = ApiBoatLight,
+	template = BoatHeadlight/part/BoatLightFloodlightLeft,
+	template = BoatHeadlight/part/BoatLightFloodlightRight,
+	template = BoatHeadlight/part/BoatLightCabin,
+
+
+
+

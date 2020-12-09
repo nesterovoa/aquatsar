@@ -183,7 +183,7 @@ function ISBoatMenu.onExit(playerObj, seatFrom)
 				ISTimedActionQueue.add(ISExitBoat:new(playerObj, exitPoint))
 				return
 			end
-			playerObj:Say(getText("I can not swim!"))
+			playerObj:Say(getText("IGUI_PlayerText_CanNotSwim"))
 		end
 	end
 end
@@ -308,17 +308,17 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	end
 
 	if boat:isDriver(playerObj) and boat:hasHeadlights() then
-		if boat:getHeadlightsOn() then
-			menu:addSlice(getText("ContextMenu_VehicleHeadlightsOff"), getTexture("media/ui/vehicles/vehicle_lightsOFF.png"), ISBoatMenu.onToggleHeadlights, playerObj)
+		if boat:getPartById("HeadlightLeft"):getInventoryItem() or boat:getPartById("HeadlightRight"):getInventoryItem() then
+			menu:addSlice(getText("ContextMenu_BoatHeadlightsOff"), getTexture("media/ui/vehicles/vehicle_lightsOFF.png"), ISBoatMenu.offToggleHeadlights, playerObj)
 		else
-			menu:addSlice(getText("ContextMenu_VehicleHeadlightsOn"), getTexture("media/ui/vehicles/vehicle_lightsON.png"), ISBoatMenu.onToggleHeadlights, playerObj)
+			menu:addSlice(getText("ContextMenu_BoatHeadlightsOn"), getTexture("media/ui/vehicles/vehicle_lightsON.png"), ISBoatMenu.onToggleHeadlights, playerObj)
 		end
 	end
 	
 	if string.match(string.lower(boat:getScript():getName()), "yacht") and seat > 1 or 
 	not string.match(string.lower(boat:getScript():getName()), "yacht") then
-		if boat:getStoplightsOn() then
-			menu:addSlice(getText("ContextMenu_BoatCabinelightsOff"), getTexture("media/ui/boats/boat_switch_off.png"), ISBoatMenu.onToggleCabinlights, playerObj)
+		if boat:getPartById("HeadlightRearRight") and boat:getPartById("HeadlightRearRight"):getInventoryItem() then
+			menu:addSlice(getText("ContextMenu_BoatCabinelightsOff"), getTexture("media/ui/boats/boat_switch_off.png"), ISBoatMenu.offToggleCabinlights, playerObj)
 		else
 			menu:addSlice(getText("ContextMenu_BoatCabinelightsOn"), getTexture("media/ui/boats/boat_switch_on.png"), ISBoatMenu.onToggleCabinlights, playerObj)
 		end
@@ -1038,13 +1038,96 @@ end
 function ISBoatMenu.onToggleHeadlights(playerObj)
 	local boat = playerObj:getVehicle()
 	if not boat then return end
-	sendClientCommand(playerObj, 'vehicle', 'setHeadlightsOn', { on = not boat:getHeadlightsOn() })
+	local workingLight = false
+	local rightLight = boat:getPartById("BoatLightFloodlightRight")
+	if rightLight and rightLight:getInventoryItem() then
+		local apipart = boat:getPartById("HeadlightRight")
+		local newInvItem = InventoryItemFactory.CreateItem("Base.LightBulb")
+		newInvItem:setCondition(rightLight:getInventoryItem():getCondition())
+		apipart:setInventoryItem(newInvItem, 10)
+		workingLight = true
+	end
+	local leftLight = boat:getPartById("BoatLightFloodlightLeft")
+	if leftLight and leftLight:getInventoryItem() then
+		local apipart = boat:getPartById("HeadlightLeft")
+		local newInvItem = InventoryItemFactory.CreateItem("Base.LightBulb")
+		newInvItem:setCondition(leftLight:getInventoryItem():getCondition())
+		apipart:setInventoryItem(newInvItem, 10)
+		workingLight = true
+	end
+	if workingLight then
+		sendClientCommand(playerObj, 'vehicle', 'setHeadlightsOn', { on = true })
+	else
+		playerObj:Say(getText("IGUI_PlayerText_FloodlightsDoNotWork"))
+	end
+end
+
+function ISBoatMenu.offToggleHeadlights(playerObj)
+	local boat = playerObj:getVehicle()
+	if not boat then return end
+	local part = boat:getPartById("HeadlightRight")
+	part:setInventoryItem(nil)
+	part = boat:getPartById("HeadlightLeft")
+	part:setInventoryItem(nil)
+	local lightIsOn = false
+	part = boat:getPartById("HeadlightRearRight")
+	if part then
+		if part:getInventoryItem() then
+			lightIsOn = true
+		end
+	end
+	part = boat:getPartById("HeadlightRearLeft")
+	if part then
+		if part:getInventoryItem() then
+			lightIsOn = true
+		end
+	end
+	if not lightIsOn then
+		sendClientCommand(playerObj, 'vehicle', 'setHeadlightsOn', { on = false })
+	end
 end
 
 function ISBoatMenu.onToggleCabinlights(playerObj)
 	local boat = playerObj:getVehicle()
 	if not boat then return end
-	sendClientCommand(playerObj, 'vehicle', 'setStoplightsOn', { on = not boat:getHeadlightsOn() })
+	local part = boat:getPartById("BoatLightCabin")
+	if part and part:getInventoryItem() then
+		local apipart = boat:getPartById("HeadlightRearRight")
+		local newInvItem = InventoryItemFactory.CreateItem("Base.LightBulb")
+		print(newInvItem)
+		newInvItem:setCondition(part:getInventoryItem():getCondition())
+		apipart:setInventoryItem(newInvItem, 10)
+		sendClientCommand(playerObj, 'vehicle', 'setHeadlightsOn', { on = true })
+	else
+		playerObj:Say(getText("IGUI_PlayerText_CabinlightDoNotWork"))
+	end
+	--sendClientCommand(playerObj, 'vehicle', 'setStoplightsOn', { on = not boat:getHeadlightsOn() })
+end
+
+function ISBoatMenu.offToggleCabinlights(playerObj)
+	local boat = playerObj:getVehicle()
+	if not boat then return end
+	local part = boat:getPartById("HeadlightRearRight")
+	part:setInventoryItem(nil)
+	local lightIsOn = false
+	part = boat:getPartById("HeadlightLeft")
+	if part then
+		if part:getInventoryItem() then
+			lightIsOn = true
+		end
+	end
+	part = boat:getPartById("HeadlightRight")
+	if part then
+		if part:getInventoryItem() then
+			lightIsOn = true
+		end
+	end
+	if not lightIsOn then
+		sendClientCommand(playerObj, 'vehicle', 'setHeadlightsOn', { on = false })
+	end
+	
+	
+	--sendClientCommand(playerObj, 'vehicle', 'setStoplightsOn', { on = not boat:getHeadlightsOn() })
 end
 
 -- function ISBoatMenu.onToggleTrunkLocked(playerObj)

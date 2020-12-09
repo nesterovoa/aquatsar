@@ -1,0 +1,64 @@
+module Base
+{
+	template vehicle BoatLight
+	{
+		part BoatLightFloodlightLeft
+		{
+			area = Engine,
+		}
+
+		part BoatLightFloodlightRight
+		{
+			area = Engine,
+		}
+
+		part BoatLightCabin
+		{
+			area = TruckBed,
+		}
+
+		part BoatLight*
+		{
+			category = ElecticalSystem,
+			specificItem = false,
+			itemType = Base.LightBulb,
+			mechanicRequireKey = true,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 100,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 100,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Boats.Create.BoatHeadlight,
+				init = Boats.Init.BoatHeadlight,
+			}
+		}
+	}
+}
+

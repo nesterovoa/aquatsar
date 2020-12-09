@@ -17,11 +17,15 @@ Boats.Use = {}
 
 function Boats.Create.Propeller(vehicle, part)
 	print("Boats.Create.Propeller")
+	print(part:getInventoryItem())
 	local item = BoatUtils.createPartInventoryItem(part)
+	print(part:getInventoryItem())
+	if (part:getInventoryItem()== nil) then
+		part:setInventoryItem(InventoryItemFactory.CreateItem("Aqua.BoatPropeller"), 10)
+	end
 end
 
 function Boats.InstallComplete.Propeller(vehicle, part, item)
-print("Boats.InstallComplete.Propeller")
 	local part = vehicle:getPartById("TireFrontLeft")
 	part:setInventoryItem(InventoryItemFactory.CreateItem("Aqua.AirBagNormal3"), 10)
 	part:setContainerContentAmount(35)
@@ -42,7 +46,6 @@ print("Boats.InstallComplete.Propeller")
 end
 
 function Boats.UninstallComplete.Propeller(vehicle, part, item)
-print("Boats.UninstallComplete.Propeller")
 	local part = vehicle:getPartById("TireFrontLeft")
 	part:setInventoryItem(nil)
 	part = vehicle:getPartById("TireFrontRight")
@@ -54,32 +57,63 @@ print("Boats.UninstallComplete.Propeller")
 	--part:setModelVisible("InflatedTirePlusWheel", false)
 end
 
-function Boats.InstallTest.Default(vehicle, part, chr)
-	if ISVehicleMechanics.cheat then return true; end
-	local keyvalues = part:getTable("install")
-	if not keyvalues then return false end
-	if part:getInventoryItem() then return false end
-	if not part:getItemType() or part:getItemType():isEmpty() then return false end
-	local typeToItem = BoatUtils.getItems(chr:getPlayerNum())
-	if keyvalues.requireInstalled then
-		local split = keyvalues.requireInstalled:split(";");
-		for i,v in ipairs(split) do
-			if not vehicle:getPartById(v) or not vehicle:getPartById(v):getInventoryItem() then return false; end
-		end
-	end
-	if not VehicleUtils.testProfession(chr, keyvalues.professions) then return false end
-	-- allow all perk, but calculate success/failure risk
---	if not BoatUtils.testPerks(chr, keyvalues.skills) then return false end
-	if not BoatUtils.testRecipes(chr, keyvalues.recipes) then return false end
-	if not BoatUtils.testTraits(chr, keyvalues.traits) then return false end
-	if not BoatUtils.testItems(chr, keyvalues.items, typeToItem) then return false end
-	-- if doing mechanics on this part require key but player doesn't have it, we'll check that door or windows aren't unlocked also
-	if VehicleUtils.RequiredKeyNotFound(part, chr) then
-		return false;
-	end
-	return true
+
+function Boats.Create.ApiBoatlight(boat, part)
+	local item = BoatUtils.createPartInventoryItem(part)
+	-- if part:getId() == "HeadlightLeft" then
+		-- part:createSpotLight(0.5, 2.0, 8.0+ZombRand(16.0), 0.75, 0.96, ZombRand(200))
+	-- elseif part:getId() == "HeadlightRight" then
+		-- part:createSpotLight(-0.5, 2.0, 8.0+ZombRand(16.0), 0.75, 0.96, ZombRand(200))
+	-- end
+	part:setInventoryItem(nil)
 end
-	
+
+function Boats.Init.ApiBoatlight(vehicle, part)
+	part:setModelVisible("test", true)
+end
+
+function Boats.Update.ApiBoatlight(vehicle, part, elapsedMinutes)
+	local light = part:getLight()
+	if not light then return end
+	local active = vehicle:getHeadlightsOn()
+	if active and (not part:getInventoryItem() or vehicle:getBatteryCharge() <= 0.0) then
+		active = false
+	end
+	part:setLightActive(active)
+	if active and not vehicle:isEngineRunning() then
+		VehicleUtils.chargeBattery(vehicle, -0.000025 * elapsedMinutes)
+	end
+end
+
+function Boats.Create.BoatHeadlight(boat, part)
+	local item = BoatUtils.createPartInventoryItem(part)
+	if part:getId() == "BoatLightFloodlightLeft" then
+		part:createSpotLight(0.5, 2.0, 8.0+ZombRand(16.0), 0.75, 0.96, ZombRand(200))
+	elseif part:getId() == "BoatLightFloodlightRight" then
+		part:createSpotLight(-0.5, 2.0, 8.0+ZombRand(16.0), 0.75, 0.96, ZombRand(200))
+	end
+end
+
+function Boats.Init.BoatHeadlight(vehicle, part)
+	part:setModelVisible("test", true)
+end
+
+
+function Boats.InstallComplete.Cabinlight(boat, partt)
+	print("Boats.InstallComplete.Cabinlight")
+end
+
+function Boats.UninstallComplete.Cabinlight(boat, partt)
+	print("Boats.UninstallComplete.Cabinlight")
+end
+
+
+--***********************************************************
+--**                                                       **
+--**                        BoatUtils                      **
+--**                                                       **
+--***********************************************************
+
 
 BoatUtils = {}
 
@@ -150,6 +184,8 @@ function BoatUtils.createPartInventoryItem(part)
 	end
 	return part:getInventoryItem()
 end
+
+
 
 function BoatUtils.testTraits(chr, traits)
 	if not traits or traits == "" then return true end

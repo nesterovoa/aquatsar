@@ -1,14 +1,20 @@
 IGUI_RU = {
-	-- All the UI text used in game
-	-- InventoryPane
-	IGUI_invpanel_Type = "Тип",
+
 	IGUI_VehiclePartPropeller = "Лодочный пропеллер",
 	IGUI_VehiclePartCatHouseholdSystem = "Бытовая система",
 	IGUI_VehiclePartCatMechanicalSystem = "Механическая система",
 	IGUI_VehiclePartCatElecticalSystem = "Электрическая система",
 	IGUI_VehiclePartCatBoatBody = "Элементы корпуса",
+	IGUI_VehiclePartBoatLightFloodlightLeft = "Прожектор левый",
+	IGUI_VehiclePartBoatLightFloodlightRight = "Прожектор правый",
+	IGUI_VehiclePartBoatLightCabin = "Лампочка в кабине",	
 	
 	IGUI_VehicleNameSailingBoatWithSales = "Яхта",
 	IGUI_ExitBoat = "Сойти на берег",
 	IGUI_EnterBoat = "Взойти на лодку",
+	
+	IGUI_PlayerText_CanNotSwim = "Я не умею плавать",
+	IGUI_PlayerText_CabinlightDoNotWork = "Похоже, свет не работает",
+	IGUI_PlayerText_FloodlightsDoNotWork = "Прожекторы не работают",
+	
 }
