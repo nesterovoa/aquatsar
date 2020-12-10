@@ -4,6 +4,9 @@ local tempIsoObj = IsoObject.new()
 local tempSquare = IsoGridSquare.new(getCell(), nil, 0, 0, 0)
 local collisionPosVector2 = Vector3.fromLengthDirection(1, 1)
 
+local function starts_with(str, start)
+   return str:sub(1, #start) == start
+end
 
 function WaterBorders.getCollisionSquaresNear(dx, dy, square)
     local squares = {}
@@ -21,7 +24,7 @@ function WaterBorders.getCollisionSquaresNear(dx, dy, square)
 end
 
 function WaterBorders.isBoat(vehicle)
-    return string.match(string.lower(vehicle:getScript():getName()), "boat")
+    return starts_with(string.lower(vehicle:getScript():getName()), "boat")
 end
 
 function WaterBorders.isWater(square)

@@ -4,6 +4,10 @@
 
 require 'Boats/Init'
 
+local function starts_with(str, start)
+   return str:sub(1, #start) == start
+end
+
 ISBoatMenu = {}
 
 function ISBoatMenu.onKeyStartPressed(key)
@@ -18,7 +22,7 @@ function ISBoatMenu.onKeyStartPressed(key)
 			if boat then
 				ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, 0))
 			end
-		elseif string.match(string.lower(boat:getScript():getName()), "boat") then
+		elseif starts_with(string.lower(boat:getScript():getName()), "boat") then
 			ISBoatMenu.onExit(playerObj, 0)
 		end	
 	end
@@ -26,14 +30,14 @@ end
 
 function ISBoatMenu.getBoatInside(player)
 	local boat = player:getVehicle()
-	if boat and string.match(string.lower(boat:getScript():getName()), "boat") then
+	if boat and starts_with(string.lower(boat:getScript():getName()), "boat") then
 		return boat
 	end
 end
 
 function ISBoatMenu.getNearBoat(player)
 	local boat = player:getNearVehicle()
-	if boat and string.match(string.lower(boat:getScript():getName()), "boat") then
+	if boat and starts_with(string.lower(boat:getScript():getName()), "boat") then
 		return boat
 	end
 end
@@ -93,7 +97,7 @@ function ISBoatMenu.getBoatToInteractWith(playerObj)
 		for _,sq in ipairs(sqs) do
 			local boat2 = sq:getVehicleContainer()
 			if boat2 then
-				if string.match(string.lower(boat2:getScript():getName()), "boat") then
+				if starts_with(string.lower(boat2:getScript():getName()), "boat") then
 					boat = boat2
 					break
 				end
@@ -171,7 +175,7 @@ function ISBoatMenu.onExit(playerObj, seatFrom)
     local boat = playerObj:getVehicle()
 	if not boat then return end
     boat:updateHasExtendOffsetForExit(playerObj)
-	if string.match(string.lower(boat:getScript():getName()), "boat") then
+	if starts_with(string.lower(boat:getScript():getName()), "boat") then
 		if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 then 
 			local exitPoint = ISBoatMenu.getExitPoint(boat)
 			if exitPoint then
