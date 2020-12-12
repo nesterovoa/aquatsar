@@ -8,6 +8,8 @@
 	template = BoatHeadlight/part/BoatLightFloodlightRight,
 	template = BoatHeadlight/part/BoatLightCabin,
 
+В качестве шин импортируем шаблон template_ApiBoatAirbag.
 
+ID лодки с поднятыми парусами должен содержать в конце "WithSails".
 
 

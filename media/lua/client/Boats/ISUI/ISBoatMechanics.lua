@@ -28,7 +28,7 @@ end
 
 -- tick
 function ISBoatMechanics:update()
-	if self.vehicle and self.chr:DistTo(self.vehicle:getX(), self.vehicle:getY()) > 6 then
+	if self.vehicle and self.chr:DistTo(self.vehicle:getX(), self.vehicle:getY()) > 16 then
 		self:close()
 	elseif not self.vehicle or not self.vehicle:getSquare() or self.vehicle:getSquare():getMovingObjects():indexOf(self.vehicle) < 0 then
 		self:close() -- handle vehicle being removed by admin/cheat command

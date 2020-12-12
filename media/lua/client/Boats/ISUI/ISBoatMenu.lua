@@ -350,6 +350,13 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		menu:addSlice(getText("ContextMenu_VehicleLightbar"), getTexture("media/ui/vehicles/vehicle_lightbar.png"), ISBoatMenu.onLightbar, playerObj)
 	end
 	
+	local boatNameWithSails = boat:getScript():getName() .. "WithSails"
+	if string.match(string.lower(boat:getScript():getName()), "withsails") then
+		menu:addSlice(getText("ContextMenu_RemoveSail"), getTexture("media/ui/vehicles/vehicle_lightbar.png"), ISBoatMenu.RemoveSails, playerObj, boat)
+	elseif getScriptManager():getVehicle(boatNameWithSails) then
+		menu:addSlice(getText("ContextMenu_SetSail"), getTexture("media/ui/vehicles/vehicle_lightbar.png"), ISBoatMenu.SetSails, playerObj, boat)
+	end
+	
 	if string.match(string.lower(boat:getScript():getName()), "yacht") and seat > 1 or 
 	not string.match(string.lower(boat:getScript():getName()), "yacht") and seat <= 1 then
 		for partIndex=1,boat:getPartCount() do
@@ -444,7 +451,33 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	end
 end
 
+function ISBoatMenu.replaceBoat(boat, newSriptName)
+	local partsCondition = {}
+	for i=1, boat:getScript():getPartCount() do
+		local part = boat:getPartByIndex(i-1)
+		partsCondition[part:getId()] = {}
+		partsCondition[part:getId()]["InventoryItem"] = part:getInventoryItem()
+		partsCondition[part:getId()]["Condition"] = part:getCondition()
+	end
+	boat:setScriptName(newSriptName)
+	boat:scriptReloaded()
+	for i=1, boat:getScript():getPartCount() do
+		local part = boat:getPartByIndex(i-1)
+		part:setInventoryItem(partsCondition[part:getId()]["InventoryItem"])
+		part:setCondition(partsCondition[part:getId()]["Condition"])
+	end
+	return boat
+end
 
+function ISBoatMenu.RemoveSails(playerObj, boat)
+	local nameOfBoat = boat:getScript():getName():sub(0, -10)
+	ISBoatMenu.replaceBoat(boat, nameOfBoat)
+end
+
+function ISBoatMenu.SetSails(playerObj, boat)
+	local nameWithSails = boat:getScript():getName() .. "WithSails"
+	ISBoatMenu.replaceBoat(boat, nameWithSails)
+end
 
 function ISBoatMenu.showRadialMenuOutside(playerObj)
 	print("showRadialMenuOutside ISBoatMenu")

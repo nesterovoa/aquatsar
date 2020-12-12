@@ -1,8 +1,8 @@
 module Base
 {
-	model SailingBoatWithSailsBody_new
+	model SailingBoatWithSailsBody
     {
-        mesh = boats/SailingBoatWithSails_new,
+        mesh = boats/SailingBoatWithSails,
         shader = vehicle_multiuv,
         invertX = FALSE,
         scale = 0.010,
@@ -11,7 +11,7 @@ module Base
 	{
 		mesh = WheelNull,
 	}
-	vehicle BoatSailingYachtWithSails_new
+	vehicle BoatSailingYachtWithSails
 	{
 		mechanicType = 3,
 		offRoadEfficiency = 2,
@@ -26,7 +26,7 @@ module Base
 
 		model
 		{
-			file = SailingBoatWithSailsBody_new,
+			file = SailingBoatWithSailsBody,
 			scale = 1.0000,
 			offset = 0.0000 -1.6700 1.1400,
 		}
@@ -35,11 +35,11 @@ module Base
 
 		skin
 		{
-			texture = Boats/SailingYachtWithSail_newbody,
+			texture = Boats/SailingYacht_body,
 		}
 
-		textureLights = Boats/SailingYachtWithSail_light,
-		textureMask = Boats/SailingYachtWithSail_mask,
+		textureLights = Boats/SailingYacht_light,
+		textureMask = Boats/SailingYacht_mask,
 		extents = 3.8000 0.4600 11.9000,
 		mass = 700,
 		physicsChassisShape = 3.8000 0.4600 11.9000,
