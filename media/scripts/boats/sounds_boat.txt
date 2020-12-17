@@ -11,4 +11,17 @@ module Base
 			distanceMax = 300,
 		}
 	}
+	
+	sound StartEngineManualy
+	{
+		category = Vehicle,
+		loop = false,
+		clip
+		{
+			file = media/sound/boats/startEngineManualy.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
 }

@@ -58,6 +58,20 @@ function Boats.UninstallComplete.Propeller(vehicle, part, item)
 end
 
 
+function Boats.Create.ManualStarter(boat, part)
+	local item = BoatUtils.createPartInventoryItem(part)
+end
+
+function Boats.InstallComplete.ManualStarter(boat, part, item)
+	boat:cheatHotwire(true, false)
+	print(boat:isHotwired())
+end
+
+function Boats.UninstallComplete.ManualStarter(boat, part, item)
+	boat:cheatHotwire(false, false)
+	print(boat:isHotwired())
+end
+
 function Boats.Create.ApiBoatlight(boat, part)
 	local item = BoatUtils.createPartInventoryItem(part)
 	-- if part:getId() == "HeadlightLeft" then

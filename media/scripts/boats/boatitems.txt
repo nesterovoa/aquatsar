@@ -13,7 +13,7 @@ module Aqua
 
 
 
-	/************************ Propellers ************************/
+	/************************ Equipment ************************/
 	
 	item BoatPropeller
     {
@@ -21,6 +21,18 @@ module Aqua
         Type	=	Normal,
         DisplayName	=	Propeller,
         Icon	=	Propeller,
+        VehicleType =   1,
+        ChanceToSpawnDamaged = 0,
+        ConditionMax = 100,
+        MechanicsItem = TRUE,
+    }
+	
+	item ManualStarter
+    {
+        Weight	=	1.0,
+        Type	=	Normal,
+        DisplayName	=	Manual Starter,
+        Icon	=	ManualStarter,
         VehicleType =   1,
         ChanceToSpawnDamaged = 0,
         ConditionMax = 100,

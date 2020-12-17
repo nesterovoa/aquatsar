@@ -169,7 +169,7 @@ end
 
 function ISBoatDashboard:setVehicle(vehicle)
 print("ISBoatDashboard:setBoat")
-	self.vehicle = vehicle
+	self.boat = vehicle
 	for _,gauge in ipairs(self.gauges) do
 		gauge:setVisible(false)
 	end
@@ -182,7 +182,7 @@ print("ISBoatDashboard:setBoat")
 	local part = vehicle:getPartById("GasTank")
 	if part and part:isContainer() and part:getContainerContentType() then
 		self.gasTank = part
-		if self.vehicle:isEngineRunning() then
+		if self.boat:isEngineRunning() then
 			self.fuelValue = self.gasTank:getContainerContentAmount() / self.gasTank:getContainerCapacity()
 		else
 			self.fuelValue = 0.0
@@ -198,7 +198,7 @@ print("ISBoatDashboard:setBoat")
 	if part then
 		print("BatteryPart: ", part)
 		self.battery = part
-		if self.vehicle:isEngineRunning() then
+		if self.boat:isEngineRunning() then
 			--self.initialBattery = part:getInventoryItem():getUsedDelta()
 			-- print(getPlayer():getVehicle():getPartById("Battery"):getInventoryItem():getUsedDelta())
 			self.batteryValue = part:getInventoryItem():getUsedDelta()
@@ -230,12 +230,12 @@ print("ISBoatDashboard:setBoat")
 end
 
 function ISBoatDashboard:prerender()
-	if not self.vehicle or not ISUIHandler.allUIVisible then return end
+	if not self.boat or not ISUIHandler.allUIVisible then return end
 	local alpha = self:getAlphaFlick(0.65);
 	local greyBg = {r=0.5, g=0.5, b=0.5, a=alpha};
 	if self.gasTank then
 		local current = 0.0
-		if self.vehicle:isEngineRunning() or self.vehicle:isKeysInIgnition() then
+		if self.boat:isEngineRunning() or self.boat:isKeysInIgnition() then
 			current = self.gasTank:getContainerContentAmount() / self.gasTank:getContainerCapacity()
 		end
 		if self.fuelValue < current then
@@ -243,15 +243,15 @@ function ISBoatDashboard:prerender()
 		elseif self.fuelValue > current then
 			self.fuelValue = math.max(self.fuelValue - 0.05 * (30 / getPerformance():getUIRenderFPS()), current)
 		end
-		if not self.vehicle:isEngineRunning() and not self.battery:getInventoryItem() then
+		if not self.boat:isEngineRunning() and not self.battery:getInventoryItem() then
 			self.fuelValue = 0.0
 		end
 		self.fuelGauge:setValue(self.fuelValue)
 		local engineSpeedValue = 0;
 		local speedValue = 0;
-		if self.vehicle:isEngineRunning() then
-			engineSpeedValue = math.max(0,math.min(1,(self.vehicle:getEngineSpeed())/6000));
-			speedValue = math.max(0,math.min(1,math.abs(self.vehicle:getCurrentSpeedKmHour())/138));
+		if self.boat:isEngineRunning() then
+			engineSpeedValue = math.max(0,math.min(1,(self.boat:getEngineSpeed())/6000));
+			speedValue = math.max(0,math.min(1,math.abs(self.boat:getCurrentSpeedKmHour())/138));
 		end
 		self.engineGauge:setValue(engineSpeedValue)
 		-- RJ: Fake the speedometer a tad
@@ -259,7 +259,7 @@ function ISBoatDashboard:prerender()
 	end
 	if self.battery and self.battery:getInventoryItem() then
 		local current = 0.0
-		if self.vehicle:isEngineRunning() or self.vehicle:isKeysInIgnition() then
+		if self.boat:isEngineRunning() or self.boat:isKeysInIgnition() then
 			current = self.battery:getInventoryItem():getUsedDelta()
 		end
 		if self.batteryValue < current then
@@ -274,13 +274,13 @@ function ISBoatDashboard:prerender()
 	
 	
 	-- self.batteryTex.backgroundColor = greyBg;
-	-- if not self:checkEngineFull() and self.vehicle:isKeysInIgnition() and (not self.vehicle:isEngineRunning() and not self.vehicle:isEngineStarted()) then
+	-- if not self:checkEngineFull() and self.boat:isKeysInIgnition() and (not self.boat:isEngineRunning() and not self.boat:isEngineStarted()) then
 		-- self.engineTex.backgroundColor = {r=1, g=0, b=0, a=alpha};
 	-- else
-		-- if self.vehicle:isEngineRunning() then
+		-- if self.boat:isEngineRunning() then
 			-- self.engineTex.backgroundColor = {r=0, g=1, b=0, a=alpha};
-			-- self.btn_partSpeed.name = self.vehicle:getTransmissionNumberLetter();
-		-- elseif self.vehicle:isEngineStarted() then
+			-- self.btn_partSpeed.name = self.boat:getTransmissionNumberLetter();
+		-- elseif self.boat:isEngineStarted() then
 			-- self.engineTex.backgroundColor = {r=1, g=0.5, b=0.1, a=alpha};
 			-- self.btn_partSpeed.name = "P";
 		-- else
@@ -288,61 +288,61 @@ function ISBoatDashboard:prerender()
 			-- self.btn_partSpeed.name = "P";
 		-- end
 	-- end
-	-- if self.vehicle:isEngineRunning() or self.vehicle:isKeysInIgnition() then
-		-- if self.vehicle:getBatteryCharge() > 0 then
+	-- if self.boat:isEngineRunning() or self.boat:isKeysInуу() then
+		-- if self.boat:getBatteryCharge() > 0 then
 			-- self.batteryTex.backgroundColor = {r=0, g=1, b=0, a=alpha};
 		-- else
 			-- self.batteryTex.backgroundColor = {r=1, g=0, b=0, a=alpha};
 		-- end
 	-- end
-	if not self.vehicle:isKeysInIgnition() then
-		if self.character:getInventory():haveThisKeyId(self.vehicle:getKeyId()) then
+	if not self.boat:isKeysInIgnition() then
+		if self.character:getInventory():haveThisKeyId(self.boat:getKeyId()) then
 			self.ignitionTex.mouseovertext = getText("Tooltip_Dashboard_PutKeysInIgnition")
 		else
 			self.ignitionTex.mouseovertext = getText("Tooltip_Dashboard_NoKey")
 		end
-		if self.vehicle:isHotwired() then
+		if self.boat:isHotwired() then
 			self.ignitionTex.mouseovertext = getText("Tooltip_Dashboard_Hotwired")
 		end
 	end
-	if self.vehicle:isKeysInIgnition() and not self.vehicle:isHotwired() and not (self.vehicle:isEngineRunning() or self.vehicle:isStarting()) then
+	if self.boat:isKeysInIgnition() and not self.boat:isHotwired() and not (self.boat:isEngineRunning() or self.boat:isStarting()) then
 		self.ignitionTex.texture = self.iconIgnitionKey;
 		self.ignitionTex.mouseovertext = getText("Tooltip_Dashboard_KeysIgnition")
-	elseif (self.vehicle:isEngineRunning() or self.vehicle:isStarting()) and not self.vehicle:isHotwired() then
+	elseif (self.boat:isEngineRunning() or self.boat:isStarting()) and not self.boat:isHotwired() then
 		self.ignitionTex.texture = self.iconIgnitionStarted;
-	elseif self.vehicle:isHotwired() then
+	elseif self.boat:isHotwired() then
 		self.ignitionTex.texture = self.iconIgnitionHotwired;
 	else
 		self.ignitionTex.texture = self.iconIgnition;
 	end
-	-- if self.vehicle:getHeadlightsOn() and not self.vehicle:getHeadlightCanEmmitLight() then
+	-- if self.boat:getHeadlightsOn() and not self.boat:getHeadlightCanEmmitLight() then
 		-- self.lightsTex.backgroundColor = {r=1, g=0, b=0, a=alpha};
-	-- elseif self.vehicle:getHeadlightsOn() then
+	-- elseif self.boat:getHeadlightsOn() then
 		-- self.lightsTex.backgroundColor = {r=0, g=1, b=0, a=alpha};
 	-- else
 		-- self.lightsTex.backgroundColor = greyBg;
 	-- end
-	-- if self.vehicle:areAllDoorsLocked() then
+	-- if self.boat:areAllDoorsLocked() then
 		-- self.doorTex.backgroundColor = {r=0, g=1, b=0, a=alpha};
-	-- elseif self.vehicle:isAnyDoorLocked() then
+	-- elseif self.boat:isAnyDoorLocked() then
 		-- self.doorTex.backgroundColor = {r=1, g=1, b=0, a=alpha};
 	-- else
 		-- self.doorTex.backgroundColor = greyBg;
 	-- end
-	-- if self.vehicle:getPartById("Heater") then
-		-- if self.vehicle:getPartById("Heater"):getModData().active then
+	-- if self.boat:getPartById("Heater") then
+		-- if self.boat:getPartById("Heater"):getModData().active then
 			-- self.heaterTex.backgroundColor = {r=0, g=1, b=0, a=alpha};
 		-- else
 			-- self.heaterTex.backgroundColor = greyBg;
 		-- end
 	-- end
-	-- if self.vehicle:isRegulator() then
+	-- if self.boat:isRegulator() then
 		-- self.speedregulatorTex.backgroundColor = {r=0, g=1, b=0, a=alpha};
 	-- else
 		-- self.speedregulatorTex.backgroundColor = greyBg;
 	-- end
-	-- self.trunkTex:setVisible(self.vehicle:getPartById("TruckBed") ~= nil)
-	-- if self.vehicle:isTrunkLocked() then
+	-- self.trunkTex:setVisible(self.boat:getPartById("TruckBed") ~= nil)
+	-- if self.boat:isTrunkLocked() then
 		-- self.trunkTex.backgroundColor = {r=0, g=1, b=0, a=alpha};
 		-- self.trunkTex.mouseovertext = getText("Tooltip_Dashboard_TrunkLocked")
 	-- else
@@ -350,16 +350,16 @@ function ISBoatDashboard:prerender()
 		-- self.trunkTex.mouseovertext = getText("Tooltip_Dashboard_TrunkUnlocked")
 	-- end
 
-	if (self.vehicle:isEngineRunning() or self.vehicle:isKeysInIgnition()) and self.vehicle:getRemainingFuelPercentage() < 15 then
+	if (self.boat:isEngineRunning() or self.boat:isKeysInIgnition()) and self.boat:getRemainingFuelPercentage() < 15 then
 		self.fuelGauge:setTexture(self.gaugeLow);
-		if self.vehicle:getRemainingFuelPercentage() < 5 then
+		if self.boat:getRemainingFuelPercentage() < 5 then
 			self.fuelGauge:setTexture(self.gaugeEmpty);
 		end
 	else
 		self.fuelGauge:setTexture(self.gaugeFull);
 	end
 	
-	if (self.vehicle:isEngineRunning() or self.vehicle:isKeysInIgnition()) and self.battery:getInventoryItem() and self.battery:getInventoryItem():getUsedDelta() < 0.1 then
+	if (self.boat:isEngineRunning() or self.boat:isKeysInIgnition()) and self.battery:getInventoryItem() and self.battery:getInventoryItem():getUsedDelta() < 0.1 then
 		if self.battery:getInventoryItem():getUsedDelta() == 0 then
 			self.batteryGauge:setTexture(self.batteryEmpty)
 		else
@@ -372,9 +372,9 @@ function ISBoatDashboard:prerender()
 end
 
 function ISBoatDashboard:checkEngineFull()
-	for i=0,self.vehicle:getPartCount() do
-		local part = self.vehicle:getPartByIndex(i);
-		if part and part:getLuaFunction("checkEngine") and not VehicleUtils.callLua(part:getLuaFunction("checkEngine"), self.vehicle, part) then
+	for i=0,self.boat:getPartCount() do
+		local part = self.boat:getPartByIndex(i);
+		if part and part:getLuaFunction("checkEngine") and not VehicleUtils.callLua(part:getLuaFunction("checkEngine"), self.boat, part) then
 			return false;
 		end
 	end
@@ -382,15 +382,15 @@ function ISBoatDashboard:checkEngineFull()
 end
 		
 function ISBoatDashboard:render()
-	if not self.vehicle then return end
-	-- if self.vehicle:isRegulator() then
-		-- self:drawText(self.vehicle:getRegulatorSpeed() .. "", self.speedregulatorTex.x + self.speedregulatorTex:getWidth() + 5, self.speedregulatorTex.y, 0, 1, 0, 0.8, UIFont.Medium);
+	if not self.boat then return end
+	-- if self.boat:isRegulator() then
+		-- self:drawText(self.boat:getRegulatorSpeed() .. "", self.speedregulatorTex.x + self.speedregulatorTex:getWidth() + 5, self.speedregulatorTex.y, 0, 1, 0, 0.8, UIFont.Medium);
 	-- else
-		-- self:drawText(self.vehicle:getRegulatorSpeed() .. "", self.speedregulatorTex.x + self.speedregulatorTex:getWidth() + 5, self.speedregulatorTex.y, 1, 1, 1, 0.3, UIFont.Medium);
+		-- self:drawText(self.boat:getRegulatorSpeed() .. "", self.speedregulatorTex.x + self.speedregulatorTex:getWidth() + 5, self.speedregulatorTex.y, 1, 1, 1, 0.3, UIFont.Medium);
 	-- end
 --	self:onResolutionChange();
 --	if self.outsidetemp then
---		local engine = self.vehicle:getPartById("Engine");
+--		local engine = self.boat:getPartById("Engine");
 --		if engine then
 --			self.outsidetemp.name = Temperature.getTemperatureString(engine:getModData().temperature); --round(getWorld():getGlobalTemperature(),1) .. "";
 --			self.outsidetemp:setWidthToName()
@@ -472,51 +472,51 @@ function ISBoatDashboard:onResolutionChange()
 	end
 end
 
-function ISBoatDashboard:onClickEngine()
-	if getGameSpeed() == 0 then return; end
-	if getGameSpeed() > 1 then setGameSpeed(1); end
-	if not self.vehicle then return end
-	if self.vehicle:isEngineRunning() then
-		ISVehicleMenu.onShutOff(self.character)
-	else
-		ISVehicleMenu.onStartEngine(self.character)
-	end
-end
+-- function ISBoatDashboard:onClickEngine()
+	-- if getGameSpeed() == 0 then return; end
+	-- if getGameSpeed() > 1 then setGameSpeed(1); end
+	-- if not self.boat then return end
+	-- if self.boat:isEngineRunning() then
+		-- ISVehicleMenu.onShutOff(self.character)
+	-- else
+		-- ISVehicleMenu.onStartEngine(self.character)
+	-- end
+-- end
 
-function ISBoatDashboard:onClickHeadlights()
-	if getGameSpeed() == 0 then return; end
-	if getGameSpeed() > 1 then setGameSpeed(1); end
-	ISVehicleMenu.onToggleHeadlights(self.character);
-end
+-- function ISBoatDashboard:onClickHeadlights()
+	-- if getGameSpeed() == 0 then return; end
+	-- if getGameSpeed() > 1 then setGameSpeed(1); end
+	-- ISVehicleMenu.onToggleHeadlights(self.character);
+-- end
 
-function ISBoatDashboard:onClickDoors()
-	if getGameSpeed() == 0 then return; end
-	if getGameSpeed() > 1 then setGameSpeed(1); end
-	ISVehiclePartMenu.onLockDoors(self.character, self.vehicle, not self.vehicle:isAnyDoorLocked());
-end
+-- function ISBoatDashboard:onClickDoors()
+	-- if getGameSpeed() == 0 then return; end
+	-- if getGameSpeed() > 1 then setGameSpeed(1); end
+	-- ISVehiclePartMenu.onLockDoors(self.character, self.boat, not self.boat:isAnyDoorLocked());
+-- end
 
-function ISBoatDashboard:onClickTrunk()
-	if getGameSpeed() == 0 then return; end
-	if getGameSpeed() > 1 then setGameSpeed(1); end
-	ISVehicleMenu.onToggleTrunkLocked(self.character);
-end
+-- function ISBoatDashboard:onClickTrunk()
+	-- if getGameSpeed() == 0 then return; end
+	-- if getGameSpeed() > 1 then setGameSpeed(1); end
+	-- ISVehicleMenu.onToggleTrunkLocked(self.character);
+-- end
 
-function ISBoatDashboard:onClickHeater()
-	if getGameSpeed() == 0 then return; end
-	if getGameSpeed() > 1 then setGameSpeed(1); end
-	ISVehicleMenu.onToggleHeater(self.character)
-end
+-- function ISBoatDashboard:onClickHeater()
+	-- if getGameSpeed() == 0 then return; end
+	-- if getGameSpeed() > 1 then setGameSpeed(1); end
+	-- ISVehicleMenu.onToggleHeater(self.character)
+-- end
 
-function ISBoatDashboard:onClickKeys()
-	if getGameSpeed() == 0 then return; end
-	if getGameSpeed() > 1 then setGameSpeed(1); end
-	if not self.vehicle then return end
-	if self.vehicle:isEngineRunning() then
-		ISVehicleMenu.onShutOff(self.character)
-	elseif not self.vehicle:isEngineStarted() then
-		self.vehicle:setKeysInIgnition(not self.vehicle:isKeysInIgnition());
-	end
-end
+-- function ISBoatDashboard:onClickKeys()
+	-- if getGameSpeed() == 0 then return; end
+	-- if getGameSpeed() > 1 then setGameSpeed(1); end
+	-- if not self.boat then return end
+	-- if self.boat:isEngineRunning() then
+		-- ISVehicleMenu.onShutOff(self.character)
+	-- elseif not self.boat:isEngineStarted() then
+		-- self.boat:setKeysInIgnition(not self.boat:isKeysInIgnition());
+	-- end
+-- end
 
 function ISBoatDashboard:new(playerNum, chr)
 	local o = ISPanel:new(0, 0, 200, 200)
@@ -535,23 +535,23 @@ function ISBoatDashboard:new(playerNum, chr)
 	--o.iconTrunk = getTexture("media/ui/vehicles/icon_trunk_light.png")
 	-- o.iconSpeedRegulator = getTexture("media/ui/vehicles/speedregulator_light.png")
 	
-	o.iconIgnition = getTexture("media/ui/vehicles/boat_ignition.png"); -- Ключ зажигания
-	o.iconIgnitionKey = getTexture("media/ui/vehicles/boat_ignition_key_off.png");
-	o.iconIgnitionStarted = getTexture("media/ui/vehicles/boat_ignition_key_on.png");
-	o.iconIgnitionHotwired = getTexture("media/ui/vehicles/boat_ignition_hotwired.png");
+	o.iconIgnition = getTexture("media/ui/boats/boat_ignition.png"); -- Ключ зажигания
+	o.iconIgnitionKey = getTexture("media/ui/boats/boat_ignition_key_off.png");
+	o.iconIgnitionStarted = getTexture("media/ui/boats/boat_ignition_key_on.png");
+	o.iconIgnitionHotwired = getTexture("media/ui/boats/boat_ignition_hotwired.png");
 	
-	o.batteryFull = getTexture("media/ui/vehicles/boat_batteryguage.png")
-	o.batteryLow = getTexture("media/ui/vehicles/boat_batteryguage_low.png")
-	o.batteryEmpty = getTexture("media/ui/vehicles/boat_batteryguage_empty.png")
+	o.batteryFull = getTexture("media/ui/boats/boat_batteryguage.png")
+	o.batteryLow = getTexture("media/ui/boats/boat_batteryguage_low.png")
+	o.batteryEmpty = getTexture("media/ui/boats/boat_batteryguage_empty.png")
 	
-	o.gaugeFull = getTexture("media/ui/vehicles/boat_fuelguage_full.png");
-	o.gaugeLow = getTexture("media/ui/vehicles/boat_fuelguage_low.png");
-	o.gaugeEmpty = getTexture("media/ui/vehicles/boat_fuelguage_empty.png");
+	o.gaugeFull = getTexture("media/ui/boats/boat_fuelguage_full.png");
+	o.gaugeLow = getTexture("media/ui/boats/boat_fuelguage_low.png");
+	o.gaugeEmpty = getTexture("media/ui/boats/boat_fuelguage_empty.png");
 	
-	o.engineGaugeTex = getTexture("media/ui/vehicles/boat_engineguage.png")
-	o.dashboardBG = getTexture("media/ui/vehicles/boat_dashboard.png");
+	o.engineGaugeTex = getTexture("media/ui/boats/boat_engineguage.png")
+	o.dashboardBG = getTexture("media/ui/boats/boat_dashboard.png");
 	
-	o.speedGaugeTex = getTexture("media/ui/vehicles/boat_spedometer.png")
+	o.speedGaugeTex = getTexture("media/ui/boats/boat_spedometer.png")
 	o.flickingTimer = 0;
 	o:setWidth(o.dashboardBG:getWidth());
 	return o

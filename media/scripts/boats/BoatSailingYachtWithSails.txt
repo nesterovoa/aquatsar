@@ -36,7 +36,7 @@ module Base
 
 		textureLights = Boats/SailingYacht_light,
 		textureMask = Boats/SailingYacht_mask,
-		extents = 0.8350 0.6600 2.5650,
+		extents = 0.9000 0.6600 2.5650,
 		mass = 700,
 		physicsChassisShape = 0.8350 0.6600 2.2450,
 		centerOfMassOffset = 0.0000 0.4950 -0.1050,
@@ -46,7 +46,7 @@ module Base
 		engineQuality = 70,
 		brakingForce = 90,
 		gearRatioCount = 1,
-		gearRatioR = 4.7,
+		gearRatioR = 1,
 		gearRatio1 = 1,
 		stoppingMovementForce = 2.0f,
 		rollInfluence = 1.0f,
@@ -65,7 +65,7 @@ module Base
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 0.5000 0.5875 0.8425,
+			offset = 0.4375 0.5875 0.8425,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -73,7 +73,7 @@ module Base
 		wheel FrontRight
 		{
 			front = true,
-			offset = -0.5000 0.5875 0.8425,
+			offset = -0.4375 0.5875 0.8425,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -81,7 +81,7 @@ module Base
 		wheel RearLeft
 		{
 			front = false,
-			offset = 0.5000 0.5875 -1.0925,
+			offset = 0.4375 0.5875 -1.0925,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -89,7 +89,7 @@ module Base
 		wheel RearRight
 		{
 			front = false,
-			offset = -0.5000 0.5875 -1.0925,
+			offset = -0.4375 0.5875 -1.0925,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -267,6 +267,7 @@ module Base
 
 		template = ApiBoatAirbag,
 		template = Propeller,
+		template = ManualStarter,
 		template = Window/part/WindowFrontLeft,
 		template = Window/part/WindowFrontRight,
 		template = Window/part/WindowRearLeft,

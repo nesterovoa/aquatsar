@@ -275,9 +275,9 @@ function ISBoatMenu.showRadialMenu(playerObj)
 
 	-- menu:addSlice(getText("IGUI_SwitchSeat"), getTexture("media/ui/vehicles/vehicle_changeseats.png"), ISBoatMenu.onShowSeatUI, playerObj, boat )
 
-	if boat:isDriver(playerObj) and boat:isEngineWorking() then
+	if boat:isDriver(playerObj) then -- and boat:isEngineWorking()
 		if boat:isEngineRunning() then
-			menu:addSlice(getText("ContextMenu_VehicleShutOff"), getTexture("media/ui/vehicles/vehicle_ignitionOFF.png"), ISBoatMenu.onShutOff, playerObj)
+			menu:addSlice(getText("ContextMenu_VehicleShutOff"), getTexture("media/ui/boats/boat_stop_engine.png"), ISBoatMenu.onShutOff, playerObj)
 		else
 			if boat:isEngineStarted() then
 --				menu:addSlice("Ignition", getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
@@ -286,28 +286,19 @@ function ISBoatMenu.showRadialMenu(playerObj)
 					menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
 				elseif not boat:isHotwired() and (playerObj:getInventory():haveThisKeyId(boat:getKeyId()) or boat:isKeysInIgnition()) then
 					menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
-				elseif not boat:isHotwired() and ((playerObj:getPerkLevel(Perks.Electricity) >= 1 and playerObj:getPerkLevel(Perks.Mechanics) >= 2) or playerObj:HasTrait("Burglar"))then
---					menu:addSlice("Hotwire boat", getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onHotwire, playerObj)
+				elseif boat:getPartById("ManualStarter") and boat:getPartById("ManualStarter"):getInventoryItem() then
+					menu:addSlice(getText("ContextMenu_VehicleStartEngineManual"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngineManualy, playerObj)
 				elseif boat:isHotwired() then
 					menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
 				else
+					if ((playerObj:getPerkLevel(Perks.Electricity) >= 1 and playerObj:getPerkLevel(Perks.Mechanics) >= 2) or playerObj:HasTrait("Burglar")) then
+						menu:addSlice(getText("ContextMenu_VehicleHotwire"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onHotwire, playerObj)
+					else
+						menu:addSlice(getText("ContextMenu_BoatHotwireSkill"), getTexture("media/ui/vehicles/vehicle_ignitionOFF.png"), nil, playerObj)
+					end
 --					menu:addSlice("You need keys or\nelectricity level 1 and\nmechanic level 2\nto hotwire", getTexture("media/ui/vehicles/vehicle_ignitionOFF.png"), nil, playerObj)
 				end
 			end
-		end
-	end
-
-	if boat:isDriver(playerObj) and
-			not boat:isHotwired() and
-			not boat:isEngineStarted() and
-			not boat:isEngineRunning() and
-			not SandboxVars.VehicleEasyUse and
-			not boat:isKeysInIgnition() and
-			not playerObj:getInventory():haveThisKeyId(boat:getKeyId()) then
-		if ((playerObj:getPerkLevel(Perks.Electricity) >= 1 and playerObj:getPerkLevel(Perks.Mechanics) >= 2) or playerObj:HasTrait("Burglar")) then
-			menu:addSlice(getText("ContextMenu_VehicleHotwire"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onHotwire, playerObj)
-		else
-			menu:addSlice(getText("ContextMenu_VehicleHotwireSkill"), getTexture("media/ui/vehicles/vehicle_ignitionOFF.png"), nil, playerObj)
 		end
 	end
 
@@ -1209,6 +1200,14 @@ function ISBoatMenu.onStartEngine(playerObj)
 --	if not boat:isEngineWorking() then return end
 --	if not boat:isDriver(playerObj) then return end
 	ISTimedActionQueue.add(ISStartVehicleEngine:new(playerObj))
+end
+
+function ISBoatMenu.onStartEngineManualy(playerObj)
+--	local boat = playerObj:getVehicle()
+--	if not boat then return end
+--	if not boat:isEngineWorking() then return end
+--	if not boat:isDriver(playerObj) then return end
+	ISTimedActionQueue.add(ISStartBoatEngineManualy:new(playerObj))
 end
 
 function ISBoatMenu.onHotwire(playerObj)

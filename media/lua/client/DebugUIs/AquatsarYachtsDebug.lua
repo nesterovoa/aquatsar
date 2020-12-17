@@ -1,6 +1,5 @@
-if debugScenarios == nil then
-	debugScenarios = {}
-end
+debugScenarios = {}
+
 
 
 debugScenarios.iBrRusScenario_AquatsarYachts = {
@@ -141,11 +140,11 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		
 		local boat = addVehicleDebug("Base.BoatZeroPatient", IsoDirections.S, nil, getCell():getGridSquare(11833, 6583, 0));
 		inv:AddItem(boat:createVehicleKey());
+		
 		local boat2 = addVehicleDebug("Base.BoatSailingYachtWithSails", IsoDirections.S, nil, getCell():getGridSquare(11823, 6583, 0));
 		inv:AddItem(boat2:createVehicleKey());
 		
 		local trailer = addVehicleDebug("Base.TrailerWithBoatSailingYacht", IsoDirections.S, nil, getCell():getGridSquare(11844, 6598, 0));
-		inv:AddItem(boat:createVehicleKey());
 		local boat2 = addVehicleDebug("Base.CarStationWagon2", IsoDirections.S, nil, getCell():getGridSquare(11844, 6605, 0));
 		inv:AddItem(boat2:createVehicleKey());
 

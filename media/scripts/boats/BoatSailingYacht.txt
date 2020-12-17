@@ -46,7 +46,7 @@ module Base
 		engineQuality = 70,
 		brakingForce = 90,
 		gearRatioCount = 1,
-		gearRatioR = 4.7,
+		gearRatioR = 1,
 		gearRatio1 = 1,
 		stoppingMovementForce = 2.0f,
 		rollInfluence = 1.0f,
@@ -267,6 +267,7 @@ module Base
 
 		template = ApiBoatAirbag,
 		template = Propeller,
+		template = ManualStarter,				   
 		template = Window/part/WindowFrontLeft,
 		template = Window/part/WindowFrontRight,
 		template = Window/part/WindowRearLeft,
