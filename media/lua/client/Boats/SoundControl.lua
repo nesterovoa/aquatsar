@@ -1,4 +1,5 @@
 
+-- Удаление звука заноса на воде
 function SoundControl()
 	local player = getPlayer()
 	if player then
