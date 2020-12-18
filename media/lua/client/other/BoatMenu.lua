@@ -1,5 +1,20 @@
 require 'Boats/Init'
 
+
+
+
+----------------------------
+
+-- Не используется сейчас!
+
+---------------------------
+
+
+
+
+
+
+
 function AquatsarYachts.getBoat(player)
 	local square = player:getSquare()
 	if square == nil then return nil end

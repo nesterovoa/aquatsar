@@ -5,7 +5,7 @@ debugScenarios = {}
 debugScenarios.iBrRusScenario_AquatsarYachts = {
 	name = "Aquatsar Yachts Debug",
 --	forceLaunch = true, -- use this to force the launch of THIS scenario right after main menu was loaded, save more clicks! Don't do multiple scenarii with this options
-	startLoc = {x=11829, y=6583, z=0 }, -- Water
+	startLoc = {x=11828, y=6592, z=0 }, -- Water
 
 	
 	
@@ -146,6 +146,7 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		
 		local trailer = addVehicleDebug("Base.TrailerWithBoatSailingYacht", IsoDirections.S, nil, getCell():getGridSquare(11844, 6598, 0));
 		local boat2 = addVehicleDebug("Base.CarStationWagon2", IsoDirections.S, nil, getCell():getGridSquare(11844, 6605, 0));
+		boat2:repair();
 		inv:AddItem(boat2:createVehicleKey());
 
 	end

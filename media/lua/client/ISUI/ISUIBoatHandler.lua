@@ -8,7 +8,9 @@ local function starts_with(str, start)
    return str:sub(1, #start) == start
 end
 
-
+---------------
+-- Create custom radial menu for boat (inside and outside) and trailerWithBoat
+---------------
 
 ISUIBoatHandler.onKeyStartPressed = function(key)
 	local playerObj = getSpecificPlayer(0)
@@ -55,13 +57,11 @@ ISUIBoatHandler.onKeyPressed = function(key)
 					ISBoatMenu.showRadialMenuOutside(playerObj)
 					return
 				end
-				
-				
-				
 			end
 		end
 	end
 end
+
 
 Events.OnKeyStartPressed.Add(ISUIBoatHandler.onKeyStartPressed);
 Events.OnKeyPressed.Add(ISUIBoatHandler.onKeyPressed);
