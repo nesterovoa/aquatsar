@@ -145,7 +145,7 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		inv:AddItem(boat2:createVehicleKey());
 		
 		local trailer = addVehicleDebug("Base.TrailerWithBoatSailingYacht", IsoDirections.S, nil, getCell():getGridSquare(11844, 6598, 0));
-		local boat2 = addVehicleDebug("Base.CarStationWagon2", IsoDirections.S, nil, getCell():getGridSquare(11844, 6605, 0));
+		local boat2 = addVehicleDebug("Base.PickUpTruckMccoy", IsoDirections.S, nil, getCell():getGridSquare(11844, 6605, 0));
 		boat2:repair();
 		inv:AddItem(boat2:createVehicleKey());
 

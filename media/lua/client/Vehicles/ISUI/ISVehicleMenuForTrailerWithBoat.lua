@@ -1,3 +1,5 @@
+require("Boats/config")
+
 ISVehicleMenuForTrailerWithBoat = {}
 
 --[[
@@ -14,10 +16,10 @@ ISVehicleMenuForTrailerWithBoat = {}
 local vec = Vector3f.new()
 
 local function canLaunchBoat(boat)
-	local point = boat:getWorldPos(0, 0, -boat:getScript():getPhysicsChassisShape():z()/2 - 0.5, vec)
+	local point = boat:getWorldPos(0, 0, -boat:getScript():getPhysicsChassisShape():z()/2 - 3, vec)
 	if not WaterBorders.isWater(getCell():getGridSquare(point:x(), point:y(), 0)) then return false end
 	
-	point = boat:getWorldPos(0, 0, -boat:getScript():getPhysicsChassisShape():z()/2 - 6, vec)
+	point = boat:getWorldPos(0, 0, -boat:getScript():getPhysicsChassisShape():z()/2 - 7, vec)
 	if not WaterBorders.isWater(getCell():getGridSquare(point:x(), point:y(), 0)) then return false end
 
 	return true
@@ -34,33 +36,17 @@ end
 
 
 function ISVehicleMenuForTrailerWithBoat.launchBoat(playerObj, vehicle)
-	local point = vehicle:getWorldPos(0, 0, -vehicle:getScript():getPhysicsChassisShape():z()/2 - 6, vec)
+	local point = vehicle:getWorldPos(0, 0, -vehicle:getScript():getPhysicsChassisShape():z()/2 - 7, vec)
 	local sq = getCell():getGridSquare(point:x(), point:y(), 0)
 	if sq == nil then return end
 	
-	local boatName = string.sub(vehicle:getScript():getName(), string.len("trailerwith")+1)
-	vehicle:setScriptName("TrailerForBoat")
+	local newTrailerName = AquaTsarConfig.trailerAfterBoatLaunchTable[vehicle:getScript():getName()]
+	local boatName = AquaTsarConfig.boatAfterBoatLaunchFromTrailerTable[vehicle:getScript():getName()]
+	vehicle:setScriptName(newTrailerName)
 	vehicle:scriptReloaded()
 	
-	-- direction
-	local diffX = math.abs(point:x() - vehicle:getX())
-	local diffY = math.abs(point:y() - vehicle:getY())
-	local dir = IsoDirections.N
-
-	if vehicle:getY() > point:y() and diffY > diffX then
-		dir = IsoDirections.S
-		print("south")
-	elseif vehicle:getX() > point:x() and diffX > diffY then
-		dir = IsoDirections.E
-		print("east")
-	elseif vehicle:getX() < point:x() and diffX > diffY then
-		dir = IsoDirections.W
-		print("west")
-	else
-		dir = IsoDirections.N
-		print("north")
-	end
-	addVehicleDebug("Base."..boatName, dir, 0, sq)
+	local boat = addVehicleDebug("Base."..boatName, IsoDirections.N, 0, sq)
+	boat:setAngles(vehicle:getAngleX(), vehicle:getAngleY(), vehicle:getAngleZ())
 end
 
 --------------------------------------------
@@ -73,13 +59,17 @@ end
 
 
 local function canLoadOntoTrailer(vehicle)
+	if AquaTsarConfig.trailerAfterLoadBoatOnTrailerTable[vehicle:getScript():getName()] == nil then 
+		return false 
+	end
+
 	for i=0, 8, 0.5 do
 		local point = vehicle:getWorldPos(0, 0, -vehicle:getScript():getPhysicsChassisShape():z()/2 - i, vec)
 		local sq = getCell():getGridSquare(point:x(), point:y(), 0)
 		
 		local boat = sq:getVehicleContainer()
 		if boat then
-			if starts_with(string.lower(boat:getScript():getName()), "boat") then
+			if starts_with(string.lower(boat:getScript():getName()), "boat") and AquaTsarConfig.trailerAfterLoadBoatOnTrailerTable[vehicle:getScript():getName()][boat:getScript():getName()] then
 				return true
 			end
 		end
@@ -104,7 +94,7 @@ function ISVehicleMenuForTrailerWithBoat.loadOntoTrailer(playerObj, vehicle)
 		local boat = sq:getVehicleContainer()
 		if boat then
 			if starts_with(string.lower(boat:getScript():getName()), "boat") then
-				local trailerName = "TrailerWith" .. boat:getScript():getName()
+				local trailerName = AquaTsarConfig.trailerAfterLoadBoatOnTrailerTable[vehicle:getScript():getName()][boat:getScript():getName()]				
 				vehicle:setScriptName(trailerName)
 				vehicle:scriptReloaded()
 
