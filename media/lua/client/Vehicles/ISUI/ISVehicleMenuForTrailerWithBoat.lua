@@ -62,3 +62,56 @@ function ISVehicleMenuForTrailerWithBoat.launchBoat(playerObj, vehicle)
 	end
 	addVehicleDebug("Base."..boatName, dir, 0, sq)
 end
+
+--------------------------------------------
+
+local function starts_with(str, start)
+	return str:sub(1, #start) == start
+end
+
+
+
+
+local function canLoadOntoTrailer(vehicle)
+	for i=0, 8, 0.5 do
+		local point = vehicle:getWorldPos(0, 0, -vehicle:getScript():getPhysicsChassisShape():z()/2 - i, vec)
+		local sq = getCell():getGridSquare(point:x(), point:y(), 0)
+		
+		local boat = sq:getVehicleContainer()
+		if boat then
+			if starts_with(string.lower(boat:getScript():getName()), "boat") then
+				return true
+			end
+		end
+	end
+	return false
+end
+
+
+function ISVehicleMenuForTrailerWithBoat.loadOntoTrailerRadialMenu(playerObj, vehicle)
+	local menu = getPlayerRadialMenu(playerObj:getPlayerNum())
+	if canLoadOntoTrailer(vehicle) then
+		menu:addSlice(getText("ContextMenu_LoadBoatOntoTrailer"), getTexture("media/ui/vehicles/vehicle_repair.png"), ISVehicleMenuForTrailerWithBoat.loadOntoTrailer, playerObj, vehicle)
+	end
+end
+
+
+function ISVehicleMenuForTrailerWithBoat.loadOntoTrailer(playerObj, vehicle)
+	for i=0, 8, 0.5 do
+		local point = vehicle:getWorldPos(0, 0, -vehicle:getScript():getPhysicsChassisShape():z()/2 - i, vec)
+		local sq = getCell():getGridSquare(point:x(), point:y(), 0)
+		
+		local boat = sq:getVehicleContainer()
+		if boat then
+			if starts_with(string.lower(boat:getScript():getName()), "boat") then
+				local trailerName = "TrailerWith" .. boat:getScript():getName()
+				vehicle:setScriptName(trailerName)
+				vehicle:scriptReloaded()
+
+				boat:removeFromWorld()
+				return
+			end
+		end
+	end
+
+end

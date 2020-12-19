@@ -32,6 +32,9 @@ ISUIBoatHandler.onKeyStartPressed = function(key)
 		if vehicle~=nil and starts_with(string.lower(vehicle:getScript():getName()), "trailerwithboat") then
 			ISVehicleMenuForTrailerWithBoat.launchRadialMenu(playerObj, vehicle)
 		end
+		if vehicle~=nil and starts_with(string.lower(vehicle:getScript():getName()), "trailerforboat") then
+			ISVehicleMenuForTrailerWithBoat.loadOntoTrailerRadialMenu(playerObj, vehicle)
+		end
 	end
 end
 
