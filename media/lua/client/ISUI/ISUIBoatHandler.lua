@@ -1,12 +1,9 @@
 --***********************************************************
 --**                          iBrRus                       **
 --***********************************************************
+require("Boats/config")
 
 ISUIBoatHandler = {};
-
-local function starts_with(str, start)
-   return str:sub(1, #start) == start
-end
 
 ---------------
 -- Create custom radial menu for boat (inside and outside) and trailerWithBoat
@@ -28,12 +25,14 @@ ISUIBoatHandler.onKeyStartPressed = function(key)
 			ISBoatMenu.showRadialMenuOutside(playerObj)
 			return
 		end
+
 		local vehicle = ISVehicleMenu.getVehicleToInteractWith(playerObj)
-		if vehicle~=nil and starts_with(string.lower(vehicle:getScript():getName()), "trailerwithboat") then
-			ISVehicleMenuForTrailerWithBoat.launchRadialMenu(playerObj, vehicle)
-		end
-		if vehicle~=nil and starts_with(string.lower(vehicle:getScript():getName()), "trailerforboat") then
-			ISVehicleMenuForTrailerWithBoat.loadOntoTrailerRadialMenu(playerObj, vehicle)
+		if vehicle ~= nil then
+			if AquaTsarConfig.isTrailerWithBoat(vehicle) then
+				ISVehicleMenuForTrailerWithBoat.launchRadialMenu(playerObj, vehicle)
+			elseif AquaTsarConfig.isEmptyTrailerForBoat(vehicle) then
+				ISVehicleMenuForTrailerWithBoat.loadOntoTrailerRadialMenu(playerObj, vehicle)
+			end
 		end
 	end
 end
@@ -48,8 +47,6 @@ ISUIBoatHandler.onKeyPressed = function(key)
 			-- Hide radial menu when 'V' is released.
 			local menu = getPlayerRadialMenu(0)
 			if menu:isReallyVisible() then
-				
-				
 				local boat = ISBoatMenu.getBoatInside(playerObj)
 				if boat then
 					ISBoatMenu.showRadialMenu(playerObj)
