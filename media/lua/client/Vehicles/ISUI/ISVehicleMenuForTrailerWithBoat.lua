@@ -4,7 +4,7 @@ ISVehicleMenuForTrailerWithBoat = {}
 local vec = Vector3f.new()
 
 ISVehicleMenuForTrailerWithBoat.nearCheckThatTrailerNearWater = 3
-ISVehicleMenuForTrailerWithBoat.spawnDistForBoat = 7
+ISVehicleMenuForTrailerWithBoat.spawnDistForBoat = 6
 
 
 -- Launch boat on water

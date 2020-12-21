@@ -21,7 +21,7 @@ function ISLaunchBoatOnWater:update()
 	local timeLeftNow =  (1 - self:getJobDelta()) * self.maxTime
 
 	if self.isFadeOut == false and timeLeftNow < 115 * speedCoeff[uispeed] then
-		UIManager.FadeOut(self.character:getPlayerNum(), 1)
+		--UIManager.FadeOut(self.character:getPlayerNum(), 1)
 		self.isFadeOut = true
 	end
 
@@ -44,11 +44,29 @@ end
 function ISLaunchBoatOnWater:perform()
     local newTrailerName = AquaTsarConfig.trailerAfterBoatLaunchTable[self.vehicle:getScript():getName()]
 	local boatName = AquaTsarConfig.boatAfterBoatLaunchFromTrailerTable[self.vehicle:getScript():getName()]
-	self.vehicle:setScriptName(newTrailerName)
-	self.vehicle:scriptReloaded()
 	
 	local boat = addVehicleDebug("Base."..boatName, IsoDirections.N, 0, self.square)
 	boat:setAngles(self.vehicle:getAngleX(), self.vehicle:getAngleY(), self.vehicle:getAngleZ())
+
+	local partData = self.vehicle:getModData()["boatParts"]
+	if partData ~= nil then
+		for i=1, boat:getPartCount() do
+			local part = boat:getPartByIndex(i)
+			if part ~= nil then 
+				local tmp = partData[part:getId()]
+
+				if tmp == nil then
+					part:setInventoryItem(nil)
+				else
+					part:setCondition(tmp)
+				end
+			end
+		end
+	end
+
+	self.vehicle:setScriptName(newTrailerName)
+	self.vehicle:scriptReloaded()
+
 
 	local playerNum = self.character:getPlayerNum()
 	UIManager.FadeIn(playerNum, 1)
