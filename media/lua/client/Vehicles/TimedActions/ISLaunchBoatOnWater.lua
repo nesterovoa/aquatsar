@@ -79,6 +79,45 @@ function ISLaunchBoatOnWater:perform()
 	self.vehicle:scriptReloaded()
 
 
+	-- Delete key
+	local xx = boat:getX()
+	local yy = boat:getY()
+
+	for z=0, 3 do
+		for i=xx - 15, xx + 15 do
+			for j=yy - 15, yy + 15 do
+				local tmpSq = getCell():getGridSquare(i, j, z)
+				if tmpSq ~= nil then
+					for k=0, tmpSq:getObjects():size()-1 do
+						local ttt =	tmpSq:getObjects():get(k)
+						if ttt:getContainer() ~= nil then
+							local items = ttt:getContainer():getItems()
+							for ii=0, items:size()-1 do
+								if items:get(ii):getKeyId() == boat:getKeyId() then
+									items:remove(ii)
+								end
+							end
+						elseif instanceof(ttt, "IsoWorldInventoryObject") then
+							if ttt:getItem() and ttt:getItem():getContainer() then
+								local items = ttt:getItem():getContainer():getItems()
+								for ii=0, items:size()-1 do
+									if items:get(ii):getKeyId() == boat:getKeyId() then
+										items:remove(ii)
+									end
+								end
+							end
+							
+							if ttt:getItem() and ttt:getItem():getKeyId() == boat:getKeyId() then
+								tmpSq:removeWorldObject(ttt)
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+
+
 	local playerNum = self.character:getPlayerNum()
 	UIManager.FadeIn(playerNum, 1)
 	UIManager.setFadeBeforeUI(playerNum, false)
