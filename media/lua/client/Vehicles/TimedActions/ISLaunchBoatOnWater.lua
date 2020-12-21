@@ -64,6 +64,17 @@ function ISLaunchBoatOnWater:perform()
 		end
 	end
 
+	local data = self.vehicle:getModData()
+	local gastank = boat:getPartById("GasTank")
+	if gastank and data["boatPart_GasTank"] then
+		gastank:setContainerContentAmount(data["boatPart_GasTank"]) 
+	end
+
+	local battery = boat:getPartById("Battery")
+	if battery and battery:getInventoryItem() and data["boatPart_Battery"] then
+		battery:getInventoryItem():setUsedDelta(data["boatPart_Battery"])
+	end
+
 	self.vehicle:setScriptName(newTrailerName)
 	self.vehicle:scriptReloaded()
 
