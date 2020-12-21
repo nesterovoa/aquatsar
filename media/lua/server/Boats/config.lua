@@ -31,5 +31,17 @@ function AquaTsarConfig.isBoat(vehicle)
     return AquaTsarConfig.boatsTable[vehicle:getScript():getName()] ~= nil
 end
 
+-----------------------------
+
+AquaTsarConfig.boatSeatUI_Image = {
+    ["BoatSailingYacht"] = "BoatSailingYacht_seat",
+    ["BoatSailingYachtWithSails"] = "BoatSailingYacht_seat",
+}
+
+AquaTsarConfig.boatSeatUI_Scale = {
+    ["BoatSailingYacht"] = 1.25,
+    ["BoatSailingYachtWithSails"] = 1.25,
+}
+
 
 
