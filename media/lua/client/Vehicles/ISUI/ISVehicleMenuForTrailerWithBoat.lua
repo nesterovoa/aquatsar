@@ -55,6 +55,17 @@ local function getBoatAtRearOfTrailer(vehicle)
 	end
 end
 
+local function isEmptyContainersOnVehicle(vehicle)
+	for i=1,vehicle:getPartCount() do
+		local part = vehicle:getPartByIndex(i-1)	
+		if part:isContainer() and part:getItemContainer() ~= nil then
+			local itemContainer = part:getItemContainer()
+			if itemContainer:getItems():size() ~= 0 then return false end
+		end
+	end
+	return true
+end
+
 
 function ISVehicleMenuForTrailerWithBoat.loadOntoTrailerRadialMenu(playerObj, vehicle)
 	if AquaTsarConfig.trailerAfterLoadBoatOnTrailerTable[vehicle:getScript():getName()] == nil then 	-- check is trailer for boat
@@ -64,7 +75,11 @@ function ISVehicleMenuForTrailerWithBoat.loadOntoTrailerRadialMenu(playerObj, ve
 	
 	local boat = getBoatAtRearOfTrailer(vehicle)
 	if boat then
-		menu:addSlice(getText("ContextMenu_LoadBoatOntoTrailer"), getTexture("media/ui/vehicles/vehicle_repair.png"), ISVehicleMenuForTrailerWithBoat.loadOntoTrailer, playerObj, vehicle, boat)
+		if isEmptyContainersOnVehicle(boat) then	
+			menu:addSlice(getText("ContextMenu_LoadBoatOntoTrailer"), getTexture("media/ui/vehicles/vehicle_repair.png"), ISVehicleMenuForTrailerWithBoat.loadOntoTrailer, playerObj, vehicle, boat)
+		else
+			menu:addSlice(getText("ContextMenu_CantLoadBoatBecauseItemsInside"), getTexture("media/ui/vehicles/vehicle_repair.png"))
+		end
 	end
 end
 

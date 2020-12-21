@@ -21,7 +21,7 @@ function ISLaunchBoatOnWater:update()
 	local timeLeftNow =  (1 - self:getJobDelta()) * self.maxTime
 
 	if self.isFadeOut == false and timeLeftNow < 115 * speedCoeff[uispeed] then
-		--UIManager.FadeOut(self.character:getPlayerNum(), 1)
+		UIManager.FadeOut(self.character:getPlayerNum(), 1)
 		self.isFadeOut = true
 	end
 
