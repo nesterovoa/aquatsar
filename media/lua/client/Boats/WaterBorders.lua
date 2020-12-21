@@ -4,9 +4,6 @@ local tempIsoObj = IsoObject.new()
 local tempSquare = IsoGridSquare.new(getCell(), nil, 0, 0, 0)
 local collisionPosVector2 = Vector3.fromLengthDirection(1, 1)
 
-local function starts_with(str, start)
-   return str:sub(1, #start) == start
-end
 
 function WaterBorders.getCollisionSquaresNear(dx, dy, square)
     local squares = {}
@@ -21,10 +18,6 @@ function WaterBorders.getCollisionSquaresNear(dx, dy, square)
 		end
 	end
 	return squares
-end
-
-function WaterBorders.isBoat(vehicle)
-    return starts_with(string.lower(vehicle:getScript():getName()), "boat")
 end
 
 function WaterBorders.isWater(square)
@@ -51,7 +44,7 @@ function WaterBorders.updateVehicles()
     local vehicles = getCell():getVehicles()
     for i=0, vehicles:size()-1 do
         local vehicle = vehicles:get(i)
-        if vehicle ~= nil and WaterBorders.isBoat(vehicle) then
+        if vehicle ~= nil and  AquaTsarConfig.isBoat(vehicle) then
             local squareUnderVehicle = getCell():getGridSquare(vehicle:getX(), vehicle:getY(), 0)
             if squareUnderVehicle ~= nil and WaterBorders.isWater(squareUnderVehicle) then
 				if vehicle:getDebugZ() < 0.65 then
@@ -84,7 +77,7 @@ function WaterBorders.updateVehicles()
 	local player = getPlayer()
 	if player then
 		local vehicle = player:getVehicle()
-		if vehicle ~= nil and WaterBorders.isBoat(vehicle) then
+		if vehicle ~= nil and  AquaTsarConfig.isBoat(vehicle) then
 			local squareUnderVehicle = getCell():getGridSquare(vehicle:getX(), vehicle:getY(), 0)
             if squareUnderVehicle ~= nil and WaterBorders.isWater(squareUnderVehicle)==false then
 				if vehicle:isEngineRunning() then
