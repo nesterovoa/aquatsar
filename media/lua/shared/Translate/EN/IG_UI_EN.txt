@@ -1,0 +1,5 @@
+IG_UI_EN = {
+	IGUI_VehicleNameTrailerWithBoatSailingYacht = "Autotsar BT-13M",
+	IGUI_VehicleNameTrailerForBoat = "Autotsar BT-13M",
+}
+

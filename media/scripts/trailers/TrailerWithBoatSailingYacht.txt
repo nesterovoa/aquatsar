@@ -18,7 +18,7 @@ module Base
 		{
 			file = TrailerWithSailingYachtBase,
 			scale = 1.8000,
-			offset = 0.0000 0.3944 -0.2444,
+			offset = 0.0000 0.3667 0.8111,
 		}
 
 		spawnOffsetY = 0.3565027,
@@ -28,10 +28,10 @@ module Base
 			texture = Trailers/TrailerWithBoatSailingYacht_base,
 		}
 
-		extents = 1.8778 0.9444 4.8333,
+		extents = 1.7111 0.6333 4.8444,
 		mass = 400,
-		physicsChassisShape = 1.8778 0.9444 4.8333,
-		centerOfMassOffset = 0.0000 0.8167 0.3611,
+		physicsChassisShape = 1.7111 0.6333 4.8444,
+		centerOfMassOffset = 0.0000 0.6556 -1.1444,
 		engineForce = 4000,
 		engineQuality = 80,
 		engineLoudness = 110,
@@ -49,10 +49,30 @@ module Base
 		frontEndHealth = 150,
 		rearEndHealth = 150,
 
+		physics box
+		{
+			offset = -0.0944 0.3111 1.4389,
+			extents = 0.0556 0.0556 0.6833,
+			rotate = 0.0000 17.0000 0.0000,
+		}
+
+		physics box
+		{
+			offset = 0.0833 0.3111 1.4389,
+			extents = 0.0556 0.0556 0.6833,
+			rotate = 0.0000 -18.0000 0.0000,
+		}
+
+		physics sphere
+		{
+			offset = -0.0056 0.3222 1.7278,
+			radius = 0.0421,
+		}
+
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 0.6000 -0.2222 0.2056,
+			offset = 0.6000 -0.1833 -1.7111,
 			radius = 0.20f,
 			width = 0.2f,
 		}
@@ -60,7 +80,7 @@ module Base
 		wheel FrontRight
 		{
 			front = true,
-			offset = -0.6000 -0.2222 0.2056,
+			offset = -0.6000 -0.1833 -1.7111,
 			radius = 0.20f,
 			width = 0.2f,
 		}
@@ -68,7 +88,7 @@ module Base
 		wheel RearLeft
 		{
 			front = true,
-			offset = 0.6000 -0.2222 -0.1389,
+			offset = 0.6000 -0.1833 -2.0611,
 			radius = 0.20f,
 			width = 0.2f,
 		}
@@ -76,7 +96,7 @@ module Base
 		wheel RearRight
 		{
 			front = true,
-			offset = -0.6000 -0.2222 -0.1389,
+			offset = -0.6000 -0.1833 -2.0611,
 			radius = 0.20f,
 			width = 0.2f,
 		}
@@ -143,29 +163,9 @@ module Base
 		template = Suspension/part/SuspensionFrontLeft,
 		template = Suspension/part/SuspensionRearRight,
 
-		physics box
-		{
-			offset = 0.1611 0.4333 2.2111,
-			extents = 0.0526 0.0526 1.0526,
-			rotate = 0.0000 -19.0000 0.0000,
-		}
-
-		physics box
-		{
-			offset = -0.1722 0.4333 2.2056,
-			extents = 0.0526 0.0526 1.0526,
-			rotate = 0.0000 21.0000 0.0000,
-		}
-
-		physics sphere
-		{
-			offset = 0.0056 0.4500 2.7167,
-			radius = 0.0421,
-		}
-
 		attachment trailer
 		{
-			offset = 0.0000 -0.0889 3.1722,
+			offset = 0.0000 -0.1556 1.0222,
 			rotate = 0.0000 0.0000 0.0000,
 		}
 	}
