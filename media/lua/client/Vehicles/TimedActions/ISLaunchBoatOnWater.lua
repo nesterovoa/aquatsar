@@ -78,6 +78,14 @@ function ISLaunchBoatOnWater:perform()
 	self.vehicle:setScriptName(newTrailerName)
 	self.vehicle:scriptReloaded()
 
+	for i=1, boat:getPartCount() do
+		local part = boat:getPartByIndex(i-1)	
+		if part:isContainer() and part:getItemContainer() ~= nil then
+			local itemContainer = part:getItemContainer()
+			itemContainer:getItems():clear()
+		end
+	end
+
 
 	-- Delete key
 	local xx = boat:getX()
