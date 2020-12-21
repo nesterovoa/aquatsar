@@ -17,4 +17,16 @@ IGUI_RU = {
 	IGUI_PlayerText_CabinlightDoNotWork = "Похоже, свет не работает",
 	IGUI_PlayerText_FloodlightsDoNotWork = "Прожекторы не работают",
 	
+	IGUI_BoatSeat_Self = "Вы уже здесь",
+	IGUI_BoatSeat_Person = "Здесь стоит человек",
+	IGUI_BoatSeat_Items = "В проходе лежат предметы",
+	IGUI_BoatSeat_MoveItems = "Предметы с прохода<br>будут переложены на другое место",
+	IGUI_BoatSeat_ExitToSwitch = "Придётся выйти из лодки",
+	IGUI_BoatSeat_Uninstalled = "Проход заблокирован",
+	IGUI_BoatSeatFrontRight = "Сесть рядом со штурманом",
+	IGUI_BoatSeatFrontLeft = "Сесть на место штурмана",
+	IGUI_BoatSeatRearRight = "Перейти сюда",
+	IGUI_BoatSeatRearLeft = "Перейти сюда",
+	IGUI_BoatSeatMiddleRight = "Перейти сюда",
+	IGUI_BoatSeatMiddleLeft = "Перейти сюда",
 }

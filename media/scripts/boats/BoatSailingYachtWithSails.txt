@@ -100,7 +100,7 @@ module Base
 		{
 			position inside
 			{
-				offset = 0.2250 0.1625 -0.4225,
+				offset = 0.1750 0.1625 -0.9200,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
@@ -116,7 +116,7 @@ module Base
 		{
 			position inside
 			{
-				offset = -0.1725 0.1475 -0.4225,
+				offset = -0.1725 0.1475 -0.9200,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
@@ -132,7 +132,7 @@ module Base
 		{
 			position inside
 			{
-				offset = 0.1950 0.2000 -0.7500,
+				offset = 0.0000 0.0475 0.7650,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
@@ -148,7 +148,7 @@ module Base
 		{
 			position inside
 			{
-				offset = -0.2025 0.2075 -0.7500,
+				offset = 0.0750 0.2075 0.2975,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
@@ -164,7 +164,7 @@ module Base
 		{
 			position inside
 			{
-				offset = 0.1950 0.1975 -1.0325,
+				offset = 0.0750 0.1975 -0.0850,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
@@ -180,7 +180,7 @@ module Base
 		{
 			position inside
 			{
-				offset = -0.2025 0.1800 -1.0325,
+				offset = -0.1725 0.1800 -0.3475,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 

@@ -39,9 +39,27 @@ AquaTsarConfig.boatSeatUI_Image = {
 }
 
 AquaTsarConfig.boatSeatUI_Scale = {
-    ["BoatSailingYacht"] = 1.25,
-    ["BoatSailingYachtWithSails"] = 1.25,
+    ["BoatSailingYacht"] = 1.1,
+    ["BoatSailingYachtWithSails"] = 1.1,
 }
+AquaTsarConfig.boatSeatUI_SeatOffsetX = {}
+AquaTsarConfig.boatSeatUI_SeatOffsetX["BoatSailingYacht"] = {
+	["FrontLeft"] = 1,
+	["FrontRight"] = 1,
+	["MiddleLeft"] = 0,
+	["MiddleRight"] = 1,
+	["RearLeft"] = -4,
+	["RearRight"] = 1,
+}
+AquaTsarConfig.boatSeatUI_SeatOffsetX["BoatSailingYachtWithSails"] = AquaTsarConfig.boatSeatUI_SeatOffsetX["BoatSailingYacht"]
 
-
-
+AquaTsarConfig.boatSeatUI_SeatOffsetY = {}
+AquaTsarConfig.boatSeatUI_SeatOffsetY["BoatSailingYacht"] = {
+	["FrontLeft"] = 10,
+	["FrontRight"] = 10,
+	["MiddleLeft"] = -75, 
+	["MiddleRight"] = -55,
+	["RearLeft"] = -30,
+	["RearRight"] = 10,
+}
+AquaTsarConfig.boatSeatUI_SeatOffsetY["BoatSailingYachtWithSails"] = AquaTsarConfig.boatSeatUI_SeatOffsetY["BoatSailingYacht"]
