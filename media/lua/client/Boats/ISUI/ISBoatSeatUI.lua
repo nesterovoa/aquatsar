@@ -44,27 +44,27 @@ function ISBoatSeatUI:prerender()
 	local seat = self.joyfocus and (self.joypadSeat - 1) or self.mouseOverSeat
 	if not seat then return end
 	local seatname = 'Seat'..script:getPassenger(seat):getId()
-	if getTextOrNull("IGUI_" .. seatname) ~= nil then
-		seatname = getText("IGUI_" .. seatname);
+	if getTextOrNull("IGUI_Boat" .. seatname) ~= nil then
+		seatname = getText("IGUI_Boat" .. seatname);
 	end
 	self:drawTextCentre(seatname, self:getWidth() / 2, 6, 1, 1, 1, 1, UIFont.Medium)
 	local str = nil
 	-- FIXME: can player sit where there is no seat installed?
 	if not self:isSeatInstalled(seat) then
-		str = getText("IGUI_VehicleSeat_Uninstalled")
+		str = getText("IGUI_BoatSeat_Uninstalled")
 	elseif self.vehicle:isSeatOccupied(seat) then
 		if not ISVehicleMenu.moveItemsFromSeat(self.character, self.vehicle, seat, false, false) then
-			str = getText("IGUI_VehicleSeat_Items")
+			str = getText("IGUI_BoatSeat_Items")
 		else
-			str = getText("IGUI_VehicleSeat_MoveItems")
+			str = getText("IGUI_BoatSeat_MoveItems")
 		end
 		if self.characterSeat == seat then
-			str = getText("IGUI_VehicleSeat_Self")
+			str = getText("IGUI_BoatSeat_Self")
 		elseif self.vehicle:getCharacter(seat) then
-			str = getText("IGUI_VehicleSeat_Person")
+			str = getText("IGUI_BoatSeat_Person")
 		end
 	elseif playerSeat ~= -1 and  not self.vehicle:canSwitchSeat(playerSeat, seat) then
-		str = getText("IGUI_VehicleSeat_ExitToSwitch")
+		str = getText("IGUI_BoatSeat_ExitToSwitch")
 	end
 	if str then
 		if str ~= self.seatText then
@@ -77,62 +77,14 @@ function ISBoatSeatUI:prerender()
 end
 
 local ImageScale = {}
-ImageScale["4door_"] = 1.0
-ImageScale["offroad_"] = 1.0
-ImageScale["smallcar_"] = 1.1
-ImageScale["sportscar_"] = 1.15
-ImageScale["stationwagon_"] = 1.15
-ImageScale["suv_"] = 1.0
-ImageScale["truck_"] = 1.1
-ImageScale["van_"] = 1.1
+ImageScale["temp_"] = 1.0
 
 local SeatOffsetY = {}
-SeatOffsetY["Base.CarNormal"] = 4
-SeatOffsetY["Base.CarTaxi"] = SeatOffsetY["Base.CarNormal"]
-SeatOffsetY["Base.CarTaxi2"] = SeatOffsetY["Base.CarNormal"]
-SeatOffsetY["Base.PickUpTruck"] = 3
-SeatOffsetY["Base.PickUpVan"] = SeatOffsetY["Base.PickUpTruck"]
-SeatOffsetY["Base.PickUpVanLights"] = SeatOffsetY["Base.PickUpTruck"]
-SeatOffsetY["Base.PickUpVanLightsFire"] = SeatOffsetY["Base.PickUpTruck"]
-SeatOffsetY["Base.PickUpTruckLightsFire"] = SeatOffsetY["Base.PickUpTruck"]
-SeatOffsetY["Base.PickUpTruckLights"] = SeatOffsetY["Base.PickUpTruck"]
-SeatOffsetY["Base.SmallCar"] = 15
-SeatOffsetY["Base.SmallCar02"] = 0
-SeatOffsetY["Base.CarStationWagon"] = -9
-SeatOffsetY["Base.CarLuxury"] = 0
-SeatOffsetY["Base.SportsCar"] = -6
-SeatOffsetY["Base.StepVan"] = -3;
-SeatOffsetY["Base.Van"] = 3;
-SeatOffsetY["Base.VanAmbulance"] = SeatOffsetY["Base.Van"];
-SeatOffsetY["Base.VanSeats"] = SeatOffsetY["Base.StepVan"];
-SeatOffsetY["Base.ModernCar"] = 7;
-SeatOffsetY["Base.ModernCar02"] = 15;
-SeatOffsetY["Base.SUV"] = -2
-SeatOffsetY["Base.OffRoad"] = 30
+SeatOffsetY["Base.BoatTemp"] = 4
 
 local SeatOffsetX = {}
-SeatOffsetX["Base.PickUpTruck"] = 0;
-SeatOffsetX["Base.PickUpVan"] = SeatOffsetX["Base.PickUpTruck"]
-SeatOffsetX["Base.PickUpVanLights"] = SeatOffsetX["Base.PickUpTruck"];
-SeatOffsetX["Base.PickUpVanLightsFire"] = SeatOffsetX["Base.PickUpTruck"]
-SeatOffsetX["Base.PickUpTruckLightsFire"] = SeatOffsetX["Base.PickUpTruck"]
-SeatOffsetX["Base.PickUpTruckLights"] = SeatOffsetX["Base.PickUpTruck"]
-SeatOffsetX["Base.SmallCar"] = 0;
-SeatOffsetX["Base.SmallCar02"] = SeatOffsetX["Base.SmallCar"];
-SeatOffsetX["Base.CarStationWagon"] = 0;
-SeatOffsetX["Base.CarNormal"] = 0;
-SeatOffsetX["Base.CarTaxi"] = SeatOffsetX["Base.CarNormal"]
-SeatOffsetX["Base.CarTaxi2"] = SeatOffsetX["Base.CarNormal"]
-SeatOffsetX["Base.StepVan"] = 0;
-SeatOffsetX["Base.Van"] = 0;
-SeatOffsetX["Base.VanSeats"] = SeatOffsetX["Base.StepVan"];
-SeatOffsetX["Base.VanAmbulance"] = SeatOffsetX["Base.Van"];
-SeatOffsetX["Base.CarLuxury"] = 0
-SeatOffsetX["Base.SportsCar"] = 0
-SeatOffsetX["Base.ModernCar"] = 0;
-SeatOffsetX["Base.ModernCar02"] = SeatOffsetX["Base.ModernCar"];
-SeatOffsetX["Base.SUV"] = 0
-SeatOffsetX["Base.OffRoad"] = 2
+SeatOffsetX["Base.BoatTemp"] = 0;
+
 
 function ISBoatSeatUI:render()
 	ISPanelJoypad.render(self)
@@ -150,12 +102,11 @@ function ISBoatSeatUI:render()
 	local width = height * ratio
 	local ex = (self.width - width) / 2
 	local ey = (self.height - height) / 2
-	
 	local imageName = AquaTsarConfig.boatSeatUI_Image[script:getName()]
-	local imageScale =  AquaTsarConfig.boatSeatUI_Scale[script:getName()]
+	local imageScale =  AquaTsarConfig.boatSeatUI_Scale[script:getName()] or 1.0
 
-	if imageName and imageScale then
-		local tex = getTexture("media/ui/vehicles/seatui/" .. imageName .. ".png")
+	if imageName then
+		local tex = getTexture("media/ui/boats/seatui/" .. imageName .. ".png")
 		if tex then
 			self:drawTextureScaledUniform(tex,
 				(self.width - tex:getWidthOrig() * imageScale) / 2,
@@ -175,7 +126,7 @@ function ISBoatSeatUI:render()
 	local shiftKey = isKeyDown(Keyboard.KEY_LSHIFT) or isKeyDown(Keyboard.KEY_RSHIFT)
 
 	local scale = height / extents:z()
-	local sizeX,sizeY = 21,30
+	local sizeX,sizeY = 41,59
 	for seat=1,self.vehicle:getMaxPassengers() do
 		local pngr = script:getPassenger(seat-1)
 		local posn = pngr:getPositionById("inside")
@@ -183,9 +134,12 @@ function ISBoatSeatUI:render()
 			local offset = posn:getOffset()
 			local x = self:getWidth() / 2 - offset:get(0) * scale - sizeX / 2
 			local y = self:getHeight() / 2 - offset:get(2) * scale - sizeY / 2
-			y = y + (SeatOffsetY[scriptName] or 0.0)
-			
-			x = x + (SeatOffsetX[scriptName] or 0.0)
+			-- print(scriptName)
+			-- print(pngr:getId())
+			-- print(AquaTsarConfig.boatSeatUI_SeatOffsetY[script:getName()])
+			-- print(AquaTsarConfig.boatSeatUI_SeatOffsetY[script:getName()][pngr:getId()])
+			y = y + (AquaTsarConfig.boatSeatUI_SeatOffsetY[script:getName()][pngr:getId()] or 0.0)
+			x = x + (AquaTsarConfig.boatSeatUI_SeatOffsetX[script:getName()][pngr:getId()] or 0.0)
 		
 			local mouseOver = (self:getMouseX() >= x and self:getMouseX() < x + sizeX and
 					self:getMouseY() >= y and self:getMouseY() < y + sizeY) or
@@ -196,19 +150,19 @@ function ISBoatSeatUI:render()
 
 			local fillR, fillG, fillB = 0.0, 0.0, 0.0
 			local outlineR, outlineG, outlineB = 0.0, 1.0, 0.0
-			local texName = "boat_icon_vehicle_empty.png"
+			local texName = "icon_vehicle_empty.png"
 			local textRGB = 1.0
 			local canSwitch = false
 			if self.vehicle:isSeatOccupied(seat-1) then
 				if self.vehicle:getCharacter(seat-1) then
-					texName = "boat_icon_vehicle_person.png"
+					texName = "icon_vehicle_person.png"
 					fillR = 0.0
 					fillG = 0.0
 					fillB = 1.0
 				else
 					fillR, fillG, fillB = 1.0, 1.0, 1.0
 					textRGB = 0.0 -- black text on white background
-					texName = "boat_icon_vehicle_stuff.png"
+					texName = "icon_vehicle_stuff.png"
 					if ISVehicleMenu.moveItemsFromSeat(self.character, self.vehicle, seat-1, false, false) then
 						canSwitch = true
 					else
@@ -222,7 +176,7 @@ function ISBoatSeatUI:render()
 				end
 			elseif self.vehicle:getPartForSeatContainer(seat-1) and
 					not self.vehicle:getPartForSeatContainer(seat-1):getInventoryItem() then
-				texName = "boat_icon_vehicle_uninstalled.png"
+				texName = "icon_vehicle_uninstalled.png"
 				fillR = 0.5
 				fillG = 0.5
 				fillB = 0.5
@@ -241,7 +195,7 @@ function ISBoatSeatUI:render()
 				textRGB = textRGB * 0.5
 			end
 		
-			local tex = getTexture("media/ui/vehicles/seatui/" .. texName)
+			local tex = getTexture("media/ui/boats/seatui/" .. texName)
 			if tex then
 				self:drawTextureScaledUniform(tex, x, y, 1, 1.0, seatRGB, seatRGB, seatRGB)
 			else
@@ -376,7 +330,7 @@ function ISBoatSeatUI:useSeat(seat)
 	if self.character:getVehicle() then
 		if self.vehicle:canSwitchSeat(self.vehicle:getSeat(self.character), seat) then
 			if not ISVehicleMenu.moveItemsFromSeat(self.character, self.vehicle, seat, true, false) then return; end
-			ISVehicleMenu.onSwitchSeat(self.character, seat)
+			ISVehicleMenu.onSwitchSeat(self.character, seat)						   
 		end
 	else
 		ISTimedActionQueue.add(ISEnterVehicle:new(self.character, self.vehicle, seat))
@@ -514,7 +468,7 @@ end
 function ISBoatSeatUI:new(x, y, character)
 	local playerNum = character:getPlayerNum()
 	local width = 263
-	local height = 600 - 100
+	local height = 794 - 100
 	if y == 0 then
 		y = getPlayerScreenTop(playerNum) + (getPlayerScreenHeight(playerNum) - height) / 2
 	end
