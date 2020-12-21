@@ -4,12 +4,12 @@
 
 require "ISUI/ISPanelJoypad"
 
-ISVehicleSeatUI = ISPanelJoypad:derive("ISVehicleSeatUI")
+ISBoatSeatUI = ISPanelJoypad:derive("ISBoatSeatUI")
 
 local FONT_HGT_MEDIUM = getTextManager():getFontHeight(UIFont.Medium)
 local FONT_HGT_LARGE = getTextManager():getFontHeight(UIFont.Large)
 
-function ISVehicleSeatUI:createChildren()
+function ISBoatSeatUI:createChildren()
 	local btnWid = 100
 	local btnHgt = 25
 	local padBottom = 10
@@ -18,7 +18,7 @@ function ISVehicleSeatUI:createChildren()
 	self.richText:setMargins(10, 0, 10, 0)
 
 	self.close = ISButton:new((self:getWidth() - btnWid) / 2, self:getHeight() - padBottom - btnHgt,
-							  btnWid, btnHgt, getText("UI_Cancel"), self, ISVehicleSeatUI.closeSelf)
+							  btnWid, btnHgt, getText("UI_Cancel"), self, ISBoatSeatUI.closeSelf)
 	self.close.internal = "CLOSE"
 	self.close.anchorTop = false
 	self.close.anchorBottom = true
@@ -28,7 +28,7 @@ function ISVehicleSeatUI:createChildren()
 	self:addChild(self.close)
 end
 
-function ISVehicleSeatUI:prerender()
+function ISBoatSeatUI:prerender()
 	ISPanelJoypad.prerender(self)
 
 	if not self.vehicle then return end
@@ -134,7 +134,7 @@ SeatOffsetX["Base.ModernCar02"] = SeatOffsetX["Base.ModernCar"];
 SeatOffsetX["Base.SUV"] = 0
 SeatOffsetX["Base.OffRoad"] = 2
 
-function ISVehicleSeatUI:render()
+function ISBoatSeatUI:render()
 	ISPanelJoypad.render(self)
 
 	self.mouseOverSeat = nil
@@ -150,11 +150,13 @@ function ISVehicleSeatUI:render()
 	local width = height * ratio
 	local ex = (self.width - width) / 2
 	local ey = (self.height - height) / 2
-	local props = ISCarMechanicsOverlay.CarList[scriptName]
-	if props and props.imgPrefix then
-		local tex = getTexture("media/ui/vehicles/seatui/" .. props.imgPrefix .. "base_small.png")
+	
+	local imageName = AquaTsarConfig.boatSeatUI_Image[script:getName()]
+	local imageScale =  AquaTsarConfig.boatSeatUI_Scale[script:getName()]
+
+	if imageName and imageScale then
+		local tex = getTexture("media/ui/vehicles/seatui/" .. imageName .. ".png")
 		if tex then
-			local imageScale = ImageScale[props.imgPrefix] or 1.0
 			self:drawTextureScaledUniform(tex,
 				(self.width - tex:getWidthOrig() * imageScale) / 2,
 				(self.height - tex:getHeightOrig() * imageScale) / 2,
@@ -173,7 +175,7 @@ function ISVehicleSeatUI:render()
 	local shiftKey = isKeyDown(Keyboard.KEY_LSHIFT) or isKeyDown(Keyboard.KEY_RSHIFT)
 
 	local scale = height / extents:z()
-	local sizeX,sizeY = 41,59
+	local sizeX,sizeY = 21,30
 	for seat=1,self.vehicle:getMaxPassengers() do
 		local pngr = script:getPassenger(seat-1)
 		local posn = pngr:getPositionById("inside")
@@ -194,19 +196,19 @@ function ISVehicleSeatUI:render()
 
 			local fillR, fillG, fillB = 0.0, 0.0, 0.0
 			local outlineR, outlineG, outlineB = 0.0, 1.0, 0.0
-			local texName = "icon_vehicle_empty.png"
+			local texName = "boat_icon_vehicle_empty.png"
 			local textRGB = 1.0
 			local canSwitch = false
 			if self.vehicle:isSeatOccupied(seat-1) then
 				if self.vehicle:getCharacter(seat-1) then
-					texName = "icon_vehicle_person.png"
+					texName = "boat_icon_vehicle_person.png"
 					fillR = 0.0
 					fillG = 0.0
 					fillB = 1.0
 				else
 					fillR, fillG, fillB = 1.0, 1.0, 1.0
 					textRGB = 0.0 -- black text on white background
-					texName = "icon_vehicle_stuff.png"
+					texName = "boat_icon_vehicle_stuff.png"
 					if ISVehicleMenu.moveItemsFromSeat(self.character, self.vehicle, seat-1, false, false) then
 						canSwitch = true
 					else
@@ -220,7 +222,7 @@ function ISVehicleSeatUI:render()
 				end
 			elseif self.vehicle:getPartForSeatContainer(seat-1) and
 					not self.vehicle:getPartForSeatContainer(seat-1):getInventoryItem() then
-				texName = "icon_vehicle_uninstalled.png"
+				texName = "boat_icon_vehicle_uninstalled.png"
 				fillR = 0.5
 				fillG = 0.5
 				fillB = 0.5
@@ -337,15 +339,15 @@ function ISVehicleSeatUI:render()
 	-- TODO: Allow choosing a seat to exit from
 end
 
-function ISVehicleSeatUI:update()
+function ISBoatSeatUI:update()
 	ISPanelJoypad.update(self)
 	self:centerOnScreen()
-	if self.vehicle and self.character:DistTo(self.vehicle:getX(), self.vehicle:getY()) > 6 then
+	if self.vehicle and self.character:DistTo(self.vehicle:getX(), self.vehicle:getY()) > 12 then
 		self:closeSelf()
 	end
 end
 
-function ISVehicleSeatUI:onMouseDown(x, y)
+function ISBoatSeatUI:onMouseDown(x, y)
 	if self.mouseOverSeat then
 		self:useSeat(self.mouseOverSeat)
 		return
@@ -356,18 +358,18 @@ function ISVehicleSeatUI:onMouseDown(x, y)
 	end
 end
 
-function ISVehicleSeatUI:onMouseDownOutside(x, y)
+function ISBoatSeatUI:onMouseDownOutside(x, y)
 	if self.playerNum == 0 then
 		self:closeSelf()
 	end
 end
 
-function ISVehicleSeatUI:isSeatInstalled(seat)
+function ISBoatSeatUI:isSeatInstalled(seat)
 	if not self.vehicle then return false end
 	return self.vehicle:isSeatInstalled(seat)
 end
 
-function ISVehicleSeatUI:useSeat(seat)
+function ISBoatSeatUI:useSeat(seat)
 	if not self:isSeatInstalled(seat) then return end
 	if self.vehicle:getCharacter(seat) then return end
 	self:closeSelf()
@@ -375,17 +377,13 @@ function ISVehicleSeatUI:useSeat(seat)
 		if self.vehicle:canSwitchSeat(self.vehicle:getSeat(self.character), seat) then
 			if not ISVehicleMenu.moveItemsFromSeat(self.character, self.vehicle, seat, true, false) then return; end
 			ISVehicleMenu.onSwitchSeat(self.character, seat)
-		else
-			-- In VanAmbulance, the front seats aren't reachable from the middle/rear.
-			ISVehicleMenu.onExit(self.character)
-			ISVehicleMenu.onEnter(self.character, self.vehicle, seat)
 		end
 	else
-		ISVehicleMenu.onEnter(self.character, self.vehicle, seat)
+		ISTimedActionQueue.add(ISEnterVehicle:new(self.character, self.vehicle, seat))
 	end
 end
 
-function ISVehicleSeatUI:exitSeat(seat)
+function ISBoatSeatUI:exitSeat(seat)
 	if not self:isSeatInstalled(seat) then return end
 	local playerSeat = self.vehicle:getSeat(self.character)
 	if playerSeat == -1 then return end
@@ -403,19 +401,19 @@ function ISVehicleSeatUI:exitSeat(seat)
 	end
 end
 
-function ISVehicleSeatUI:closeSelf()
+function ISBoatSeatUI:closeSelf()
 	self:removeFromUIManager()
 	if JoypadState.players[self.playerNum+1] then
 		setJoypadFocus(self.playerNum, nil)
 	end
 end
 
-function ISVehicleSeatUI:onGainJoypadFocus(joypadData)
+function ISBoatSeatUI:onGainJoypadFocus(joypadData)
 	ISPanelJoypad.onGainJoypadFocus(self, joypadData)
 	self:setISButtonForB(self.close)
 end
 
-function ISVehicleSeatUI:onJoypadDown(button)
+function ISBoatSeatUI:onJoypadDown(button)
 	ISPanelJoypad.onJoypadDown(self, button)
 	if button == Joypad.AButton then
 		self:useSeat(self.joypadSeat - 1)
@@ -428,7 +426,7 @@ function ISVehicleSeatUI:onJoypadDown(button)
 	end
 end
 
-function ISVehicleSeatUI:onJoypadDirUp()
+function ISBoatSeatUI:onJoypadDirUp()
 	if not self.vehicle then return end
 	local script = self.vehicle:getScript()
 	if self.joypadSeat > 2 then
@@ -436,7 +434,7 @@ function ISVehicleSeatUI:onJoypadDirUp()
 	end
 end
 
-function ISVehicleSeatUI:onJoypadDirDown()
+function ISBoatSeatUI:onJoypadDirDown()
 	if not self.vehicle then return end
 	local script = self.vehicle:getScript()
 	if self.joypadSeat <= script:getPassengerCount() - 2 then
@@ -444,7 +442,7 @@ function ISVehicleSeatUI:onJoypadDirDown()
 	end
 end
 
-function ISVehicleSeatUI:onJoypadDirLeft()
+function ISBoatSeatUI:onJoypadDirLeft()
 	if not self.vehicle then return end
 	local script = self.vehicle:getScript()
 	if self.joypadSeat % 2 == 0 then
@@ -452,7 +450,7 @@ function ISVehicleSeatUI:onJoypadDirLeft()
 	end
 end
 
-function ISVehicleSeatUI:onJoypadDirRight()
+function ISBoatSeatUI:onJoypadDirRight()
 	if not self.vehicle then return end
 	local script = self.vehicle:getScript()
 	if self.joypadSeat % 2 == 1 and self.joypadSeat < script:getPassengerCount() then
@@ -460,7 +458,7 @@ function ISVehicleSeatUI:onJoypadDirRight()
 	end
 end
 
-function ISVehicleSeatUI:setVehicle(vehicle)
+function ISBoatSeatUI:setVehicle(vehicle)
 	self.vehicle = vehicle
 	self.mouseOverSeat = nil
 	self.characterSeat = nil
@@ -471,7 +469,7 @@ function ISVehicleSeatUI:setVehicle(vehicle)
 	end
 end
 
-function ISVehicleSeatUI:isKeyConsumed(key)
+function ISBoatSeatUI:isKeyConsumed(key)
 	return true
 	--[[
 	return (key == Keyboard.KEY_ESCAPE) or
@@ -480,7 +478,7 @@ function ISVehicleSeatUI:isKeyConsumed(key)
 	--]]
 end
 
-function ISVehicleSeatUI:onKeyPress(key)
+function ISBoatSeatUI:onKeyPress(key)
 	if key == getCore():getKey("VehicleSwitchSeat") then
 		self:closeSelf()
 		return
@@ -492,7 +490,7 @@ function ISVehicleSeatUI:onKeyPress(key)
 	end
 end
 
-function ISVehicleSeatUI:onKeyRelease(key)
+function ISBoatSeatUI:onKeyRelease(key)
 	if not self.vehicle or not self.vehicle:getScript() then return end
 	local numSeats = self.vehicle:getMaxPassengers()
 	if key >= Keyboard.KEY_1 and key < Keyboard.KEY_1 + numSeats then
@@ -504,7 +502,7 @@ function ISVehicleSeatUI:onKeyRelease(key)
 	end
 end
 
-function ISVehicleSeatUI:centerOnScreen()
+function ISBoatSeatUI:centerOnScreen()
 	local width = self:getWidth()
 	local height = self:getHeight()
 	local x = getPlayerScreenLeft(self.playerNum) + (getPlayerScreenWidth(self.playerNum) - width) / 2
@@ -513,7 +511,7 @@ function ISVehicleSeatUI:centerOnScreen()
 	self:setY(y)
 end
 
-function ISVehicleSeatUI:new(x, y, character)
+function ISBoatSeatUI:new(x, y, character)
 	local playerNum = character:getPlayerNum()
 	local width = 263
 	local height = 600 - 100

@@ -273,7 +273,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	
 	local seat = boat:getSeat(playerObj)
 
-	-- menu:addSlice(getText("IGUI_SwitchSeat"), getTexture("media/ui/vehicles/vehicle_changeseats.png"), ISBoatMenu.onShowSeatUI, playerObj, boat )
+	menu:addSlice(getText("IGUI_SwitchSeat"), getTexture("media/ui/vehicles/vehicle_changeseats.png"), ISBoatMenu.onShowSeatUI, playerObj, boat )
 
 	if boat:isDriver(playerObj) then -- and boat:isEngineWorking()
 		if boat:isEngineRunning() then
@@ -1530,7 +1530,7 @@ function ISBoatMenu.onShowSeatUI(playerObj, boat)
 	end
 	local ui = ISBoatMenu.seatUI[playerNum]
 	if not ui or ui.character ~= playerObj then
-		ui = ISVehicleSeatUI:new(0, 0, playerObj)
+		ui = ISBoatSeatUI:new(0, 0, playerObj)
 		ui:initialise()
 		ui:instantiate()
 		ISBoatMenu.seatUI[playerNum] = ui

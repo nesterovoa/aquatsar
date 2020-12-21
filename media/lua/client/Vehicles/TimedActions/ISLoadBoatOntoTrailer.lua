@@ -46,6 +46,26 @@ function ISLoadBoatOntoTrailer:perform()
 	self.vehicle:setScriptName(trailerName)
 	self.vehicle:scriptReloaded()
 
+	local data = self.vehicle:getModData()
+	data["boatParts"] = {}
+	for i=1, self.boat:getPartCount() do
+		local part = self.boat:getPartByIndex(i-1)	
+
+		if part:getInventoryItem() or not part:getTable("install") then
+			data["boatParts"][part:getId()] = part:getCondition()
+		end		
+	end
+
+	local gastank = self.boat:getPartById("GasTank")
+	if gastank then
+		data["boatPart_GasTank"] = gastank:getContainerContentAmount()
+	end
+
+	local battery = self.boat:getPartById("Battery")
+	if battery and battery:getInventoryItem() then
+		data["boatPart_Battery"] = battery:getInventoryItem():getUsedDelta()
+	end
+
 	self.boat:removeFromWorld()
 
 	local playerNum = self.character:getPlayerNum()
