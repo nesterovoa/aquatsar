@@ -151,8 +151,9 @@ function ISBoatSeatUI:render()
 	local ex = (self.width - width) / 2
 	local ey = (self.height - height) / 2
 	
-	local imageName = AquaTsarConfig.boatSeatUI_Image[script:getName()]
-	local imageScale =  AquaTsarConfig.boatSeatUI_Scale[script:getName()]
+
+	local imageName = AquaBoats[script:getName()].boatSeatUI_Image
+	local imageScale = AquaBoats[script:getName()].boatSeatUI_Scale
 
 	if imageName and imageScale then
 		local tex = getTexture("media/ui/vehicles/seatui/" .. imageName .. ".png")

@@ -42,8 +42,8 @@ function ISLaunchBoatOnWater:stop()
 end
 
 function ISLaunchBoatOnWater:perform()
-    local newTrailerName = AquaTsarConfig.trailerAfterBoatLaunchTable[self.vehicle:getScript():getName()]
-	local boatName = AquaTsarConfig.boatAfterBoatLaunchFromTrailerTable[self.vehicle:getScript():getName()]
+	local newTrailerName = AquaTsarConfig.getTrailerNameAfterLaunchBoat(self.vehicle)
+	local boatName = AquaTsarConfig.getBoatNameAfterLaunchBoat(self.vehicle)
 	
 	local boat = addVehicleDebug("Base."..boatName, IsoDirections.N, 0, self.square)
 	boat:setAngles(self.vehicle:getAngleX(), self.vehicle:getAngleY(), self.vehicle:getAngleZ())
