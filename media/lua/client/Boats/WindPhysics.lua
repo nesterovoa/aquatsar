@@ -39,10 +39,16 @@ function WindPhysics.updateVehicles()
     for i=0, vehicles:size()-1 do
         local vehicle = vehicles:get(i)
         if vehicle ~= nil and AquaTsarConfig.isBoat(vehicle) then
+            local speed = vehicle:getLinearVelocity(vec1):length()
+            local startCoeff = 1
+            if speed < 5 then
+                startCoeff = 5
+            end
+            
             local x, y = getWindXY()
             local forceVector = vec1:set(x, y, 0)
             forceVector:normalize()
-            forceVector:mul(35 * WindPhysics.getWindSpeed() * AquaBoats[vehicle:getScript():getName()].windInfluence)
+            forceVector:mul(35 * WindPhysics.getWindSpeed() * AquaBoats[vehicle:getScript():getName()].windInfluence * startCoeff)
             forceVector:set(forceVector:x(), forceVector:z(), forceVector:y())
 
             vehicle:setPhysicsActive(true)
