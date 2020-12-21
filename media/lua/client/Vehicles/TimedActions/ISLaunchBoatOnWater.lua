@@ -67,7 +67,7 @@ function ISLaunchBoatOnWater:new(character, vehicle, sq)
     o.square = sq
 
 	o.isFadeOut = false
-    o.maxTime = 1000;
+    o.maxTime = 100; -- TODO исправить на 1000
     
 	if character:isTimedActionInstant() then o.maxTime = 10 end
 	return o

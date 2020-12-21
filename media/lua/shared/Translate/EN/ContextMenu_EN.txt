@@ -1,0 +1,4 @@
+ContextMenu_EN = {
+	ContextMenu_LaunchBoat = "Launch boat",
+	ContextMenu_LoadBoatOntoTrailer = "Load boat onto trailer",
+}

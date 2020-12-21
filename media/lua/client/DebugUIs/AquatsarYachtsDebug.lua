@@ -138,17 +138,18 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 			playerObj:LevelPerk(Perks.Mechanics);
 		end
 		
-		local boat = addVehicleDebug("Base.BoatZeroPatient", IsoDirections.S, nil, getCell():getGridSquare(11833, 6583, 0));
-		inv:AddItem(boat:createVehicleKey());
+		--local boat = addVehicleDebug("Base.BoatZeroPatient", IsoDirections.S, nil, getCell():getGridSquare(11833, 6583, 0));
+		--inv:AddItem(boat:createVehicleKey());
 		
-		local boat2 = addVehicleDebug("Base.BoatSailingYachtWithSails", IsoDirections.S, nil, getCell():getGridSquare(11823, 6583, 0));
-		inv:AddItem(boat2:createVehicleKey());
-		boat2:repair();
+		--local boat2 = addVehicleDebug("Base.BoatSailingYachtWithSails", IsoDirections.S, nil, getCell():getGridSquare(11823, 6583, 0));
+		--inv:AddItem(boat2:createVehicleKey());
+		--boat2:repair();
 		
-		local trailer = addVehicleDebug("Base.TrailerWithBoatSailingYacht", IsoDirections.S, nil, getCell():getGridSquare(11844, 6598, 0));
-		local boat2 = addVehicleDebug("Base.PickUpTruckMccoy", IsoDirections.S, nil, getCell():getGridSquare(11844, 6605, 0));
-		boat2:repair();
-		inv:AddItem(boat2:createVehicleKey());
+		local trailer = addVehicleDebug("Base.TrailerWithBoatSailingYacht", IsoDirections.S, nil, getCell():getGridSquare(11844, 6601, 0));
+		local vehicle = addVehicleDebug("Base.CarStationWagon", IsoDirections.S, nil, getCell():getGridSquare(11844, 6606, 0));
+		vehicle:repair();
+		inv:AddItem(vehicle:createVehicleKey());
+		inv:AddItem(vehicle:createVehicleKey());
 
 	end
 }

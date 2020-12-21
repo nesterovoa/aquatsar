@@ -343,9 +343,9 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	
 	local boatNameWithSails = boat:getScript():getName() .. "WithSails"
 	if string.match(string.lower(boat:getScript():getName()), "withsails") then
-		menu:addSlice(getText("ContextMenu_RemoveSail"), getTexture("media/ui/vehicles/vehicle_lightbar.png"), ISBoatMenu.RemoveSails, playerObj, boat)
+		menu:addSlice(getText("ContextMenu_RemoveSail"), getTexture("media/ui/boats/ICON_remove_sails.png"), ISBoatMenu.RemoveSails, playerObj, boat)
 	elseif getScriptManager():getVehicle(boatNameWithSails) then
-		menu:addSlice(getText("ContextMenu_SetSail"), getTexture("media/ui/vehicles/vehicle_lightbar.png"), ISBoatMenu.SetSails, playerObj, boat)
+		menu:addSlice(getText("ContextMenu_SetSail"), getTexture("media/ui/boats/ICON_set_sails.png"), ISBoatMenu.SetSails, playerObj, boat)
 	end
 	
 	if string.match(string.lower(boat:getScript():getName()), "yacht") and seat > 1 or 

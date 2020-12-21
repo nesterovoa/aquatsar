@@ -22,7 +22,7 @@ end
 function ISVehicleMenuForTrailerWithBoat.launchRadialMenu(playerObj, vehicle)
 	local menu = getPlayerRadialMenu(playerObj:getPlayerNum())
     if canLaunchBoat(vehicle) then
-		menu:addSlice(getText("ContextMenu_LaunchBoat"), getTexture("media/ui/vehicles/vehicle_repair.png"), ISVehicleMenuForTrailerWithBoat.launchBoat, playerObj, vehicle)
+		menu:addSlice(getText("ContextMenu_LaunchBoat"), getTexture("media/ui/boats/ICON_boat_on_trailer.png"), ISVehicleMenuForTrailerWithBoat.launchBoat, playerObj, vehicle)
 	end
 end
 
@@ -64,7 +64,7 @@ function ISVehicleMenuForTrailerWithBoat.loadOntoTrailerRadialMenu(playerObj, ve
 	
 	local boat = getBoatAtRearOfTrailer(vehicle)
 	if boat then
-		menu:addSlice(getText("ContextMenu_LoadBoatOntoTrailer"), getTexture("media/ui/vehicles/vehicle_repair.png"), ISVehicleMenuForTrailerWithBoat.loadOntoTrailer, playerObj, vehicle, boat)
+		menu:addSlice(getText("ContextMenu_LoadBoatOntoTrailer"), getTexture("media/ui/boats/ICON_boat_on_trailer.png"), ISVehicleMenuForTrailerWithBoat.loadOntoTrailer, playerObj, vehicle, boat)
 	end
 end
 
