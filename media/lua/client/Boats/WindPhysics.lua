@@ -22,7 +22,7 @@ function WindPhysics.updateVehicles()
             local speed = vehicle:getLinearVelocity(vec1):length()
             local startCoeff = 1
             if speed < 5 then
-                startCoeff = 4
+                startCoeff = 5
             end
             
             
@@ -60,13 +60,19 @@ function WindPhysics.updateVehicles()
             -- проекция
 
             local value = windForce:x() * sailVector:x() + windForce:y()*sailVector:y()
+            if value > 0 then
+                value = 1 - value
+            else
+                value = 1 + value
+            end
+
 
             print("Value ", value)
 
             print(math.abs(335 * WindPhysics.getWindSpeed() * value * AquaBoats[vehicle:getScript():getName()].windInfluence * startCoeff))
 
             local forceVector = vehicle:getWorldPos(0, 0, 1, vec1):add(-vehicle:getX(), -vehicle:getY(), -vehicle:getZ())
-            forceVector:mul(math.abs(335 * WindPhysics.getWindSpeed() * value * AquaBoats[vehicle:getScript():getName()].windInfluence * startCoeff))
+            forceVector:mul(335 * WindPhysics.getWindSpeed() * value * AquaBoats[vehicle:getScript():getName()].windInfluence * startCoeff)
             forceVector:set(forceVector:x(), forceVector:z(), forceVector:y())
 
             vehicle:setPhysicsActive(true)
@@ -76,8 +82,8 @@ function WindPhysics.updateVehicles()
             if vehicle:getDriver() then
                 if isKeyDown(Keyboard.KEY_A) then
                     vehicle:update()
-                        forceVector = vehicle:getWorldPos(1, 0, 0, vec1):add(-vehicle:getX(), -vehicle:getY(), -vehicle:getZ())
-                        forceVector:mul(600 * WindPhysics.getWindSpeed() * value * AquaBoats[vehicle:getScript():getName()].windInfluence * startCoeff)
+                        forceVector = vehicle:getWorldPos(-1, 0, 0, vec1):add(-vehicle:getX(), -vehicle:getY(), -vehicle:getZ())
+                        forceVector:mul(200 * WindPhysics.getWindSpeed() * value * AquaBoats[vehicle:getScript():getName()].windInfluence * startCoeff)
                         forceVector:set(forceVector:x(), forceVector:z(), forceVector:y())
                         
                         vehicle:getWorldPos(0, 0, -3, vec2):add(-vehicle:getX(), -vehicle:getY(), -vehicle:getZ())
@@ -87,8 +93,8 @@ function WindPhysics.updateVehicles()
                         print(vec2)
                 elseif isKeyDown(Keyboard.KEY_D) then
                     vehicle:update()
-                    forceVector = vehicle:getWorldPos(-1, 0, 0, vec1):add(-vehicle:getX(), -vehicle:getY(), -vehicle:getZ())
-                    forceVector:mul(600 * WindPhysics.getWindSpeed() * value * AquaBoats[vehicle:getScript():getName()].windInfluence * startCoeff)
+                    forceVector = vehicle:getWorldPos(1, 0, 0, vec1):add(-vehicle:getX(), -vehicle:getY(), -vehicle:getZ())
+                    forceVector:mul(200 * WindPhysics.getWindSpeed() * value * AquaBoats[vehicle:getScript():getName()].windInfluence * startCoeff)
                     forceVector:set(forceVector:x(), forceVector:z(), forceVector:y())
                     
                     vehicle:getWorldPos(0, 0, -3, vec2):add(-vehicle:getX(), -vehicle:getY(), -vehicle:getZ())
