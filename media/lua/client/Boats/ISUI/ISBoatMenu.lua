@@ -1623,8 +1623,6 @@ end
 function ISBoatMenu.onShowSeatUI(playerObj, boat)
 	local isPaused = UIManager.getSpeedControls() and UIManager.getSpeedControls():getCurrentGameSpeed() == 0
 	if isPaused then return end
-	uis = UIManager:getUI()
-	--print(uis[#uis])
 	local playerNum = playerObj:getPlayerNum()
 	if not ISBoatMenu.seatUI then
 		ISBoatMenu.seatUI = {}

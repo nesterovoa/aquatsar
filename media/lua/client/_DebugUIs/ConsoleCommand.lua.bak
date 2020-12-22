@@ -1,0 +1,9 @@
+for i, j in ipairs(wo) do print(j) end
+
+for i, j in pairs(s.optionPool) do print(j) end
+
+for i, j in pairs(getmetatable(g)) do print(j) end
+
+for i, j in pairs(getmetatable(g)) do for m, k in pairs(j) do print(m) end end
+
+

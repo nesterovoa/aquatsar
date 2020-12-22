@@ -351,7 +351,26 @@ function ISBoatSeatUI:exitSeat(seat)
 	end
 end
 
+function ISVehicleSeatUI:setVehicle(vehicle)
+	self.vehicle = vehicle
+	self.mouseOverSeat = nil
+	self.characterSeat = nil
+	self.joypadSeat = 1
+	if self.character:getVehicle() == vehicle then
+		self.characterSeat = self.vehicle:getSeat(self.character)
+		self.joypadSeat = self.characterSeat + 1
+	end
+	self:setUIName("ISVehicleSeatUI")
+end
+
 function ISBoatSeatUI:closeSelf()
+	local uis = UIManager.getUI()
+	for i = 0, uis:size()-1 do 
+		local ui = uis:get(i)
+		if ui:getUIName() == "ISVehicleSeatUI" then
+			UIManager.RemoveElement(ui)
+		end
+	end
 	self:removeFromUIManager()
 	if JoypadState.players[self.playerNum+1] then
 		setJoypadFocus(self.playerNum, nil)
