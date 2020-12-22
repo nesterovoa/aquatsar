@@ -11,46 +11,6 @@ function WindPhysics.getWindSpeed()
     return getClimateManager():getWindIntensity()*getClimateManager():getMaxWindspeedKph()
 end
 
-local function getWindXY()
-    local dir = WindPhysics.getWindDirection()
-    local x = 0
-    local y = 0
-
-    if string.find(dir, "S") then
-		if string.find(dir, "E") then
-			x = 1
-			y = 0
-		elseif string.find(dir, "W") then
-			x = 0
-			y = 1
-		else
-			x = 1
-			y = 1
-		end
-    elseif string.find(dir, "N") then
-		if string.find(dir, "E") then
-			x = 0
-			y = -1
-		elseif string.find(dir, "W") then
-			x = -1
-			y = 0
-		else
-			x = -1
-			y = -1
-		end
-    elseif string.find(dir, "E") then
-		x = 1
-		y = -1
-	elseif string.find(dir, "W") then
-		x = -1
-		y = 1
-	end
-    -- print(dir)
-    -- print(WindPhysics.getWindSpeed())
-
-    return x, y
-end
-
 function WindPhysics.updateVehicles()
     local vehicles = getCell():getVehicles()
     for i=0, vehicles:size()-1 do
@@ -62,10 +22,14 @@ function WindPhysics.updateVehicles()
                 startCoeff = 5
             end
             
-            local x, y = getWindXY()
+            print(WindPhysics.getWindDirection())
+
+            local angle = math.rad(math.fmod(getClimateManager():getWindAngleDegrees(), 360))
+            local x = math.cos(angle)
+            local y = math.sin(angle)
+
             local forceVector = vec1:set(x, y, 0)
-            forceVector:normalize()
-            forceVector:mul(135 * WindPhysics.getWindSpeed() * AquaBoats[vehicle:getScript():getName()].windInfluence * startCoeff)
+            forceVector:mul(335 * WindPhysics.getWindSpeed() * AquaBoats[vehicle:getScript():getName()].windInfluence * startCoeff)
             forceVector:set(forceVector:x(), forceVector:z(), forceVector:y())
 
             vehicle:setPhysicsActive(true)
@@ -76,4 +40,4 @@ function WindPhysics.updateVehicles()
 end
 
 
---Events.OnTick.Add(WindPhysics.updateVehicles)
+Events.OnTick.Add(WindPhysics.updateVehicles)
