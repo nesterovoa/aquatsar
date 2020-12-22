@@ -47,6 +47,8 @@ function WindPhysics.updateVehicles()
             y = math.sin(math.rad(sailAngle))
 
             sailVector:set(x, y, 0)
+            vehicle:getWorldPos(x, 0, y, sailVector):add(-vehicle:getX(), -vehicle:getY(), -vehicle:getZ())
+
 
             print("Sail angle ", sailAngle)
             print("Sail vector ", sailVector)
@@ -92,12 +94,12 @@ function WindPhysics.updateVehicles()
                     vehicle:getWorldPos(0, 0, -3, vec2):add(-vehicle:getX(), -vehicle:getY(), -vehicle:getZ())
                     vec2:set(vec2:x(), vec2:z(), vec2:y())
                     vehicle:addImpulse(forceVector, vec2)  
-                elseif isKeyDown(Keyboard.KEY_B) then
+                elseif isKeyDown(Keyboard.KEY_LEFT) then
                     if sailAngle < 180 then
                         sailAngle = sailAngle + 1
                     end
                     vehicle:getModData()["sailAngle"] = sailAngle
-                elseif isKeyDown(Keyboard.KEY_N) then
+                elseif isKeyDown(Keyboard.KEY_RIGHT) then
                     if sailAngle > 0 then
                         sailAngle = sailAngle - 1
                     end
