@@ -22,18 +22,18 @@ function WindPhysics.updateVehicles()
             local speed = vehicle:getLinearVelocity(vec1):length()
             local startCoeff = 1
             if speed < 5 then
-                startCoeff = 5
+                startCoeff = 4
             end
             
             
 
-            local angle = math.rad(math.fmod(getClimateManager():getWindAngleDegrees(), 360))
+            local angle = math.rad(math.fmod(getClimateManager():getWindAngleDegrees() - 50, 360))
             local x = math.cos(angle)
             local y = math.sin(angle)
             windForce:set(x, y, 0)
 
             print("Direction ", WindPhysics.getWindDirection())
-            print("Wind angle ", math.fmod(getClimateManager():getWindAngleDegrees(), 360))
+            print("Wind angle ", math.fmod(getClimateManager():getWindAngleDegrees() - 50, 360))
             print("Wind force ", windForce)
 
             local sailAngle = vehicle:getModData()["sailAngle"]
@@ -95,12 +95,12 @@ function WindPhysics.updateVehicles()
                     vec2:set(vec2:x(), vec2:z(), vec2:y())
                     vehicle:addImpulse(forceVector, vec2)  
                 elseif isKeyDown(Keyboard.KEY_LEFT) then
-                    if sailAngle < 180 then
+                    if sailAngle < 90 then
                         sailAngle = sailAngle + 1
                     end
                     vehicle:getModData()["sailAngle"] = sailAngle
                 elseif isKeyDown(Keyboard.KEY_RIGHT) then
-                    if sailAngle > 0 then
+                    if sailAngle > -90 then
                         sailAngle = sailAngle - 1
                     end
                     vehicle:getModData()["sailAngle"] = sailAngle
