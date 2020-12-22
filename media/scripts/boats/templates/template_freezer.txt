@@ -1,48 +1,48 @@
 module Base
 {
-	item TransportFridge
+	item TransportFreezer
     {
         Weight	=	20.0,
         Type	=	Normal,
-        DisplayName	= Compact Fridge,
-		Tooltip = Tooltip_Compact_Fridge,
-        Icon	=	media/ui/Container_Fridge,
+        DisplayName	= Compact Freezer,
+		Tooltip = Tooltip_Compact_Freezer,
+        Icon	=	media/ui/Container_Freezer,
         MaxCapacity = 10,
 		ConditionMax = 100,
         MechanicsItem = TRUE,
     }
 	
-	template vehicle Fridges
+	template vehicle Freezers
 	{
-		part FridgeFrontLeft
+		part FreezerFrontLeft
 		{
 			area = SeatFrontLeft,
 		}
-		part FridgeFrontRight
+		part FreezerFrontRight
 		{
 			area = SeatFrontRight,
 		}
-		part FridgeMiddleLeft
+		part FreezerMiddleLeft
 		{
 			area = SeatMiddleLeft,
 		}
-		part FridgeMiddleRight
+		part FreezerMiddleRight
 		{
 			area = SeatMiddleRight,
 		}
-		part FridgeRearLeft
+		part FreezerRearLeft
 		{
 			area = SeatRearLeft,
 		}
-		part FridgeRearRight
+		part FreezerRearRight
 		{
 			area = SeatRearRight,
 		}
-		part Fridge*
+		part Freezer*
 		{
 			category = HouseholdSystem,
 			specificItem = false,
-			itemType = Base.TransportFridge,
+			itemType = Base.TransportFreezer,
 			container
 			{
 				capacity = 20,
@@ -84,8 +84,8 @@ module Base
 			}
 			lua
 			{
-				create = CommonTemplates.Create.Fridge,
-				init = CommonTemplates.Init.Fridge,
+				create = CommonTemplates.Create.Freezer,
+				init = CommonTemplates.Init.Freezer,
 				update = CommonTemplates.Update.Fridge,
 			}
 		}

@@ -17,19 +17,36 @@ local function getWindXY()
     local y = 0
 
     if string.find(dir, "S") then
-        y = 1
+		if string.find(dir, "E") then
+			x = 1
+			y = 0
+		elseif string.find(dir, "W") then
+			x = 0
+			y = 1
+		else
+			x = 1
+			y = 1
+		end
     elseif string.find(dir, "N") then
-        y = -1
-    end
-
-    if string.find(dir, "E") then
-        x = 1
-    elseif string.find(dir, "W") then
-        x = -1
-    end
-
-    print(dir)
-    print(WindPhysics.getWindSpeed())
+		if string.find(dir, "E") then
+			x = 0
+			y = -1
+		elseif string.find(dir, "W") then
+			x = -1
+			y = 0
+		else
+			x = -1
+			y = -1
+		end
+    elseif string.find(dir, "E") then
+		x = 1
+		y = -1
+	elseif string.find(dir, "W") then
+		x = -1
+		y = 1
+	end
+    -- print(dir)
+    -- print(WindPhysics.getWindSpeed())
 
     return x, y
 end
@@ -48,7 +65,7 @@ function WindPhysics.updateVehicles()
             local x, y = getWindXY()
             local forceVector = vec1:set(x, y, 0)
             forceVector:normalize()
-            forceVector:mul(35 * WindPhysics.getWindSpeed() * AquaBoats[vehicle:getScript():getName()].windInfluence * startCoeff)
+            forceVector:mul(135 * WindPhysics.getWindSpeed() * AquaBoats[vehicle:getScript():getName()].windInfluence * startCoeff)
             forceVector:set(forceVector:x(), forceVector:z(), forceVector:y())
 
             vehicle:setPhysicsActive(true)
@@ -59,4 +76,4 @@ function WindPhysics.updateVehicles()
 end
 
 
-Events.OnTick.Add(WindPhysics.updateVehicles)
+--Events.OnTick.Add(WindPhysics.updateVehicles)

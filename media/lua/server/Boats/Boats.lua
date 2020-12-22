@@ -112,6 +112,9 @@ function Boats.Init.BoatHeadlight(vehicle, part)
 	part:setModelVisible("test", true)
 end
 
+function Boats.ContainerAccess.BlockSeat(vehicle, part, chr)
+	return false
+end
 
 function Boats.InstallComplete.Cabinlight(boat, partt)
 	print("Boats.InstallComplete.Cabinlight")

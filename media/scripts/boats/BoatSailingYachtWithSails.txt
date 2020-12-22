@@ -62,6 +62,38 @@ module Base
 		rearEndHealth = 150,
 		seats = 6,
 
+		attachment exitLeft
+		{
+			offset = 3.2200 0.0000 -3.1700,
+			rotate = 0.0000 0.0000 0.0000,
+		}
+
+		attachment exitRear
+		{
+			offset = 0.0000 0.0000 -6.3000,
+			rotate = 0.0000 0.0000 0.0000,
+		}
+
+		attachment exitRight
+		{
+			offset = -3.2200 0.0000 -3.1700,
+			rotate = 0.0000 0.0000 0.0000,
+		}
+
+		attachment trailer
+		{
+			offset = 0.0000 0.6125 -1.1475,
+			rotate = 0.0000 0.0000 0.0000,
+			zoffset = -1.0000,
+		}
+
+		attachment trailerfront
+		{
+			offset = 0.0000 0.6125 1.1475,
+			rotate = 0.0000 0.0000 0.0000,
+			zoffset = 1.0000,
+		}
+		
 		wheel FrontLeft
 		{
 			front = true,
@@ -204,44 +236,19 @@ module Base
 
 		template = Seat/part/SeatFrontLeft,
 		template = Seat/part/SeatFrontRight,
-
-		part SeatFrontLeft
-		{
-			itemType = Aqua.NotRemovableBoatSeat,
-			mechanicRequireKey = false,
-			category = nodisplay,
-		}
-
-		part SeatFrontRight
-		{
-			itemType = Aqua.NotRemovableBoatSeat,
-			mechanicRequireKey = false,
-			category = nodisplay,
-		}
-
 		template = Seat/part/SeatMiddleLeft,
 		template = Seat/part/SeatMiddleRight,
 		template = Seat/part/SeatRearLeft,
 		template = Seat/part/SeatRearRight,
 
-		part SeatMiddleLeft
+		part Seat*
 		{
-			category = HouseholdSystem,
-		}
-
-		part SeatMiddleRight
-		{
-			category = HouseholdSystem,
-		}
-
-		part SeatRearLeft
-		{
-			category = HouseholdSystem,
-		}
-
-		part SeatRearRight
-		{
-			category = HouseholdSystem,
+			itemType = Aqua.NotRemovableBoatSeat,
+			category = nodisplay,
+			container
+			{
+				test = Boats.ContainerAccess.BlockSeat,
+			}
 		}
 
 		template = GasTank,
@@ -371,37 +378,23 @@ module Base
 		template = BoatLight/part/BoatLightFloodlightRight,
 		template = BoatLight/part/BoatLightCabin,
 		template = Heater,
-
-		attachment exitLeft
-		{
-			offset = 3.2200 0.0000 -3.1700,
-			rotate = 0.0000 0.0000 0.0000,
-		}
-
-		attachment exitRear
-		{
-			offset = 0.0000 0.0000 -6.3000,
-			rotate = 0.0000 0.0000 0.0000,
-		}
-
-		attachment exitRight
-		{
-			offset = -3.2200 0.0000 -3.1700,
-			rotate = 0.0000 0.0000 0.0000,
-		}
-
-		attachment trailer
-		{
-			offset = 0.0000 0.6125 -1.1475,
-			rotate = 0.0000 0.0000 0.0000,
-			zoffset = -1.0000,
-		}
-
-		attachment trailerfront
-		{
-			offset = 0.0000 0.6125 1.1475,
-			rotate = 0.0000 0.0000 0.0000,
-			zoffset = 1.0000,
-		}
+		
+		template = GloveBox,
+		
+		template = Cupboards/part/CupboardMiddleLeft,
+		template = Counters/part/CounterMiddleLeft,
+		template = Medicines/part/MedicineMiddleLeft,
+		
+		template = Counters/part/CounterMiddleRight,
+		template = Drawers/part/DrawerMiddleRight,
+		
+		template = Counters/part/CounterRearLeft,
+		template = Freezers/part/FreezerRearLeft,
+		
+		template = Shelves/part/ShelveRearRight,
+		template = Fridges/part/FridgeRearRight,
+		template = Ovens/part/OvenRearRight,
+		template = Microwaves/part/MicrowaveRearRight,
+	
 	}
 }

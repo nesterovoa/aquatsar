@@ -1,48 +1,48 @@
 module Base
 {
-	item TransportFridge
+	item TransportShelve
     {
-        Weight	=	20.0,
+        Weight	=	10.0,
         Type	=	Normal,
-        DisplayName	= Compact Fridge,
-		Tooltip = Tooltip_Compact_Fridge,
-        Icon	=	media/ui/Container_Fridge,
-        MaxCapacity = 10,
+        DisplayName	=	Counter,
+        Icon	=	media/ui/Container_Cabinet,
+        MaxCapacity = 15,
 		ConditionMax = 100,
         MechanicsItem = TRUE,
     }
-	
-	template vehicle Fridges
+
+	template vehicle Shelves
 	{
-		part FridgeFrontLeft
+		part ShelveFrontLeft
 		{
 			area = SeatFrontLeft,
 		}
-		part FridgeFrontRight
+		part ShelveFrontRight
 		{
 			area = SeatFrontRight,
 		}
-		part FridgeMiddleLeft
+		part ShelveMiddleLeft
 		{
 			area = SeatMiddleLeft,
 		}
-		part FridgeMiddleRight
+		part ShelveMiddleRight
 		{
 			area = SeatMiddleRight,
 		}
-		part FridgeRearLeft
+		part ShelveRearLeft
 		{
 			area = SeatRearLeft,
 		}
-		part FridgeRearRight
+		part ShelveRearRight
 		{
 			area = SeatRearRight,
 		}
-		part Fridge*
+		
+		part Shelve*
 		{
-			category = HouseholdSystem,
+			category = nodisplay,
 			specificItem = false,
-			itemType = Base.TransportFridge,
+			itemType = Base.TransportShelve,
 			container
 			{
 				capacity = 20,
@@ -52,13 +52,13 @@ module Base
 			{
 				items
 				{
-						1
-						{
+					1
+					{
 						type = Base.Screwdriver,
 						count = 1,
 						keep = true,
 						equip = primary,
-						}
+					}
 				}
 				time = 300,
 				skills = Mechanics:1,
@@ -69,13 +69,13 @@ module Base
 			{
 				items
 				{
-						1
-						{
-							type = Base.Screwdriver,
-							count = 1,
-							keep = true,
-				equip = primary,
-						}
+					1
+					{
+					type = Base.Screwdriver,
+					count = 1,
+					keep = true,
+					equip = primary,
+					}
 				}
 				time = 300,
 				skills = Mechanics:1,
@@ -84,9 +84,7 @@ module Base
 			}
 			lua
 			{
-				create = CommonTemplates.Create.Fridge,
-				init = CommonTemplates.Init.Fridge,
-				update = CommonTemplates.Update.Fridge,
+				create = CommonTemplates.Create.Shelve,
 			}
 		}
 	}

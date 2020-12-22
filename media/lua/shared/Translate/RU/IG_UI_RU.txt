@@ -9,6 +9,15 @@ IGUI_RU = {
 	IGUI_VehiclePartBoatLightFloodlightRight = "Прожектор правый",
 	IGUI_VehiclePartBoatLightCabin = "Лампочка в кабине",	
 	
+	IGUI_VehiclePartshelves = "Полки",
+	IGUI_VehiclePartstove = "Плита",
+	IGUI_VehiclePartfridge = "Холодильник",
+	IGUI_VehiclePartcounter = "Тумба",
+	IGUI_VehiclePartmicrowave = "Микроволновка",
+	IGUI_VehiclePartfreezer = "Морозильная камера",
+	IGUI_VehiclePartwardrobe = "Шкаф",
+	IGUI_VehiclePartwardrobe = "Шкафчик",
+	
 	IGUI_VehicleNameSailingBoatWithSales = "Яхта",
 	IGUI_ExitBoat = "Сойти на берег",
 	IGUI_EnterBoat = "Взойти на лодку",
@@ -29,4 +38,5 @@ IGUI_RU = {
 	IGUI_BoatSeatRearLeft = "Перейти сюда",
 	IGUI_BoatSeatMiddleRight = "Перейти сюда",
 	IGUI_BoatSeatMiddleLeft = "Перейти сюда",
+
 }

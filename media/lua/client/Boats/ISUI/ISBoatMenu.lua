@@ -15,7 +15,6 @@ function ISBoatMenu.onKeyStartPressed(key)
 	if not playerObj then return end
 	if playerObj:isDead() then return end
 	if key == Keyboard.KEY_E then
-		print("BOAT-E")
 		local boat = playerObj:getVehicle()
 		if boat == nil then
 			boat = ISBoatMenu.getBoatToInteractWith(playerObj)
@@ -25,8 +24,105 @@ function ISBoatMenu.onKeyStartPressed(key)
 		elseif starts_with(string.lower(boat:getScript():getName()), "boat") then
 			ISBoatMenu.onExit(playerObj, 0)
 		end	
+	elseif key == getCore():getKey("VehicleRadialMenu") and playerObj then
+		-- 'V' can be 'Toggle UI' when outside a vehicle
+		local boat = ISBoatMenu.getBoatInside(playerObj)
+		if boat then
+			ISBoatMenu.showRadialMenu(playerObj)
+			return
+		end
+		boat = ISBoatMenu.getBoatToInteractWith(playerObj)
+		if boat then
+			ISBoatMenu.showRadialMenuOutside(playerObj)
+			return
+		end
+
+		local vehicle = ISVehicleMenu.getVehicleToInteractWith(playerObj)
+		if vehicle ~= nil then
+			if AquaTsarConfig.isTrailerWithBoat(vehicle) then
+				ISVehicleMenuForTrailerWithBoat.launchRadialMenu(playerObj, vehicle)
+			elseif AquaTsarConfig.isEmptyTrailerForBoat(vehicle) then
+				ISVehicleMenuForTrailerWithBoat.loadOntoTrailerRadialMenu(playerObj, vehicle)
+			end
+		end
+	elseif key == getCore():getKey("VehicleSwitchSeat") then	
+		local boat = ISBoatMenu.getBoatInside(playerObj)
+		if boat then
+			ISBoatMenu.onShowSeatUI(playerObj, boat)
+			return
+		end
+		boat = ISBoatMenu.getBoatToInteractWith(playerObj)
+		if boat then
+			ISBoatMenu.onShowSeatUI(playerObj, boat)
+			return
+		end
 	end
 end
+
+ISBoatMenu.onKeyPressed = function(key)
+	local playerObj = getSpecificPlayer(0)
+	if not playerObj then return end
+	if playerObj:isDead() then return end
+	if key == getCore():getKey("VehicleRadialMenu") and playerObj then
+		-- 'V' can be 'Toggle UI' when outside a vehicle
+		if not getCore():getOptionRadialMenuKeyToggle() then
+			-- Hide radial menu when 'V' is released.
+			local menu = getPlayerRadialMenu(0)
+			if menu:isReallyVisible() then
+				local boat = ISBoatMenu.getBoatInside(playerObj)
+				if boat then
+					ISBoatMenu.showRadialMenu(playerObj)
+					return
+				end
+				boat = ISBoatMenu.getBoatToInteractWith(playerObj)
+				if boat then
+					ISBoatMenu.showRadialMenuOutside(playerObj)
+					return
+				end
+			end
+		end
+	end
+end
+
+
+-- function ISBoatMenu.onKeyPressed(key)
+	-- local playerObj = getSpecificPlayer(0)
+	-- if not playerObj then return end
+	-- if playerObj:isDead() then return end
+	-- local boat = playerObj:getVehicle()
+	-- if not boat then
+		-- boat = ISBoatMenu.getVehicleToInteractWith(playerObj)
+		-- if boat then
+			-- if key == getCore():getKey("VehicleMechanics") then
+				-- ISBoatMenu.onMechanic(playerObj, boat)
+				-- return
+			-- end
+		-- end
+		-- return
+	-- end
+	-- if key == getCore():getKey("StartVehicleEngine") then
+		-- if boat:isEngineRunning() then
+			-- ISBoatMenu.onShutOff(playerObj)
+		-- else
+			-- ISBoatMenu.onStartEngine(playerObj)
+		-- end
+	-- elseif key == getCore():getKey("VehicleHeater") then
+		-- ISBoatMenu.onToggleHeater(playerObj)
+	-- elseif key == getCore():getKey("VehicleMechanics") then
+		-- ISBoatMenu.onMechanic(playerObj, boat)
+	-- elseif key == getCore():getKey("VehicleHorn") then
+		-- if boat:isDriver(playerObj) then
+			-- ISBoatMenu.onHornStop(playerObj)
+		-- end
+	-- end
+	-- -- Could be same as VehicleHorn key
+	-- if key == getCore():getKey("Shout") then
+		-- if not boat:isDriver(playerObj) then
+			-- playerObj:Callout()
+		-- end
+	-- end
+-- end
+
 
 function ISBoatMenu.getBoatInside(player)
 	local boat = player:getVehicle()
@@ -34,6 +130,10 @@ function ISBoatMenu.getBoatInside(player)
 		return boat
 	end
 end
+
+
+
+
 
 function ISBoatMenu.getNearBoat(player)
 	local boat = player:getNearVehicle()
@@ -1523,7 +1623,8 @@ end
 function ISBoatMenu.onShowSeatUI(playerObj, boat)
 	local isPaused = UIManager.getSpeedControls() and UIManager.getSpeedControls():getCurrentGameSpeed() == 0
 	if isPaused then return end
-
+	uis = UIManager:getUI()
+	--print(uis[#uis])
 	local playerNum = playerObj:getPlayerNum()
 	if not ISBoatMenu.seatUI then
 		ISBoatMenu.seatUI = {}
@@ -1552,46 +1653,6 @@ end
 -- function ISBoatMenu.onWalkPath(playerObj)
 	-- ISTimedActionQueue.add(ISPathFindAction:new(playerObj))
 -- end
-
--- function ISBoatMenu.onKeyPressed(key)
-	-- local playerObj = getSpecificPlayer(0)
-	-- if not playerObj then return end
-	-- if playerObj:isDead() then return end
-	-- local boat = playerObj:getVehicle()
-	-- if not boat then
-		-- boat = ISBoatMenu.getVehicleToInteractWith(playerObj)
-		-- if boat then
-			-- if key == getCore():getKey("VehicleMechanics") then
-				-- ISBoatMenu.onMechanic(playerObj, boat)
-				-- return
-			-- end
-		-- end
-		-- return
-	-- end
-	-- if key == getCore():getKey("StartVehicleEngine") then
-		-- if boat:isEngineRunning() then
-			-- ISBoatMenu.onShutOff(playerObj)
-		-- else
-			-- ISBoatMenu.onStartEngine(playerObj)
-		-- end
-	-- elseif key == getCore():getKey("VehicleHeater") then
-		-- ISBoatMenu.onToggleHeater(playerObj)
-	-- elseif key == getCore():getKey("VehicleMechanics") then
-		-- ISBoatMenu.onMechanic(playerObj, boat)
-	-- elseif key == getCore():getKey("VehicleHorn") then
-		-- if boat:isDriver(playerObj) then
-			-- ISBoatMenu.onHornStop(playerObj)
-		-- end
-	-- end
-	-- -- Could be same as VehicleHorn key
-	-- if key == getCore():getKey("Shout") then
-		-- if not boat:isDriver(playerObj) then
-			-- playerObj:Callout()
-		-- end
-	-- end
--- end
-
-
 
 function ISBoatMenu.onHorn(playerObj)
 	ISTimedActionQueue.add(ISHornBoat:new(playerObj))
@@ -1636,6 +1697,7 @@ end
 -- end
 
 -- Events.OnFillWorldObjectContextMenu.Add(ISBoatMenu.OnFillWorldObjectContextMenu)
--- Events.OnKeyPressed.Add(ISBoatMenu.onKeyPressed);
+
+Events.OnKeyPressed.Add(ISBoatMenu.onKeyPressed);
 Events.OnKeyStartPressed.Add(ISBoatMenu.onKeyStartPressed);
 

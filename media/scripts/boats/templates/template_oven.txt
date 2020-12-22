@@ -1,48 +1,49 @@
 module Base
 {
-	item TransportFridge
-    {
-        Weight	=	20.0,
-        Type	=	Normal,
-        DisplayName	= Compact Fridge,
-		Tooltip = Tooltip_Compact_Fridge,
-        Icon	=	media/ui/Container_Fridge,
-        MaxCapacity = 10,
-		ConditionMax = 100,
-        MechanicsItem = TRUE,
-    }
-	
-	template vehicle Fridges
+	item TransportOven
 	{
-		part FridgeFrontLeft
+		Weight	=	20.0,
+		Type	=	Normal,
+		DisplayName	= Compact Oven,
+		Tooltip = Tooltip_Compact_Oven,
+		Icon	=	media/ui/Container_Oven,
+		MaxCapacity = 10,
+		ConditionMax = 100,
+		MechanicsItem = TRUE,
+	}
+	
+	template vehicle Ovens
+	{
+		part OvenFrontLeft
 		{
 			area = SeatFrontLeft,
 		}
-		part FridgeFrontRight
+		part OvenFrontRight
 		{
 			area = SeatFrontRight,
 		}
-		part FridgeMiddleLeft
+		part OvenMiddleLeft
 		{
 			area = SeatMiddleLeft,
 		}
-		part FridgeMiddleRight
+		part OvenMiddleRight
 		{
 			area = SeatMiddleRight,
 		}
-		part FridgeRearLeft
+		part OvenRearLeft
 		{
 			area = SeatRearLeft,
 		}
-		part FridgeRearRight
+		part OvenRearRight
 		{
 			area = SeatRearRight,
 		}
-		part Fridge*
+		
+		part Oven*
 		{
 			category = HouseholdSystem,
 			specificItem = false,
-			itemType = Base.TransportFridge,
+			itemType = Base.TransportOven,
 			container
 			{
 				capacity = 20,
@@ -54,10 +55,10 @@ module Base
 				{
 						1
 						{
-						type = Base.Screwdriver,
-						count = 1,
-						keep = true,
-						equip = primary,
+							type = Base.Screwdriver,
+							count = 1,
+							keep = true,
+							equip = primary,
 						}
 				}
 				time = 300,
@@ -84,9 +85,9 @@ module Base
 			}
 			lua
 			{
-				create = CommonTemplates.Create.Fridge,
-				init = CommonTemplates.Init.Fridge,
-				update = CommonTemplates.Update.Fridge,
+				create = CommonTemplates.Create.Oven,
+				init = CommonTemplates.Init.Oven,
+				update = CommonTemplates.Update.Oven,
 			}
 		}
 	}
