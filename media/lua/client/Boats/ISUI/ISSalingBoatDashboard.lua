@@ -24,6 +24,12 @@ function ISSalingBoatDashboard:createChildren()
 	self.windGauge:setNeedleWidth(80)
 	self:addChild(self.windGauge)
 	
+	self.sailGauge = ISVehicleGauge:new(x, y, self.sailGaugeTex, 100, 100, 10, 170) -- красная полоска (x, y, angle start, angle finish)
+	self.sailGauge:initialise()
+	self.sailGauge:instantiate()
+	self.sailGauge:setNeedleWidth(40)
+	self:addChild(self.sailGauge)
+	
 	self:onResolutionChange()
 end
 
@@ -102,32 +108,41 @@ function ISSalingBoatDashboard:prerender()
 	local y = frontVector:y() - rearVector:y()
 	local wind = math.fmod(getClimateManager():getWindAngleDegrees(), 360)
 	wind = getClimateManager():getWindAngleDegrees()
-	print(ClimateManager.getWindAngleString(getClimateManager():getWindAngleDegrees()))
+	--print(ClimateManager.getWindAngleString(getClimateManager():getWindAngleDegrees()))
 	--local boatDirection = math.atan2(math.sqrt(2)/2*(x-y), math.sqrt(2)/2*(x+y)) * 57.2958 + 180
 	local boatDirection = math.atan2(x,y) * 57.2958 + 180
-	print("Wind angle ", wind)	
+	--print("Wind angle ", wind)	
 	--local directionVector = Vector3f.new(x,y, 0)
-	print("boatDirection ", boatDirection)
+	--print("boatDirection ", boatDirection)
 	local newwind = 0
 	if wind >= 180 then
 		newwind = wind - 180
 	else 
 		newwind = wind + 180
 	end
-	print("newwind: ", newwind)
+	--print("newwind: ", newwind)
 	local windOnBoat = 0
 	if newwind > boatDirection then
 		windOnBoat = newwind - boatDirection
-		print("1windOnBoat ", windOnBoat)
+		--print("1windOnBoat ", windOnBoat)
 	else
 		windOnBoat = 360 - (boatDirection - newwind)
-		print("2windOnBoat ", windOnBoat)
+		--print("2windOnBoat ", windOnBoat)
 	end
 	if windOnBoat <= 180 then
 		self.windGauge:setValue((180 - windOnBoat)/360)
 	else
 		self.windGauge:setValue((540 - windOnBoat)/360)
 	end
+	
+	local sailAngle = self.boat:getModData()["sailAngle"]
+	if sailAngle == nil then
+		sailAngle = 0
+	end
+	print("Sail angle ", sailAngle)
+	sailAngle = (sailAngle + 90)/180
+	
+	self.sailGauge:setValue(sailAngle)
 	
 end
 		
@@ -170,6 +185,7 @@ function ISSalingBoatDashboard:new(playerNum, chr)
 	o.dashboardBG = getTexture("media/ui/boats/salingdashboard/boat_dashboard.png");
 	o.speedGaugeTex = getTexture("media/ui/boats/salingdashboard/boat_spedometer.png")
 	o.windGaugeTex = getTexture("media/ui/boats/salingdashboard/boat_wind.png")
+	o.sailGaugeTex = getTexture("media/ui/boats/salingdashboard/boat_sail.png")
 	o.flickingTimer = 0;
 	o:setWidth(o.dashboardBG:getWidth());
 	return o

@@ -24,21 +24,20 @@ function WindPhysics.updateVehicles()
             if speed < 5 then
                 startCoeff = 5
             end
-            
-            
 
-            local angle = math.rad(math.fmod(getClimateManager():getWindAngleDegrees(), 360))
+            local angle = math.rad(math.fmod(getClimateManager():getWindAngleDegrees() - 45 , 360))
             local x = math.cos(angle)
             local y = math.sin(angle)
             windForce:set(x, y, 0)
 			--print("BOAT Direction: ", vehicle:getAngleY())
             --print("Direction ", WindPhysics.getWindDirection())
-            --print("Wind angle ", math.fmod(getClimateManager():getWindAngleDegrees(), 360))
+            --print("Wind angle ", math.fmod(getClimateManager():getWindAngleDegrees() - 45, 360))
             --print("Wind force ", windForce)
 
             local sailAngle = vehicle:getModData()["sailAngle"]
             if sailAngle == nil then
                 sailAngle = 0
+				vehicle:getModData()["sailAngle"] = 0
             end
 
             
@@ -116,4 +115,4 @@ function WindPhysics.updateVehicles()
     end	
 end
 
---Events.OnTick.Add(WindPhysics.updateVehicles)
+Events.OnTick.Add(WindPhysics.updateVehicles)
