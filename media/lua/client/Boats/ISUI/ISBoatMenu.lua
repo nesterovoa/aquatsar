@@ -440,7 +440,21 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	if (boat:hasLightbar()) then
 		menu:addSlice(getText("ContextMenu_VehicleLightbar"), getTexture("media/ui/vehicles/vehicle_lightbar.png"), ISBoatMenu.onLightbar, playerObj)
 	end
-	
+
+	-- Swim
+	boat:updateHasExtendOffsetForExit(playerObj)
+	if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 and not ISBoatMenu.getExitPoint(boat) and not ISBoatMenu.getNearLandForExit(boat) then
+		if AquatsarYachts.Swim.haveLifebuoy(playerObj) then
+			local chance = AquatsarYachts.Swim.chanceSuccessWithLifebuoy(playerObj)
+			local text = getText("ContextMenu_SwimToLandWithLifebuoy") .. "\n" .. getText("Tooltip_chanceSuccess") .. " " .. chance .. "%"
+			menu:addSlice(text, nil, AquatsarYachts.Swim.swimToLandWithLifebuoy, playerObj, chance)
+		end		
+		
+		local chance = AquatsarYachts.Swim.chanceSuccess(playerObj)
+		local text = getText("ContextMenu_SwimToLand") .. "\n" .. getText("Tooltip_chanceSuccess") .. " " .. chance .. "%"
+		menu:addSlice(text, nil, AquatsarYachts.Swim.swimToLand, playerObj, chance)
+	end
+
 	local boatNameWithSails = boat:getScript():getName() .. "WithSails"
 	if string.match(string.lower(boat:getScript():getName()), "withsails") then
 		menu:addSlice(getText("ContextMenu_RemoveSail"), getTexture("media/ui/boats/ICON_remove_sails.png"), ISBoatMenu.RemoveSails, playerObj, boat)
