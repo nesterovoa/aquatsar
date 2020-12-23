@@ -439,16 +439,8 @@ function ISBoatMenu.showRadialMenu(playerObj)
 
 	-- Swim
 	boat:updateHasExtendOffsetForExit(playerObj)
-	if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 and not ISBoatMenu.getExitPoint(boat) and not ISBoatMenu.getNearLandForExit(boat) then
-		if AquatsarYachts.Swim.haveLifebuoy(playerObj) then
-			local chance = AquatsarYachts.Swim.chanceSuccessWithLifebuoy(playerObj)
-			local text = getText("ContextMenu_SwimToLandWithLifebuoy") .. "\n" .. getText("Tooltip_chanceSuccess") .. " " .. chance .. "%"
-			menu:addSlice(text, nil, AquatsarYachts.Swim.swimToLandWithLifebuoy, playerObj, chance)
-		end		
-		
-		local chance = AquatsarYachts.Swim.chanceSuccess(playerObj)
-		local text = getText("ContextMenu_SwimToLand") .. "\n" .. getText("Tooltip_chanceSuccess") .. " " .. chance .. "%"
-		menu:addSlice(text, nil, AquatsarYachts.Swim.swimToLand, playerObj, chance)
+	if true or boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 and not ISBoatMenu.getExitPoint(boat) and not ISBoatMenu.getNearLandForExit(boat) then
+		menu:addSlice(getText("ContextMenu_SwimToLand"), nil, ISBoatMenu.showSwimMenu, playerObj)
 	end
 
 	local boatNameWithSails = boat:getScript():getName() .. "WithSails"
@@ -550,6 +542,20 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		setJoypadFocus(playerObj:getPlayerNum(), menu)
 		playerObj:setJoypadIgnoreAimUntilCentered(true)
 	end
+end
+
+function ISBoatMenu.showSwimMenu(playerObj)
+	if ISSwimUI.windows[playerObj:getPlayerNum()+1] then
+        ISSwimUI.windows[playerObj:getPlayerNum()+1]:removeFromUIManager();
+    end
+	
+	local modal = ISSwimUI:new(0,0, 450, 270, playerObj:getPlayerNum(), playerObj:getVehicle():getSquare());
+    ISSwimUI.windows[playerObj:getPlayerNum()+1] = modal;
+    modal:initialise()
+    modal:addToUIManager()
+    if JoypadState.players[playerObj:getPlayerNum()+1] then
+        setJoypadFocus(playerObj:getPlayerNum(), modal)
+    end
 end
 
 function ISBoatMenu.replaceBoat(boat, newSriptName)
