@@ -35,7 +35,7 @@ function WindPhysics.updateVehicles()
             --print("Direction ", WindPhysics.getWindDirection())
             --print("Wind angle ", math.fmod(getClimateManager():getWindAngleDegrees() - 45, 360))
             --print("Wind force ", windForce)
-            AIDebug.setInsp("Boat", "TEST:", "Pie")
+            AIDebug.setInsp("Boat", "TEST:", "Pie4pie")
 
             local sailAngle = vehicle:getModData()["sailAngle"]
             if sailAngle == nil then

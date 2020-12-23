@@ -4,11 +4,9 @@ debugScenarios = {}
 
 debugScenarios.iBrRusScenario_AquatsarYachts = {
 	name = "Aquatsar Yachts Debug",
---	forceLaunch = true, -- use this to force the launch of THIS scenario right after main menu was loaded, save more clicks! Don't do multiple scenarii with this options
+	forceLaunch = true,
 	startLoc = {x=11828, y=6581, z=0 }, -- Water
 
-	
-	
 	setSandbox = function()
 		
 		SandboxVars.Speed = 3;
