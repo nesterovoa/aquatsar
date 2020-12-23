@@ -17,19 +17,19 @@ function ISSalingBoatDashboard:createChildren()
 	self:addChild(self.speedGauge)
 	
 	x = 90
-	y = 80
-	self.windGauge = ISVehicleGauge:new(x, y, self.windGaugeTex, 100, 100, -270, 90) -- красная полоска (x, y, angle start, angle finish)
+	y = 50
+	self.windGauge = ISVehicleGauge:new(x, y, self.windGaugeTex, 125, 125, -270, 90) -- красная полоска (x, y, angle start, angle finish)
 	self.windGauge:initialise()
 	self.windGauge:instantiate()
-	self.windGauge:setNeedleWidth(80)
+	self.windGauge:setNeedleWidth(100)
 	self:addChild(self.windGauge)
 	
-	self.sailGauge = ISVehicleGauge:new(x, y, self.sailGaugeTex, 100, 100, 10, 170) -- красная полоска (x, y, angle start, angle finish)
+	self.sailGauge = ISVehicleGauge:new(x, y, self.sailGaugeTex, 125, 125, 10, 170) -- красная полоска (x, y, angle start, angle finish)
 	self.sailGauge:initialise()
 	self.sailGauge:instantiate()
 	self.sailGauge:setNeedleWidth(40)
 	self:addChild(self.sailGauge)
-	
+
 	self:onResolutionChange()
 end
 
@@ -72,6 +72,7 @@ print("ISSalingBoatDashboard:setBoat")
 	self.speedGauge:setVisible(true)
 	table.insert(self.gauges, self.speedGauge)
 	self.windGauge:setVisible(true)
+	
 	table.insert(self.gauges, self.windGauge)
 	if #self.gauges > 0 then
 		self:setVisible(true)
@@ -173,6 +174,10 @@ function ISSalingBoatDashboard:onResolutionChange()
 		self.backgroundTex:setX(0)
 		self.backgroundTex:setY(0)
 	end
+	self.windGaugeTex:setHeight(250)
+	self.windGaugeTex:setWidth(250)
+	self.sailGaugeTex:setHeight(250)
+	self.sailGaugeTex:setWidth(250)
 end
 
 function ISSalingBoatDashboard:new(playerNum, chr)
@@ -186,6 +191,10 @@ function ISSalingBoatDashboard:new(playerNum, chr)
 	o.speedGaugeTex = getTexture("media/ui/boats/salingdashboard/boat_spedometer.png")
 	o.windGaugeTex = getTexture("media/ui/boats/salingdashboard/boat_wind.png")
 	o.sailGaugeTex = getTexture("media/ui/boats/salingdashboard/boat_sail.png")
+	o.windGaugeTex:setHeight(250)
+	o.windGaugeTex:setWidth(250)
+	o.sailGaugeTex:setHeight(250)
+	o.sailGaugeTex:setWidth(250)
 	o.flickingTimer = 0;
 	o:setWidth(o.dashboardBG:getWidth());
 	return o
