@@ -1,4 +1,4 @@
-require("Boats/config")
+require("Boats/aquatsarConfig")
 
 ISVehicleMenuForTrailerWithBoat = {}
 local vec = Vector3f.new()

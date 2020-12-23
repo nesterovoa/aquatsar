@@ -140,7 +140,7 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 			playerObj:LevelPerk(Perks.Mechanics);
 		end
 		
-		--local boat = addVehicleDebug("Base.BoatZeroPatient", IsoDirections.S, nil, getCell():getGridSquare(11833, 6583, 0));
+		local boat = addVehicleDebug("Base.BoatZeroPatient", IsoDirections.S, nil, getCell():getGridSquare(11833, 6583, 0));
 		--inv:AddItem(boat:createVehicleKey());
 		
 		local boat2 = addVehicleDebug("Base.BoatSailingYachtWithSails", IsoDirections.S, nil, getCell():getGridSquare(11823, 6583, 0));

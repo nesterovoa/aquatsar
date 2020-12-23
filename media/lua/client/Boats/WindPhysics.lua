@@ -27,14 +27,14 @@ function WindPhysics.updateVehicles()
             
             
 
-            local angle = math.rad(math.fmod(getClimateManager():getWindAngleDegrees() - 50, 360))
+            local angle = math.rad(math.fmod(getClimateManager():getWindAngleDegrees(), 360))
             local x = math.cos(angle)
             local y = math.sin(angle)
             windForce:set(x, y, 0)
-
-            print("Direction ", WindPhysics.getWindDirection())
-            print("Wind angle ", math.fmod(getClimateManager():getWindAngleDegrees() - 50, 360))
-            print("Wind force ", windForce)
+			--print("BOAT Direction: ", vehicle:getAngleY())
+            --print("Direction ", WindPhysics.getWindDirection())
+            --print("Wind angle ", math.fmod(getClimateManager():getWindAngleDegrees(), 360))
+            --print("Wind force ", windForce)
 
             local sailAngle = vehicle:getModData()["sailAngle"]
             if sailAngle == nil then
@@ -50,8 +50,8 @@ function WindPhysics.updateVehicles()
             vehicle:getWorldPos(x, 0, y, sailVector):add(-vehicle:getX(), -vehicle:getY(), -vehicle:getZ())
 
 
-            print("Sail angle ", sailAngle)
-            print("Sail vector ", sailVector)
+            --print("Sail angle ", sailAngle)
+            --print("Sail vector ", sailVector)
 
 
             -- вот тут взять относительные координаты паруса!
@@ -67,9 +67,9 @@ function WindPhysics.updateVehicles()
             end
 
 
-            print("Value ", value)
+            --print("Value ", value)
 
-            print(math.abs(335 * WindPhysics.getWindSpeed() * value * AquaBoats[vehicle:getScript():getName()].windInfluence * startCoeff))
+            --print(math.abs(335 * WindPhysics.getWindSpeed() * value * AquaBoats[vehicle:getScript():getName()].windInfluence * startCoeff))
 
             local forceVector = vehicle:getWorldPos(0, 0, 1, vec1):add(-vehicle:getX(), -vehicle:getY(), -vehicle:getZ())
             forceVector:mul(335 * WindPhysics.getWindSpeed() * value * AquaBoats[vehicle:getScript():getName()].windInfluence * startCoeff)
@@ -89,8 +89,8 @@ function WindPhysics.updateVehicles()
                         vehicle:getWorldPos(0, 0, -3, vec2):add(-vehicle:getX(), -vehicle:getY(), -vehicle:getZ())
                         vec2:set(vec2:x(), vec2:z(), vec2:y())
                         vehicle:addImpulse(forceVector, vec2)   
-                        print("Force ", forceVector)
-                        print(vec2)
+                        --print("Force ", forceVector)
+                        --print(vec2)
                 elseif isKeyDown(Keyboard.KEY_D) then
                     vehicle:update()
                     forceVector = vehicle:getWorldPos(1, 0, 0, vec1):add(-vehicle:getX(), -vehicle:getY(), -vehicle:getZ())
@@ -116,4 +116,4 @@ function WindPhysics.updateVehicles()
     end	
 end
 
-Events.OnTick.Add(WindPhysics.updateVehicles)
+--Events.OnTick.Add(WindPhysics.updateVehicles)

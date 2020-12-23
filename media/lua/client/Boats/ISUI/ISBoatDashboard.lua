@@ -2,6 +2,7 @@
 -- --**                    THE INDIE STONE                    **
 -- --***********************************************************
 require 'Vehicles/ISUI/ISVehicleDashboard'
+require 'Boats/aquatsarConfig'
 -- require "ISUI/ISPanel"
 
 ISBoatDashboard = ISPanel:derive("ISBoatDashboard")
@@ -133,7 +134,7 @@ end
 function ISBoatDashboard.damageFlick(character)
 	local dash = nil;
 	if instanceof(character, 'IsoPlayer') and character:isLocalPlayer() then
-		local vehicle = character:getVehicle()
+		local boat = character:getVehicle()
 		dash = getPlayerVehicleDashboard(character:getPlayerNum())
 	end
 	if dash then
@@ -167,19 +168,19 @@ function ISBoatDashboard:getAlphaFlick(default)
 	end
 end
 
-function ISBoatDashboard:setVehicle(vehicle)
+function ISBoatDashboard:setVehicle(boat)
 print("ISBoatDashboard:setBoat")
-	self.boat = vehicle
+	self.boat = boat
 	for _,gauge in ipairs(self.gauges) do
 		gauge:setVisible(false)
 	end
 	self.gauges = {}
-	if not vehicle then
+	if not boat then
 		self:removeFromUIManager()
 		return
 	end
 	
-	local part = vehicle:getPartById("GasTank")
+	local part = boat:getPartById("GasTank")
 	if part and part:isContainer() and part:getContainerContentType() then
 		self.gasTank = part
 		if self.boat:isEngineRunning() then
@@ -194,7 +195,7 @@ print("ISBoatDashboard:setBoat")
 		self.fuelGauge:setVisible(false)
 	end
 	
-	part = vehicle:getPartById("Battery")
+	part = boat:getPartById("Battery")
 	if part then
 		print("BatteryPart: ", part)
 		self.battery = part
@@ -558,21 +559,19 @@ function ISBoatDashboard:new(playerNum, chr)
 end
 
 function ISBoatDashboard.onEnterVehicle(character)
-	print("onEnterBOAT")
-	local vehicle = character:getVehicle()
-	if instanceof(character, 'IsoPlayer') and character:isLocalPlayer() and vehicle:isDriver(character) then
-		if string.match(string.lower(vehicle:getScript():getName()), "boat") then
+	local boat = character:getVehicle()
+	if instanceof(character, 'IsoPlayer') and character:isLocalPlayer() and boat:isDriver(character) then
+		if AquaBoats[boat:getScript():getName()] then
 			getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(nil)
 			local data = getPlayerData(character:getPlayerNum())
-			-- print(data.vehicleDashboard)
-			-- for i, j in pairs(data.vehicleDashboard) do
-				-- print(i, " : ", j)
-			-- end
-			data.vehicleDashboard = ISBoatDashboard:new(character:getPlayerNum(), character)
+			if AquaBoats[boat:getScript():getName()].dashboard == "ISSalingBoatDashboard" then
+				data.vehicleDashboard = ISSalingBoatDashboard:new(character:getPlayerNum(), character)
+			else
+				data.vehicleDashboard = ISBoatDashboard:new(character:getPlayerNum(), character)
+			end
 			data.vehicleDashboard:initialise()
 			data.vehicleDashboard:instantiate()
-			data.vehicleDashboard:setVehicle(vehicle)
-			print("boatDASH")
+			data.vehicleDashboard:setVehicle(boat)
 			return
 		end
 	end
@@ -588,7 +587,6 @@ function ISBoatDashboard.onExitVehicle(character)
 				data.vehicleDashboard = ISVehicleDashboard:new(character:getPlayerNum(), character)
 				data.vehicleDashboard:initialise()
 				data.vehicleDashboard:instantiate()
-				print("RESETboatDASH")
 			end
 		end
 	end
@@ -596,9 +594,9 @@ end
 
 function ISBoatDashboard.onSwitchVehicleSeat(character)
 	if instanceof(character, 'IsoPlayer') and character:isLocalPlayer() then
-		local vehicle = character:getVehicle()
-		if vehicle:isDriver(character) then
-			getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(vehicle)
+		local boat = character:getVehicle()
+		if boat:isDriver(character) then
+			getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(boat)
 		else
 			getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(nil)
 		end
