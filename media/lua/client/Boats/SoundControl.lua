@@ -11,7 +11,6 @@ function SoundControl()
 			end
 		end
 	end
-		
 end
 
 Events.OnTick.Add(SoundControl)
