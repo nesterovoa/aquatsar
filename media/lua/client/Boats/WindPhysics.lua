@@ -118,4 +118,4 @@ function WindPhysics.updateVehicles()
     end	
 end
 
-Events.OnTick.Add(WindPhysics.updateVehicles)
+--Events.OnTick.Add(WindPhysics.updateVehicles)

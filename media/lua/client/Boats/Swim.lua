@@ -16,7 +16,7 @@ end
 -- Lifebuoy
 
 function AquatsarYachts.Swim.haveLifebuoy(playerObj)
-    return true
+    return false
 end
 
 function AquatsarYachts.Swim.chanceSuccessWithLifebuoy(playerObj)

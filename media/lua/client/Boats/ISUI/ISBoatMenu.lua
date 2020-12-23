@@ -239,36 +239,32 @@ end
 function ISBoatMenu.getNearLandForExit(boat)
 	local square = boat:getSquare()
 	if square == nil then return nil end
+	local vec = Vector3f.new()
+	
 	local max_distance = 6
-	for y=0, max_distance do
-		local square2 = getCell():getGridSquare(square:getX(), square:getY()+y, 0)
-		if square2 then
-			if not WaterBorders.isWater(square2) and square2:isNotBlocked(true) then
-				return Vector3f.new(square2:getX(), square2:getY(), 0)
-			end
-		end
-		square2 = getCell():getGridSquare(square:getX(), square:getY()-y, 0)
-		if square2 then
-			if not WaterBorders.isWater(square2) and square2:isNotBlocked(true) then
-				return Vector3f.new(square2:getX(), square2:getY(), 0)
-			end
-		end
-	end
-	for x=0, max_distance do
-		local square2 = getCell():getGridSquare(square:getX()+x, square:getY(), 0)
-		if square2 then
-			if not WaterBorders.isWater(square2) and square2:isNotBlocked(true) then
-				return Vector3f.new(square2:getX(), square2:getY(), 0)
-			end
-		end
-		square2 = getCell():getGridSquare(square:getX()-x, square:getY(), 0)
-		if square2 then
-			if not WaterBorders.isWater(square2) and square2:isNotBlocked(true) then
-				return Vector3f.new(square2:getX(), square2:getY(), 0)
+	local minDist = 9999999
+	local nearestSq = nil
+
+	for y=-max_distance, max_distance do
+		for x=-max_distance, max_distance do
+			local square2 = getCell():getGridSquare(square:getX() + x, square:getY() + y, 0)
+			if square2 then
+				if not WaterBorders.isWater(square2) and square2:isNotBlocked(true) then
+					if nearestSq == nil then
+						nearestSq = square2
+						minDist = vec:set(square2:getX(), square2:getY(), 0):add(-square:getX(), -square:getY(), 0):length()
+					else
+						if vec:set(square2:getX(), square2:getY(), 0):add(-square:getX(), -square:getY(), 0):length() < minDist then
+							nearestSq = square2
+							minDist = vec:set(square2:getX(), square2:getY(), 0):add(-square:getX(), -square:getY(), 0):length()
+						end
+					end			
+				end
 			end
 		end
 	end
-	return nil
+
+	return Vector3f.new(nearestSq:getX(), nearestSq:getY(), 0)
 end
 
 function ISBoatMenu.onExit(playerObj, seatFrom)
