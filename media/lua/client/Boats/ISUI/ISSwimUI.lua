@@ -60,7 +60,7 @@ function ISSwimUI:initialise()
 
     self.barPadY = 4
     self.barY = self.options:getBottom() + self.barPadY
-    self:setHeight(self.barY + self.barHgt + self.barPadY + self.barHgt + self.barPadY + btnHgt + padBottom)
+    self:setHeight(self.barY + self.barHgt + self.barPadY + self.barHgt + self.barPadY + btnHgt + padBottom + 15)
 
 	self:insertNewLineOfButtons(self.options, self.ItemsOptions)
 	self:insertNewLineOfButtons(self.ok, self.cancel, self.close)
@@ -68,7 +68,13 @@ end
 
 
 function ISSwimUI:render()
-	ISPanelJoypad.render(self);
+    ISPanelJoypad.render(self);
+    
+    local step = 20
+    self:drawText("Chance ", self.ItemsOptions:getRight()+10, self.options.y + 2, 1, 1, 1, 1, UIFont.Small);
+    self:drawText("Chance ", self.ItemsOptions:getRight()+10, self.options.y + 2 + step, 1, 1, 1, 1, UIFont.Small);
+    self:drawText("Chance ", self.ItemsOptions:getRight()+10, self.options.y + 2 + step*2, 1, 1, 1, 1, UIFont.Small);
+    self:drawText("Chance ", self.ItemsOptions:getRight()+10, self.options.y + 2 + step*3, 1, 1, 1, 1, UIFont.Small);
 end
 
 function ISSwimUI:prerender()
@@ -133,6 +139,11 @@ function ISSwimUI:doItemsOptions()
     self.ItemsOptions:addOption(getText("IGUI_NORTH"), "NORTH");
 
     self.ItemsOptions:setSelected(1, true);
+end
+
+function ISSwimUI:findLand()
+    
+
 end
 
 
