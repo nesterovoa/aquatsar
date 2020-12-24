@@ -8,7 +8,7 @@ boat.trailerAfterLaunchOnWater = "TrailerForBoat"
 boat.trailerAfterBoatLoaded = "TrailerWithBoatSailingYacht"
 boat.boatSeatUI_Image = "BoatSailingYacht_seat"
 boat.boatSeatUI_Scale = 1.25
-boat.windInfluence = 0.1
+boat.windInfluence = 1.1
 boat.boatSeatUI_SeatOffsetX = {
 	["FrontLeft"] = 1,
 	["FrontRight"] = 1,
@@ -30,11 +30,12 @@ boat.boatSeatUI_SeatOffsetY = {
 AquaBoats["BoatSailingYacht"] = {}
 boat = AquaBoats["BoatSailingYacht"]
 boat.dashboard = "ISSalingBoatDashboard"
+boat.sails = false
 boat.trailerAfterLaunchOnWater = "TrailerForBoat"
 boat.trailerAfterBoatLoaded = "TrailerWithBoatSailingYacht"
 boat.boatSeatUI_Image = "BoatSailingYacht_seat"
 boat.boatSeatUI_Scale = 1.25
-boat.windInfluence = 0.1
+boat.windInfluence = 1.1
 boat.boatSeatUI_SeatOffsetX = {
 	["FrontLeft"] = 1,
 	["FrontRight"] = 1,
@@ -53,8 +54,31 @@ boat.boatSeatUI_SeatOffsetY = {
 }
 --AquaBoats["BoatZeroPatient"].dashboard = nil
 -- BoatSailingYachtWithSails --
-AquaBoats["BoatSailingYachtWithSails"] = AquaBoats["BoatSailingYacht"]
-
+AquaBoats["BoatSailingYachtWithSails"] = {}
+boat = AquaBoats["BoatSailingYachtWithSails"]
+boat.dashboard = "ISSalingBoatDashboard"
+boat.sails = true
+boat.trailerAfterLaunchOnWater = "TrailerForBoat"
+boat.trailerAfterBoatLoaded = "TrailerWithBoatSailingYacht"
+boat.boatSeatUI_Image = "BoatSailingYacht_seat"
+boat.boatSeatUI_Scale = 1.25
+boat.windInfluence = 1.1
+boat.boatSeatUI_SeatOffsetX = {
+	["FrontLeft"] = 1,
+	["FrontRight"] = 1,
+	["MiddleLeft"] = 0,
+	["MiddleRight"] = 1,
+	["RearLeft"] = -4,
+	["RearRight"] = 1,
+}
+boat.boatSeatUI_SeatOffsetY = {
+	["FrontLeft"] = 10,
+	["FrontRight"] = 10,
+	["MiddleLeft"] = -75, 
+	["MiddleRight"] = -55,
+	["RearLeft"] = -30,
+	["RearRight"] = 10,
+}
 
 
 -- Functions --
@@ -77,7 +101,7 @@ function AquaTsarConfig.isTrailerWithBoat(vehicle)
 end
 
 function AquaTsarConfig.isBoat(vehicle)
-    return AquaBoats[vehicle:getScript():getName()] ~= nil
+    return AquaBoats[vehicle:getScript():getName()]
 end
 
 function AquaTsarConfig.getTrailerNameAfterLaunchBoat(vehicle)

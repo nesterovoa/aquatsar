@@ -5,7 +5,7 @@ module Base
         mesh = boats/SailingBoatWithSails,
         shader = vehicle_multiuv,
         invertX = FALSE,
-        scale = 0.0022,
+        scale = 0.0011,
     }
 	vehicle BoatSailingYachtWithSails
 	{
@@ -23,8 +23,8 @@ module Base
 		model
 		{
 			file = SailingBoatWithSailsBody,
-			scale = 4.0000,
-			offset = 0.0000 -0.4200 0.0000,
+			scale = 8.0000,
+			offset = 0.0000 -0.1975 0.0000,
 		}
 
 		spawnOffsetY = 0.3565027,
@@ -36,10 +36,10 @@ module Base
 
 		textureLights = Boats/SailingYacht_light,
 		textureMask = Boats/SailingYacht_mask,
-		extents = 0.9000 0.6600 2.5650,
+		extents = 0.4200 0.6600 1.1650,
 		mass = 700,
-		physicsChassisShape = 0.8350 0.6600 2.2450,
-		centerOfMassOffset = 0.0000 0.4950 -0.1050,
+		physicsChassisShape = 0.4200 0.6600 1.1650,
+		centerOfMassOffset = 0.0000 0.4950 -0.0400,
 		engineForce = 3700,
 		maxSpeed = 20f,
 		engineLoudness = 90,
@@ -62,42 +62,10 @@ module Base
 		rearEndHealth = 150,
 		seats = 6,
 
-		attachment exitLeft
-		{
-			offset = 3.2200 0.0000 -3.1700,
-			rotate = 0.0000 0.0000 0.0000,
-		}
-
-		attachment exitRear
-		{
-			offset = 0.0000 0.0000 -6.3000,
-			rotate = 0.0000 0.0000 0.0000,
-		}
-
-		attachment exitRight
-		{
-			offset = -3.2200 0.0000 -3.1700,
-			rotate = 0.0000 0.0000 0.0000,
-		}
-
-		attachment trailer
-		{
-			offset = 0.0000 0.6125 -1.1475,
-			rotate = 0.0000 0.0000 0.0000,
-			zoffset = -1.0000,
-		}
-
-		attachment trailerfront
-		{
-			offset = 0.0000 0.6125 1.1475,
-			rotate = 0.0000 0.0000 0.0000,
-			zoffset = 1.0000,
-		}
-		
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 0.4375 0.5875 0.8425,
+			offset = 0.1950 0.3613 0.3638,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -105,7 +73,7 @@ module Base
 		wheel FrontRight
 		{
 			front = true,
-			offset = -0.4375 0.5875 0.8425,
+			offset = -0.1950 0.3613 0.3638,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -113,7 +81,7 @@ module Base
 		wheel RearLeft
 		{
 			front = false,
-			offset = 0.4375 0.5875 -1.0925,
+			offset = 0.1950 0.3613 -0.4575,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -121,7 +89,7 @@ module Base
 		wheel RearRight
 		{
 			front = false,
-			offset = -0.4375 0.5875 -1.0925,
+			offset = -0.1950 0.3613 -0.4575,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -245,6 +213,7 @@ module Base
 		{
 			itemType = Aqua.NotRemovableBoatSeat,
 			category = nodisplay,
+
 			container
 			{
 				test = Boats.ContainerAccess.BlockSeat,
@@ -378,23 +347,49 @@ module Base
 		template = BoatLight/part/BoatLightFloodlightRight,
 		template = BoatLight/part/BoatLightCabin,
 		template = Heater,
-		
 		template = GloveBox,
-		
 		template = Cupboards/part/CupboardMiddleLeft,
 		template = Counters/part/CounterMiddleLeft,
 		template = Medicines/part/MedicineMiddleLeft,
-		
 		template = Counters/part/CounterMiddleRight,
 		template = Drawers/part/DrawerMiddleRight,
-		
 		template = Counters/part/CounterRearLeft,
 		template = Freezers/part/FreezerRearLeft,
-		
 		template = Shelves/part/ShelveRearRight,
 		template = Fridges/part/FridgeRearRight,
 		template = Ovens/part/OvenRearRight,
 		template = Microwaves/part/MicrowaveRearRight,
-	
+
+		attachment exitLeft
+		{
+			offset = 3.2200 0.0000 -3.1700,
+			rotate = 0.0000 0.0000 0.0000,
+		}
+
+		attachment exitRear
+		{
+			offset = 0.0000 0.0000 -6.3000,
+			rotate = 0.0000 0.0000 0.0000,
+		}
+
+		attachment exitRight
+		{
+			offset = -3.2200 0.0000 -3.1700,
+			rotate = 0.0000 0.0000 0.0000,
+		}
+
+		attachment trailer
+		{
+			offset = 0.0000 0.6125 -1.1475,
+			rotate = 0.0000 0.0000 0.0000,
+			zoffset = -1.0000,
+		}
+
+		attachment trailerfront
+		{
+			offset = 0.0000 0.6125 1.1475,
+			rotate = 0.0000 0.0000 0.0000,
+			zoffset = 1.0000,
+		}
 	}
 }
