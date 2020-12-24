@@ -7,14 +7,14 @@ AIDebugValuesInspector = {}
 
 AIDebugValuesInspector.tabData = {}
 AIDebugValuesInspector.tabPanels = {}
-
+AIDebugValuesInspector.paramView = 1
 
 AIDebugValuesInspector.hideWindow = function(self) -- {{{
 	ISCollapsableWindow.close(self);
 	AIDebugValuesInspector.toolbarButton:setImage(getTexture("media/textures/AIDebug/Icon_Inspector_Off.png"));
 end
 
-local function renderText(self)
+local function renderTextParamsView(self)
     --self.values
     
     local step = 1
@@ -35,6 +35,63 @@ local function renderText(self)
     end
 end
 
+local function renderTextTableDynamicView(self)
+    local columnSize = {}
+
+    for _, values in pairs(self.values) do
+        for i=1, #values do
+            local str = tostring(values[i])
+            if columnSize[i] == nil then
+                columnSize[i] = string.len(str)
+            else
+                if string.len(str) > columnSize[i] then
+                    columnSize[i] = string.len(str)
+                end
+            end
+        end
+    end
+
+    local xSteps = {}
+    xSteps[0] = 0
+    for i=1, 9 do
+        if columnSize[i] ~= nil then
+            xSteps[i] = xSteps[i-1] + columnSize[i]
+        end
+    end
+
+
+    local yStep = 1
+    for _, values in pairs(self.values) do
+        local text = ""
+
+        for i=1, #values do
+            self:drawText("|" .. tostring(values[i]), xSteps[i-1]*8 + 1, yStep, 1, 1, 1, 1, UIFont.Small);    
+        end
+
+        yStep = yStep + 15
+    end
+end
+
+local function renderTextTableStaticView(self)
+    local xSteps = {}
+    xSteps[0] = 0
+    for i=1, 9 do
+        xSteps[i] = xSteps[i-1] + 14
+    end
+
+
+    local yStep = 1
+    for _, values in pairs(self.values) do
+        local text = ""
+
+        for i=1, #values do
+            self:drawText("|" .. tostring(values[i]), xSteps[i-1]*8 + 1, yStep, 1, 1, 1, 1, UIFont.Small);    
+        end
+
+        yStep = yStep + 15
+    end
+end
+
 
 AIDebugValuesInspector.addTab = function(name) -- {{{
     AIDebugValuesInspector.tabPanels[name] = ISPanelJoypad:new(0, 48, AIDebugValuesInspector.window:getWidth(), AIDebugValuesInspector.window:getHeight() - AIDebugValuesInspector.window.nested.tabHeight)
@@ -49,7 +106,14 @@ AIDebugValuesInspector.addTab = function(name) -- {{{
     AIDebugValuesInspector.tabPanels[name]:setScrollChildren(true)
 
     AIDebugValuesInspector.tabPanels[name].values = AIDebugValuesInspector.tabData[name]
-    AIDebugValuesInspector.tabPanels[name].render = renderText
+
+    if AIDebugValuesInspector.paramView == 1 then
+        AIDebugValuesInspector.tabPanels[name].render = renderTextParamsView
+    elseif AIDebugValuesInspector.paramView == 2 then
+        AIDebugValuesInspector.tabPanels[name].render = renderTextTableStaticView
+    else
+        AIDebugValuesInspector.tabPanels[name].render = renderTextTableDynamicView
+    end
   
     AIDebugValuesInspector.tabPanels[name]:addScrollBars();
     AIDebugValuesInspector.window.nested:addView(name, AIDebugValuesInspector.tabPanels[name])
@@ -75,10 +139,43 @@ AIDebugValuesInspector.showWindow = function(player, useSprayCan)--{{{
         AIDebugValuesInspector.addTab(name)
     end
 
+    -- Settings
+    local name = "Settings"
+    AIDebugValuesInspector.settingsTab = ISPanelJoypad:new(0, 48, AIDebugValuesInspector.window:getWidth(), AIDebugValuesInspector.window:getHeight() - AIDebugValuesInspector.window.nested.tabHeight)
+    AIDebugValuesInspector.settingsTab:initialise()
+    AIDebugValuesInspector.settingsTab:instantiate()
+    AIDebugValuesInspector.settingsTab:setAnchorRight(true)
+    AIDebugValuesInspector.settingsTab:setAnchorLeft(true)
+    AIDebugValuesInspector.settingsTab:setAnchorTop(true)
+    AIDebugValuesInspector.settingsTab:setAnchorBottom(true)
+    AIDebugValuesInspector.settingsTab:noBackground()
+    AIDebugValuesInspector.settingsTab.borderColor = {r=0, g=0, b=0, a=0};
+    AIDebugValuesInspector.settingsTab:setScrollChildren(true)
+    AIDebugValuesInspector.settingsTab:addScrollBars();
+    AIDebugValuesInspector.window.nested:addView(name, AIDebugValuesInspector.settingsTab)
+
+    local btn = ISButton:new(10, 10, 100, 20, "Params view", nil, function() AIDebugValuesInspector.paramView = 1 end); 
+    AIDebugValuesInspector.settingsTab:addChild(btn);
+
+    btn = ISButton:new(10, btn:getBottom() + 10, 100, 20, "Table static view", nil, function() AIDebugValuesInspector.paramView = 2 end); 
+    AIDebugValuesInspector.settingsTab:addChild(btn);
+
+    btn = ISButton:new(10, btn:getBottom() + 10, 100, 20, "Table dynamic view", nil, function() AIDebugValuesInspector.paramView = 3 end); 
+    AIDebugValuesInspector.settingsTab:addChild(btn);
+
+    btn = ISButton:new(10, btn:getBottom() + 10, 100, 20, "Clear", nil, AIDebugValuesInspector.clear); 
+    AIDebugValuesInspector.settingsTab:addChild(btn);
+
+    btn = ISButton:new(10, btn:getBottom() + 10, 100, 20, "Reload", nil, function() AIDebugValuesInspector.showInspector(); AIDebugValuesInspector.showInspector() end); 
+    AIDebugValuesInspector.settingsTab:addChild(btn);
+
     AIDebugValuesInspector.window:addToUIManager();
 	AIDebugValuesInspector.toolbarButton:setImage(getTexture("media/textures/AIDebug/Icon_Inspector_On.png"));
 end
 
+function AIDebugValuesInspector.clear()
+    AIDebugValuesInspector.tabData = {}
+end
 
 
 function AIDebugValuesInspector.showInspector()
