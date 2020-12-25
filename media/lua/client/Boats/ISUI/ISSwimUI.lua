@@ -16,24 +16,8 @@ function ISSwimUI:initialise()
     local btnHgt = math.max(FONT_HGT_SMALL + 3 * 2, 25)
     local padBottom = 10
 
-    self.options = ISTickBox:new(10, self.titleY + FONT_HGT_MEDIUM + 10, 150, 20, "")
-    self.options.choicesColor = {r=1, g=1, b=1, a=1}
-    self.options:initialise()
-    self.options.autoWidth = true;
-
-    local option = self.options:addOption(getText("IGUI_WithMask"), "Mask")
-    option = self.options:addOption(getText("IGUI_WithLifeBouy"), "LifeBouy")
-
-    --[[
-    if not self.player:isRecipeKnown("Herbalist") then
-        self.options:disableOption(getText("IGUI_ScavengeUI_MedicinalPlants"), true);
-        self.options:setSelected(option, false);
-    end
-    ]]--
-    self:addChild(self.options)
-
     -- Tick box to put items inside equipped bag directly
-    self.ItemsOptions = ISRadioButtons:new(self.options:getRight(), self.options.y, 100, 20)
+    self.ItemsOptions = ISRadioButtons:new(10, self.titleY + FONT_HGT_MEDIUM + 10, 100, 20)
     self.ItemsOptions.choicesColor = {r=1, g=1, b=1, a=1}
     self.ItemsOptions:initialise()
     self.ItemsOptions.autoWidth = true;
@@ -59,22 +43,36 @@ function ISSwimUI:initialise()
     self:addChild(self.close);
 
     self.barPadY = 4
-    self.barY = self.options:getBottom() + self.barPadY
+    self.barY = self.ItemsOptions:getBottom() + self.barPadY
     self:setHeight(self.barY + self.barHgt + self.barPadY + self.barHgt + self.barPadY + btnHgt + padBottom + 15)
 
-	self:insertNewLineOfButtons(self.options, self.ItemsOptions)
+	self:insertNewLineOfButtons(self.ItemsOptions)
 	self:insertNewLineOfButtons(self.ok, self.cancel, self.close)
 end
 
 
 function ISSwimUI:render()
     ISPanelJoypad.render(self);
-    
+
+    if self.player:isRecipeKnown("Swimming") then
+        self:drawText(getText("IGUI_playerCanSwim"), 10, self.ItemsOptions.y + 90, 0, 0.9, 0, 1, UIFont.Small);
+    else
+        self:drawText(getText("IGUI_playerCantSwim"), 10, self.ItemsOptions.y + 90, 0.9, 0.1, 0.1, 1, UIFont.Small);
+    end
+
     local step = 20
-    self:drawText("Chance ", self.ItemsOptions:getRight()+10, self.options.y + 2, 1, 1, 1, 1, UIFont.Small);
-    self:drawText("Chance ", self.ItemsOptions:getRight()+10, self.options.y + 2 + step, 1, 1, 1, 1, UIFont.Small);
-    self:drawText("Chance ", self.ItemsOptions:getRight()+10, self.options.y + 2 + step*2, 1, 1, 1, 1, UIFont.Small);
-    self:drawText("Chance ", self.ItemsOptions:getRight()+10, self.options.y + 2 + step*3, 1, 1, 1, 1, UIFont.Small);
+
+    local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, "EAST")
+    self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2, 1, 1, 1, 1, UIFont.Small);
+
+    local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, "SOUTH")
+    self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2 + step, 1, 1, 1, 1, UIFont.Small);
+
+    local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, "WEST")
+    self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2 + step*2, 1, 1, 1, 1, UIFont.Small);
+
+    local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, "NORTH")
+    self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2 + step*3, 1, 1, 1, 1, UIFont.Small);
 end
 
 function ISSwimUI:prerender()
@@ -93,14 +91,28 @@ end
 
 function ISSwimUI:onClick(button)
     if button.internal == "OK" then
-        local savedOptions = {};
-        for i=1,#self.options.options do
-            if self.options:isSelected(i) then
-                savedOptions[self.options.optionData[i]] = true;
-            end
+
+        local dir = "SOUTH"
+        if self.ItemsOptions:isSelected(1) then
+            dir = "EAST"
+        elseif self.ItemsOptions:isSelected(2) then
+            dir = "SOUTH"
+        elseif self.ItemsOptions:isSelected(3) then
+            dir = "WEST"
+        elseif self.ItemsOptions:isSelected(4) then
+            dir = "NORTH"
         end
 
-        if savedOptions["Mask"] then end
+        --local action = ISSwimAction:new(self.player, dir);
+        --ISTimedActionQueue.add(action);
+        print("swim ", dir)
+
+        self:setVisible(false);
+        self:removeFromUIManager();
+        local playerNum = self.player:getPlayerNum()
+        if JoypadState.players[playerNum+1] then
+            setJoypadFocus(playerNum, nil)
+        end
 
     elseif button.internal == "CLOSE" then
         self:setVisible(false);

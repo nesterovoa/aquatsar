@@ -1,4 +1,5 @@
 ItemName_RU = {
 	ItemName_Base.223Bullets = "Патрон .223",
-	
+	ItemName_Aqua.DivingMask = "Маска для ныряния",
+	ItemName_Aqua.Lifebuoy = "Спасательный круг",	
 }

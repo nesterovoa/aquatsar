@@ -6,4 +6,8 @@ ContextMenu_RU = {
 	ContextMenu_BoatHeadlightsOff = "Выключить прожекторы",
 	ContextMenu_BoatHeadlightsOn = "Включить прожекторы",
 	ContextMenu_BoatHotwireSkill = "Нужны ключи от лодки или<br>навыки электроники I уровня<br>и автомеханики II уровня",
+	
+	ContextMenu_SwimToLand = "Уплыть",
+	ContextMenu_RemoveSail = "Опустить паруса",
+	ContextMenu_SetSail = "Поднять паруса",
 }

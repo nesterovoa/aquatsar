@@ -26,3 +26,10 @@ end
 function AquatsarYachts.Swim.swimToLandWithLifebuoy(playerObj, chance)
     print("Swim with lifebuoy")
 end
+
+
+----
+
+function AquatsarYachts.Swim.getPlayerEquipWeight(playerObj)
+    return round(playerObj:getInventory():getCapacityWeight(), 2)
+end

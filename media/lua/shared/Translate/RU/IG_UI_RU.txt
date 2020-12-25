@@ -39,4 +39,12 @@ IGUI_RU = {
 	IGUI_BoatSeatMiddleRight = "Перейти сюда",
 	IGUI_BoatSeatMiddleLeft = "Перейти сюда",
 
+	IGUI_chance = "Шанс",
+	IGUI_EAST = "Восток",
+	IGUI_SOUTH = "Юг",
+	IGUI_WEST = "Запад",
+	IGUI_NORTH = "Север",
+	IGUI_SwimUI_Title = "Уплыть",
+	IGUI_playerCanSwim = "Игрок умеет плавать",
+	IGUI_playerCantSwim = "Игрок не умеет плавать",
 }

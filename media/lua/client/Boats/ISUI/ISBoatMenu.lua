@@ -549,7 +549,7 @@ function ISBoatMenu.showSwimMenu(playerObj)
         ISSwimUI.windows[playerObj:getPlayerNum()+1]:removeFromUIManager();
     end
 	
-	local modal = ISSwimUI:new(0,0, 450, 270, playerObj:getPlayerNum(), playerObj:getVehicle():getSquare());
+	local modal = ISSwimUI:new(0,0, 230, 230, playerObj:getPlayerNum(), playerObj:getVehicle():getSquare());
     ISSwimUI.windows[playerObj:getPlayerNum()+1] = modal;
     modal:initialise()
     modal:addToUIManager()

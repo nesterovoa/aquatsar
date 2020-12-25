@@ -11,6 +11,13 @@ module Aqua
         MechanicsItem = TRUE,
     }
 
+	item Lifebuoy
+    {
+        Weight	=	1,
+        Type	=	Normal,
+        DisplayName	=	Lifebuoy,
+        Icon	=	DivingMask,
+    }
 
 
 	/************************ Equipment ************************/
