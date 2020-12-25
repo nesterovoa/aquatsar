@@ -115,12 +115,12 @@ function WindPhysics.updateVehicles()
                     tempVec2:set(tempVec2:x(), tempVec2:z(), tempVec2:y())
                     boat:addImpulse(forceVector, tempVec2)  
                 elseif isKeyDown(Keyboard.KEY_LEFT) then
-                    if sailAngle < 90 then
+                    if sailAngle < 60 then
                         sailAngle = sailAngle + 1
                     end
                     boat:getModData()["sailAngle"] = sailAngle
                 elseif isKeyDown(Keyboard.KEY_RIGHT) then
-                    if sailAngle > -90 then
+                    if sailAngle > -60 then
                         sailAngle = sailAngle - 1
                     end
                     boat:getModData()["sailAngle"] = sailAngle

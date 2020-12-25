@@ -24,7 +24,7 @@ function ISSalingBoatDashboard:createChildren()
 	self.windGauge:setNeedleWidth(100)
 	self:addChild(self.windGauge)
 	
-	self.sailGauge = ISVehicleGauge:new(x, y, self.sailGaugeTex, 125, 125, 10, 170) -- красная полоска (x, y, angle start, angle finish)
+	self.sailGauge = ISVehicleGauge:new(x, y, self.sailGaugeTex, 125, 125, 0, 180) -- красная полоска (x, y, angle start, angle finish)
 	self.sailGauge:initialise()
 	self.sailGauge:instantiate()
 	self.sailGauge:setNeedleWidth(40)
@@ -117,7 +117,7 @@ function ISSalingBoatDashboard:prerender()
 	
 	local sailAngle = self.boat:getModData()["sailAngle"]
 	if sailAngle == nil then
-		sailAngle = 0
+		sailAngle = 15
 	end
 	sailAngle = (sailAngle + 90)/180
 	self.sailGauge:setValue(sailAngle)

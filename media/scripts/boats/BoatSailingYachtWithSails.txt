@@ -24,7 +24,7 @@ module Base
 		{
 			file = SailingBoatWithSailsBody,
 			scale = 8.0000,
-			offset = 0.0000 -0.1975 0.0000,
+			offset = 0.0000 -0.2050 0.0000,
 		}
 
 		spawnOffsetY = 0.3565027,
@@ -36,10 +36,10 @@ module Base
 
 		textureLights = Boats/SailingYacht_light,
 		textureMask = Boats/SailingYacht_mask,
-		extents = 0.4200 0.6600 1.1650,
+		extents = 0.4200 0.1900 1.1650,
 		mass = 700,
-		physicsChassisShape = 0.4200 0.6600 1.1650,
-		centerOfMassOffset = 0.0000 0.4950 -0.0400,
+		physicsChassisShape = 0.4200 0.1900 1.1650,
+		centerOfMassOffset = 0.0000 0.2775 -0.0400,
 		engineForce = 3700,
 		maxSpeed = 20f,
 		engineLoudness = 90,
@@ -65,7 +65,7 @@ module Base
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 0.1950 0.3613 0.3638,
+			offset = 0.1950 0.3325 0.3638,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -73,7 +73,7 @@ module Base
 		wheel FrontRight
 		{
 			front = true,
-			offset = -0.1950 0.3613 0.3638,
+			offset = -0.1950 0.3325 0.3638,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -81,7 +81,7 @@ module Base
 		wheel RearLeft
 		{
 			front = false,
-			offset = 0.1950 0.3613 -0.4575,
+			offset = 0.1950 0.3325 -0.4575,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -89,7 +89,7 @@ module Base
 		wheel RearRight
 		{
 			front = false,
-			offset = -0.1950 0.3613 -0.4575,
+			offset = -0.1950 0.3325 -0.4575,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -100,13 +100,13 @@ module Base
 		{
 			position inside
 			{
-				offset = 0.1750 0.1625 -0.9200,
+				offset = 0.0737 0.0812 -0.4087,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
 			position outside
 			{
-				offset = 0.5700 -0.0600 -1.0700,
+				offset = -0.0012 -0.0600 -0.4050,
 				rotate = 0.0000 0.0000 0.0000,
 				area = SeatFrontLeft,
 			}
@@ -116,13 +116,13 @@ module Base
 		{
 			position inside
 			{
-				offset = -0.1725 0.1475 -0.9200,
+				offset = -0.0737 0.0812 -0.4087,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
 			position outside
 			{
-				offset = -0.5700 -0.0600 -0.9900,
+				offset = 0.0000 -0.0600 -0.4063,
 				rotate = 0.0000 0.0000 0.0000,
 				area = SeatFrontRight,
 			}
@@ -132,13 +132,13 @@ module Base
 		{
 			position inside
 			{
-				offset = 0.0000 0.0475 0.7650,
+				offset = 0.0000 0.0475 0.3663,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
 			position outside
 			{
-				offset = -0.5700 -0.0600 -0.9900,
+				offset = 0.0000 -0.0600 -0.4050,
 				rotate = 0.0000 0.0000 0.0000,
 				area = SeatFrontRight,
 			}
@@ -148,13 +148,13 @@ module Base
 		{
 			position inside
 			{
-				offset = 0.0750 0.2075 0.2975,
+				offset = 0.0375 0.1900 0.1363,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
 			position outside
 			{
-				offset = -0.5700 -0.0600 -0.9900,
+				offset = 0.0012 -0.0600 -0.3750,
 				rotate = 0.0000 0.0000 0.0000,
 				area = SeatFrontRight,
 			}
@@ -164,13 +164,13 @@ module Base
 		{
 			position inside
 			{
-				offset = 0.0750 0.1975 -0.0850,
+				offset = 0.0375 0.1900 -0.0388,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
 			position outside
 			{
-				offset = -0.5700 -0.0600 -0.9900,
+				offset = -0.0012 -0.0600 -0.3750,
 				rotate = 0.0000 0.0000 0.0000,
 				area = SeatFrontRight,
 			}
@@ -180,13 +180,13 @@ module Base
 		{
 			position inside
 			{
-				offset = -0.1725 0.1800 -0.3475,
+				offset = -0.0900 0.1800 -0.1725,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
 			position outside
 			{
-				offset = -0.5700 -0.0600 -0.9900,
+				offset = 0.0000 -0.0600 -0.3713,
 				rotate = 0.0000 0.0000 0.0000,
 				area = SeatFrontRight,
 			}
@@ -375,6 +375,12 @@ module Base
 		attachment exitRight
 		{
 			offset = -3.2200 0.0000 -3.1700,
+			rotate = 0.0000 0.0000 0.0000,
+		}
+
+		attachment checkFront
+		{
+			offset = 0.0000 0.0000 0.8525,
 			rotate = 0.0000 0.0000 0.0000,
 		}
 

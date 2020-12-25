@@ -10,6 +10,18 @@ end
 
 ISBoatMenu = {}
 
+function ISBoatMenu.isWater(square)
+	local tileName = square:getFloor():getTextureName()
+	if not tileName then
+		return true
+	elseif string.match(string.lower(tileName), "blends_natural_02") then
+		return true
+	else
+		return false
+	end
+    --return square:getFloor():getSprite():getProperties():Is(IsoFlagType.water)
+end
+
 function ISBoatMenu.onKeyStartPressed(key)
 	local playerObj = getPlayer()
 	if not playerObj then return end
@@ -243,13 +255,13 @@ function ISBoatMenu.getNearLandForExit(boat)
 	for y=0, max_distance do
 		local square2 = getCell():getGridSquare(square:getX(), square:getY()+y, 0)
 		if square2 then
-			if not WaterBorders.isWater(square2) and square2:isNotBlocked(true) then
+			if not ISBoatMenu.isWater(square2) and square2:isNotBlocked(true) then
 				return Vector3f.new(square2:getX(), square2:getY(), 0)
 			end
 		end
 		square2 = getCell():getGridSquare(square:getX(), square:getY()-y, 0)
 		if square2 then
-			if not WaterBorders.isWater(square2) and square2:isNotBlocked(true) then
+			if not ISBoatMenu.isWater(square2) and square2:isNotBlocked(true) then
 				return Vector3f.new(square2:getX(), square2:getY(), 0)
 			end
 		end
@@ -257,13 +269,13 @@ function ISBoatMenu.getNearLandForExit(boat)
 	for x=0, max_distance do
 		local square2 = getCell():getGridSquare(square:getX()+x, square:getY(), 0)
 		if square2 then
-			if not WaterBorders.isWater(square2) and square2:isNotBlocked(true) then
+			if not ISBoatMenu.isWater(square2) and square2:isNotBlocked(true) then
 				return Vector3f.new(square2:getX(), square2:getY(), 0)
 			end
 		end
 		square2 = getCell():getGridSquare(square:getX()-x, square:getY(), 0)
 		if square2 then
-			if not WaterBorders.isWater(square2) and square2:isNotBlocked(true) then
+			if not ISBoatMenu.isWater(square2) and square2:isNotBlocked(true) then
 				return Vector3f.new(square2:getX(), square2:getY(), 0)
 			end
 		end
