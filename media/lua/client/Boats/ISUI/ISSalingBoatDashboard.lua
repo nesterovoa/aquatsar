@@ -119,10 +119,6 @@ function ISSalingBoatDashboard:prerender()
 	if sailAngle == nil then
 		sailAngle = 0
 	end
-<<<<<<< HEAD
-	--print("Sail angle ", sailAngle)
-=======
->>>>>>> master
 	sailAngle = (sailAngle + 90)/180
 	self.sailGauge:setValue(sailAngle)
 	
