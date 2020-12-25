@@ -3,8 +3,16 @@ AquatsarYachts.Swim = {}
 
 
 
-function AquatsarYachts.Swim.chanceSuccess(playerObj, direction)
-    return 33
+function AquatsarYachts.Swim.chanceSuccess(playerObj, square)
+    local x = playerObj:getX() - square:getX()
+    local y = playerObj:getY() - square:getY()    
+    local dist = math.sqrt(x*x + y*y)
+
+    if dist < 10 then
+        return 90
+    else
+        return 50
+    end
 end
 
 function AquatsarYachts.Swim.swimToLand(playerObj, chance)
@@ -22,39 +30,69 @@ function AquatsarYachts.Swim.getSwimSquares(x, y)
     local squares = {}
     local cell = getCell()
 
-    local NminDist = 9999999
-    local SminDist = 9999999
-    local EminDist = 9999999
-    local WminDist = 9999999
+    local NminDist = 50
+    local SminDist = 50
+    local EminDist = 50
+    local WminDist = 50
 
-    for i=-50, 50 do
-        for j=-50, 50 do
+    for i=1, 50 do
+        for j = -i, i do
             local sq = cell:getGridSquare(x+i, y+j, 0)
-
+            
             if not WaterBorders.isWater(sq) and sq:isNotBlocked(true) then
                 local dist = math.sqrt((i*i + j*j))
 
-                if i < 0 and dist < WminDist then 
+                if dist < WminDist then 
                     WminDist = dist
                     squares["WEST"] = sq
                 end
+            end
+        end 
+    end
 
-                if i > 0 and dist < EminDist then 
+    for i=1, 50 do
+        for j = -i, i do
+            local sq = cell:getGridSquare(x-i, y+j, 0)
+            
+            if not WaterBorders.isWater(sq) and sq:isNotBlocked(true) then
+                local dist = math.sqrt((i*i + j*j))
+
+                if dist < EminDist then 
                     EminDist = dist
-                    --squares["EAST"] = sq
+                    squares["EAST"] = sq
                 end
+            end
+        end 
+    end
 
-                if j < 0 and dist < NminDist then 
-                    NminDist = dist
-                    --squares["NORTH"] = sq
-                end
+    for i=1, 50 do
+        for j = -i, i do
+            local sq = cell:getGridSquare(x+j, y+i, 0)
+            
+            if not WaterBorders.isWater(sq) and sq:isNotBlocked(true) then
+                local dist = math.sqrt((i*i + j*j))
 
-                if j > 0 and dist < SminDist then 
+                if dist < SminDist then 
                     SminDist = dist
                     squares["SOUTH"] = sq
                 end
             end
-        end
+        end 
+    end
+
+    for i=1, 50 do
+        for j = -i, i do
+            local sq = cell:getGridSquare(x+j, y-i, 0)
+            
+            if not WaterBorders.isWater(sq) and sq:isNotBlocked(true) then
+                local dist = math.sqrt((i*i + j*j))
+
+                if dist < NminDist then 
+                    NminDist = dist
+                    squares["NORTH"] = sq
+                end
+            end
+        end 
     end
 
     return squares

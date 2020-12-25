@@ -64,9 +64,9 @@ function ISSwimUI:render()
 
     local x = self.player:getX() - self.searchX
     local y = self.player:getY() - self.searchY
-    if math.sqrt(x*x + y*y) > 3 then
-        self.searchX = player:getX()
-        self.searchY = player:getY()
+    if math.sqrt(x*x + y*y) > 2 then
+        self.searchX = self.player:getX()
+        self.searchY = self.player:getY()
         self.swimSquares = AquatsarYachts.Swim.getSwimSquares(self.searchX, self.searchY)
     end
 
@@ -75,7 +75,8 @@ function ISSwimUI:render()
             self.ItemsOptions:setOptionEnabled(1, true)
         end    
         
-        local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, self.swimSquares["EAST"])
+        local chance = AquatsarYachts.Swim.chanceSuccess(self.player, self.swimSquares["EAST"])
+        self.chances["EAST"] = chance
         self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2, 1, 1, 1, 1, UIFont.Small);
     else
         if self.ItemsOptions:isOptionEnabled(1) then
@@ -88,7 +89,8 @@ function ISSwimUI:render()
             self.ItemsOptions:setOptionEnabled(2, true)
         end    
         
-        local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, self.swimSquares["SOUTH"])
+        local chance = AquatsarYachts.Swim.chanceSuccess(self.player, self.swimSquares["SOUTH"])
+        self.chances["SOUTH"] = chance
         self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2 + yStep, 1, 1, 1, 1, UIFont.Small);
     else
         if self.ItemsOptions:isOptionEnabled(2) then
@@ -101,7 +103,8 @@ function ISSwimUI:render()
             self.ItemsOptions:setOptionEnabled(3, true)
         end    
         
-        local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, self.swimSquares["WEST"])
+        local chance = AquatsarYachts.Swim.chanceSuccess(self.player, self.swimSquares["WEST"])
+        self.chances["WEST"] = chance
         self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2 + yStep*2, 1, 1, 1, 1, UIFont.Small);
     else
         if self.ItemsOptions:isOptionEnabled(3) then
@@ -114,7 +117,8 @@ function ISSwimUI:render()
             self.ItemsOptions:setOptionEnabled(4, true)
         end    
         
-        local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, self.swimSquares["NORTH"])
+        local chance = AquatsarYachts.Swim.chanceSuccess(self.player, self.swimSquares["NORTH"])
+        self.chances["NORTH"] = chance
         self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2 + yStep*3, 1, 1, 1, 1, UIFont.Small);
     else
         if self.ItemsOptions:isOptionEnabled(4) then
@@ -244,6 +248,7 @@ function ISSwimUI:new(x, y, width, height, player, square)
     o.searchX = o.player:getX()
     o.searchY = o.player:getY()
     o.swimSquares = AquatsarYachts.Swim.getSwimSquares(o.searchX, o.searchY)
+    o.chances = {}
 
     return o;
 end
