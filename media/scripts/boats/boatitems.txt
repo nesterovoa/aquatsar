@@ -11,6 +11,13 @@ module Aqua
         MechanicsItem = TRUE,
     }
 
+	item Lifebuoy
+    {
+        Weight	=	1,
+        Type	=	Normal,
+        DisplayName	=	Lifebuoy,
+        Icon	=	DivingMask,
+    }
 
 
 	/************************ Equipment ************************/
@@ -169,5 +176,16 @@ module Aqua
         StaticModel = Magazine,
     }
 	
+	item SwimMag
+    {
+        Weight	=	0.1,
+        Type	=	Literature,
+        DisplayName	=	Swimming tutorial,
+        Icon	=	MagazineFish,
+        TeachedRecipes  =   Swimming,
+        ReplaceOnUse    =   SwimMag,
+        Tooltip = Tooltip_item_SwimMag,
+        StaticModel = Magazine,
+    }
 	
 }

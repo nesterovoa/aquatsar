@@ -62,7 +62,7 @@ local function getCoords()
 		
 		vehicleDB = player:getVehicle()
 		if not vehicleDB then
-			textManager:DrawString(UIFont.Large, screenX, screenY + 7, txt, r, g, b, 1);
+			--textManager:DrawString(UIFont.Large, screenX, screenY + 7, txt, r, g, b, 1);
 			return
 		end
 	

@@ -251,36 +251,34 @@ end
 function ISBoatMenu.getNearLandForExit(boat)
 	local square = boat:getSquare()
 	if square == nil then return nil end
+	local vec = Vector3f.new()
+	
 	local max_distance = 6
-	for y=0, max_distance do
-		local square2 = getCell():getGridSquare(square:getX(), square:getY()+y, 0)
-		if square2 then
-			if not ISBoatMenu.isWater(square2) and square2:isNotBlocked(true) then
-				return Vector3f.new(square2:getX(), square2:getY(), 0)
-			end
-		end
-		square2 = getCell():getGridSquare(square:getX(), square:getY()-y, 0)
-		if square2 then
-			if not ISBoatMenu.isWater(square2) and square2:isNotBlocked(true) then
-				return Vector3f.new(square2:getX(), square2:getY(), 0)
-			end
-		end
-	end
-	for x=0, max_distance do
-		local square2 = getCell():getGridSquare(square:getX()+x, square:getY(), 0)
-		if square2 then
-			if not ISBoatMenu.isWater(square2) and square2:isNotBlocked(true) then
-				return Vector3f.new(square2:getX(), square2:getY(), 0)
-			end
-		end
-		square2 = getCell():getGridSquare(square:getX()-x, square:getY(), 0)
-		if square2 then
-			if not ISBoatMenu.isWater(square2) and square2:isNotBlocked(true) then
-				return Vector3f.new(square2:getX(), square2:getY(), 0)
+	local minDist = 9999999
+	local nearestSq = nil
+
+	for y=-max_distance, max_distance do
+		for x=-max_distance, max_distance do
+			local square2 = getCell():getGridSquare(square:getX() + x, square:getY() + y, 0)
+			if square2 then
+				if not ISBoatMenu.isWater(square2) and square2:isNotBlocked(true) then
+					if nearestSq == nil then
+						nearestSq = square2
+						minDist = vec:set(square2:getX(), square2:getY(), 0):add(-square:getX(), -square:getY(), 0):length()
+					else
+						if vec:set(square2:getX(), square2:getY(), 0):add(-square:getX(), -square:getY(), 0):length() < minDist then
+							nearestSq = square2
+							minDist = vec:set(square2:getX(), square2:getY(), 0):add(-square:getX(), -square:getY(), 0):length()
+						end
+					end			
+				end
 			end
 		end
 	end
-	return nil
+
+	if nearestSq == nil then return nil end
+
+	return Vector3f.new(nearestSq:getX(), nearestSq:getY(), 0)
 end
 
 function ISBoatMenu.onExit(playerObj, seatFrom)
@@ -453,7 +451,14 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	if (boat:hasLightbar()) then
 		menu:addSlice(getText("ContextMenu_VehicleLightbar"), getTexture("media/ui/vehicles/vehicle_lightbar.png"), ISBoatMenu.onLightbar, playerObj)
 	end
-	
+
+	-- Swim
+	boat:updateHasExtendOffsetForExit(playerObj)
+	if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 and not ISBoatMenu.getExitPoint(boat) and not ISBoatMenu.getNearLandForExit(boat) then
+		menu:addSlice(getText("ContextMenu_SwimToLand"), getTexture("media/ui/boats/ICON_boat_swim.png"), ISBoatMenu.showSwimMenu, playerObj)
+	end
+
+
 	if AquaBoats[boatScriptName].removeSailsScript then
 		menu:addSlice(getText("ContextMenu_RemoveSail"), getTexture("media/ui/boats/ICON_remove_sails.png"), ISBoatMenu.RemoveSails, playerObj, boat)
 	end
@@ -547,7 +552,11 @@ function ISBoatMenu.showRadialMenu(playerObj)
 			end
 		end
 	end
-	menu:addSlice(getText("IGUI_ExitBoat"), getTexture("media/ui/boats/boat_exit.png"), ISBoatMenu.onExit, playerObj)
+	
+	if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 and (ISBoatMenu.getExitPoint(boat) or ISBoatMenu.getNearLandForExit(boat)) then
+		menu:addSlice(getText("IGUI_ExitBoat"), getTexture("media/ui/boats/boat_exit.png"), ISBoatMenu.onExit, playerObj)
+	end
+	
 
 	menu:addToUIManager()
 
@@ -556,6 +565,20 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		setJoypadFocus(playerObj:getPlayerNum(), menu)
 		playerObj:setJoypadIgnoreAimUntilCentered(true)
 	end
+end
+
+function ISBoatMenu.showSwimMenu(playerObj)
+	if ISSwimUI.windows[playerObj:getPlayerNum()+1] then
+        ISSwimUI.windows[playerObj:getPlayerNum()+1]:removeFromUIManager();
+    end
+	
+	local modal = ISSwimUI:new(0,0, 230, 230, playerObj:getPlayerNum(), playerObj:getVehicle():getSquare());
+    ISSwimUI.windows[playerObj:getPlayerNum()+1] = modal;
+    modal:initialise()
+    modal:addToUIManager()
+    if JoypadState.players[playerObj:getPlayerNum()+1] then
+        setJoypadFocus(playerObj:getPlayerNum(), modal)
+    end
 end
 
 function ISBoatMenu.replaceBoat(boat, newSriptName)

@@ -11,10 +11,10 @@ ISVehicleMenuForTrailerWithBoat.spawnDistForBoat = 6
 
 local function canLaunchBoat(boat)
 	local point = boat:getWorldPos(0, 0, -boat:getScript():getPhysicsChassisShape():z()/2 - ISVehicleMenuForTrailerWithBoat.nearCheckThatTrailerNearWater, vec)
-	if not WaterBorders.isWater(getCell():getGridSquare(point:x(), point:y(), 0)) then return false end
+	if not WaterNWindPhysics.isWater(getCell():getGridSquare(point:x(), point:y(), 0)) then return false end
 	
 	point = boat:getWorldPos(0, 0, -boat:getScript():getPhysicsChassisShape():z()/2 - ISVehicleMenuForTrailerWithBoat.spawnDistForBoat, vec)
-	if not WaterBorders.isWater(getCell():getGridSquare(point:x(), point:y(), 0)) then return false end
+	if not WaterNWindPhysics.isWater(getCell():getGridSquare(point:x(), point:y(), 0)) then return false end
 
 	return true
 end

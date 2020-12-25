@@ -6,7 +6,7 @@ ContextMenu_EN = {
 	ContextMenu_BoatHeadlightsOff = "Turn off the spotlights",
 	ContextMenu_BoatHeadlightsOn = "Turn on the spotlights",
 	ContextMenu_BoatHotwireSkill = "--",
-	
+	ContextMenu_SwimToLand = "Swim to land",
 	
 	ContextMenu_RemoveSail = "Remove sails", 
 	ContextMenu_SetLeftSail = "Set staysail<br>to the left side",
