@@ -154,19 +154,17 @@ function ISSwimUI:onClick(button)
     if button.internal == "OK" then
 
         local dir = "SOUTH"
-        if self.ItemsOptions.isSelected(1) then
+        if self.ItemsOptions:isSelected(1) then
             dir = "EAST"
-        elseif self.ItemsOptions.isSelected(2) then
+        elseif self.ItemsOptions:isSelected(2) then
             dir = "SOUTH"
-        elseif self.ItemsOptions.isSelected(3) then
+        elseif self.ItemsOptions:isSelected(3) then
             dir = "WEST"
-        elseif self.ItemsOptions.isSelected(4) then
+        elseif self.ItemsOptions:isSelected(4) then
             dir = "NORTH"
         end
 
-        --local action = ISSwimAction:new(self.player, dir);
-        --ISTimedActionQueue.add(action);
-        print("swim ", dir)
+        AquatsarYachts.Swim.swimToLand(self.player, self.swimSquares[dir], self.chances[dir])
 
         self:setVisible(false);
         self:removeFromUIManager();

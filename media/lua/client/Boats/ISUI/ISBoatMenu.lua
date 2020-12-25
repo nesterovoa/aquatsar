@@ -264,6 +264,8 @@ function ISBoatMenu.getNearLandForExit(boat)
 		end
 	end
 
+	if nearestSq == nil then return nil end
+
 	return Vector3f.new(nearestSq:getX(), nearestSq:getY(), 0)
 end
 
@@ -439,7 +441,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 
 	-- Swim
 	boat:updateHasExtendOffsetForExit(playerObj)
-	if true or boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 and not ISBoatMenu.getExitPoint(boat) and not ISBoatMenu.getNearLandForExit(boat) then
+	if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 and not ISBoatMenu.getExitPoint(boat) and not ISBoatMenu.getNearLandForExit(boat) then
 		menu:addSlice(getText("ContextMenu_SwimToLand"), nil, ISBoatMenu.showSwimMenu, playerObj)
 	end
 
@@ -533,7 +535,11 @@ function ISBoatMenu.showRadialMenu(playerObj)
 			end
 		end
 	end
-	menu:addSlice(getText("IGUI_ExitBoat"), getTexture("media/ui/boats/boat_exit.png"), ISBoatMenu.onExit, playerObj)
+	
+	if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 and (ISBoatMenu.getExitPoint(boat) or ISBoatMenu.getNearLandForExit(boat)) then
+		menu:addSlice(getText("IGUI_ExitBoat"), getTexture("media/ui/boats/boat_exit.png"), ISBoatMenu.onExit, playerObj)
+	end
+	
 
 	menu:addToUIManager()
 

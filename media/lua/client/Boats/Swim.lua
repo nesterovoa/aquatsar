@@ -84,7 +84,22 @@ function AquatsarYachts.Swim.chanceSuccess(playerObj, square)
 end
 
 
-----
+function AquatsarYachts.Swim.swimToLand(playerObj, square, chance)
+    if ZombRand(100) <= chance then
+        local vehicle = playerObj:getVehicle()
+        local seat = vehicle:getSeat(playerObj)
+        vehicle:exit(playerObj)
+        playerObj:PlayAnim("Idle")
+        triggerEvent("OnExitVehicle", playerObj)
+        vehicle:updateHasExtendOffsetForExitEnd(playerObj)
+        playerObj:setX(square:getX())
+        playerObj:setY(square:getY())
+
+        playerObj:getBodyDamage():setWetness(100);
+    else
+        playerObj:Say("I DIED")
+    end
+end
 
 function AquatsarYachts.Swim.getSwimSquares(x, y)
     local squares = {}
