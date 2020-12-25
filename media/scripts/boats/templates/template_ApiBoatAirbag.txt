@@ -53,12 +53,12 @@ module Base
 			{
 				file = Vehicles_Wheel,
 			}
-			/**/
+			/*
 			model InflatedTirePlusWheel
 			{
 				file = WheelNull,
 			}
-			
+			*/
 		}
 	}
 }

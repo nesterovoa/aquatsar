@@ -90,46 +90,25 @@ function ISSalingBoatDashboard:prerender()
 	if not self.boat or not ISUIHandler.allUIVisible then return end
 	local alpha = self:getAlphaFlick(0.65);
 	local greyBg = {r=0.5, g=0.5, b=0.5, a=alpha};
-	local engineSpeedValue = 0;
-	local speedValue = 0;
-	if self.boat:isEngineRunning() then
-		engineSpeedValue = math.max(0,math.min(1,(self.boat:getEngineSpeed())/6000));
-		speedValue = math.max(0,math.min(1,math.abs(self.boat:getCurrentSpeedKmHour())/138));
-	end
-	-- self.engineGauge:setValue(engineSpeedValue)
-	-- RJ: Fake the speedometer a tad
+	local speedValue = math.max(0,math.min(1,math.abs(self.boat:getCurrentSpeedKmHour())/138));
 	self.speedGauge:setValue(speedValue * BaseVehicle.getFakeSpeedModifier())
-	-- print("X: ", self.boat:getAngleX())
-	-- print("Y: ", self.boat:getAngleY())
+
 	local frontVector = Vector3f.new()
 	local rearVector = Vector3f.new()
-	self.boat:getAttachmentWorldPos("trailer", frontVector)
-	self.boat:getAttachmentWorldPos("trailerfront", rearVector)
+	self.boat:getAttachmentWorldPos("trailerfront", frontVector)
+	self.boat:getAttachmentWorldPos("trailer", rearVector)
 	local x = frontVector:x() - rearVector:x()
 	local y = frontVector:y() - rearVector:y()
-	local wind = math.fmod(getClimateManager():getWindAngleDegrees(), 360)
-	wind = getClimateManager():getWindAngleDegrees()
-	--print(ClimateManager.getWindAngleString(getClimateManager():getWindAngleDegrees()))
-	--local boatDirection = math.atan2(math.sqrt(2)/2*(x-y), math.sqrt(2)/2*(x+y)) * 57.2958 + 180
+	local wind = getClimateManager():getWindAngleDegrees()
 	local boatDirection = math.atan2(x,y) * 57.2958 + 180
-	--print("Wind angle ", wind)	
-	--local directionVector = Vector3f.new(x,y, 0)
-	--print("boatDirection ", boatDirection)
 	local newwind = 0
-	if wind >= 180 then
-		newwind = wind - 180
-	else 
-		newwind = wind + 180
-	end
-	--print("newwind: ", newwind)
 	local windOnBoat = 0
-	if newwind > boatDirection then
-		windOnBoat = newwind - boatDirection
-		--print("1windOnBoat ", windOnBoat)
+	if wind > boatDirection then
+		windOnBoat = wind - boatDirection
 	else
-		windOnBoat = 360 - (boatDirection - newwind)
-		--print("2windOnBoat ", windOnBoat)
+		windOnBoat = 360 - (boatDirection - wind)
 	end
+	
 	if windOnBoat <= 180 then
 		self.windGauge:setValue((180 - windOnBoat)/360)
 	else
@@ -140,9 +119,11 @@ function ISSalingBoatDashboard:prerender()
 	if sailAngle == nil then
 		sailAngle = 0
 	end
+<<<<<<< HEAD
 	--print("Sail angle ", sailAngle)
+=======
+>>>>>>> master
 	sailAngle = (sailAngle + 90)/180
-	
 	self.sailGauge:setValue(sailAngle)
 	
 end
