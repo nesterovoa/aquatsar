@@ -7,24 +7,84 @@ function AquatsarYachts.Swim.chanceSuccess(playerObj, square)
     local x = playerObj:getX() - square:getX()
     local y = playerObj:getY() - square:getY()    
     local dist = math.sqrt(x*x + y*y)
+    local canSwim = playerObj:isRecipeKnown("Swimming")
+    local equipWeight = round(playerObj:getInventory():getCapacityWeight(), 2)
+    local haveDivingMask = playerObj:getInventory():containsType("Wrench")
+    local haveLifebouy = playerObj:getInventory():containsType("Screwdriver")
+    
+    local panic = playerObj:getMoodles():getMoodleLevel(MoodleType.Panic)
+    local drunk = playerObj:getMoodles():getMoodleLevel(MoodleType.Drunk)
+    local endurance = playerObj:getMoodles():getMoodleLevel(MoodleType.Endurance)
+    local tired = playerObj:getMoodles():getMoodleLevel(MoodleType.Tired)
+    local pain = playerObj:getMoodles():getMoodleLevel(MoodleType.Pain)
 
-    if dist < 10 then
-        return 90
+    local Fitness = playerObj:getPerkLevel(Perks.Fitness)
+
+    local Unlucky = playerObj:HasTrait("Unlucky")
+    local Lucky = playerObj:HasTrait("Lucky")
+    local Overweight = playerObj:HasTrait("Overweight")
+    local Obese = playerObj:HasTrait("Obese")
+
+    local chance = 99
+    if haveLifebouy then  
+        chance = chance * ((50 - dist)/50) * 1.8
     else
-        return 50
-    end
-end
+        chance = chance * ((50 - dist)/50) * 1.4
 
-function AquatsarYachts.Swim.swimToLand(playerObj, chance)
-    print("swim")    
+        if not canSwim then
+            chance = chance * 0.5
+        end
+    end
+
+    chance = chance * ((30 - equipWeight)/30) * 1.6
+
+    if haveDivingMask then 
+        chance = chance * 1.2
+    end
+
+    if panic then 
+        chance = chance * 0.9
+    end
+
+    if drunk then 
+        chance = chance * 0.9
+    end
+
+    if endurance then 
+        chance = chance * 0.9
+    end
+
+    if tired then 
+        chance = chance * 0.9
+    end
+
+    if pain then 
+        chance = chance * 0.9
+    end
+
+    if Unlucky then 
+        chance = chance * 0.9
+    end
+
+    if Lucky then 
+        chance = chance * 1.2
+    end
+
+    if Overweight then 
+        chance = chance * 0.9
+    end
+
+    if Obese then 
+        chance = chance * 0.9
+    end
+
+    chance = chance * Fitness / 5
+
+    return math.floor(chance)
 end
 
 
 ----
-
-function AquatsarYachts.Swim.getPlayerEquipWeight(playerObj)
-    return round(playerObj:getInventory():getCapacityWeight(), 2)
-end
 
 function AquatsarYachts.Swim.getSwimSquares(x, y)
     local squares = {}

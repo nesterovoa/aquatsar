@@ -64,10 +64,14 @@ function ISSwimUI:render()
 
     local x = self.player:getX() - self.searchX
     local y = self.player:getY() - self.searchY
-    if math.sqrt(x*x + y*y) > 2 then
-        self.searchX = self.player:getX()
-        self.searchY = self.player:getY()
-        self.swimSquares = AquatsarYachts.Swim.getSwimSquares(self.searchX, self.searchY)
+    if math.sqrt(x*x + y*y) > 1 then
+        self:setVisible(false);
+        self:removeFromUIManager();
+        local playerNum = self.player:getPlayerNum()
+        if JoypadState.players[playerNum+1] then
+            setJoypadFocus(playerNum, nil)
+        end
+        return
     end
 
     if self.swimSquares["EAST"] then 
