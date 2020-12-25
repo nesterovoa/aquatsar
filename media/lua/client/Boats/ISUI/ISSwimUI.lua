@@ -44,7 +44,7 @@ function ISSwimUI:initialise()
 
     self.barPadY = 4
     self.barY = self.ItemsOptions:getBottom() + self.barPadY
-    self:setHeight(self.barY + self.barHgt + self.barPadY + self.barHgt + self.barPadY + btnHgt + padBottom + 15)
+    self:setHeight(self.barY + self.barHgt + self.barPadY + self.barPadY + btnHgt + padBottom)
 
 	self:insertNewLineOfButtons(self.ItemsOptions)
 	self:insertNewLineOfButtons(self.ok, self.cancel, self.close)
@@ -55,29 +55,82 @@ function ISSwimUI:render()
     ISPanelJoypad.render(self);
 
     if self.player:isRecipeKnown("Swimming") then
-        self:drawText(getText("IGUI_playerCanSwim"), 10, self.ItemsOptions.y + 90, 0, 0.9, 0, 1, UIFont.Small);
+        self:drawText(getText("IGUI_playerCanSwim"), 10, self.ItemsOptions:getBottom() + 4, 0, 0.9, 0, 1, UIFont.Small);
     else
-        self:drawText(getText("IGUI_playerCantSwim"), 10, self.ItemsOptions.y + 90, 0.9, 0.1, 0.1, 1, UIFont.Small);
+        self:drawText(getText("IGUI_playerCantSwim"), 10, self.ItemsOptions:getBottom() + 4, 0.9, 0.1, 0.1, 1, UIFont.Small);
     end
 
-    local step = 20
+    local yStep = 20
 
-    local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, "EAST")
-    self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2, 1, 1, 1, 1, UIFont.Small);
+    local x = self.player:getX() - self.searchX
+    local y = self.player:getY() - self.searchY
+    if math.sqrt(x*x + y*y) > 3 then
+        self.searchX = player:getX()
+        self.searchY = player:getY()
+        self.swimSquares = AquatsarYachts.Swim.getSwimSquares(self.searchX, self.searchY)
+    end
 
-    local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, "SOUTH")
-    self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2 + step, 1, 1, 1, 1, UIFont.Small);
+    if self.swimSquares["EAST"] then 
+        if not self.ItemsOptions:isOptionEnabled(1) then
+            self.ItemsOptions:setOptionEnabled(1, true)
+        end    
+        
+        local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, self.swimSquares["EAST"])
+        self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2, 1, 1, 1, 1, UIFont.Small);
+    else
+        if self.ItemsOptions:isOptionEnabled(1) then
+            self.ItemsOptions:setOptionEnabled(1, false)
+        end    
+    end
 
-    local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, "WEST")
-    self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2 + step*2, 1, 1, 1, 1, UIFont.Small);
+    if self.swimSquares["SOUTH"] then 
+        if not self.ItemsOptions:isOptionEnabled(2) then
+            self.ItemsOptions:setOptionEnabled(2, true)
+        end    
+        
+        local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, self.swimSquares["SOUTH"])
+        self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2 + yStep, 1, 1, 1, 1, UIFont.Small);
+    else
+        if self.ItemsOptions:isOptionEnabled(2) then
+            self.ItemsOptions:setOptionEnabled(2, false)
+        end    
+    end
 
-    local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, "NORTH")
-    self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2 + step*3, 1, 1, 1, 1, UIFont.Small);
+    if self.swimSquares["WEST"] then 
+        if not self.ItemsOptions:isOptionEnabled(3) then
+            self.ItemsOptions:setOptionEnabled(3, true)
+        end    
+        
+        local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, self.swimSquares["WEST"])
+        self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2 + yStep*2, 1, 1, 1, 1, UIFont.Small);
+    else
+        if self.ItemsOptions:isOptionEnabled(3) then
+            self.ItemsOptions:setOptionEnabled(3, false)
+        end    
+    end
+
+    if self.swimSquares["NORTH"] then 
+        if not self.ItemsOptions:isOptionEnabled(4) then
+            self.ItemsOptions:setOptionEnabled(4, true)
+        end    
+        
+        local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, self.swimSquares["NORTH"])
+        self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2 + yStep*3, 1, 1, 1, 1, UIFont.Small);
+    else
+        if self.ItemsOptions:isOptionEnabled(4) then
+            self.ItemsOptions:setOptionEnabled(4, false)
+        end    
+    end
+
+    self.ok:setEnable(false)
+    for i=1, 4 do    
+        if self.ItemsOptions:isOptionEnabled(i) and self.ItemsOptions:isSelected(i) then
+            self.ok:setEnable(true)
+        end
+    end
 end
 
 function ISSwimUI:prerender()
-    local splitPoint = 100;
-    local x = 10;
     self:drawRect(0, 0, self.width, self.height, self.backgroundColor.a, self.backgroundColor.r, self.backgroundColor.g, self.backgroundColor.b);
     self:drawRectBorder(0, 0, self.width, self.height, self.borderColor.a, self.borderColor.r, self.borderColor.g, self.borderColor.b);
     self:drawTextCentre(getText("IGUI_SwimUI_Title"), self.width/2, self.titleY, 1,1,1,1, UIFont.Medium);
@@ -93,13 +146,13 @@ function ISSwimUI:onClick(button)
     if button.internal == "OK" then
 
         local dir = "SOUTH"
-        if self.ItemsOptions:isSelected(1) then
+        if self.ItemsOptions.isSelected(1) then
             dir = "EAST"
-        elseif self.ItemsOptions:isSelected(2) then
+        elseif self.ItemsOptions.isSelected(2) then
             dir = "SOUTH"
-        elseif self.ItemsOptions:isSelected(3) then
+        elseif self.ItemsOptions.isSelected(3) then
             dir = "WEST"
-        elseif self.ItemsOptions:isSelected(4) then
+        elseif self.ItemsOptions.isSelected(4) then
             dir = "NORTH"
         end
 
@@ -149,8 +202,6 @@ function ISSwimUI:doItemsOptions()
     self.ItemsOptions:addOption(getText("IGUI_SOUTH"), "SOUTH");
     self.ItemsOptions:addOption(getText("IGUI_WEST"), "WEST");
     self.ItemsOptions:addOption(getText("IGUI_NORTH"), "NORTH");
-
-    self.ItemsOptions:setSelected(1, true);
 end
 
 function ISSwimUI:findLand()
@@ -189,12 +240,11 @@ function ISSwimUI:new(x, y, width, height, player, square)
     o.square = square;
     o.moveWithMouse = true;
     o.buttonBorderColor = {r=0.7, g=0.7, b=0.7, a=0.5};
-    o.itemsScavenged = {};
-    o.maxItem = 4
---    o.itemScavenged = nil;
---    o.itemScavengedAlpha = 1;
---    o.itemScavengedTimer = 0;
-    o.zoneProgress = 100;
+
+    o.searchX = o.player:getX()
+    o.searchY = o.player:getY()
+    o.swimSquares = AquatsarYachts.Swim.getSwimSquares(o.searchX, o.searchY)
+
     return o;
 end
 
