@@ -65,7 +65,7 @@ local function renderTextTableDynamicView(self)
         local text = ""
 
         for i=1, #values do
-            self:drawText("|" .. tostring(values[i]), xSteps[i-1]*8 + 1, yStep, 1, 1, 1, 1, UIFont.Small);    
+            self:drawText(tostring(values[i]), xSteps[i-1]*8 + 1, yStep, 1, 1, 1, 1, UIFont.Small);    
         end
 
         yStep = yStep + 15
@@ -76,7 +76,7 @@ local function renderTextTableStaticView(self)
     local xSteps = {}
     xSteps[0] = 0
     for i=1, 9 do
-        xSteps[i] = xSteps[i-1] + 14
+        xSteps[i] = xSteps[i-1] + 20
     end
 
 
@@ -85,7 +85,7 @@ local function renderTextTableStaticView(self)
         local text = ""
 
         for i=1, #values do
-            self:drawText("|" .. tostring(values[i]), xSteps[i-1]*8 + 1, yStep, 1, 1, 1, 1, UIFont.Small);    
+            self:drawText(tostring(values[i]), xSteps[i-1]*8 + 1, yStep, 1, 1, 1, 1, UIFont.Small);    
         end
 
         yStep = yStep + 15
@@ -154,13 +154,13 @@ AIDebugValuesInspector.showWindow = function(player, useSprayCan)--{{{
     AIDebugValuesInspector.settingsTab:addScrollBars();
     AIDebugValuesInspector.window.nested:addView(name, AIDebugValuesInspector.settingsTab)
 
-    local btn = ISButton:new(10, 10, 100, 20, "Params view", nil, function() AIDebugValuesInspector.paramView = 1 end); 
+    local btn = ISButton:new(10, 10, 100, 20, "Params view", nil, function() AIDebugValuesInspector.paramView = 1; AIDebugValuesInspector.showInspector(); AIDebugValuesInspector.showInspector() end); 
     AIDebugValuesInspector.settingsTab:addChild(btn);
 
-    btn = ISButton:new(10, btn:getBottom() + 10, 100, 20, "Table static view", nil, function() AIDebugValuesInspector.paramView = 2 end); 
+    btn = ISButton:new(10, btn:getBottom() + 10, 100, 20, "Table static view", nil, function() AIDebugValuesInspector.paramView = 2; AIDebugValuesInspector.showInspector(); AIDebugValuesInspector.showInspector() end); 
     AIDebugValuesInspector.settingsTab:addChild(btn);
 
-    btn = ISButton:new(10, btn:getBottom() + 10, 100, 20, "Table dynamic view", nil, function() AIDebugValuesInspector.paramView = 3 end); 
+    btn = ISButton:new(10, btn:getBottom() + 10, 100, 20, "Table dynamic view", nil, function() AIDebugValuesInspector.paramView = 3; AIDebugValuesInspector.showInspector(); AIDebugValuesInspector.showInspector() end); 
     AIDebugValuesInspector.settingsTab:addChild(btn);
 
     btn = ISButton:new(10, btn:getBottom() + 10, 100, 20, "Clear", nil, AIDebugValuesInspector.clear); 
