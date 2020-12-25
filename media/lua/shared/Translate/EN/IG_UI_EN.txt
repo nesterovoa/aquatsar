@@ -1,5 +1,45 @@
 IG_UI_EN = {
 	IGUI_VehicleNameTrailerWithBoatSailingYacht = "Autotsar BT-13M",
 	IGUI_VehicleNameTrailerForBoat = "Autotsar BT-13M",
+	
+	IGUI_VehiclePartPropeller = "Boat propeller",
+	IGUI_VehiclePartCatHouseholdSystem = "Household System",
+	IGUI_VehiclePartCatMechanicalSystem = "Mechanical System",
+	IGUI_VehiclePartCatElecticalSystem = "Electical System",
+	IGUI_VehiclePartCatBoatBody = "Boat Body",
+	IGUI_VehiclePartBoatLightFloodlightLeft = "Spotlights left",
+	IGUI_VehiclePartBoatLightFloodlightRight = "Spotlights right",
+	IGUI_VehiclePartBoatLightCabin = "Cockpit light",	
+	
+	IGUI_VehiclePartshelves = "Shelves",
+	IGUI_VehiclePartstove = "Stove",
+	IGUI_VehiclePartfridge = "Fridge",
+	IGUI_VehiclePartcounter = "Counter",
+	IGUI_VehiclePartmicrowave = "Microwave",
+	IGUI_VehiclePartfreezer = "Freezer",
+	IGUI_VehiclePartwardrobe = "Cupboard",
+	IGUI_VehiclePartmedicine = "Locker",
+	IGUI_VehiclePartsidetable = "Drawer",
+	
+	IGUI_VehicleNameSailingBoatWithSales = "Yacht",
+	IGUI_ExitBoat = "Go ashore",
+	IGUI_EnterBoat = "Board the boat",
+	
+	IGUI_PlayerText_CanNotSwim = "I can't swim",
+	IGUI_PlayerText_CabinlightDoNotWork = "It looks like the light isn't working",
+	IGUI_PlayerText_FloodlightsDoNotWork = "Spotlights don't work",
+	
+	IGUI_BoatSeat_Self = "You are already here",
+	IGUI_BoatSeat_Person = "There is a man standing here",
+	IGUI_BoatSeat_Items = "There are objects in the aisle",
+	IGUI_BoatSeat_MoveItems = "Items from aisle will be<br>moved to another location",
+	IGUI_BoatSeat_ExitToSwitch = "Have to get out of the boat",
+	IGUI_BoatSeat_Uninstalled = "Passage blocked",
+	IGUI_BoatSeatFrontRight = "Sit next to the helmsman",
+	IGUI_BoatSeatFrontLeft = "Sit in the helmsman's seat",
+	IGUI_BoatSeatRearRight = "Go here",
+	IGUI_BoatSeatRearLeft = "Go here",
+	IGUI_BoatSeatMiddleRight = "Go here",
+	IGUI_BoatSeatMiddleLeft = "Go here",
 }
 

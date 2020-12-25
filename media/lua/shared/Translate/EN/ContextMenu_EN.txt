@@ -1,4 +1,17 @@
 ContextMenu_EN = {
+	ContextMenu_BoatAddGas = "Add gass",
+	ContextMenu_BoatCabinelightsOff = "Turn off the light",
+	ContextMenu_BoatCabinelightsOn = "Turn on the light",
+	
+	ContextMenu_BoatHeadlightsOff = "Turn off the spotlights",
+	ContextMenu_BoatHeadlightsOn = "Turn on the spotlights",
+	ContextMenu_BoatHotwireSkill = "--",
+	
+	
+	ContextMenu_RemoveSail = "Remove sails", 
+	ContextMenu_SetLeftSail = "Set staysail<br>to the left side",
+	ContextMenu_SetRightSail = "Set staysail<br>to the right side",
+	
 	ContextMenu_LaunchBoat = "Launch boat",
 	ContextMenu_LoadBoatOntoTrailer = "Load boat onto trailer",
 }

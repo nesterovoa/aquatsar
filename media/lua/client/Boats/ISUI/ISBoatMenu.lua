@@ -364,6 +364,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	if isPaused then return end
 
 	local boat = playerObj:getVehicle()
+	local boatScriptName = boat:getScript():getName()
 	if not boat then
 		ISBoatMenu.showRadialMenuOutside(playerObj)
 		return
@@ -384,7 +385,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	menu:setY(getPlayerScreenTop(playerObj:getPlayerNum()) + getPlayerScreenHeight(playerObj:getPlayerNum()) / 2 - menu:getHeight() / 2)
 	
 	local seat = boat:getSeat(playerObj)
-
+	
 	menu:addSlice(getText("IGUI_SwitchSeat"), getTexture("media/ui/vehicles/vehicle_changeseats.png"), ISBoatMenu.onShowSeatUI, playerObj, boat )
 
 	if boat:isDriver(playerObj) then -- and boat:isEngineWorking()
@@ -453,11 +454,14 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		menu:addSlice(getText("ContextMenu_VehicleLightbar"), getTexture("media/ui/vehicles/vehicle_lightbar.png"), ISBoatMenu.onLightbar, playerObj)
 	end
 	
-	local boatNameWithSails = boat:getScript():getName() .. "WithSails"
-	if string.match(string.lower(boat:getScript():getName()), "withsails") then
+	if AquaBoats[boatScriptName].removeSailsScript then
 		menu:addSlice(getText("ContextMenu_RemoveSail"), getTexture("media/ui/boats/ICON_remove_sails.png"), ISBoatMenu.RemoveSails, playerObj, boat)
-	elseif getScriptManager():getVehicle(boatNameWithSails) then
-		menu:addSlice(getText("ContextMenu_SetSail"), getTexture("media/ui/boats/ICON_set_sails.png"), ISBoatMenu.SetSails, playerObj, boat)
+	end
+	if AquaBoats[boatScriptName].setLeftSailsScript then
+		menu:addSlice(getText("ContextMenu_SetLeftSail"), getTexture("media/ui/boats/ICON_set_left_sails.png"), ISBoatMenu.SetLeftSails, playerObj, boat)
+	end
+	if AquaBoats[boatScriptName].setRightSailsScript then
+		menu:addSlice(getText("ContextMenu_SetRightSail"), getTexture("media/ui/boats/ICON_set_right_sails.png"), ISBoatMenu.SetRightSails, playerObj, boat)
 	end
 	
 	if string.match(string.lower(boat:getScript():getName()), "yacht") and seat > 1 or 
@@ -573,13 +577,26 @@ function ISBoatMenu.replaceBoat(boat, newSriptName)
 end
 
 function ISBoatMenu.RemoveSails(playerObj, boat)
-	local nameOfBoat = boat:getScript():getName():sub(0, -10)
+	local nameOfBoat = AquaBoats[boat:getScript():getName()].removeSailsScript
 	ISBoatMenu.replaceBoat(boat, nameOfBoat)
 end
 
-function ISBoatMenu.SetSails(playerObj, boat)
-	local nameWithSails = boat:getScript():getName() .. "WithSails"
-	ISBoatMenu.replaceBoat(boat, nameWithSails)
+function ISBoatMenu.SetRightSails(playerObj, boat)
+	local nameWithSails = AquaBoats[boat:getScript():getName()].setRightSailsScript
+	if nameWithSails then
+		ISBoatMenu.replaceBoat(boat, nameWithSails)
+	else
+		print("AQUATSAR: script for SetRightSails (" .. boat:getScript():getName() .. ") didn't find.")
+	end
+end
+
+function ISBoatMenu.SetLeftSails(playerObj, boat)
+	local nameWithSails = AquaBoats[boat:getScript():getName()].setLeftSailsScript
+	if nameWithSails then
+		ISBoatMenu.replaceBoat(boat, nameWithSails)
+	else
+		print("AQUATSAR: script for SetLeftSails (" .. boat:getScript():getName() .. ") didn't find.")
+	end
 end
 
 function ISBoatMenu.showRadialMenuOutside(playerObj)

@@ -61,6 +61,7 @@ function WaterNWindPhysics.updateVehicles()
 	local boats = getCell():getVehicles()
     for i=0, boats:size()-1 do
         local boat = boats:get(i)
+		local boatScriptName = boat:getScript():getName()
         if boat ~= nil and  AquaTsarConfig.isBoat(boat) then
 
 			local collisionWithGround = false
@@ -125,50 +126,84 @@ function WaterNWindPhysics.updateVehicles()
 				
 				local sailAngle = boat:getModData()["sailAngle"]
 				if sailAngle == nil then
-					sailAngle = 15
-					boat:getModData()["sailAngle"] = 15
-					sailAngleInWindAxes = 180 - sailAngle
+					sailAngle = 0
+					boat:getModData()["sailAngle"] = 0
 				end
 				
 				local wind = getClimateManager():getWindAngleDegrees()
 				local windOnBoat = 0
 				if wind > boatDirection then
-					windOnBoat = wind - boatDirection + sailAngle
+					windOnBoat = wind - boatDirection
 				else
-					windOnBoat = 360 - (boatDirection - wind) + sailAngle
+					windOnBoat = 360 - (boatDirection - wind)
 				end
-				
-				
 				
 				local windForceByDirection = 0
 				if windSpeed < 7 * 1.60934 then
 					windForceByDirection = 0
 				elseif windSpeed < 12 * 1.60934 then
 					if windOnBoat > 105 and windOnBoat < 285 then
-						windForceByDirection = 7 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaBoats[boat:getScript():getName()].windInfluence
+						windForceByDirection = 7 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaBoats[boatScriptName].windInfluence
 					end
 				elseif windSpeed < 23 * 1.60934 then
 					if windOnBoat > 25 and windOnBoat < 335 then
-						windForceByDirection = 10 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaBoats[boat:getScript():getName()].windInfluence
+						windForceByDirection = 10 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaBoats[boatScriptName].windInfluence
 					end
 				elseif windSpeed < 31 * 1.60934 then
 					if windOnBoat > 25 and windOnBoat < 335 then
-						windForceByDirection = 13 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaBoats[boat:getScript():getName()].windInfluence
+						windForceByDirection = 13 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaBoats[boatScriptName].windInfluence
 					end
 				elseif windSpeed < 61 then
 					if windOnBoat > 105 and windOnBoat < 285 then
-						windForceByDirection = 16 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaBoats[boat:getScript():getName()].windInfluence
+						windForceByDirection = 16 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaBoats[boatScriptName].windInfluence
 					end
 				else
 					-- TODO WARNING!!!
 				end
+				
+				local coefficientSailAngle = 0
+				local requiredSailAngle = 0
+				if windOnBoat > 160 and windOnBoat < 200 then
+					if AquaBoats[boatScriptName].sailsSide == "Left" and sailAngle < 0 then
+						windForceByDirection = windForceByDirection * (sailAngle / -90)
+						requiredSailAngle = "Any < 0"
+					elseif AquaBoats[boatScriptName].sailsSide == "Right" and sailAngle > 0 then
+						windForceByDirection = windForceByDirection * (sailAngle / 90)
+						requiredSailAngle = "Any > 0"
+					else 
+						windForceByDirection = 0
+						requiredSailAngle = "Another direction"
+					end
+				elseif windOnBoat < 160 and AquaBoats[boatScriptName].sailsSide == "Right" and sailAngle < 0 then
+					requiredSailAngle = windOnBoat/2
+					coefficientSailAngle = -0.01 * (math.abs(sailAngle) - requiredSailAngle)^2 + 1
+					if coefficientSailAngle > 0 then
+						windForceByDirection = coefficientSailAngle * windForceByDirection
+					else
+						windForceByDirection = 0
+					end
+				elseif windOnBoat > 200 and AquaBoats[boatScriptName].sailsSide == "Left" and sailAngle > 0 then
+					requiredSailAngle = (360 - windOnBoat)/2
+					coefficientSailAngle = -0.01 * (math.abs(sailAngle) - requiredSailAngle)^2 + 1
+					if coefficientSailAngle > 0 then
+						windForceByDirection = coefficientSailAngle * windForceByDirection
+					else
+						windForceByDirection = 0
+					end
+				else
+					windForceByDirection = 0
+					requiredSailAngle = "Another direction"
+				end
 					
 				AIDebug.setInsp("Boat", " ", " ")
 				AIDebug.setInsp("Boat", "windOnBoat:", windOnBoat)
+				AIDebug.setInsp("Boat", " ", " ")
+				AIDebug.setInsp("Boat", "SailAngle:", sailAngle)
+				AIDebug.setInsp("Boat", "RequiredSailAngle (absolute value):", requiredSailAngle)
+				AIDebug.setInsp("Boat", " ", " ")
+				AIDebug.setInsp("Boat", "coefficientSailAngle:", coefficientSailAngle)
 				AIDebug.setInsp("Boat", "windForceByDirection:", windForceByDirection)
 				AIDebug.setInsp("Boat", " ", " ")
-				
-				
 				
 				boat:getAttachmentWorldPos("checkFront", frontVector)
 				local squareFrontVehicle = getCell():getGridSquare(frontVector:x(), frontVector:y(), 0)
@@ -212,12 +247,12 @@ function WaterNWindPhysics.updateVehicles()
 						tempVec2:set(tempVec2:x(), tempVec2:z(), tempVec2:y())
 						boat:addImpulse(forceVector, tempVec2)  
 					elseif isKeyDown(Keyboard.KEY_LEFT) then
-						if sailAngle < 60 then
+						if sailAngle < 90 then
 							sailAngle = sailAngle + 1
 						end
 						boat:getModData()["sailAngle"] = sailAngle
 					elseif isKeyDown(Keyboard.KEY_RIGHT) then
-						if sailAngle > -60 then
+						if sailAngle > -90 then
 							sailAngle = sailAngle - 1
 						end
 						boat:getModData()["sailAngle"] = sailAngle
