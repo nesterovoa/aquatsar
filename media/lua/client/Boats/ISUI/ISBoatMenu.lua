@@ -567,26 +567,15 @@ function ISBoatMenu.replaceBoat(boat, newSriptName)
 end
 
 function ISBoatMenu.RemoveSails(playerObj, boat)
-	local nameOfBoat = AquaBoats[boat:getScript():getName()].removeSailsScript
-	ISBoatMenu.replaceBoat(boat, nameOfBoat)
+	ISTimedActionQueue.add(ISRemoveSailAction:new(playerObj, boat));
 end
 
 function ISBoatMenu.SetRightSails(playerObj, boat)
-	local nameWithSails = AquaBoats[boat:getScript():getName()].setRightSailsScript
-	if nameWithSails then
-		ISBoatMenu.replaceBoat(boat, nameWithSails)
-	else
-		print("AQUATSAR: script for SetRightSails (" .. boat:getScript():getName() .. ") didn't find.")
-	end
+	ISTimedActionQueue.add(ISSetSailAction:new(playerObj, boat, "RIGHT"));
 end
 
 function ISBoatMenu.SetLeftSails(playerObj, boat)
-	local nameWithSails = AquaBoats[boat:getScript():getName()].setLeftSailsScript
-	if nameWithSails then
-		ISBoatMenu.replaceBoat(boat, nameWithSails)
-	else
-		print("AQUATSAR: script for SetLeftSails (" .. boat:getScript():getName() .. ") didn't find.")
-	end
+	ISTimedActionQueue.add(ISSetSailAction:new(playerObj, boat, "LEFT"));
 end
 
 function ISBoatMenu.showRadialMenuOutside(playerObj)
