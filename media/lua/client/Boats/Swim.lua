@@ -95,7 +95,11 @@ function AquatsarYachts.Swim.swimToLand(playerObj, square, chance)
         playerObj:setX(square:getX())
         playerObj:setY(square:getY())
 
+        local endurance = playerObj:getStats():getEndurance() - 0.5
+        if endurance < 0 then endurance = 0 end
+        playerObj:getStats():setEndurance(endurance);
         playerObj:getBodyDamage():setWetness(100);
+        
     else
         playerObj:Say("I DIED")
     end
@@ -172,3 +176,72 @@ function AquatsarYachts.Swim.getSwimSquares(x, y)
 
     return squares
 end
+
+--------------------------
+local function startSwimToBoat(_, playerObj, boat, chance)
+    if ZombRand(100) < chance then
+        boat:enter(0, playerObj)
+
+        boat:setCharacterPosition(playerObj, 0, "inside")
+	    boat:transmitCharacterPosition(0, "inside")
+	    boat:playPassengerAnim(0, "idle")
+	    triggerEvent("OnEnterVehicle", playerObj)
+        
+        local endurance = playerObj:getStats():getEndurance() - 0.5
+        if endurance < 0 then endurance = 0 end
+        playerObj:getStats():setEndurance(endurance);
+        playerObj:getBodyDamage():setWetness(100);
+    else
+        playerObj:Say("I DIED")
+    end
+end
+
+local function getBoatForSwimTo(square)
+    local cell = getCell()
+    local x = square:getX()
+    local y = square:getY()
+    
+    for i=-50, 50 do
+        for j =-50, 50 do
+            local sq = cell:getGridSquare(x+i, y+j, 0)
+            
+            if WaterNWindPhysics.isWater(sq) then
+                for i=1, sq:getMovingObjects():size() do
+					local obj = sq:getMovingObjects():get(i-1)
+					if obj~= nil and instanceof(obj, "BaseVehicle") and AquaTsarConfig.isBoat(obj) then
+						return obj
+					end
+				end
+            end
+        end 
+    end
+
+end
+
+local function swimToBoat(player, context, worldobjects, test)
+    local waterSquare = nil
+    local playerObj = getSpecificPlayer(player)
+
+	for i,v in ipairs(worldobjects) do
+		square = v:getSquare();
+        if square and square:Is(IsoFlagType.water) then
+            waterSquare = square
+            break
+        end
+    end
+    
+    if waterSquare then
+        local x = waterSquare:getX() - playerObj:getX()
+        local y = waterSquare:getY() - playerObj:getY()
+        local dist = math.sqrt(x*x + y*y)
+
+        local boat = getBoatForSwimTo(waterSquare)
+        if boat ~= nil and dist < 3 then
+            local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, boat:getSquare())
+            context:addOption(getText("IGUI_SwimTo") .. " " .. getText("IGUI_chance") .. ": " .. chance .. "%" , worldobjects[1], startSwimToBoat, playerObj, boat, chance)
+        end
+    end
+
+end
+
+Events.OnFillWorldObjectContextMenu.Add(swimToBoat);
