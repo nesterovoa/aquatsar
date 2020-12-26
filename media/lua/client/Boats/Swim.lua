@@ -9,8 +9,8 @@ function AquatsarYachts.Swim.chanceSuccess(playerObj, square)
     local dist = math.sqrt(x*x + y*y)
     local canSwim = playerObj:isRecipeKnown("Swimming")
     local equipWeight = round(playerObj:getInventory():getCapacityWeight(), 2)
-    local haveDivingMask = playerObj:getInventory():containsType("Wrench")
-    local haveLifebouy = playerObj:getInventory():containsType("Screwdriver")
+    local haveDivingMask = playerObj:getInventory():containsType("DivingMask")
+    local haveLifebouy = playerObj:getInventory():containsType("Lifebuoy")
     
     local panic = playerObj:getMoodles():getMoodleLevel(MoodleType.Panic)
     local drunk = playerObj:getMoodles():getMoodleLevel(MoodleType.Drunk)
@@ -39,27 +39,27 @@ function AquatsarYachts.Swim.chanceSuccess(playerObj, square)
     chance = chance * ((30 - equipWeight)/30) * 1.6
 
     if haveDivingMask then 
-        chance = chance * 1.2
+        chance = chance * 1.4
     end
 
     if panic then 
-        chance = chance * 0.9
+        chance = chance * (10 - panic)/10
     end
 
     if drunk then 
-        chance = chance * 0.9
+        chance = chance * (10 - drunk)/10
     end
 
     if endurance then 
-        chance = chance * 0.9
+        chance = chance * (10 - endurance)/10
     end
 
     if tired then 
-        chance = chance * 0.9
+        chance = chance * (10 - tired)/10
     end
 
     if pain then 
-        chance = chance * 0.9
+        chance = chance * (10 - pain)/10
     end
 
     if Unlucky then 
@@ -80,12 +80,43 @@ function AquatsarYachts.Swim.chanceSuccess(playerObj, square)
 
     chance = chance * Fitness / 5
 
+    if chance > 100 then 
+        chance = 100
+    end
+
     return math.floor(chance)
 end
 
+local function compare(a,b)
+    return a:getWeight() > b:getWeight()
+end
+
+function AquatsarYachts.Swim.dropItems(playerObj)
+    local inv = playerObj:getInventory()    
+    local items = {}
+
+    for j=1, inv:getItems():size() do
+        local item = inv:getItems():get(j-1);
+        table.insert(items, item)
+    end
+
+    local dropNum = ZombRand(#items * 0.6)
+    table.sort(items, compare)
+
+    for i=1, dropNum do
+        inv:DoRemoveItem(items[i])
+    end
+end
 
 function AquatsarYachts.Swim.swimToLand(playerObj, square, chance)
-    if ZombRand(100) <= chance then
+    local equipWeight = round(playerObj:getInventory():getCapacityWeight(), 2)
+    
+    if equipWeight > 20 then
+        local coeff = (ZombRand(80) + 10)/100
+        playerObj:setHealth(0.2)
+        playerObj:Say(getText("IGUI_almostDieFail"))
+        AquatsarYachts.Swim.dropItems(playerObj)
+    else
         local vehicle = playerObj:getVehicle()
         local seat = vehicle:getSeat(playerObj)
         vehicle:exit(playerObj)
@@ -94,14 +125,20 @@ function AquatsarYachts.Swim.swimToLand(playerObj, square, chance)
         vehicle:updateHasExtendOffsetForExitEnd(playerObj)
         playerObj:setX(square:getX())
         playerObj:setY(square:getY())
-
+    
         local endurance = playerObj:getStats():getEndurance() - 0.5
         if endurance < 0 then endurance = 0 end
         playerObj:getStats():setEndurance(endurance);
         playerObj:getBodyDamage():setWetness(100);
         
-    else
-        playerObj:Say("I DIED")
+        if ZombRand(100) <= chance then
+      
+        else
+            local coeff = (ZombRand(80) + 10)/100
+            playerObj:setHealth(0.2)
+            playerObj:Say(getText("IGUI_almostDie"))
+            AquatsarYachts.Swim.dropItems(playerObj)
+        end
     end
 end
 
@@ -113,6 +150,7 @@ function AquatsarYachts.Swim.getSwimSquares(x, y)
     local SminDist = 50
     local EminDist = 50
     local WminDist = 50
+
 
     for i=1, 50 do
         for j = -i, i do
@@ -174,33 +212,50 @@ function AquatsarYachts.Swim.getSwimSquares(x, y)
         end 
     end
 
+
     return squares
 end
 
 --------------------------
-local function startSwimToBoat(_, playerObj, boat, chance)
-    if ZombRand(100) < chance then
+local function startSwimToBoat(playerObj, boat, chance)
+    local equipWeight = round(playerObj:getInventory():getCapacityWeight(), 2)
+    
+    if equipWeight > 20 then
+        local coeff = (ZombRand(80) + 10)/100
+        playerObj:setHealth(0.2)
+        playerObj:Say(getText("IGUI_almostDieFail"))
+        AquatsarYachts.Swim.dropItems(playerObj)
+    else
         boat:enter(0, playerObj)
 
         boat:setCharacterPosition(playerObj, 0, "inside")
-	    boat:transmitCharacterPosition(0, "inside")
-	    boat:playPassengerAnim(0, "idle")
-	    triggerEvent("OnEnterVehicle", playerObj)
+        boat:transmitCharacterPosition(0, "inside")
+        boat:playPassengerAnim(0, "idle")
+        triggerEvent("OnEnterVehicle", playerObj)
         
         local endurance = playerObj:getStats():getEndurance() - 0.5
         if endurance < 0 then endurance = 0 end
         playerObj:getStats():setEndurance(endurance);
         playerObj:getBodyDamage():setWetness(100);
-    else
-        playerObj:Say("I DIED")
+        
+        if ZombRand(100) < chance then
+
+        else
+            local coeff = (ZombRand(80) + 10)/100
+            playerObj:setHealth(0.2)
+            playerObj:Say(getText("IGUI_almostDie"))
+            AquatsarYachts.Swim.dropItems(playerObj)
+        end
     end
 end
 
-local function getBoatForSwimTo(square)
+local function getBoatsForSwimTo(square)
     local cell = getCell()
     local x = square:getX()
     local y = square:getY()
     
+    local boats = {}
+
     for i=-50, 50 do
         for j =-50, 50 do
             local sq = cell:getGridSquare(x+i, y+j, 0)
@@ -209,13 +264,19 @@ local function getBoatForSwimTo(square)
                 for i=1, sq:getMovingObjects():size() do
 					local obj = sq:getMovingObjects():get(i-1)
 					if obj~= nil and instanceof(obj, "BaseVehicle") and AquaTsarConfig.isBoat(obj) then
-						return obj
+						boats[obj] = true
 					end
 				end
             end
         end 
     end
 
+    local answer = {}
+    for key, value in pairs(boats) do
+        table.insert( answer, key)
+    end
+
+    return answer
 end
 
 local function swimToBoat(player, context, worldobjects, test)
@@ -233,13 +294,27 @@ local function swimToBoat(player, context, worldobjects, test)
     if waterSquare then
         local x = waterSquare:getX() - playerObj:getX()
         local y = waterSquare:getY() - playerObj:getY()
-        local dist = math.sqrt(x*x + y*y)
 
-        local boat = getBoatForSwimTo(waterSquare)
-        if boat ~= nil and dist < 3 then
+        local consolidateOption = context:addOption(getText("IGUI_SwimTo"), nil, nil)
+        local subMenuConsolidate = context:getNew(context)
+        context:addSubMenu(consolidateOption, subMenuConsolidate)
+        
+        local boats = getBoatsForSwimTo(waterSquare)
+        for i=1, #boats do
+            local name = boats[i]:getScript():getName()
+            local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, boats[i]:getSquare())
+            subMenuConsolidate:addOption(name .. " (" .. getText("IGUI_chance") .. ": " .. chance .. "%)", playerObj, startSwimToBoat, boats[i], chance)
+        end
+
+
+
+        --[[
+        
+        if boat ~= nil then
             local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, boat:getSquare())
             context:addOption(getText("IGUI_SwimTo") .. " " .. getText("IGUI_chance") .. ": " .. chance .. "%" , worldobjects[1], startSwimToBoat, playerObj, boat, chance)
         end
+        ]]
     end
 
 end

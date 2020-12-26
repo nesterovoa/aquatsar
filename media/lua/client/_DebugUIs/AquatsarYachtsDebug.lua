@@ -129,6 +129,7 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		playerObj:getInventory():AddItem("Base.PetrolCan");
 		playerObj:getInventory():AddItem("Base.Wrench");
 		playerObj:getInventory():AddItem("Aqua.DivingMask");
+		playerObj:getInventory():AddItem("Aqua.Lifebuoy");
 		playerObj:getInventory():AddItem("Aqua.BoatMag1");
 		playerObj:getInventory():AddItem("Aqua.BoatMag2");
 		playerObj:getInventory():AddItem("Aqua.BoatMag3");
@@ -136,6 +137,7 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		playerObj:getInventory():AddItem("Base.PotOfSoup");
 		playerObj:getInventory():AddItem("Base.PotOfSoup");
 		playerObj:getInventory():AddItem("Base.Screwdriver");
+
 		
 		
 		
@@ -149,6 +151,12 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		local boat2 = addVehicleDebug("Base.BoatSailingYachtWithSailsLeft", IsoDirections.S, nil, getCell():getGridSquare(11823, 6583, 0));
 		inv:AddItem(boat2:createVehicleKey());
 		--boat2:repair();
+		
+		
+
+		local boat2 = addVehicleDebug("Base.BoatSailingYacht", IsoDirections.S, nil, getCell():getGridSquare(11839, 6581, 0));
+		inv:AddItem(boat2:createVehicleKey());
+		boat2:repair();
 		
 		local trailer = addVehicleDebug("Base.TrailerWithBoatSailingYacht", IsoDirections.S, nil, getCell():getGridSquare(11844, 6600, 0));
 		local vehicle = addVehicleDebug("Base.CarStationWagon", IsoDirections.S, nil, getCell():getGridSquare(11844, 6606, 0));
