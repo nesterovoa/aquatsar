@@ -80,26 +80,31 @@ function AquatsarYachts.Swim.chanceSuccess(playerObj, square)
 
     chance = chance * Fitness / 5
 
+    if chance > 100 then 
+        chance = 100
+    end
+
     return math.floor(chance)
 end
 
 
 function AquatsarYachts.Swim.swimToLand(playerObj, square, chance)
-    if ZombRand(100) <= chance then
-        local vehicle = playerObj:getVehicle()
-        local seat = vehicle:getSeat(playerObj)
-        vehicle:exit(playerObj)
-        playerObj:PlayAnim("Idle")
-        triggerEvent("OnExitVehicle", playerObj)
-        vehicle:updateHasExtendOffsetForExitEnd(playerObj)
-        playerObj:setX(square:getX())
-        playerObj:setY(square:getY())
+    local vehicle = playerObj:getVehicle()
+    local seat = vehicle:getSeat(playerObj)
+    vehicle:exit(playerObj)
+    playerObj:PlayAnim("Idle")
+    triggerEvent("OnExitVehicle", playerObj)
+    vehicle:updateHasExtendOffsetForExitEnd(playerObj)
+    playerObj:setX(square:getX())
+    playerObj:setY(square:getY())
 
-        local endurance = playerObj:getStats():getEndurance() - 0.5
-        if endurance < 0 then endurance = 0 end
-        playerObj:getStats():setEndurance(endurance);
-        playerObj:getBodyDamage():setWetness(100);
-        
+    local endurance = playerObj:getStats():getEndurance() - 0.5
+    if endurance < 0 then endurance = 0 end
+    playerObj:getStats():setEndurance(endurance);
+    playerObj:getBodyDamage():setWetness(100);
+    
+    if ZombRand(100) <= chance then
+  
     else
         playerObj:Say("I DIED")
     end
@@ -114,25 +119,25 @@ function AquatsarYachts.Swim.getSwimSquares(x, y)
     local EminDist = 50
     local WminDist = 50
 
-    for i=1, 50 do
-        for j = -i, i do
+
+    for i=-50, 0 do
+        for j=-50, 0 do
             local sq = cell:getGridSquare(x+i, y+j, 0)
             
             if not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
                 local dist = math.sqrt((i*i + j*j))
 
-                if dist < WminDist then 
-                    WminDist = dist
-                    squares["WEST"] = sq
+                if dist < NminDist then 
+                    NminDist = dist
+                    squares["NORTH"] = sq
                 end
             end
-        end 
+        end
     end
 
     for i=1, 50 do
-        for j = -i, i do
-            local sq = cell:getGridSquare(x-i, y+j, 0)
-            
+        for j = -50, 0 do
+            local sq = cell:getGridSquare(x+i, y+j, 0)
             if not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
                 local dist = math.sqrt((i*i + j*j))
 
@@ -141,34 +146,36 @@ function AquatsarYachts.Swim.getSwimSquares(x, y)
                     squares["EAST"] = sq
                 end
             end
+            
+        end 
+    end
+
+    for i=-50, 0 do
+        for j = 1, 50 do
+            local sq = cell:getGridSquare(x+i, y+j, 0)
+
+            if not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
+                local dist = math.sqrt((i*i + j*j))
+
+                if dist < WminDist then 
+                    WminDist = dist
+                    squares["WEST"] = sq
+                end
+            end
+            
         end 
     end
 
     for i=1, 50 do
-        for j = -i, i do
-            local sq = cell:getGridSquare(x+j, y+i, 0)
-            
+        for j = 1, 50 do
+            local sq = cell:getGridSquare(x+i, y+j, 0)
+
             if not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
                 local dist = math.sqrt((i*i + j*j))
 
                 if dist < SminDist then 
                     SminDist = dist
                     squares["SOUTH"] = sq
-                end
-            end
-        end 
-    end
-
-    for i=1, 50 do
-        for j = -i, i do
-            local sq = cell:getGridSquare(x+j, y-i, 0)
-            
-            if not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
-                local dist = math.sqrt((i*i + j*j))
-
-                if dist < NminDist then 
-                    NminDist = dist
-                    squares["NORTH"] = sq
                 end
             end
         end 
@@ -233,10 +240,9 @@ local function swimToBoat(player, context, worldobjects, test)
     if waterSquare then
         local x = waterSquare:getX() - playerObj:getX()
         local y = waterSquare:getY() - playerObj:getY()
-        local dist = math.sqrt(x*x + y*y)
 
         local boat = getBoatForSwimTo(waterSquare)
-        if boat ~= nil and dist < 3 then
+        if boat ~= nil then
             local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, boat:getSquare())
             context:addOption(getText("IGUI_SwimTo") .. " " .. getText("IGUI_chance") .. ": " .. chance .. "%" , worldobjects[1], startSwimToBoat, playerObj, boat, chance)
         end
