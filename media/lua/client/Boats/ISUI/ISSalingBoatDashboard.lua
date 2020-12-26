@@ -24,11 +24,19 @@ function ISSalingBoatDashboard:createChildren()
 	self.windGauge:setNeedleWidth(100)
 	self:addChild(self.windGauge)
 	
+	self.windSpeedGauge = ISVehicleGauge:new(x, y, self.sailGaugeTex, 125, 125, -138, -42) -- красная полоска (x, y, angle start, angle finish)
+	self.windSpeedGauge:initialise()
+	self.windSpeedGauge:instantiate()
+	self.windSpeedGauge:setNeedleWidth(50)
+	self:addChild(self.windSpeedGauge)
+	
 	self.sailGauge = ISVehicleGauge:new(x, y, self.sailGaugeTex, 125, 125, 0, 180) -- красная полоска (x, y, angle start, angle finish)
 	self.sailGauge:initialise()
 	self.sailGauge:instantiate()
-	self.sailGauge:setNeedleWidth(40)
+	self.sailGauge:setNeedleWidth(50)
 	self:addChild(self.sailGauge)
+	
+	
 
 	self:onResolutionChange()
 end
@@ -122,6 +130,10 @@ function ISSalingBoatDashboard:prerender()
 	sailAngle = (sailAngle + 90)/180
 	self.sailGauge:setValue(sailAngle)
 	
+	local windSpeed = getClimateManager():getWindIntensity()*getClimateManager():getMaxWindspeedKph()
+	if windSpeed > 100 then windSpeed = 100 end
+	self.windSpeedGauge:setValue(windSpeed/100)
+	
 end
 		
 function ISSalingBoatDashboard:render()
@@ -151,10 +163,6 @@ function ISSalingBoatDashboard:onResolutionChange()
 		self.backgroundTex:setX(0)
 		self.backgroundTex:setY(0)
 	end
-	self.windGaugeTex:setHeight(250)
-	self.windGaugeTex:setWidth(250)
-	self.sailGaugeTex:setHeight(250)
-	self.sailGaugeTex:setWidth(250)
 end
 
 function ISSalingBoatDashboard:new(playerNum, chr)
@@ -168,10 +176,6 @@ function ISSalingBoatDashboard:new(playerNum, chr)
 	o.speedGaugeTex = getTexture("media/ui/boats/salingdashboard/boat_spedometer.png")
 	o.windGaugeTex = getTexture("media/ui/boats/salingdashboard/boat_wind.png")
 	o.sailGaugeTex = getTexture("media/ui/boats/salingdashboard/boat_sail.png")
-	o.windGaugeTex:setHeight(250)
-	o.windGaugeTex:setWidth(250)
-	o.sailGaugeTex:setHeight(250)
-	o.sailGaugeTex:setWidth(250)
 	o.flickingTimer = 0;
 	o:setWidth(o.dashboardBG:getWidth());
 	return o

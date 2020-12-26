@@ -1,6 +1,8 @@
 debugScenarios = {}
 
-
+if CheatCore == nil then
+	CheatCore = {}
+end
 
 debugScenarios.iBrRusScenario_AquatsarYachts = {
 	name = "Aquatsar Yachts Debug",
@@ -116,7 +118,7 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		playerObj:setWornItem(clothe:getBodyLocation(), clothe);
 		--------------------------------------
 		
-		
+		CheatCore.MadMax = false
 		playerObj:getKnownRecipes():add("Basic Mechanics");
 		playerObj:getKnownRecipes():add("Intermediate Mechanics");
 		playerObj:getKnownRecipes():add("Advanced Mechanics");
@@ -146,7 +148,7 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		
 		local boat2 = addVehicleDebug("Base.BoatSailingYachtWithSailsLeft", IsoDirections.S, nil, getCell():getGridSquare(11823, 6583, 0));
 		inv:AddItem(boat2:createVehicleKey());
-		boat2:repair();
+		--boat2:repair();
 		
 		local trailer = addVehicleDebug("Base.TrailerWithBoatSailingYacht", IsoDirections.S, nil, getCell():getGridSquare(11844, 6600, 0));
 		local vehicle = addVehicleDebug("Base.CarStationWagon", IsoDirections.S, nil, getCell():getGridSquare(11844, 6606, 0));

@@ -1,3 +1,8 @@
+pl = getPlayer()
+boat = getPlayer():getVehicle()
+part = getPlayer():getVehicle():getPartById("TireRearLeft")
+print(part:getZ())
+
 for i, j in ipairs(wo) do print(j) end
 
 for i, j in pairs(s.optionPool) do print(j) end

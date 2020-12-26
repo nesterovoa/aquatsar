@@ -63,28 +63,46 @@ function WaterNWindPhysics.updateVehicles()
         local boat = boats:get(i)
 		local boatScriptName = boat:getScript():getName()
         if boat ~= nil and  AquaTsarConfig.isBoat(boat) then
-
+		
+			local boatSpeed = boat:getCurrentSpeedKmHour()
 			local collisionWithGround = false
 			local frontVector = Vector3f.new()
 			local rearVector = Vector3f.new()
 			boat:getAttachmentWorldPos("trailerfront", frontVector)
 			boat:getAttachmentWorldPos("trailer", rearVector)
+			local x = frontVector:x() - rearVector:x()
+			local y = frontVector:y() - rearVector:y()
 			
 			local squareUnderVehicle = getCell():getGridSquare(boat:getX(), boat:getY(), 0)
             if squareUnderVehicle ~= nil and WaterNWindPhysics.isWater(squareUnderVehicle) then
-				if boat:getDebugZ() < 0.64 then
-					-- if boat:getDriver() then
+				AIDebug.setInsp("Boat", "boat:getDebugZ()", boat:getDebugZ())
+				AIDebug.setInsp("Boat", " ", " ")
+				if boatSpeed < 0.3 and boat:getDebugZ() < 0.66 then
+					-- if boatы:getDriver() then
 					-- -- for i = 1, 5 do 
 						-- -- boat:setDebugZ(0.64 + i/100)
-						-- tempVec1:set(0, 3000, 0)
-						-- boat:setPhysicsActive(true)
+						boat:setPhysicsActive(true)
+						tempVec1:set(0, 6000, 0)
+						tempVec2:set(0, 0, 0)
+						boat:addImpulse(tempVec1, tempVec2)
+						if not isKeyDown(Keyboard.KEY_W) then
+							local boatDirVector = Vector3f.new(x, 0, y):normalize()
+							boatDirVector:mul(-6000)
+							boat:addImpulse(boatDirVector, tempVec2)
+							print("boatDirVector:addImpulse")
+						end
+						-- tempVec1:set(5000, 0, 0)
 						-- tempVec2:set(0, 0, 0)
 						-- boat:addImpulse(tempVec1, tempVec2)
+						-- tempVec1:set(500, 0, 5000)
+						-- tempVec2:set(0, 0, 0)
+						-- boat:addImpulse(tempVec1, tempVec2)
+						print("boat:addImpulse")
 					-- else
-					boat:setDebugZ(0.67)
+					--boat:setDebugZ(0.71)
 					-- end
 					-- end
-					print("boat:setDebugZ(0.68)")
+					--print("boat:setDebugZ(0.7)")
 				end
                 local notWaterSquares = WaterNWindPhysics.getCollisionSquaresNear(5, 5, squareUnderVehicle)
                 local a = 1
@@ -110,16 +128,13 @@ function WaterNWindPhysics.updateVehicles()
 			end
 			
 			if AquaTsarConfig.isBoat(boat).sails then
-				local boatSpeed = boat:getCurrentSpeedKmHour()
+				
 				local windSpeed = WaterNWindPhysics.getWindSpeed()
 				
 				AIDebug.setInsp("Boat", "windSpeed (MPH):", windSpeed / 1.60934)
 				AIDebug.setInsp("Boat", "boatSpeed (MPH):", boat:getCurrentSpeedKmHour() / 1.60934)
 				AIDebug.setInsp("Boat", " ", " ")
-				
-				
-				local x = frontVector:x() - rearVector:x()
-				local y = frontVector:y() - rearVector:y()
+
 				
 				local boatDirVector = Vector3f.new(x, y, 0):normalize()
 				local boatDirection = math.atan2(x,y) * 57.2958 + 180
@@ -153,7 +168,7 @@ function WaterNWindPhysics.updateVehicles()
 					if windOnBoat > 25 and windOnBoat < 335 then
 						windForceByDirection = 13 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaBoats[boatScriptName].windInfluence
 					end
-				elseif windSpeed < 61 then
+				elseif windSpeed < 61 * 1.60934 then
 					if windOnBoat > 105 and windOnBoat < 285 then
 						windForceByDirection = 16 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaBoats[boatScriptName].windInfluence
 					end
@@ -248,12 +263,12 @@ function WaterNWindPhysics.updateVehicles()
 						boat:addImpulse(forceVector, tempVec2)  
 					elseif isKeyDown(Keyboard.KEY_LEFT) then
 						if sailAngle < 90 then
-							sailAngle = sailAngle + 1
+							sailAngle = sailAngle + 0.5
 						end
 						boat:getModData()["sailAngle"] = sailAngle
 					elseif isKeyDown(Keyboard.KEY_RIGHT) then
 						if sailAngle > -90 then
-							sailAngle = sailAngle - 1
+							sailAngle = sailAngle - 0.5
 						end
 						boat:getModData()["sailAngle"] = sailAngle
 					end

@@ -293,43 +293,11 @@ module Base
 	}
 	vehicle BoatSailingYachtWithSailsLeft
 	{
-		wheel FrontLeft
-		{
-			front = true,
-			offset = 0.1950 0.3638 0.3638,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		wheel FrontRight
-		{
-			front = true,
-			offset = -0.1950 0.3638 0.3638,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		wheel RearLeft
-		{
-			front = false,
-			offset = 0.1950 0.3638 -0.4575,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		wheel RearRight
-		{
-			front = false,
-			offset = -0.1950 0.3638 -0.4575,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
 		model
 		{
 			file = BoatSailingYachtWithSailsLeftBody,
 			scale = 8.0000,
-			offset = 0.0000 -0.2463 0.0000,
+			offset = 0.0000 -0.1875 0.0000,
 		}
 
 		skin
@@ -340,7 +308,7 @@ module Base
 		textureLights = Boats/SailingYacht_light,
 		textureMask = Boats/SailingYacht_mask,
 		mechanicType = 3,
-		offRoadEfficiency = 2,
+		offRoadEfficiency = 1,
 		engineRepairLevel = 5,
 		playerDamageProtection = 1.3,
 		engineRPMType = firebird,
@@ -351,11 +319,43 @@ module Base
 			horn = BoatHorn,
 		}
 
-		extents = 0.4200 0.1900 1.1650,
-		mass = 700,
-		physicsChassisShape = 0.7550 0.1900 1.1650,
-		centerOfMassOffset = 0.0000 0.3888 -0.0400,
-		
+		extents = 0.4375 0.3200 1.2875,
+		mass = 100,
+		physicsChassisShape = 1.0625 0.3200 1.2875,
+		centerOfMassOffset = -0.0012 0.2850 -0.0575,
+
+		wheel FrontLeft
+		{
+			front = true,
+			offset = 0.1513 0.3550 0.3063,
+			radius = 0.15f,
+			width = 0.2f,
+		}
+
+		wheel FrontRight
+		{
+			front = true,
+			offset = -0.1513 0.3550 0.3063,
+			radius = 0.15f,
+			width = 0.2f,
+		}
+
+		wheel RearLeft
+		{
+			front = false,
+			offset = 0.1787 0.3550 -0.4213,
+			radius = 0.15f,
+			width = 0.2f,
+		}
+
+		wheel RearRight
+		{
+			front = false,
+			offset = -0.1787 0.3550 -0.4213,
+			radius = 0.15f,
+			width = 0.2f,
+		}
+
 		engineForce = 3700,
 		maxSpeed = 20f,
 		engineLoudness = 90,
@@ -368,11 +368,13 @@ module Base
 		rollInfluence = 1.0f,
 		steeringIncrement = 0.03,
 		steeringClamp = 0.3,
-		suspensionStiffness = 28,
-		suspensionCompression = 1.5,
+		
+		suspensionStiffness = 50,
+		suspensionCompression = 2,
 		suspensionDamping = 1.88,
-		maxSuspensionTravelCm = 10,
+		maxSuspensionTravelCm = 1.1,
 		suspensionRestLength = 0.2,
+		
 		wheelFriction = 1.6f,
 		frontEndHealth = 150,
 		rearEndHealth = 150,
@@ -419,39 +421,6 @@ module Base
 	}
 	vehicle BoatSailingYachtWithSailsRight
 	{
-	
-		wheel FrontLeft
-		{
-			front = true,
-			offset = 0.1950 0.3638 0.3638,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		wheel FrontRight
-		{
-			front = true,
-			offset = -0.1950 0.3638 0.3638,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		wheel RearLeft
-		{
-			front = false,
-			offset = 0.1950 0.3638 -0.4575,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		wheel RearRight
-		{
-			front = false,
-			offset = -0.1950 0.3638 -0.4575,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-		
 		model
 		{
 			file = BoatSailingYachtWithSailsRightBody,
@@ -479,10 +448,41 @@ module Base
 			horn = BoatHorn,
 		}
 		
-		extents = 0.4200 0.1900 1.1650,
-		mass = 700,
-		physicsChassisShape = 0.7550 0.1900 1.1650,
-		centerOfMassOffset = 0.0000 0.3888 -0.0400,
+		extents = 0.4375 0.3200 1.2875,
+		mass = 100,
+		physicsChassisShape = 1.0625 0.3200 1.2875,
+		centerOfMassOffset = -0.0012 0.2850 -0.0575,
+		wheel FrontLeft
+		{
+			front = true,
+			offset = 0.1513 0.3550 0.3063,
+			radius = 0.15f,
+			width = 0.2f,
+		}
+
+		wheel FrontRight
+		{
+			front = true,
+			offset = -0.1513 0.3550 0.3063,
+			radius = 0.15f,
+			width = 0.2f,
+		}
+
+		wheel RearLeft
+		{
+			front = false,
+			offset = 0.1787 0.3550 -0.4213,
+			radius = 0.15f,
+			width = 0.2f,
+		}
+
+		wheel RearRight
+		{
+			front = false,
+			offset = -0.1787 0.3550 -0.4213,
+			radius = 0.15f,
+			width = 0.2f,
+		}
 		
 		engineForce = 3700,
 		maxSpeed = 20f,
@@ -496,11 +496,13 @@ module Base
 		rollInfluence = 1.0f,
 		steeringIncrement = 0.03,
 		steeringClamp = 0.3,
-		suspensionStiffness = 28,
-		suspensionCompression = 1.5,
+		
+		suspensionStiffness = 50,
+		suspensionCompression = 2,
 		suspensionDamping = 1.88,
-		maxSuspensionTravelCm = 10,
+		maxSuspensionTravelCm = 1.1,
 		suspensionRestLength = 0.2,
+		
 		wheelFriction = 1.6f,
 		frontEndHealth = 150,
 		rearEndHealth = 150,
@@ -546,40 +548,7 @@ module Base
 		}
 	}
 	vehicle BoatSailingYacht
-	{
-	
-		wheel FrontLeft
-		{
-			front = true,
-			offset = 0.1950 0.3638 0.3638,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		wheel FrontRight
-		{
-			front = true,
-			offset = -0.1950 0.3638 0.3638,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		wheel RearLeft
-		{
-			front = false,
-			offset = 0.1950 0.3638 -0.4575,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		wheel RearRight
-		{
-			front = false,
-			offset = -0.1950 0.3638 -0.4575,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-		
+	{		
 		model
 		{
 			file = BoatSailingYachtBody,
@@ -607,10 +576,38 @@ module Base
 			horn = BoatHorn,
 		}
 		
-		extents = 0.4200 0.1900 1.1650,
-		mass = 700,
-		physicsChassisShape = 0.7550 0.1900 1.1650,
-		centerOfMassOffset = 0.0000 0.3888 -0.0400,
+		extents = 0.4375 0.3200 1.2875,
+		mass = 100,
+		physicsChassisShape = 1.0625 0.3200 1.2875,
+		centerOfMassOffset = -0.0012 0.2850 -0.0575,
+		wheel FrontLeft
+		{
+			front = true,
+			offset = 0.1513 0.3550 0.3063,
+			radius = 0.15f,
+			width = 0.2f,
+		}
+		wheel FrontRight
+		{
+			front = true,
+			offset = -0.1513 0.3550 0.3063,
+			radius = 0.15f,
+			width = 0.2f,
+		}
+		wheel RearLeft
+		{
+			front = false,
+			offset = 0.1787 0.3550 -0.4213,
+			radius = 0.15f,
+			width = 0.2f,
+		}
+		wheel RearRight
+		{
+			front = false,
+			offset = -0.1787 0.3550 -0.4213,
+			radius = 0.15f,
+			width = 0.2f,
+		}
 		
 		engineForce = 3700,
 		maxSpeed = 20f,
@@ -624,11 +621,13 @@ module Base
 		rollInfluence = 1.0f,
 		steeringIncrement = 0.03,
 		steeringClamp = 0.3,
-		suspensionStiffness = 28,
-		suspensionCompression = 1.5,
+		
+		suspensionStiffness = 50,
+		suspensionCompression = 2,
 		suspensionDamping = 1.88,
-		maxSuspensionTravelCm = 10,
+		maxSuspensionTravelCm = 1.1,
 		suspensionRestLength = 0.2,
+		
 		wheelFriction = 1.6f,
 		frontEndHealth = 150,
 		rearEndHealth = 150,
