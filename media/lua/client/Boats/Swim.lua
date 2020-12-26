@@ -87,6 +87,10 @@ function AquatsarYachts.Swim.chanceSuccess(playerObj, square)
     return 11-- math.floor(chance)
 end
 
+local function compare(a,b)
+    return a:getWeight() > b:getWeight()
+end
+
 function AquatsarYachts.Swim.dropItems(playerObj)
     local inv = playerObj:getInventory()    
     local items = {}
@@ -96,10 +100,11 @@ function AquatsarYachts.Swim.dropItems(playerObj)
         table.insert(items, item)
     end
 
-    for i=1, #items do
-        if ZombRand(100) < 60 then
-            inv:DoRemoveItem(items[i])
-        end
+    local dropNum = ZombRand(#items * 0.6)
+    table.sort(items, compare)
+
+    for i=1, dropNum do
+        inv:DoRemoveItem(items[i])
     end
 end
 
@@ -108,7 +113,7 @@ function AquatsarYachts.Swim.swimToLand(playerObj, square, chance)
     
     if equipWeight > 20 then
         local coeff = (ZombRand(80) + 10)/100
-        playerObj:setHealth(playerObj:getHealth()*coeff)
+        playerObj:setHealth(0.2)
         playerObj:Say(getText("IGUI_almostDieFail"))
         AquatsarYachts.Swim.dropItems(playerObj)
     else
@@ -130,7 +135,7 @@ function AquatsarYachts.Swim.swimToLand(playerObj, square, chance)
       
         else
             local coeff = (ZombRand(80) + 10)/100
-            playerObj:setHealth(playerObj:getHealth()*coeff)
+            playerObj:setHealth(0.2)
             playerObj:Say(getText("IGUI_almostDie"))
             AquatsarYachts.Swim.dropItems(playerObj)
         end
@@ -217,7 +222,7 @@ local function startSwimToBoat(_, playerObj, boat, chance)
     
     if equipWeight > 20 then
         local coeff = (ZombRand(80) + 10)/100
-        playerObj:setHealth(playerObj:getHealth()*coeff)
+        playerObj:setHealth(0.2)
         playerObj:Say(getText("IGUI_almostDieFail"))
         AquatsarYachts.Swim.dropItems(playerObj)
     else
@@ -237,7 +242,7 @@ local function startSwimToBoat(_, playerObj, boat, chance)
 
         else
             local coeff = (ZombRand(80) + 10)/100
-            playerObj:setHealth(playerObj:getHealth()*coeff)
+            playerObj:setHealth(0.2)
             playerObj:Say(getText("IGUI_almostDie"))
             AquatsarYachts.Swim.dropItems(playerObj)
         end

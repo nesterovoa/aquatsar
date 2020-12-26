@@ -387,8 +387,8 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		end
 	end
 	
-	if string.match(string.lower(boat:getScript():getName()), "yacht") and seat > 1 or 
-	not string.match(string.lower(boat:getScript():getName()), "yacht") then
+	if AquaTsarConfig.isBoat(boat) and seat > 1 or 
+	not AquaTsarConfig.isBoat(boat) then
 		if boat:getPartById("HeadlightRearRight") and boat:getPartById("HeadlightRearRight"):getInventoryItem() then
 			menu:addSlice(getText("ContextMenu_BoatCabinelightsOff"), getTexture("media/ui/boats/boat_switch_off.png"), ISBoatMenu.offToggleCabinlights, playerObj)
 		else
@@ -396,8 +396,8 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		end
 	end
 	if boat:getPartById("Heater") then
-		if string.match(string.lower(boat:getScript():getName()), "yacht") and seat > 1 or 
-		not string.match(string.lower(boat:getScript():getName()), "yacht") and seat <= 1 then
+		if AquaTsarConfig.isBoat(boat) and seat > 1 or 
+		not AquaTsarConfig.isBoat(boat) and seat <= 1 then
 			local tex = getTexture("media/ui/vehicles/vehicle_temperatureHOT.png")
 			if (boat:getPartById("Heater"):getModData().temperature or 0) < 0 then
 				tex = getTexture("media/ui/vehicles/vehicle_temperatureCOLD.png")
@@ -435,8 +435,8 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		menu:addSlice(getText("ContextMenu_SetRightSail"), getTexture("media/ui/boats/ICON_set_right_sails.png"), ISBoatMenu.SetRightSails, playerObj, boat)
 	end
 	
-	if string.match(string.lower(boat:getScript():getName()), "yacht") and seat > 1 or 
-	not string.match(string.lower(boat:getScript():getName()), "yacht") and seat <= 1 then
+	if AquaTsarConfig.isBoat(boat) and seat > 1 or 
+	not AquaTsarConfig.isBoat(boat) and seat <= 1 then
 		for partIndex=1,boat:getPartCount() do
 			local part = boat:getPartByIndex(partIndex-1)
 			if part:getDeviceData() and part:getInventoryItem() then
@@ -486,8 +486,8 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		--end
 	end
 	if (not isClient() or getServerOptions():getBoolean("SleepAllowed")) then
-		if string.match(string.lower(boat:getScript():getName()), "yacht") and seat > 1 or 
-		not string.match(string.lower(boat:getScript():getName()), "yacht") then
+		if AquaTsarConfig.isBoat(boat) and seat > 1 or 
+		not AquaTsarConfig.isBoat(boat) then
 			local doSleep = true;
 			if playerObj:getStats():getFatigue() <= 0.3 then
 				menu:addSlice(getText("IGUI_Sleep_NotTiredEnough"), getTexture("media/ui/vehicles/vehicle_sleep.png"), nil, playerObj, boat)
