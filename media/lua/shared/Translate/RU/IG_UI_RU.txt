@@ -50,5 +50,6 @@ IGUI_RU = {
 	IGUI_playerCantSwim = "Игрок не умеет плавать",
 	IGUI_DropToWater = "Выкинуть в воду",
 	IGUI_almostDie = "Бля, чуть не умер",
-	IGUI_almostDieFail = "Бля, не вышло и чуть не умер"
+	IGUI_almostDieFail = "Бля, не вышло и чуть не умер",
+	IGUI_SwimTo = "Плыть к"
 }

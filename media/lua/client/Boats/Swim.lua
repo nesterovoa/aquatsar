@@ -9,8 +9,8 @@ function AquatsarYachts.Swim.chanceSuccess(playerObj, square)
     local dist = math.sqrt(x*x + y*y)
     local canSwim = playerObj:isRecipeKnown("Swimming")
     local equipWeight = round(playerObj:getInventory():getCapacityWeight(), 2)
-    local haveDivingMask = playerObj:getInventory():containsType("Wrench")
-    local haveLifebouy = playerObj:getInventory():containsType("Screwdriver")
+    local haveDivingMask = playerObj:getInventory():containsType("DivingMask")
+    local haveLifebouy = playerObj:getInventory():containsType("Lifebuoy")
     
     local panic = playerObj:getMoodles():getMoodleLevel(MoodleType.Panic)
     local drunk = playerObj:getMoodles():getMoodleLevel(MoodleType.Drunk)
@@ -39,27 +39,27 @@ function AquatsarYachts.Swim.chanceSuccess(playerObj, square)
     chance = chance * ((30 - equipWeight)/30) * 1.6
 
     if haveDivingMask then 
-        chance = chance * 1.2
+        chance = chance * 1.4
     end
 
     if panic then 
-        chance = chance * 0.9
+        chance = chance * (10 - panic)/10
     end
 
     if drunk then 
-        chance = chance * 0.9
+        chance = chance * (10 - drunk)/10
     end
 
     if endurance then 
-        chance = chance * 0.9
+        chance = chance * (10 - endurance)/10
     end
 
     if tired then 
-        chance = chance * 0.9
+        chance = chance * (10 - tired)/10
     end
 
     if pain then 
-        chance = chance * 0.9
+        chance = chance * (10 - pain)/10
     end
 
     if Unlucky then 
@@ -84,7 +84,7 @@ function AquatsarYachts.Swim.chanceSuccess(playerObj, square)
         chance = 100
     end
 
-    return 11-- math.floor(chance)
+    return math.floor(chance)
 end
 
 local function compare(a,b)
@@ -152,40 +152,10 @@ function AquatsarYachts.Swim.getSwimSquares(x, y)
     local WminDist = 50
 
 
-    for i=-50, 0 do
-        for j=-50, 0 do
-            local sq = cell:getGridSquare(x+i, y+j, 0)
-            
-            if not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
-                local dist = math.sqrt((i*i + j*j))
-
-                if dist < NminDist then 
-                    NminDist = dist
-                    squares["NORTH"] = sq
-                end
-            end
-        end
-    end
-
     for i=1, 50 do
-        for j = -50, 0 do
+        for j = -i, i do
             local sq = cell:getGridSquare(x+i, y+j, 0)
-            if not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
-                local dist = math.sqrt((i*i + j*j))
-
-                if dist < EminDist then 
-                    EminDist = dist
-                    squares["EAST"] = sq
-                end
-            end
             
-        end 
-    end
-
-    for i=-50, 0 do
-        for j = 1, 50 do
-            local sq = cell:getGridSquare(x+i, y+j, 0)
-
             if not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
                 local dist = math.sqrt((i*i + j*j))
 
@@ -194,14 +164,28 @@ function AquatsarYachts.Swim.getSwimSquares(x, y)
                     squares["WEST"] = sq
                 end
             end
-            
         end 
     end
 
     for i=1, 50 do
-        for j = 1, 50 do
-            local sq = cell:getGridSquare(x+i, y+j, 0)
+        for j = -i, i do
+            local sq = cell:getGridSquare(x-i, y+j, 0)
+            
+            if not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
+                local dist = math.sqrt((i*i + j*j))
 
+                if dist < EminDist then 
+                    EminDist = dist
+                    squares["EAST"] = sq
+                end
+            end
+        end 
+    end
+
+    for i=1, 50 do
+        for j = -i, i do
+            local sq = cell:getGridSquare(x+j, y+i, 0)
+            
             if not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
                 local dist = math.sqrt((i*i + j*j))
 
@@ -213,11 +197,27 @@ function AquatsarYachts.Swim.getSwimSquares(x, y)
         end 
     end
 
+    for i=1, 50 do
+        for j = -i, i do
+            local sq = cell:getGridSquare(x+j, y-i, 0)
+            
+            if not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
+                local dist = math.sqrt((i*i + j*j))
+
+                if dist < NminDist then 
+                    NminDist = dist
+                    squares["NORTH"] = sq
+                end
+            end
+        end 
+    end
+
+
     return squares
 end
 
 --------------------------
-local function startSwimToBoat(_, playerObj, boat, chance)
+local function startSwimToBoat(playerObj, boat, chance)
     local equipWeight = round(playerObj:getInventory():getCapacityWeight(), 2)
     
     if equipWeight > 20 then
@@ -249,11 +249,13 @@ local function startSwimToBoat(_, playerObj, boat, chance)
     end
 end
 
-local function getBoatForSwimTo(square)
+local function getBoatsForSwimTo(square)
     local cell = getCell()
     local x = square:getX()
     local y = square:getY()
     
+    local boats = {}
+
     for i=-50, 50 do
         for j =-50, 50 do
             local sq = cell:getGridSquare(x+i, y+j, 0)
@@ -262,13 +264,19 @@ local function getBoatForSwimTo(square)
                 for i=1, sq:getMovingObjects():size() do
 					local obj = sq:getMovingObjects():get(i-1)
 					if obj~= nil and instanceof(obj, "BaseVehicle") and AquaTsarConfig.isBoat(obj) then
-						return obj
+						boats[obj] = true
 					end
 				end
             end
         end 
     end
 
+    local answer = {}
+    for key, value in pairs(boats) do
+        table.insert( answer, key)
+    end
+
+    return answer
 end
 
 local function swimToBoat(player, context, worldobjects, test)
@@ -287,11 +295,26 @@ local function swimToBoat(player, context, worldobjects, test)
         local x = waterSquare:getX() - playerObj:getX()
         local y = waterSquare:getY() - playerObj:getY()
 
-        local boat = getBoatForSwimTo(waterSquare)
+        local consolidateOption = context:addOption(getText("IGUI_SwimTo"), nil, nil)
+        local subMenuConsolidate = context:getNew(context)
+        context:addSubMenu(consolidateOption, subMenuConsolidate)
+        
+        local boats = getBoatsForSwimTo(waterSquare)
+        for i=1, #boats do
+            local name = boats[i]:getScript():getName()
+            local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, boats[i]:getSquare())
+            subMenuConsolidate:addOption(name .. " (" .. getText("IGUI_chance") .. ": " .. chance .. "%)", playerObj, startSwimToBoat, boats[i], chance)
+        end
+
+
+
+        --[[
+        
         if boat ~= nil then
             local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, boat:getSquare())
             context:addOption(getText("IGUI_SwimTo") .. " " .. getText("IGUI_chance") .. ": " .. chance .. "%" , worldobjects[1], startSwimToBoat, playerObj, boat, chance)
         end
+        ]]
     end
 
 end
