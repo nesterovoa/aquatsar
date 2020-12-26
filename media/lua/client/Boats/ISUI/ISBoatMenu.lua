@@ -219,35 +219,6 @@ function ISBoatMenu.getBoatToInteractWith(playerObj)
 	return boat
 end
 
-function ISBoatMenu.getExitPoint(boat)
-	local exitVector = Vector3f.new()
-	boat:getAttachmentWorldPos("exitLeft", exitVector)
-	local squareUnderExit = getSquare(exitVector:x(), exitVector:y(), 0)
-	if squareUnderExit ~= nil then 
-		local tile = squareUnderExit:getFloor():getTextureName()
-		if squareUnderExit:getFloor():getSprite():getProperties():Is(IsoFlagType.water)==false then
-			return exitVector
-		end
-	end
-	boat:getAttachmentWorldPos("exitRight", exitVector)
-	squareUnderExit = getSquare(exitVector:x(), exitVector:y(), 0)
-	if squareUnderExit ~= nil then 
-		local tile = squareUnderExit:getFloor():getTextureName()
-		if squareUnderExit:getFloor():getSprite():getProperties():Is(IsoFlagType.water)==false then
-			return exitVector
-		end
-	end
-	boat:getAttachmentWorldPos("exitRear", exitVector)
-	squareUnderExit = getSquare(exitVector:x(), exitVector:y(), 0)
-	if squareUnderExit ~= nil then 
-		local tile = squareUnderExit:getFloor():getTextureName()
-		if squareUnderExit:getFloor():getSprite():getProperties():Is(IsoFlagType.water)==false then
-			return exitVector
-		end
-	end
-	return false
-end
-
 function ISBoatMenu.getNearLandForExit(boat)
 	local square = boat:getSquare()
 	if square == nil then return nil end
@@ -287,13 +258,9 @@ function ISBoatMenu.onExit(playerObj, seatFrom)
     boat:updateHasExtendOffsetForExit(playerObj)
 	if starts_with(string.lower(boat:getScript():getName()), "boat") then
 		if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 then 
-			local exitPoint = ISBoatMenu.getExitPoint(boat)
-			if exitPoint then
-				ISTimedActionQueue.add(ISExitBoat:new(playerObj, exitPoint))
-				return
-			end
 			exitPoint = ISBoatMenu.getNearLandForExit(boat)
 			if exitPoint then
+				print("land near")
 				ISTimedActionQueue.add(ISExitBoat:new(playerObj, exitPoint))
 				return
 			end
@@ -454,7 +421,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 
 	-- Swim
 	boat:updateHasExtendOffsetForExit(playerObj)
-	if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 and not ISBoatMenu.getExitPoint(boat) and not ISBoatMenu.getNearLandForExit(boat) then
+	if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 and not ISBoatMenu.getNearLandForExit(boat) then
 		menu:addSlice(getText("ContextMenu_SwimToLand"), getTexture("media/ui/boats/ICON_boat_swim.png"), ISBoatMenu.showSwimMenu, playerObj)
 	end
 
@@ -553,7 +520,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		end
 	end
 	
-	if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 and (ISBoatMenu.getExitPoint(boat) or ISBoatMenu.getNearLandForExit(boat)) then
+	if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 and ISBoatMenu.getNearLandForExit(boat) then
 		menu:addSlice(getText("IGUI_ExitBoat"), getTexture("media/ui/boats/boat_exit.png"), ISBoatMenu.onExit, playerObj)
 	end
 	
