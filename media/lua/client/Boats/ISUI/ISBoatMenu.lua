@@ -264,7 +264,6 @@ function ISBoatMenu.onExit(playerObj, seatFrom)
 				ISTimedActionQueue.add(ISExitBoat:new(playerObj, exitPoint))
 				return
 			end
-			playerObj:Say(getText("IGUI_PlayerText_CanNotSwim"))
 		end
 	end
 end

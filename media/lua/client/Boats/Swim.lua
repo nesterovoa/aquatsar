@@ -84,29 +84,56 @@ function AquatsarYachts.Swim.chanceSuccess(playerObj, square)
         chance = 100
     end
 
-    return math.floor(chance)
+    return 11-- math.floor(chance)
 end
 
+function AquatsarYachts.Swim.dropItems(playerObj)
+    local inv = playerObj:getInventory()    
+    local items = {}
+
+    for j=1, inv:getItems():size() do
+        local item = inv:getItems():get(j-1);
+        table.insert(items, item)
+    end
+
+    for i=1, #items do
+        if ZombRand(100) < 60 then
+            inv:DoRemoveItem(items[i])
+        end
+    end
+end
 
 function AquatsarYachts.Swim.swimToLand(playerObj, square, chance)
-    local vehicle = playerObj:getVehicle()
-    local seat = vehicle:getSeat(playerObj)
-    vehicle:exit(playerObj)
-    playerObj:PlayAnim("Idle")
-    triggerEvent("OnExitVehicle", playerObj)
-    vehicle:updateHasExtendOffsetForExitEnd(playerObj)
-    playerObj:setX(square:getX())
-    playerObj:setY(square:getY())
-
-    local endurance = playerObj:getStats():getEndurance() - 0.5
-    if endurance < 0 then endurance = 0 end
-    playerObj:getStats():setEndurance(endurance);
-    playerObj:getBodyDamage():setWetness(100);
+    local equipWeight = round(playerObj:getInventory():getCapacityWeight(), 2)
     
-    if ZombRand(100) <= chance then
-  
+    if equipWeight > 20 then
+        local coeff = (ZombRand(80) + 10)/100
+        playerObj:setHealth(playerObj:getHealth()*coeff)
+        playerObj:Say(getText("IGUI_almostDieFail"))
+        AquatsarYachts.Swim.dropItems(playerObj)
     else
-        playerObj:Say("I DIED")
+        local vehicle = playerObj:getVehicle()
+        local seat = vehicle:getSeat(playerObj)
+        vehicle:exit(playerObj)
+        playerObj:PlayAnim("Idle")
+        triggerEvent("OnExitVehicle", playerObj)
+        vehicle:updateHasExtendOffsetForExitEnd(playerObj)
+        playerObj:setX(square:getX())
+        playerObj:setY(square:getY())
+    
+        local endurance = playerObj:getStats():getEndurance() - 0.5
+        if endurance < 0 then endurance = 0 end
+        playerObj:getStats():setEndurance(endurance);
+        playerObj:getBodyDamage():setWetness(100);
+        
+        if ZombRand(100) <= chance then
+      
+        else
+            local coeff = (ZombRand(80) + 10)/100
+            playerObj:setHealth(playerObj:getHealth()*coeff)
+            playerObj:Say(getText("IGUI_almostDie"))
+            AquatsarYachts.Swim.dropItems(playerObj)
+        end
     end
 end
 
@@ -186,20 +213,34 @@ end
 
 --------------------------
 local function startSwimToBoat(_, playerObj, boat, chance)
-    if ZombRand(100) < chance then
+    local equipWeight = round(playerObj:getInventory():getCapacityWeight(), 2)
+    
+    if equipWeight > 20 then
+        local coeff = (ZombRand(80) + 10)/100
+        playerObj:setHealth(playerObj:getHealth()*coeff)
+        playerObj:Say(getText("IGUI_almostDieFail"))
+        AquatsarYachts.Swim.dropItems(playerObj)
+    else
         boat:enter(0, playerObj)
 
         boat:setCharacterPosition(playerObj, 0, "inside")
-	    boat:transmitCharacterPosition(0, "inside")
-	    boat:playPassengerAnim(0, "idle")
-	    triggerEvent("OnEnterVehicle", playerObj)
+        boat:transmitCharacterPosition(0, "inside")
+        boat:playPassengerAnim(0, "idle")
+        triggerEvent("OnEnterVehicle", playerObj)
         
         local endurance = playerObj:getStats():getEndurance() - 0.5
         if endurance < 0 then endurance = 0 end
         playerObj:getStats():setEndurance(endurance);
         playerObj:getBodyDamage():setWetness(100);
-    else
-        playerObj:Say("I DIED")
+        
+        if ZombRand(100) < chance then
+
+        else
+            local coeff = (ZombRand(80) + 10)/100
+            playerObj:setHealth(playerObj:getHealth()*coeff)
+            playerObj:Say(getText("IGUI_almostDie"))
+            AquatsarYachts.Swim.dropItems(playerObj)
+        end
     end
 end
 
