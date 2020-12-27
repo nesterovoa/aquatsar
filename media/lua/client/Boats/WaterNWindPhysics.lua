@@ -48,11 +48,19 @@ function WaterNWindPhysics:ApplyImpulseBreak(veh, groundSquare)
 end
 
 function WaterNWindPhysics.getWindDirection()
-    return ClimateManager.getWindAngleString(getClimateManager():getWindAngleDegrees())
+	local angle = getClimateManager():getWindAngleDegrees()
+	local windAngles = { 22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 382.5 }
+	local windAngleStr = { "N", "NW", "W", "SW", "S", "SE", "E", "NE", "N" }
+    for b = 1, #windAngles do
+		if (angle < windAngles[b]) then
+			return windAngleStr[b]
+		end
+	end
+    return windAngleStr[#windAngleStr - 1];
 end
 
 function WaterNWindPhysics.getWindSpeed()
-    return getClimateManager():getWindIntensity()*getClimateManager():getMaxWindspeedKph()
+    return getClimateManager():getWindspeedKph()
 end
 
 
@@ -76,6 +84,8 @@ function WaterNWindPhysics.updateVehicles()
 			local squareUnderVehicle = getCell():getGridSquare(boat:getX(), boat:getY(), 0)
             if squareUnderVehicle ~= nil and WaterNWindPhysics.isWater(squareUnderVehicle) then
 				AIDebug.setInsp("Boat", "boat:getDebugZ()", boat:getDebugZ())
+				AIDebug.setInsp("Boat", "boat:getEngineSpeed()", boat:getEngineSpeed())
+				
 				AIDebug.setInsp("Boat", " ", " ")
 				if boatSpeed < 0.3 and boat:getDebugZ() < 0.66 then
 					-- if boatы:getDriver() then
@@ -89,7 +99,6 @@ function WaterNWindPhysics.updateVehicles()
 							local boatDirVector = Vector3f.new(x, 0, y):normalize()
 							boatDirVector:mul(-6000)
 							boat:addImpulse(boatDirVector, tempVec2)
-							print("boatDirVector:addImpulse")
 						end
 						-- tempVec1:set(5000, 0, 0)
 						-- tempVec2:set(0, 0, 0)

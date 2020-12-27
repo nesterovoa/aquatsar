@@ -9,8 +9,8 @@ function ISSalingBoatDashboard:createChildren()
 	self.backgroundTex:instantiate();
 	self:addChild(self.backgroundTex);
 
-	x = 947
-	y = 67
+	local x = 947
+	local y = 67
 	self.speedGauge = ISVehicleGauge:new(x, y, self.speedGaugeTex, 73, 71, -225, 0) -- красная полоска скорости
 	self.speedGauge:initialise()
 	self.speedGauge:instantiate()

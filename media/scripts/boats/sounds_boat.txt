@@ -24,4 +24,16 @@ module Base
 		}
 	}
 	
+	sound TrumanSetsSail
+	{
+		category = Vehicle,
+		loop = false,
+		clip
+		{
+			file = media/sound/boats/Truman_Sets_Sail.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
 }

@@ -549,19 +549,27 @@ function ISBoatMenu.showSwimMenu(playerObj)
 end
 
 function ISBoatMenu.replaceBoat(boat, newSriptName)
-	local partsCondition = {}
+	local partsTable = {}
 	for i=1, boat:getScript():getPartCount() do
 		local part = boat:getPartByIndex(i-1)
-		partsCondition[part:getId()] = {}
-		partsCondition[part:getId()]["InventoryItem"] = part:getInventoryItem()
-		partsCondition[part:getId()]["Condition"] = part:getCondition()
+		partsTable[part:getId()] = {}
+		partsTable[part:getId()]["InventoryItem"] = part:getInventoryItem()
+		partsTable[part:getId()]["Condition"] = part:getCondition()
+		partsTable[part:getId()]["ItemContainer"] = nil
+		local itemContainer = part:getItemContainer()
+		if itemContainer and not itemContainer:isEmpty()then
+			partsTable[part:getId()]["ItemContainer"] = itemContainer
+		end
 	end
 	boat:setScriptName(newSriptName)
 	boat:scriptReloaded()
 	for i=1, boat:getScript():getPartCount() do
 		local part = boat:getPartByIndex(i-1)
-		part:setInventoryItem(partsCondition[part:getId()]["InventoryItem"])
-		part:setCondition(partsCondition[part:getId()]["Condition"])
+		part:setInventoryItem(partsTable[part:getId()]["InventoryItem"])
+		part:setCondition(partsTable[part:getId()]["Condition"])
+		if partsTable[part:getId()]["ItemContainer"] then
+			part:setItemContainer(partsTable[part:getId()]["ItemContainer"])
+		end
 	end
 	return boat
 end

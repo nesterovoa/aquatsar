@@ -15,7 +15,7 @@ Boats.UninstallTest = {}
 Boats.Update = {}
 Boats.Use = {}
 
-function Boats.Create.Propeller(vehicle, part)
+function Boats.Create.Propeller(boat, part)
 	print("Boats.Create.Propeller")
 	print(part:getInventoryItem())
 	local item = BoatUtils.createPartInventoryItem(part)
@@ -25,34 +25,34 @@ function Boats.Create.Propeller(vehicle, part)
 	end
 end
 
-function Boats.InstallComplete.Propeller(vehicle, part, item)
-	local part = vehicle:getPartById("TireFrontLeft")
+function Boats.InstallComplete.Propeller(boat, part, item)
+	local part = boat:getPartById("TireFrontLeft")
 	part:setInventoryItem(InventoryItemFactory.CreateItem("Aqua.AirBagNormal3"), 10)
 	part:setContainerContentAmount(35)
-	vehicle:transmitPartItem(part)
-	part = vehicle:getPartById("TireFrontRight")
+	boat:transmitPartItem(part)
+	part = boat:getPartById("TireFrontRight")
 	part:setInventoryItem(InventoryItemFactory.CreateItem("Aqua.AirBagNormal3"), 10)
 	part:setContainerContentAmount(35)
-	vehicle:transmitPartItem(part)
-	part = vehicle:getPartById("TireRearLeft")
+	boat:transmitPartItem(part)
+	part = boat:getPartById("TireRearLeft")
 	part:setInventoryItem(InventoryItemFactory.CreateItem("Aqua.AirBagNormal3"), 10)
 	part:setContainerContentAmount(35)
-	vehicle:transmitPartItem(part)
-	part = vehicle:getPartById("TireRearRight")
+	boat:transmitPartItem(part)
+	part = boat:getPartById("TireRearRight")
 	part:setInventoryItem(InventoryItemFactory.CreateItem("Aqua.AirBagNormal3"), 10)
 	part:setContainerContentAmount(35)
-	vehicle:transmitPartItem(part)
+	boat:transmitPartItem(part)
 	--part:setModelVisible("InflatedTirePlusWheel", true)
 end
 
-function Boats.UninstallComplete.Propeller(vehicle, part, item)
-	local part = vehicle:getPartById("TireFrontLeft")
+function Boats.UninstallComplete.Propeller(boat, part, item)
+	local part = boat:getPartById("TireFrontLeft")
 	part:setInventoryItem(nil)
-	part = vehicle:getPartById("TireFrontRight")
+	part = boat:getPartById("TireFrontRight")
 	part:setInventoryItem(nil)
-	part = vehicle:getPartById("TireRearLeft")
+	part = boat:getPartById("TireRearLeft")
 	part:setInventoryItem(nil)
-	part = vehicle:getPartById("TireRearRight")
+	part = boat:getPartById("TireRearRight")
 	part:setInventoryItem(nil)
 	--part:setModelVisible("InflatedTirePlusWheel", false)
 end
@@ -82,22 +82,71 @@ function Boats.Create.ApiBoatlight(boat, part)
 	part:setInventoryItem(nil)
 end
 
-function Boats.Init.ApiBoatlight(vehicle, part)
+function Boats.Init.ApiBoatlight(boat, part)
 	part:setModelVisible("test", true)
 end
 
-function Boats.Update.ApiBoatlight(vehicle, part, elapsedMinutes)
+function Boats.Update.ApiBoatlight(boat, part, elapsedMinutes)
 	local light = part:getLight()
 	if not light then return end
-	local active = vehicle:getHeadlightsOn()
-	if active and (not part:getInventoryItem() or vehicle:getBatteryCharge() <= 0.0) then
+	local active = boat:getHeadlightsOn()
+	if active and (not part:getInventoryItem() or boat:getBatteryCharge() <= 0.0) then
 		active = false
 	end
 	part:setLightActive(active)
-	if active and not vehicle:isEngineRunning() then
-		VehicleUtils.chargeBattery(vehicle, -0.000025 * elapsedMinutes)
+	if active and not boat:isEngineRunning() then
+		VehicleUtils.chargeBattery(boat, -0.000025 * elapsedMinutes)
 	end
 end
+
+function Boats.Update.GasTank(boat, part, elapsedMinutes)
+	local invItem = part:getInventoryItem();
+	if not invItem then return; end
+	local amount = part:getContainerContentAmount()
+	if elapsedMinutes > 0 and amount > 0 and boat:isEngineRunning() then
+		local amountOld = amount
+		local gasMultiplier = 90000;
+		local heater = boat:getHeater();
+		if heater and heater:getModData().active then
+			gasMultiplier = gasMultiplier + 5000;
+		end
+		local qualityMultiplier = ((100 - boat:getEngineQuality()) / 200) + 1;
+		local massMultiplier =  ((math.abs(1000 - boat:getScript():getMass())) / 300) + 1;
+		local speedToNextTransmission = ((boat:getMaxSpeed() / boat:getScript():getGearRatioCount()) * 0.71) * boat:getTransmissionNumber();
+		local speedMultiplier = (speedToNextTransmission - boat:getCurrentSpeedKmHour()) * 350;
+		-- if boat is stopped, we half the value of gas consummed
+		if math.floor(boat:getCurrentSpeedKmHour()) > 0 then
+			gasMultiplier = gasMultiplier / qualityMultiplier / massMultiplier/2;
+		else
+			gasMultiplier = (gasMultiplier / qualityMultiplier);
+			speedMultiplier = 1;
+		end
+		-- we're at max gear, cap general gas consumption
+		if speedMultiplier < 800 then
+			speedMultiplier = 800;
+		end
+		
+		local newAmount = (speedMultiplier / gasMultiplier)  * SandboxVars.CarGasConsumption;
+		newAmount =  newAmount * (boat:getEngineSpeed()/2500.0);
+		amount = amount - elapsedMinutes * newAmount;
+		print(elapsedMinutes * newAmount)
+		-- if your gas tank is in bad condition, you can simply lose fuel
+		if part:getCondition() < 70 then
+			if ZombRand(part:getCondition() * 2) == 0 then
+				amount = amount - 0.01;
+			end
+		end
+	
+		part:setContainerContentAmount(amount, false, true);
+		amount = part:getContainerContentAmount();
+		local precision = (amount < 0.5) and 2 or 1
+		if VehicleUtils.compareFloats(amountOld, amount, precision) then
+			boat:transmitPartModData(part)
+		end
+	end
+end
+
+
 
 function Boats.Create.BoatHeadlight(boat, part)
 	local item = BoatUtils.createPartInventoryItem(part)
@@ -108,11 +157,11 @@ function Boats.Create.BoatHeadlight(boat, part)
 	end
 end
 
-function Boats.Init.BoatHeadlight(vehicle, part)
+function Boats.Init.BoatHeadlight(boat, part)
 	part:setModelVisible("test", true)
 end
 
-function Boats.ContainerAccess.BlockSeat(vehicle, part, chr)
+function Boats.ContainerAccess.BlockSeat(boat, part, chr)
 	return false
 end
 

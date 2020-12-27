@@ -31,7 +31,7 @@ function ISSetSailAction:start()
     if self.character:getModData()["isFirstSail"] == nil then
         self.character:getModData()["isFirstSail"] = false
         getSoundManager():StopMusic()
-        self.sound = getSoundManager():PlayWorldSoundWav("truman", self.character:getSquare(), 0, 10, 1, true);
+        self.sound = getSoundManager():PlayWorldSoundWav("TrumanSetsSail", self.character:getSquare(), 0, 10, 1, true);
         self.isFirstSail = true
     end
 end

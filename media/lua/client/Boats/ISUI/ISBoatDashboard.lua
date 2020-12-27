@@ -566,6 +566,8 @@ function ISBoatDashboard.onEnterVehicle(character)
 			local data = getPlayerData(character:getPlayerNum())
 			if AquaBoats[boat:getScript():getName()].dashboard == "ISSalingBoatDashboard" then
 				data.vehicleDashboard = ISSalingBoatDashboard:new(character:getPlayerNum(), character)
+			elseif AquaBoats[boat:getScript():getName()].dashboard == "ISNewSalingBoatDashboard" then
+				data.vehicleDashboard = ISNewSalingBoatDashboard:new(character:getPlayerNum(), character)
 			else
 				data.vehicleDashboard = ISBoatDashboard:new(character:getPlayerNum(), character)
 			end

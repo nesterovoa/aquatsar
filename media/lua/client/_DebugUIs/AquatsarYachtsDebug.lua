@@ -136,7 +136,7 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		playerObj:getInventory():AddItem("Base.PotOfSoup");
 		playerObj:getInventory():AddItem("Base.PotOfSoup");
 		playerObj:getInventory():AddItem("Base.Screwdriver");
-		
+		playerObj:getInventory():AddItem("Radio.HamRadio2");
 		
 		
 		for i=1, 10 do
