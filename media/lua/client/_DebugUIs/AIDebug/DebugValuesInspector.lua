@@ -121,6 +121,41 @@ end
 
 
 
+local function repairVehicle()
+    local veh = getPlayer():getVehicle()
+    if veh ~= nil then
+        veh:repair()
+    end
+end
+
+local function noclip()
+    local pl = getPlayer()
+    if pl:isNoClip() then
+        pl:setNoClip(false)
+    else
+        pl:setNoClip(true)
+    end
+end
+
+
+local function godMode()
+    local pl = getPlayer()
+    if pl:isGodMod() then
+        pl:setGodMod(false)
+    else
+        pl:setGodMod(true)
+    end
+end
+
+local function ghostMode()
+    local pl = getPlayer()
+    if pl:isGhostMode() then
+        pl:setGhostMode(false)
+    else
+        pl:setGhostMode(true)
+    end
+end
+
 AIDebugValuesInspector.showWindow = function(player, useSprayCan)--{{{
     -- Set tab window
     local InspectorPanel = ISTabPanel:new(Core:getInstance():getScreenWidth() - 680, Core:getInstance():getScreenHeight() - 285, 640, 248);
@@ -168,6 +203,34 @@ AIDebugValuesInspector.showWindow = function(player, useSprayCan)--{{{
 
     btn = ISButton:new(10, btn:getBottom() + 10, 100, 20, "Reload", nil, function() AIDebugValuesInspector.showInspector(); AIDebugValuesInspector.showInspector() end); 
     AIDebugValuesInspector.settingsTab:addChild(btn);
+
+
+    -- Cheats
+    local name = "Cheats"
+    AIDebugValuesInspector.cheatsTab = ISPanelJoypad:new(0, 48, AIDebugValuesInspector.window:getWidth(), AIDebugValuesInspector.window:getHeight() - AIDebugValuesInspector.window.nested.tabHeight)
+    AIDebugValuesInspector.cheatsTab:initialise()
+    AIDebugValuesInspector.cheatsTab:instantiate()
+    AIDebugValuesInspector.cheatsTab:setAnchorRight(true)
+    AIDebugValuesInspector.cheatsTab:setAnchorLeft(true)
+    AIDebugValuesInspector.cheatsTab:setAnchorTop(true)
+    AIDebugValuesInspector.cheatsTab:setAnchorBottom(true)
+    AIDebugValuesInspector.cheatsTab:noBackground()
+    AIDebugValuesInspector.cheatsTab.borderColor = {r=0, g=0, b=0, a=0};
+    AIDebugValuesInspector.cheatsTab:setScrollChildren(true)
+    AIDebugValuesInspector.cheatsTab:addScrollBars();
+    AIDebugValuesInspector.window.nested:addView(name, AIDebugValuesInspector.cheatsTab)
+
+    local btn = ISButton:new(10, 10, 100, 20, "Repair vehicle", nil, repairVehicle); 
+    AIDebugValuesInspector.cheatsTab:addChild(btn);
+
+    btn = ISButton:new(10, btn:getBottom() + 10, 100, 20, "NoClip", nil, noclip); 
+    AIDebugValuesInspector.cheatsTab:addChild(btn);
+
+    btn = ISButton:new(10, btn:getBottom() + 10, 100, 20, "God Mode", nil, godMode); 
+    AIDebugValuesInspector.cheatsTab:addChild(btn);
+
+    btn = ISButton:new(10, btn:getBottom() + 10, 100, 20, "Ghost Mode", nil, ghostMode); 
+    AIDebugValuesInspector.cheatsTab:addChild(btn);
 
     AIDebugValuesInspector.window:addToUIManager();
 	AIDebugValuesInspector.toolbarButton:setImage(getTexture("media/textures/AIDebug/Icon_Inspector_On.png"));
