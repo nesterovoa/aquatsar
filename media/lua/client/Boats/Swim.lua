@@ -309,6 +309,39 @@ local function getBoatsForSwimTo(square)
     return answer
 end
 
+
+local function getAnotherLandSquare(playerObj, square)
+    local x = square:getX() - playerObj:getX()
+    local y = square:getY() - playerObj:getY()
+    local len = math.sqrt(x*x + y*y)
+    
+    local dx = x / len
+    local dy = y / len
+    x = square:getX()
+    y = square:getY()
+    local cell = getCell()
+
+    local lastWaterSq
+    for i=1, (250 - math.floor(len)) do 
+        local sq = cell:getGridSquare(x + dx*i, y + dy*i, 0)
+        if sq and not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
+            return sq
+        end
+        if sq then
+            lastWaterSq = sq
+        end
+    end
+
+    return lastWaterSq
+end
+
+
+local function startSwimToAnotherLand(playerObj, square)
+    playerObj:setX(square:getX())
+    playerObj:setY(square:getY())
+end
+
+
 local function swimToBoat(player, context, worldobjects, test)
     local waterSquare = nil
     local playerObj = getSpecificPlayer(player)
@@ -324,29 +357,22 @@ local function swimToBoat(player, context, worldobjects, test)
     end
     
     if waterSquare then
-        local x = waterSquare:getX() - playerObj:getX()
-        local y = waterSquare:getY() - playerObj:getY()
-
-        local consolidateOption = context:addOption(getText("IGUI_SwimTo"), nil, nil)
-        local subMenuConsolidate = context:getNew(context)
-        context:addSubMenu(consolidateOption, subMenuConsolidate)
+        local swimToBoatOption = context:addOption(getText("IGUI_SwimTo"), nil, nil)
+        local subMenuSwimToBoat = context:getNew(context)
+        context:addSubMenu(swimToBoatOption, subMenuSwimToBoat)
         
         local boats = getBoatsForSwimTo(waterSquare)
         for i=1, #boats do
             local name = getText("IGUI_BoatName" .. boats[i]:getScript():getName())
             local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, boats[i]:getSquare())
-            subMenuConsolidate:addOption(name .. " (" .. getText("IGUI_chance") .. ": " .. chance .. "%)", playerObj, startSwimToBoat, boats[i], chance)
+            subMenuSwimToBoat:addOption(name .. " (" .. getText("IGUI_chance") .. ": " .. chance .. "%)", playerObj, startSwimToBoat, boats[i], chance)
         end
 
-
-
-        --[[
-        
-        if boat ~= nil then
-            local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, boat:getSquare())
-            context:addOption(getText("IGUI_SwimTo") .. " " .. getText("IGUI_chance") .. ": " .. chance .. "%" , worldobjects[1], startSwimToBoat, playerObj, boat, chance)
+        local sq = getAnotherLandSquare(playerObj, waterSquare)
+        if sq ~= nil then
+            local chance = AquatsarYachts.Swim.chanceSuccess(playerObj, sq)
+            subMenuSwimToBoat:addOption(getText("IGUI_AnotherLand").. " (" .. getText("IGUI_chance") .. ": " .. chance .. "%)", playerObj, startSwimToAnotherLand, sq)
         end
-        ]]
     end
 
 end
