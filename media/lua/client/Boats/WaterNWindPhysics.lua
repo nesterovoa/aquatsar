@@ -7,9 +7,12 @@ local tempVec2 = Vector3f.new()
 local tempIsoObj = IsoObject.new()
 local tempSquare = IsoGridSquare.new(getCell(), nil, 0, 0, 0)
 
+local frontVector = Vector3f.new()
+local rearVector = Vector3f.new()
 local windForceByDirection = Vector3f.new()
 local sailVector = Vector3f.new()
 local collisionPosVector2 = Vector3.fromLengthDirection(1, 1)
+local boatDirVector = Vector3f.new()
 
 
 function WaterNWindPhysics.getCollisionSquaresNear(dx, dy, square)
@@ -27,19 +30,22 @@ function WaterNWindPhysics.getCollisionSquaresNear(dx, dy, square)
 	return squares
 end
 
-function WaterNWindPhysics.isWater(square)
-	local tileName = square:getFloor():getTextureName()
-	if not tileName then
-		return true
-	elseif string.match(string.lower(tileName), "blends_natural_02") then
-		return true
-	else
-		return false
-	end
-    --return square:getFloor():getSprite():getProperties():Is(IsoFlagType.water)
-end
+-- function WaterNWindPhysics.isWater(square)
+	-- local tileName = square:getFloor():getTextureName()
+	-- if not tileName then
+		-- return true
+	-- elseif string.match(string.lower(tileName), "blends_natural_02") then
+		-- return true
+	-- else
+		-- return false
+	-- end
+    -- --return square:getFloor():getSprite():getProperties():Is(IsoFlagType.water)
+-- end
 
-function WaterNWindPhysics:ApplyImpulseBreak(veh, groundSquare)
+function WaterNWindPhysics.isWater(square)
+	return square ~= nil and square:Is(IsoFlagType.water)
+end
+function WaterNWindPhysics.ApplyImpulseBreak(veh, groundSquare)
 	tempIsoObj:setSquare(groundSquare)
 	local collisionVector = veh:testCollisionWithObject(tempIsoObj, 0.5, collisionPosVector2)
 	if collisionVector then
@@ -74,20 +80,19 @@ function WaterNWindPhysics.updateVehicles()
 		
 			local boatSpeed = boat:getCurrentSpeedKmHour()
 			local collisionWithGround = false
-			local frontVector = Vector3f.new()
-			local rearVector = Vector3f.new()
+			
 			boat:getAttachmentWorldPos("trailerfront", frontVector)
 			boat:getAttachmentWorldPos("trailer", rearVector)
 			local x = frontVector:x() - rearVector:x()
 			local y = frontVector:y() - rearVector:y()
-			
+			boatDirVector:set(x, 0, y):normalize()
 			local squareUnderVehicle = getCell():getGridSquare(boat:getX(), boat:getY(), 0)
             if squareUnderVehicle ~= nil and WaterNWindPhysics.isWater(squareUnderVehicle) then
 				AIDebug.setInsp("Boat", "boat:getDebugZ()", boat:getDebugZ())
 				AIDebug.setInsp("Boat", "boat:getEngineSpeed()", boat:getEngineSpeed())
 				
 				AIDebug.setInsp("Boat", " ", " ")
-				if boatSpeed < 0.3 and boat:getDebugZ() < 0.66 then
+				if math.abs(boatSpeed) < 0.2 and boat:getDebugZ() < 0.67 then
 					-- if boatы:getDriver() then
 					-- -- for i = 1, 5 do 
 						-- -- boat:setDebugZ(0.64 + i/100)
@@ -96,7 +101,6 @@ function WaterNWindPhysics.updateVehicles()
 						tempVec2:set(0, 0, 0)
 						boat:addImpulse(tempVec1, tempVec2)
 						if not isKeyDown(Keyboard.KEY_W) then
-							local boatDirVector = Vector3f.new(x, 0, y):normalize()
 							boatDirVector:mul(-6000)
 							boat:addImpulse(boatDirVector, tempVec2)
 						end
@@ -143,11 +147,8 @@ function WaterNWindPhysics.updateVehicles()
 				AIDebug.setInsp("Boat", "windSpeed (MPH):", windSpeed / 1.60934)
 				AIDebug.setInsp("Boat", "boatSpeed (MPH):", boat:getCurrentSpeedKmHour() / 1.60934)
 				AIDebug.setInsp("Boat", " ", " ")
-
-				
-				local boatDirVector = Vector3f.new(x, y, 0):normalize()
+				boatDirVector:set(x, 0, y):normalize()
 				local boatDirection = math.atan2(x,y) * 57.2958 + 180
-				
 				local sailAngle = boat:getModData()["sailAngle"]
 				if sailAngle == nil then
 					sailAngle = 0
@@ -242,7 +243,6 @@ function WaterNWindPhysics.updateVehicles()
 						else
 							boatDirVector:mul(450 * windForceByDirection * startCoeff)
 						end
-						boatDirVector:set(boatDirVector:x(), 0, boatDirVector:y())
 						boat:setPhysicsActive(true)
 						tempVec2:set(0, 0, 0)
 						boat:addImpulse(boatDirVector, tempVec2)   
