@@ -325,8 +325,8 @@ module Base
 		}
 
 		extents = 0.3925 0.3200 1.2875,
-		mass = 100,
-		physicsChassisShape = 1.0625 0.3200 1.2875,
+		mass = 50,
+		physicsChassisShape = 0.4000 0.3200 1.2875,
 		centerOfMassOffset = -0.0012 0.2850 -0.0575,
 
 		wheel FrontLeft
@@ -451,9 +451,9 @@ module Base
 			horn = BoatHorn,
 		}
 		
-		extents = 0.4375 0.3200 1.2875,
-		mass = 100,
-		physicsChassisShape = 1.0625 0.3200 1.2875,
+		extents = 0.3925 0.3200 1.2875,
+		mass = 50,
+		physicsChassisShape = 0.4000 0.3200 1.2875,
 		centerOfMassOffset = -0.0012 0.2850 -0.0575,
 		wheel FrontLeft
 		{
@@ -579,9 +579,9 @@ module Base
 			horn = BoatHorn,
 		}
 		
-		extents = 0.4375 0.3200 1.2875,
-		mass = 100,
-		physicsChassisShape = 1.0625 0.3200 1.2875,
+		extents = 0.3925 0.3200 1.2875,
+		mass = 50,
+		physicsChassisShape = 0.4000 0.3200 1.2875,
 		centerOfMassOffset = -0.0012 0.2850 -0.0575,
 		wheel FrontLeft
 		{

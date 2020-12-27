@@ -29,7 +29,7 @@ boat.boatSeatUI_SeatOffsetY = {
 -- BoatSailingYacht --
 AquaBoats["BoatSailingYacht"] = {}
 boat = AquaBoats["BoatSailingYacht"]
-boat.dashboard = "ISSalingBoatDashboard"
+boat.dashboard = "ISNewSalingBoatDashboard"
 boat.driverBehind = true
 boat.sails = false
 boat.setLeftSailsScript = "BoatSailingYachtWithSailsLeft"
@@ -59,7 +59,7 @@ boat.boatSeatUI_SeatOffsetY = {
 -- BoatSailingYachtWithSailsLeft --
 AquaBoats["BoatSailingYachtWithSailsLeft"] = {}
 boat = AquaBoats["BoatSailingYachtWithSailsLeft"]
-boat.dashboard = "ISSalingBoatDashboard"
+boat.dashboard = "ISNewSalingBoatDashboard"
 boat.driverBehind = true
 boat.sails = true
 boat.removeSailsScript = "BoatSailingYacht"
@@ -92,7 +92,7 @@ boat.boatSeatUI_SeatOffsetY = {
 -- BoatSailingYachtWithSailsRight --
 AquaBoats["BoatSailingYachtWithSailsRight"] = {}
 boat = AquaBoats["BoatSailingYachtWithSailsRight"]
-boat.dashboard = "ISSalingBoatDashboard"
+boat.dashboard = "ISNewSalingBoatDashboard"
 boat.driverBehind = true
 boat.sails = true
 boat.removeSailsScript = "BoatSailingYacht"

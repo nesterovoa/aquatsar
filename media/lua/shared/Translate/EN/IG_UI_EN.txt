@@ -1,4 +1,8 @@
 IG_UI_EN = {
+	IGUI_BoatNameBoatSailingYacht = "Yacht 'La Brigandine'",
+	IGUI_BoatNameBoatSailingYachtWithSailsLeft = "Yacht 'La Brigandine'",
+	IGUI_BoatNameBoatSailingYachtWithSailsRight = "Yacht 'La Brigandine'",
+
 	IGUI_VehicleNameTrailerWithBoatSailingYacht = "Autotsar BT-13M",
 	IGUI_VehicleNameTrailerForBoat = "Autotsar BT-13M",
 	
@@ -41,5 +45,19 @@ IG_UI_EN = {
 	IGUI_BoatSeatRearLeft = "Go here",
 	IGUI_BoatSeatMiddleRight = "Go here",
 	IGUI_BoatSeatMiddleLeft = "Go here",
+	
+	IGUI_chance = "Chance",
+	IGUI_EAST = "Восток",
+	IGUI_SOUTH = "East",
+	IGUI_WEST = "West",
+	IGUI_NORTH = "North",
+	IGUI_SwimUI_Title = "Float away",
+	IGUI_playerCanSwim = "You can swim.",
+	IGUI_playerCantSwim = "You can't swim.",
+	IGUI_DropToWater = "Throw in water",
+	IGUI_almostDie = "Damn, I almost died",
+	IGUI_almostDieFail = "Damn, I couldn't and I almost died.",
+	IGUI_SwimTo = "Swim to",
+	IGUI_andDropItems = "also I lost my things..."
 }
 

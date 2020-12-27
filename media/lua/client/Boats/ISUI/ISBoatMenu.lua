@@ -143,10 +143,6 @@ function ISBoatMenu.getBoatInside(player)
 	end
 end
 
-
-
-
-
 function ISBoatMenu.getNearBoat(player)
 	local boat = player:getNearVehicle()
 	if boat and starts_with(string.lower(boat:getScript():getName()), "boat") then
@@ -263,6 +259,8 @@ function ISBoatMenu.onExit(playerObj, seatFrom)
 				print("land near")
 				ISTimedActionQueue.add(ISExitBoat:new(playerObj, exitPoint))
 				return
+			else	
+				ISBoatMenu.showSwimMenu(playerObj)
 			end
 		end
 	end

@@ -1,7 +1,10 @@
 require("Boats/Init")
+print("AUQATSAR LOADED: Swim.lua")
 AquatsarYachts.Swim = {}
 
-
+function AquatsarYachts.Swim.isWater(square)
+	return square ~= nil and square:Is(IsoFlagType.water)
+end
 
 function AquatsarYachts.Swim.chanceSuccess(playerObj, square)
     local x = playerObj:getX() - square:getX()
@@ -170,7 +173,7 @@ function AquatsarYachts.Swim.getSwimSquares(x, y)
     for i=1, 50 do
         for j = -i, i do
             local sq = cell:getGridSquare(x+i, y+j, 0)
-            if not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
+            if not AquatsarYachts.Swim.isWater(sq) and sq:isNotBlocked(true) then
                 local dist = math.sqrt((i*i + j*j))
 
                 if dist < EminDist then 
@@ -185,7 +188,7 @@ function AquatsarYachts.Swim.getSwimSquares(x, y)
     for i=1, 50 do
         for j = -i, i do
             local sq = cell:getGridSquare(x-i, y+j, 0)
-            if not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
+            if not AquatsarYachts.Swim.isWater(sq) and sq:isNotBlocked(true) then
                 local dist = math.sqrt((i*i + j*j))
 
                 if dist < WminDist then 
@@ -201,7 +204,7 @@ function AquatsarYachts.Swim.getSwimSquares(x, y)
         for j = -i, i do
             local sq = cell:getGridSquare(x+j, y+i, 0)
             
-            if not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
+            if not AquatsarYachts.Swim.isWater(sq) and sq:isNotBlocked(true) then
                 local dist = math.sqrt((i*i + j*j))
 
                 if dist < SminDist then 
@@ -216,7 +219,7 @@ function AquatsarYachts.Swim.getSwimSquares(x, y)
         for j = -i, i do
             local sq = cell:getGridSquare(x+j, y-i, 0)
             
-            if not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
+            if not AquatsarYachts.Swim.isWater(sq) and sq:isNotBlocked(true) then
                 local dist = math.sqrt((i*i + j*j))
 
                 if dist < NminDist then 
@@ -290,7 +293,7 @@ local function getBoatsForSwimTo(square)
         for j =-50, 50 do
             local sq = cell:getGridSquare(x+i, y+j, 0)
             
-            if WaterNWindPhysics.isWater(sq) then
+            if AquatsarYachts.Swim.isWater(sq) then
                 for i=1, sq:getMovingObjects():size() do
 					local obj = sq:getMovingObjects():get(i-1)
 					if obj~= nil and instanceof(obj, "BaseVehicle") and AquaTsarConfig.isBoat(obj) then

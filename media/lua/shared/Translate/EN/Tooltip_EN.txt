@@ -1,3 +1,4 @@
 Tooltip_EN = {
 	Tooltip_item_BoatMechanic = "Boat type",
+	Tooltip_BoatDashboard_SpeedValueButton = "Change units of measurement",
 }

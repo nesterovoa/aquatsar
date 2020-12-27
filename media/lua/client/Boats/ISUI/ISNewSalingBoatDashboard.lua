@@ -4,79 +4,88 @@
 ISNewSalingBoatDashboard = ISPanel:derive("ISNewSalingBoatDashboard")
 
 function ISNewSalingBoatDashboard:createChildren()
-	self.backgroundTex = ISImage:new(1000,350, self.dashboardBG:getWidth(), self.dashboardBG:getHeight(), self.dashboardBG);
+	self.backgroundTex = ISImage:new(300, 300, self.dashboardBG:getWidth(), self.dashboardBG:getHeight(), self.dashboardBG);
 	self.backgroundTex:initialise();
 	self.backgroundTex:instantiate();
 	self:addChild(self.backgroundTex);
 	
+	-- Wind arrow gauge
+	-- local x = 141
+	-- local y = 135
+	-- self.arrowWindTex = ISImage:new(x, y, self.windGaugeArrowTex:getWidthOrig(), self.windGaugeArrowTex:getHeightOrig(), self.windGaugeArrowTex);
+	-- self.arrowWindTex:initialise();
+	-- self.arrowWindTex:instantiate();
+	-- self:addChild(self.arrowWindTex);
 
 	
+	x = 168
+	y = 193
+	self.btn_speedValue = ISImage:new(x, y, self.speedValueMph:getWidthOrig(), self.speedValueMph:getHeightOrig(), self.speedValueMph);	
+	self.btn_speedValue:initialise();
+	self.btn_speedValue:instantiate();
+	self.btn_speedValue.onclick = ISNewSalingBoatDashboard.onClickSpeedValue;
+	self.btn_speedValue.target = self;
+	self.btn_speedValue.mouseovertext = getText("Tooltip_BoatDashboard_SpeedValueButton")
+	self:addChild(self.btn_speedValue);
+
 	
-	-- self.speedTex = ISImage:new(x, y, self.speedGaugeTex:getWidthOrig(), self.speedGaugeTex:getHeightOrig(), self.speedGaugeTex);
-	-- self.speedTex:initialise();
-	-- self.speedTex:instantiate();
-	-- -- self.ignitionTex.onclick = ISBoatDashboard.onClickKeys; -- TODO переключение режима отображения срокости
-	-- -- self.ignitionTex.target = self;
-	-- -- self.ignitionTex.mouseovertext = getText("Tooltip_Dashboard_KeysIgnition")
-	-- self:addChild(self.speedTex);
-	
-	local x = 133
-	local y = 192
-	self.speedTexOnes = ISImage:new(x, y, self.speedGaugeNull:getWidthOrig(), self.speedGaugeNull:getHeightOrig(), self.speedGaugeNull);
-	self.speedTexOnes:initialise();
-	self.speedTexOnes:instantiate();
-	self:addChild(self.speedTexOnes);
-	
-	x = 143
-	y = 192
-	self.speedTexTens = ISImage:new(x, y, self.speedGaugeNull:getWidthOrig(), self.speedGaugeNull:getHeightOrig(), self.speedGaugeNull);
-	self.speedTexTens:initialise();
-	self.speedTexTens:instantiate();
-	self:addChild(self.speedTexTens);
-	
-	x = 152
-	y = 192
-	self.speedTexPoint = ISImage:new(x, y, self.speedGaugePoint:getWidthOrig(), self.speedGaugePoint:getHeightOrig(), self.speedGaugePoint);
-	self.speedTexPoint:initialise();
-	self.speedTexPoint:instantiate();
-	self:addChild(self.speedTexPoint);
-	
-	x = 156
-	y = 192
-	self.speedTexFraction = ISImage:new(x, y, self.speedGaugeNull:getWidthOrig(), self.speedGaugeNull:getHeightOrig(), self.speedGaugeNull);
-	self.speedTexFraction:initialise();
-	self.speedTexFraction:instantiate();
-	self:addChild(self.speedTexFraction);
-	
+	-- Wind speed gauge
 	x = 133
-	y = 211
-	self.speedWindTexOnes = ISImage:new(x, y, self.speedGaugeNull:getWidthOrig(), self.speedGaugeNull:getHeightOrig(), self.speedGaugeNull);
-	self.speedWindTexOnes:initialise();
-	self.speedWindTexOnes:instantiate();
-	self:addChild(self.speedWindTexOnes);
-	
-	x = 143
-	y = 211
-	self.speedWindTexTens = ISImage:new(x, y, self.speedGaugeNull:getWidthOrig(), self.speedGaugeNull:getHeightOrig(), self.speedGaugeNull);
+	y = 192
+	self.speedWindTexTens = ISImage:new(x, y, self.speedGaugeTexNull:getWidthOrig(), self.speedGaugeTexNull:getHeightOrig(), self.speedGaugeTexNull);
 	self.speedWindTexTens:initialise();
 	self.speedWindTexTens:instantiate();
 	self:addChild(self.speedWindTexTens);
 	
+	x = 143
+	y = 192
+	self.speedWindTexOnes = ISImage:new(x, y, self.speedGaugeTexNull:getWidthOrig(), self.speedGaugeTexNull:getHeightOrig(), self.speedGaugeTexNull);
+	self.speedWindTexOnes:initialise();
+	self.speedWindTexOnes:instantiate();
+	self:addChild(self.speedWindTexOnes);
+	
 	x = 152
-	y = 211
-	self.speedWindTexPoint = ISImage:new(x, y, self.speedGaugePoint:getWidthOrig(), self.speedGaugePoint:getHeightOrig(), self.speedGaugePoint);
+	y = 192
+	self.speedWindTexPoint = ISImage:new(x, y, self.speedGaugeTexPoint:getWidthOrig(), self.speedGaugeTexPoint:getHeightOrig(), self.speedGaugeTexPoint);
 	self.speedWindTexPoint:initialise();
 	self.speedWindTexPoint:instantiate();
 	self:addChild(self.speedWindTexPoint);
 	
 	x = 156
-	y = 211
-	self.speedWindTexFraction = ISImage:new(x, y, self.speedGaugeNull:getWidthOrig(), self.speedGaugeNull:getHeightOrig(), self.speedGaugeNull);
+	y = 192
+	self.speedWindTexFraction = ISImage:new(x, y, self.speedGaugeTexNull:getWidthOrig(), self.speedGaugeTexNull:getHeightOrig(), self.speedGaugeTexNull);
 	self.speedWindTexFraction:initialise();
 	self.speedWindTexFraction:instantiate();
 	self:addChild(self.speedWindTexFraction);
 	
+	-- Boat speed gauge
+	x = 133
+	y = 211
+	self.speedTexTens = ISImage:new(x, y, self.speedGaugeTexNull:getWidthOrig(), self.speedGaugeTexNull:getHeightOrig(), self.speedGaugeTexNull);
+	self.speedTexTens:initialise();
+	self.speedTexTens:instantiate();
+	self:addChild(self.speedTexTens);
 	
+	x = 143
+	y = 211
+	self.speedTexOnes = ISImage:new(x, y, self.speedGaugeTexNull:getWidthOrig(), self.speedGaugeTexNull:getHeightOrig(), self.speedGaugeTexNull);
+	self.speedTexOnes:initialise();
+	self.speedTexOnes:instantiate();
+	self:addChild(self.speedTexOnes);
+	
+	x = 152
+	y = 211
+	self.speedTexPoint = ISImage:new(x, y, self.speedGaugeTexPoint:getWidthOrig(), self.speedGaugeTexPoint:getHeightOrig(), self.speedGaugeTexPoint);
+	self.speedTexPoint:initialise();
+	self.speedTexPoint:instantiate();
+	self:addChild(self.speedTexPoint);
+	
+	x = 156
+	y = 211
+	self.speedTexFraction = ISImage:new(x, y, self.speedGaugeTexNull:getWidthOrig(), self.speedGaugeTexNull:getHeightOrig(), self.speedGaugeTexNull);
+	self.speedTexFraction:initialise();
+	self.speedTexFraction:instantiate();
+	self:addChild(self.speedTexFraction);
 	
 	-- x = 947
 	-- y = 67
@@ -85,13 +94,29 @@ function ISNewSalingBoatDashboard:createChildren()
 	-- self.speedGauge:instantiate()
 	-- self:addChild(self.speedGauge)
 	
+	
 	x = 145
 	y = 145
-	self.windGauge = ISVehicleGauge:new(x, y, self.windGaugeTex, 5, 5, -270, 90) -- красная полоска (x, y, angle start, angle finish)
+	self.sailGauge = ISVehicleGauge:new(x, y, self.windGaugeTex, 6, 5, 0, 180) -- красная полоска (x, y, angle start, angle finish)
+	self.sailGauge:initialise()
+	self.sailGauge:instantiate()
+	self.sailGauge:setNeedleWidth(20)
+	self:addChild(self.sailGauge)
+	
+	x = 145
+	y = 145
+	self.windGauge = ISVehicleGauge:new(x, y, self.windGaugeTex, 6, 5, -270, 90) -- красная полоска (x, y, angle start, angle finish)
 	self.windGauge:initialise()
 	self.windGauge:instantiate()
-	self.windGauge:setNeedleWidth(100)
+	self.windGauge:setNeedleWidth(115)
 	self:addChild(self.windGauge)
+	
+	x = 145
+	y = 145
+	self.sailGaugeW = ISImage:new(x, y, 10, 10, self.windGaugeTex) -- красная полоска (x, y, angle start, angle finish)
+	self.sailGaugeW:initialise()
+	self.sailGaugeW:instantiate()
+	self:addChild(self.sailGaugeW)
 	
 	-- self.windSpeedGauge = ISVehicleGauge:new(x, y, self.sailGaugeTex, 125, 125, -138, -42) -- красная полоска (x, y, angle start, angle finish)
 	-- self.windSpeedGauge:initialise()
@@ -105,6 +130,18 @@ function ISNewSalingBoatDashboard:createChildren()
 	-- self.sailGauge:setNeedleWidth(50)
 	-- self:addChild(self.sailGauge)
 	self:onResolutionChange()
+end
+
+function ISNewSalingBoatDashboard:onClickSpeedValue()
+	if getGameSpeed() == 0 then return; end
+	if getGameSpeed() > 1 then setGameSpeed(1); end
+	if self.boat:getModData()["SpeedValueKph"] then
+		self.boat:getModData()["SpeedValueKph"] = false
+		self.btn_speedValue.texture = self.speedValueMph
+	else
+		self.boat:getModData()["SpeedValueKph"] = true
+		self.btn_speedValue.texture = self.speedValueKph
+	end
 end
 
 function ISNewSalingBoatDashboard:getAlphaFlick(default)
@@ -132,7 +169,6 @@ function ISNewSalingBoatDashboard:getAlphaFlick(default)
 end
 
 function ISNewSalingBoatDashboard:setVehicle(boat)
-print("ISNewSalingBoatDashboard:setBoat")
 	self.boat = boat
 	for _,gauge in ipairs(self.gauges) do
 		gauge:setVisible(false)
@@ -143,8 +179,12 @@ print("ISNewSalingBoatDashboard:setBoat")
 		return
 	end
 	
-	-- self.speedGauge:setVisible(true)
-	-- table.insert(self.gauges, self.speedGauge)
+	if boat:getModData()["SpeedValueKph"] == nil then
+		boat:getModData()["SpeedValueKph"] = false
+	elseif boat:getModData()["SpeedValueKph"] then
+		self.btn_speedValue.texture = self.speedValueKph
+	end
+
 	self.windGauge:setVisible(true)
 	table.insert(self.gauges, self.windGauge)
 	if #self.gauges > 0 then
@@ -160,32 +200,41 @@ print("ISNewSalingBoatDashboard:setBoat")
 end
 
 function ISNewSalingBoatDashboard:setBoatSpeedValue(speed)
-	print("Speed: ", speed)
-	if not speed == 0 then
-		speed = math.abs(speed)	
-		local tens = math.floor(speed / 10)
-		local ones = math.floor(speed % 10)
-		local fraction = math.floor(a * 10 % 10)
-		self.speedTexOnes.texture = self.speedGaugesTex[ones+1]
-		self.speedTexTens.texture = self.speedGaugesTex[tens+1]
-		self.speedTexFraction.texture = self.speedGaugesTex[fraction+1]
-	else 
-		print(self.speedGaugesTex)
-		print(self.speedGaugesTex[1])
-		self.speedTexOnes.texture = self.speedGaugesTex[1]
-		self.speedTexTens.texture = self.speedGaugesTex[1]
-		self.speedTexFraction.texture = self.speedGaugesTex[1]
+	speed = math.abs(speed)	
+	local tens = math.floor(speed / 10)
+	local ones = math.floor(speed % 10)
+	local fraction = 0
+	if ones > 0 or tens > 0 then
+		fraction = math.floor(speed * 10 % 10)
 	end
-		
+	self.speedTexOnes.texture = self.speedGaugesTex[ones+1]
+	self.speedTexTens.texture = self.speedGaugesTex[tens+1]
+	self.speedTexFraction.texture = self.speedGaugesTex[fraction+1]	
+end
+
+function ISNewSalingBoatDashboard:setWindSpeedValue(speed)
+	speed = math.abs(speed)	
+	local tens = math.floor(speed / 10)
+	local ones = math.floor(speed % 10)
+	local fraction = 0
+	if ones > 0 or tens > 0 then
+		fraction = math.floor(speed * 10 % 10)
+	end
+	self.speedWindTexOnes.texture = self.speedGaugesTex[ones+1]
+	self.speedWindTexTens.texture = self.speedGaugesTex[tens+1]
+	self.speedWindTexFraction.texture = self.speedGaugesTex[fraction+1]	
 end
 
 function ISNewSalingBoatDashboard:prerender()
 	if not self.boat or not ISUIHandler.allUIVisible then return end
 	local alpha = self:getAlphaFlick(0.65)
 	local greyBg = {r=0.5, g=0.5, b=0.5, a=alpha}
-	local speedValue = self.boat:getCurrentSpeedKmHour()/1.60934
-	self.setBoatSpeedValue(speedValue)
-
+	local speedValue = self.boat:getCurrentSpeedKmHour()
+	if not self.boat:getModData()["SpeedValueKph"] then
+		speedValue = speedValue/1.60934
+	end
+	self.setBoatSpeedValue(self, speedValue)
+	
 	local frontVector = Vector3f.new()
 	local rearVector = Vector3f.new()
 	self.boat:getAttachmentWorldPos("trailerfront", frontVector)
@@ -201,24 +250,30 @@ function ISNewSalingBoatDashboard:prerender()
 	else
 		windOnBoat = 360 - (boatDirection - wind)
 	end
-	
 	if windOnBoat <= 180 then
-		self.windGauge:setValue((180 - windOnBoat)/360)
+		newwind = (180 - windOnBoat)/360
 	else
-		self.windGauge:setValue((540 - windOnBoat)/360)
+		newwind = (540 - windOnBoat)/360
 	end
+	self.windGauge:setValue(newwind)
 	
-	-- local sailAngle = self.boat:getModData()["sailAngle"]
-	-- if sailAngle == nil then
-		-- sailAngle = 15
-	-- end
-	-- sailAngle = (sailAngle + 90)/180
-	-- self.sailGauge:setValue(sailAngle)
+	local sailAngle = self.boat:getModData()["sailAngle"]
+	if sailAngle == nil then
+		sailAngle = 0
+	end
+	sailAngle = (sailAngle + 90)/180
+	self.sailGauge:setValue(sailAngle)	
 	
-	-- local windSpeed = getClimateManager():getWindIntensity()*getClimateManager():getMaxWindspeedKph()
-	-- if windSpeed > 100 then windSpeed = 100 end
-	-- self.windSpeedGauge:setValue(windSpeed/100)
-	
+	local windSpeed = getClimateManager():getWindspeedKph()
+	if not self.boat:getModData()["SpeedValueKph"] then
+		windSpeed = windSpeed/1.60934
+	end
+	if windSpeed > 99 then windSpeed = 99 end
+	self.setWindSpeedValue(self, windSpeed)
+	--test = self.arrowWindTex
+	--self.arrowWindTex.DrawTextureAngle(self.windGaugeArrowTex, 4, 4, newwind);
+	--self.arrowWindTex.texture = self.windGaugeArrowTex
+	--ISUIElement.render(self)
 end
 		
 function ISNewSalingBoatDashboard:render()
@@ -251,7 +306,7 @@ function ISNewSalingBoatDashboard:onResolutionChange()
 end
 
 function ISNewSalingBoatDashboard:new(playerNum, chr)
-	local o = ISPanel:new(0, 0, 300, 300)
+	local o = ISPanel:new(300, 0, 300, 300)
 	setmetatable(o, self)
 	self.__index = self
 	o.playerNum = playerNum
@@ -259,21 +314,13 @@ function ISNewSalingBoatDashboard:new(playerNum, chr)
 	o.gauges = {}
 	o.dashboardBG = getTexture("media/ui/boats/newsalingdashboard/boat_dashboard.png")
 	o.windGaugeTex = getTexture("media/ui/boats/newsalingdashboard/boat_wind.png")
-	o.wind = getTexture("media/ui/boats/newsalingdashboard/boat_dashboard.png")
 	o.speedGaugeTex = getTexture("media/ui/boats/newsalingdashboard/boat_speed_panel.png")
-	o.speedGaugeNull = getTexture("media/ui/boats/newsalingdashboard/boat_8.png")
-	o.speedGaugePoint = getTexture("media/ui/boats/newsalingdashboard/boat_point.png")
-	o.speedGauge0 = getTexture("media/ui/boats/newsalingdashboard/boat_0.png")
-	o.speedGauge1 = getTexture("media/ui/boats/newsalingdashboard/boat_1.png")
-	o.speedGauge2 = getTexture("media/ui/boats/newsalingdashboard/boat_2.png")
-	o.speedGauge3 = getTexture("media/ui/boats/newsalingdashboard/boat_3.png")
-	o.speedGauge4 = getTexture("media/ui/boats/newsalingdashboard/boat_4.png")
-	o.speedGauge5 = getTexture("media/ui/boats/newsalingdashboard/boat_5.png")
-	o.speedGauge6 = getTexture("media/ui/boats/newsalingdashboard/boat_6.png")
-	o.speedGauge7 = getTexture("media/ui/boats/newsalingdashboard/boat_7.png")
-	o.speedGauge8 = getTexture("media/ui/boats/newsalingdashboard/boat_8.png")
-	o.speedGauge9 = getTexture("media/ui/boats/newsalingdashboard/boat_9.png")
+	o.speedGaugeTexNull = getTexture("media/ui/boats/newsalingdashboard/boat_null.png")
+	o.speedGaugeTexPoint = getTexture("media/ui/boats/newsalingdashboard/boat_point.png")
 	o.speedGaugesTex = {getTexture("media/ui/boats/newsalingdashboard/boat_0.png"), getTexture("media/ui/boats/newsalingdashboard/boat_1.png"),getTexture("media/ui/boats/newsalingdashboard/boat_2.png"),getTexture("media/ui/boats/newsalingdashboard/boat_3.png"),getTexture("media/ui/boats/newsalingdashboard/boat_4.png"),getTexture("media/ui/boats/newsalingdashboard/boat_5.png"),getTexture("media/ui/boats/newsalingdashboard/boat_6.png"),getTexture("media/ui/boats/newsalingdashboard/boat_7.png"),getTexture("media/ui/boats/newsalingdashboard/boat_8.png"),getTexture("media/ui/boats/newsalingdashboard/boat_9.png")}
+	o.windGaugeArrowTex = getTexture("media/ui/boats/newsalingdashboard/boat_wind_arrow.png")
+	o.speedValueKph = getTexture("media/ui/boats/newsalingdashboard/boat_speed_kph.png")
+	o.speedValueMph = getTexture("media/ui/boats/newsalingdashboard/boat_speed_mph.png")
 	o.flickingTimer = 0;
 	o:setWidth(o.dashboardBG:getWidth());
 	return o

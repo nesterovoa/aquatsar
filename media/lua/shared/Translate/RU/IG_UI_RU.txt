@@ -3,8 +3,6 @@ IGUI_RU = {
 	IGUI_BoatNameBoatSailingYachtWithSailsLeft = "Яхта 'La Brigandine'",
 	IGUI_BoatNameBoatSailingYachtWithSailsRight = "Яхта 'La Brigandine'",
 
-
-
 	IGUI_VehiclePartPropeller = "Лодочный пропеллер",
 	IGUI_VehiclePartCatHouseholdSystem = "Бытовая система",
 	IGUI_VehiclePartCatMechanicalSystem = "Механическая система",
@@ -51,8 +49,8 @@ IGUI_RU = {
 	IGUI_WEST = "Запад",
 	IGUI_NORTH = "Север",
 	IGUI_SwimUI_Title = "Уплыть",
-	IGUI_playerCanSwim = "Игрок умеет плавать",
-	IGUI_playerCantSwim = "Игрок не умеет плавать",
+	IGUI_playerCanSwim = "Вы умеет плавать",
+	IGUI_playerCantSwim = "Вы не умеет плавать",
 	IGUI_DropToWater = "Выкинуть в воду",
 	IGUI_almostDie = "Бля, чуть не умер",
 	IGUI_almostDieFail = "Бля, не вышло и чуть не умер",

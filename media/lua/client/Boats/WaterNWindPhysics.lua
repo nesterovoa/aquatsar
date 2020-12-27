@@ -1,4 +1,4 @@
-require("_DebugUIs/AIDebug/DebugValuesInspector")
+-- require("_DebugUIs/AIDebug/DebugValuesInspector")
 
 if WaterNWindPhysics == nil then WaterNWindPhysics = {} end
 
@@ -45,6 +45,7 @@ end
 function WaterNWindPhysics.isWater(square)
 	return square ~= nil and square:Is(IsoFlagType.water)
 end
+
 function WaterNWindPhysics.ApplyImpulseBreak(veh, groundSquare)
 	tempIsoObj:setSquare(groundSquare)
 	local collisionVector = veh:testCollisionWithObject(tempIsoObj, 0.5, collisionPosVector2)
@@ -88,10 +89,10 @@ function WaterNWindPhysics.updateVehicles()
 			boatDirVector:set(x, 0, y):normalize()
 			local squareUnderVehicle = getCell():getGridSquare(boat:getX(), boat:getY(), 0)
             if squareUnderVehicle ~= nil and WaterNWindPhysics.isWater(squareUnderVehicle) then
-				AIDebug.setInsp("Boat", "boat:getDebugZ()", boat:getDebugZ())
-				AIDebug.setInsp("Boat", "boat:getEngineSpeed()", boat:getEngineSpeed())
+				-- AIDebug.setInsp("Boat", "boat:getDebugZ()", boat:getDebugZ())
+				-- AIDebug.setInsp("Boat", "boat:getEngineSpeed()", boat:getEngineSpeed())
 				
-				AIDebug.setInsp("Boat", " ", " ")
+				-- AIDebug.setInsp("Boat", " ", " ")
 				if math.abs(boatSpeed) < 0.2 and boat:getDebugZ() < 0.67 then
 					-- if boatы:getDriver() then
 					-- -- for i = 1, 5 do 
@@ -144,9 +145,9 @@ function WaterNWindPhysics.updateVehicles()
 				
 				local windSpeed = WaterNWindPhysics.getWindSpeed()
 				
-				AIDebug.setInsp("Boat", "windSpeed (MPH):", windSpeed / 1.60934)
-				AIDebug.setInsp("Boat", "boatSpeed (MPH):", boat:getCurrentSpeedKmHour() / 1.60934)
-				AIDebug.setInsp("Boat", " ", " ")
+				-- AIDebug.setInsp("Boat", "windSpeed (MPH):", windSpeed / 1.60934)
+				-- AIDebug.setInsp("Boat", "boatSpeed (MPH):", boat:getCurrentSpeedKmHour() / 1.60934)
+				-- AIDebug.setInsp("Boat", " ", " ")
 				boatDirVector:set(x, 0, y):normalize()
 				local boatDirection = math.atan2(x,y) * 57.2958 + 180
 				local sailAngle = boat:getModData()["sailAngle"]
@@ -220,15 +221,15 @@ function WaterNWindPhysics.updateVehicles()
 					requiredSailAngle = "Another direction"
 				end
 					
-				AIDebug.setInsp("Boat", " ", " ")
-				AIDebug.setInsp("Boat", "windOnBoat:", windOnBoat)
-				AIDebug.setInsp("Boat", " ", " ")
-				AIDebug.setInsp("Boat", "SailAngle:", sailAngle)
-				AIDebug.setInsp("Boat", "RequiredSailAngle (absolute value):", requiredSailAngle)
-				AIDebug.setInsp("Boat", " ", " ")
-				AIDebug.setInsp("Boat", "coefficientSailAngle:", coefficientSailAngle)
-				AIDebug.setInsp("Boat", "windForceByDirection:", windForceByDirection)
-				AIDebug.setInsp("Boat", " ", " ")
+				-- AIDebug.setInsp("Boat", " ", " ")
+				-- AIDebug.setInsp("Boat", "windOnBoat:", windOnBoat)
+				-- AIDebug.setInsp("Boat", " ", " ")
+				-- AIDebug.setInsp("Boat", "SailAngle:", sailAngle)
+				-- AIDebug.setInsp("Boat", "RequiredSailAngle (absolute value):", requiredSailAngle)
+				-- AIDebug.setInsp("Boat", " ", " ")
+				-- AIDebug.setInsp("Boat", "coefficientSailAngle:", coefficientSailAngle)
+				-- AIDebug.setInsp("Boat", "windForceByDirection:", windForceByDirection)
+				-- AIDebug.setInsp("Boat", " ", " ")
 				
 				boat:getAttachmentWorldPos("checkFront", frontVector)
 				local squareFrontVehicle = getCell():getGridSquare(frontVector:x(), frontVector:y(), 0)
@@ -247,9 +248,9 @@ function WaterNWindPhysics.updateVehicles()
 						tempVec2:set(0, 0, 0)
 						boat:addImpulse(boatDirVector, tempVec2)   
 					end
-					AIDebug.setInsp("Boat", "forceVectorX:", boatDirVector:x())
-					AIDebug.setInsp("Boat", "forceVectorZ:", boatDirVector:y())
-					AIDebug.setInsp("Boat", "forceVectorY:", boatDirVector:z())
+					-- AIDebug.setInsp("Boat", "forceVectorX:", boatDirVector:x())
+					-- AIDebug.setInsp("Boat", "forceVectorZ:", boatDirVector:y())
+					-- AIDebug.setInsp("Boat", "forceVectorY:", boatDirVector:z())
 				end
 				if boat:getDriver() then
 					if isKeyDown(Keyboard.KEY_A) then
