@@ -54,12 +54,6 @@ end
 function ISSwimUI:render()
     ISPanelJoypad.render(self);
 
-    if self.player:isRecipeKnown("Swimming") then
-        self:drawText(getText("IGUI_playerCanSwim"), 10, self.ItemsOptions:getBottom() + 4, 0, 0.9, 0, 1, UIFont.Small);
-    else
-        self:drawText(getText("IGUI_playerCantSwim"), 10, self.ItemsOptions:getBottom() + 4, 0.9, 0.1, 0.1, 1, UIFont.Small);
-    end
-
     local yStep = 20
 
     local x = self.player:getX() - self.searchX
