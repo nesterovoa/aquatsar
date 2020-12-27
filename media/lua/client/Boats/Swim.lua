@@ -170,22 +170,6 @@ function AquatsarYachts.Swim.getSwimSquares(x, y)
     for i=1, 50 do
         for j = -i, i do
             local sq = cell:getGridSquare(x+i, y+j, 0)
-            
-            if not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
-                local dist = math.sqrt((i*i + j*j))
-
-                if dist < WminDist then 
-                    WminDist = dist
-                    squares["WEST"] = sq
-                end
-            end
-        end 
-    end
-
-    for i=1, 50 do
-        for j = -i, i do
-            local sq = cell:getGridSquare(x-i, y+j, 0)
-            
             if not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
                 local dist = math.sqrt((i*i + j*j))
 
@@ -194,6 +178,22 @@ function AquatsarYachts.Swim.getSwimSquares(x, y)
                     squares["EAST"] = sq
                 end
             end
+            
+        end 
+    end
+
+    for i=1, 50 do
+        for j = -i, i do
+            local sq = cell:getGridSquare(x-i, y+j, 0)
+            if not WaterNWindPhysics.isWater(sq) and sq:isNotBlocked(true) then
+                local dist = math.sqrt((i*i + j*j))
+
+                if dist < WminDist then 
+                    WminDist = dist
+                    squares["WEST"] = sq
+                end
+            end
+            
         end 
     end
 
