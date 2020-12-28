@@ -51,14 +51,14 @@ end
 
 function ISSetSailAction:perform()
     if self.dir == "LEFT" then
-        local nameWithSails = AquaBoats[self.boat:getScript():getName()].setLeftSailsScript
+        local nameWithSails = AquaConfig.Boats[self.boat:getScript():getName()].setLeftSailsScript
         if nameWithSails then
             ISBoatMenu.replaceBoat(self.boat, nameWithSails)
         else
             print("AQUATSAR: script for SetLeftSails (" .. self.boat:getScript():getName() .. ") didn't find.")
         end    
     elseif self.dir == "RIGHT" then
-        local nameWithSails = AquaBoats[self.boat:getScript():getName()].setRightSailsScript
+        local nameWithSails = AquaConfig.Boats[self.boat:getScript():getName()].setRightSailsScript
         if nameWithSails then
             ISBoatMenu.replaceBoat(self.boat, nameWithSails)
         else

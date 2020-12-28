@@ -38,7 +38,7 @@ function ISRemoveSailAction:stop()
 end
 
 function ISRemoveSailAction:perform()
-	local nameOfBoat = AquaBoats[self.boat:getScript():getName()].removeSailsScript
+	local nameOfBoat = AquaConfig.Boats[self.boat:getScript():getName()].removeSailsScript
 	ISBoatMenu.replaceBoat(self.boat, nameOfBoat)
 
     local playerNum = self.character:getPlayerNum()

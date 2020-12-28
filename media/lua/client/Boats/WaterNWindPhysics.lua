@@ -77,7 +77,7 @@ function WaterNWindPhysics.updateVehicles()
     for i=0, boats:size()-1 do
         local boat = boats:get(i)
 		local boatScriptName = boat:getScript():getName()
-        if boat ~= nil and  AquaTsarConfig.isBoat(boat) then
+        if boat ~= nil and  AquaConfig.isBoat(boat) then
 		
 			local boatSpeed = boat:getCurrentSpeedKmHour()
 			local collisionWithGround = false
@@ -141,7 +141,7 @@ function WaterNWindPhysics.updateVehicles()
 				end
 			end
 			
-			if AquaTsarConfig.isBoat(boat).sails then
+			if AquaConfig.Boats[boat:getScript():getName()].sails then
 				
 				local windSpeed = WaterNWindPhysics.getWindSpeed()
 				
@@ -169,19 +169,19 @@ function WaterNWindPhysics.updateVehicles()
 					windForceByDirection = 0
 				elseif windSpeed < 12 * 1.60934 then
 					if windOnBoat > 105 and windOnBoat < 285 then
-						windForceByDirection = 7 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaBoats[boatScriptName].windInfluence
+						windForceByDirection = 7 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 					end
 				elseif windSpeed < 23 * 1.60934 then
 					if windOnBoat > 25 and windOnBoat < 335 then
-						windForceByDirection = 10 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaBoats[boatScriptName].windInfluence
+						windForceByDirection = 10 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 					end
 				elseif windSpeed < 31 * 1.60934 then
 					if windOnBoat > 25 and windOnBoat < 335 then
-						windForceByDirection = 13 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaBoats[boatScriptName].windInfluence
+						windForceByDirection = 13 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 					end
 				elseif windSpeed < 61 * 1.60934 then
 					if windOnBoat > 105 and windOnBoat < 285 then
-						windForceByDirection = 16 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaBoats[boatScriptName].windInfluence
+						windForceByDirection = 16 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 					end
 				else
 					-- TODO WARNING!!!
@@ -190,17 +190,17 @@ function WaterNWindPhysics.updateVehicles()
 				local coefficientSailAngle = 0
 				local requiredSailAngle = 0
 				if windOnBoat > 160 and windOnBoat < 200 then
-					if AquaBoats[boatScriptName].sailsSide == "Left" and sailAngle < 0 then
+					if AquaConfig.Boats[boatScriptName].sailsSide == "Left" and sailAngle < 0 then
 						windForceByDirection = windForceByDirection * (sailAngle / -90)
 						requiredSailAngle = "Any < 0"
-					elseif AquaBoats[boatScriptName].sailsSide == "Right" and sailAngle > 0 then
+					elseif AquaConfig.Boats[boatScriptName].sailsSide == "Right" and sailAngle > 0 then
 						windForceByDirection = windForceByDirection * (sailAngle / 90)
 						requiredSailAngle = "Any > 0"
 					else 
 						windForceByDirection = 0
 						requiredSailAngle = "Another direction"
 					end
-				elseif windOnBoat < 160 and AquaBoats[boatScriptName].sailsSide == "Right" and sailAngle < 0 then
+				elseif windOnBoat < 160 and AquaConfig.Boats[boatScriptName].sailsSide == "Right" and sailAngle < 0 then
 					requiredSailAngle = windOnBoat/2
 					coefficientSailAngle = -0.01 * (math.abs(sailAngle) - requiredSailAngle)^2 + 1
 					if coefficientSailAngle > 0 then
@@ -208,7 +208,7 @@ function WaterNWindPhysics.updateVehicles()
 					else
 						windForceByDirection = 0
 					end
-				elseif windOnBoat > 200 and AquaBoats[boatScriptName].sailsSide == "Left" and sailAngle > 0 then
+				elseif windOnBoat > 200 and AquaConfig.Boats[boatScriptName].sailsSide == "Left" and sailAngle > 0 then
 					requiredSailAngle = (360 - windOnBoat)/2
 					coefficientSailAngle = -0.01 * (math.abs(sailAngle) - requiredSailAngle)^2 + 1
 					if coefficientSailAngle > 0 then
@@ -290,7 +290,7 @@ function WaterNWindPhysics.updateVehicles()
 	local player = getPlayer()
 	if player then
 		local boat = player:getVehicle()
-		if boat ~= nil and  AquaTsarConfig.isBoat(boat) then
+		if boat ~= nil and  AquaConfig.isBoat(boat) then
 			local squareUnderVehicle = getCell():getGridSquare(boat:getX(), boat:getY(), 0)
             if squareUnderVehicle ~= nil and WaterNWindPhysics.isWater(squareUnderVehicle)==false then
 				if boat:isEngineRunning() then

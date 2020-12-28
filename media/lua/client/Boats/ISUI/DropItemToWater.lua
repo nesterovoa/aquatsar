@@ -20,7 +20,7 @@ end
 local function dropItemToWater( player, context, items)
     local playerObj = getSpecificPlayer(player)
 
-    if playerObj:getVehicle() ~= nil and AquaTsarConfig.isBoat(playerObj:getVehicle()) then
+    if playerObj:getVehicle() ~= nil and AquaConfig.isBoat(playerObj:getVehicle()) then
         context:addOption(getText("IGUI_DropToWater"), items, dropItems, player);
     end
 end

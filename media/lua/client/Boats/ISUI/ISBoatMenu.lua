@@ -50,10 +50,10 @@ function ISBoatMenu.onKeyStartPressed(key)
 		end
 
 		local vehicle = ISVehicleMenu.getVehicleToInteractWith(playerObj)
-		if vehicle ~= nil then
-			if AquaTsarConfig.isTrailerWithBoat(vehicle) then
+		if vehicle ~= nil and AquaConfig.Trailers[vehicle:getScript():getName()] then
+			if AquaConfig.Trailers[vehicle:getScript():getName()].isWithBoat then
 				ISVehicleMenuForTrailerWithBoat.launchRadialMenu(playerObj, vehicle)
-			elseif AquaTsarConfig.isEmptyTrailerForBoat(vehicle) then
+			else
 				ISVehicleMenuForTrailerWithBoat.loadOntoTrailerRadialMenu(playerObj, vehicle)
 			end
 		end
@@ -385,8 +385,8 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		end
 	end
 	
-	if AquaTsarConfig.isBoat(boat) and seat > 1 or 
-	not AquaTsarConfig.isBoat(boat) then
+	if AquaConfig.isBoat(boat) and seat > 1 or 
+	not AquaConfig.isBoat(boat) then
 		if boat:getPartById("HeadlightRearRight") and boat:getPartById("HeadlightRearRight"):getInventoryItem() then
 			menu:addSlice(getText("ContextMenu_BoatCabinelightsOff"), getTexture("media/ui/boats/boat_switch_off.png"), ISBoatMenu.offToggleCabinlights, playerObj)
 		else
@@ -394,8 +394,8 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		end
 	end
 	if boat:getPartById("Heater") then
-		if AquaTsarConfig.isBoat(boat) and seat > 1 or 
-		not AquaTsarConfig.isBoat(boat) and seat <= 1 then
+		if AquaConfig.isBoat(boat) and seat > 1 or 
+		not AquaConfig.isBoat(boat) and seat <= 1 then
 			local tex = getTexture("media/ui/vehicles/vehicle_temperatureHOT.png")
 			if (boat:getPartById("Heater"):getModData().temperature or 0) < 0 then
 				tex = getTexture("media/ui/vehicles/vehicle_temperatureCOLD.png")
@@ -423,18 +423,18 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	end
 
 
-	if AquaBoats[boatScriptName].removeSailsScript then
+	if AquaConfig.Boats[boatScriptName].removeSailsScript then
 		menu:addSlice(getText("ContextMenu_RemoveSail"), getTexture("media/ui/boats/ICON_remove_sails.png"), ISBoatMenu.RemoveSails, playerObj, boat)
 	end
-	if AquaBoats[boatScriptName].setLeftSailsScript then
+	if AquaConfig.Boats[boatScriptName].setLeftSailsScript then
 		menu:addSlice(getText("ContextMenu_SetLeftSail"), getTexture("media/ui/boats/ICON_set_left_sails.png"), ISBoatMenu.SetLeftSails, playerObj, boat)
 	end
-	if AquaBoats[boatScriptName].setRightSailsScript then
+	if AquaConfig.Boats[boatScriptName].setRightSailsScript then
 		menu:addSlice(getText("ContextMenu_SetRightSail"), getTexture("media/ui/boats/ICON_set_right_sails.png"), ISBoatMenu.SetRightSails, playerObj, boat)
 	end
 	
-	if AquaTsarConfig.isBoat(boat) and seat > 1 or 
-	not AquaTsarConfig.isBoat(boat) and seat <= 1 then
+	if AquaConfig.isBoat(boat) and seat > 1 or 
+	not AquaConfig.isBoat(boat) and seat <= 1 then
 		for partIndex=1,boat:getPartCount() do
 			local part = boat:getPartByIndex(partIndex-1)
 			if part:getDeviceData() and part:getInventoryItem() then
@@ -484,8 +484,8 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		--end
 	end
 	if (not isClient() or getServerOptions():getBoolean("SleepAllowed")) then
-		if AquaTsarConfig.isBoat(boat) and seat > 1 or 
-		not AquaTsarConfig.isBoat(boat) then
+		if AquaConfig.isBoat(boat) and seat > 1 or 
+		not AquaConfig.isBoat(boat) then
 			local doSleep = true;
 			if playerObj:getStats():getFatigue() <= 0.3 then
 				menu:addSlice(getText("IGUI_Sleep_NotTiredEnough"), getTexture("media/ui/vehicles/vehicle_sleep.png"), nil, playerObj, boat)

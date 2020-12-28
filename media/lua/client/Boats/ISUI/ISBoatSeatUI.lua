@@ -102,8 +102,8 @@ function ISBoatSeatUI:render()
 	local width = height * ratio
 	local ex = (self.width - width) / 2
 	local ey = (self.height - height) / 2
-	local imageName = AquaBoats[script:getName()].boatSeatUI_Image
-	local imageScale = AquaBoats[script:getName()].boatSeatUI_Scale
+	local imageName = AquaConfig.Boats[script:getName()].boatSeatUI_Image
+	local imageScale = AquaConfig.Boats[script:getName()].boatSeatUI_Scale
 
 	if imageName then
 		local tex = getTexture("media/ui/boats/seatui/" .. imageName .. ".png")
@@ -134,8 +134,8 @@ function ISBoatSeatUI:render()
 			local offset = posn:getOffset()
 			local x = self:getWidth() / 2 - offset:get(0) * scale - sizeX / 2
 			local y = self:getHeight() / 2 - offset:get(2) * scale - sizeY / 2
-			y = y + (AquaBoats[script:getName()].boatSeatUI_SeatOffsetY[pngr:getId()] or 0.0)
-			x = x + (AquaBoats[script:getName()].boatSeatUI_SeatOffsetX[pngr:getId()] or 0.0)
+			y = y + (AquaConfig.Boats[script:getName()].boatSeatUI_SeatOffsetY[pngr:getId()] or 0.0)
+			x = x + (AquaConfig.Boats[script:getName()].boatSeatUI_SeatOffsetX[pngr:getId()] or 0.0)
 		
 			local mouseOver = (self:getMouseX() >= x and self:getMouseX() < x + sizeX and
 					self:getMouseY() >= y and self:getMouseY() < y + sizeY) or

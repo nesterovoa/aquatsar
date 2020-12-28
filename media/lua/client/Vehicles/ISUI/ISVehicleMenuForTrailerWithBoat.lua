@@ -1,4 +1,4 @@
-require("Boats/aquatsarConfig")
+require("Boats/AquaConfig")
 print("AUQATSAR LOADED: ISVehicleMenuForTrailerWithBoat.lua")
 
 ISVehicleMenuForTrailerWithBoat = {}
@@ -53,7 +53,7 @@ local function getBoatAtRearOfTrailer(vehicle)
 		
 		local boat = sq:getVehicleContainer()
 		if boat then
-			if AquaTsarConfig.isBoat(boat) and AquaTsarConfig.trailerAfterLoadBoatOnTrailerTable[vehicle:getScript():getName()][boat:getScript():getName()] then
+			if AquaConfig.isBoat(boat) and AquaConfig.trailerAfterLoadBoatOnTrailerTable[vehicle:getScript():getName()][boat:getScript():getName()] then
 				return boat
 			end
 		end
@@ -73,7 +73,7 @@ end
 
 
 function ISVehicleMenuForTrailerWithBoat.loadOntoTrailerRadialMenu(playerObj, vehicle)
-	if AquaTsarConfig.trailerAfterLoadBoatOnTrailerTable[vehicle:getScript():getName()] == nil then 	-- check is trailer for boat
+	if AquaConfig.trailerAfterLoadBoatOnTrailerTable[vehicle:getScript():getName()] == nil then 	-- check is trailer for boat
 		return
 	end
 	local menu = getPlayerRadialMenu(playerObj:getPlayerNum())

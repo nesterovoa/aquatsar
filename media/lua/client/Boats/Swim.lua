@@ -296,7 +296,7 @@ local function getBoatsForSwimTo(square)
             if AquatsarYachts.Swim.isWater(sq) then
                 for i=1, sq:getMovingObjects():size() do
 					local obj = sq:getMovingObjects():get(i-1)
-					if obj~= nil and instanceof(obj, "BaseVehicle") and AquaTsarConfig.isBoat(obj) then
+					if obj~= nil and instanceof(obj, "BaseVehicle") and AquaConfig.isBoat(obj) then
 						boats[obj] = true
 					end
 				end

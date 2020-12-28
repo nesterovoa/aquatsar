@@ -42,7 +42,7 @@ function ISLoadBoatOntoTrailer:stop()
 end
 
 function ISLoadBoatOntoTrailer:perform()
-    local trailerName = AquaTsarConfig.trailerAfterLoadBoatOnTrailerTable[self.vehicle:getScript():getName()][self.boat:getScript():getName()]				
+	local trailerName = AquaConfig.Trailers[self.vehicle:getScript():getName()].trailerWithBoatTable[self.boat:getScript():getName()]		
 	self.vehicle:setScriptName(trailerName)
 	self.vehicle:scriptReloaded()
 

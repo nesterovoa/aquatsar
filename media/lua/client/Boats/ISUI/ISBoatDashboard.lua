@@ -2,7 +2,7 @@
 -- --**                    THE INDIE STONE                    **
 -- --***********************************************************
 require 'Vehicles/ISUI/ISVehicleDashboard'
-require 'Boats/aquatsarConfig'
+require 'Boats/AquaConfig'
 -- require "ISUI/ISPanel"
 
 ISBoatDashboard = ISPanel:derive("ISBoatDashboard")
@@ -561,12 +561,12 @@ end
 function ISBoatDashboard.onEnterVehicle(character)
 	local boat = character:getVehicle()
 	if instanceof(character, 'IsoPlayer') and character:isLocalPlayer() and boat:isDriver(character) then
-		if AquaBoats[boat:getScript():getName()] then
+		if AquaConfig.Boats[boat:getScript():getName()] then
 			getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(nil)
 			local data = getPlayerData(character:getPlayerNum())
-			if AquaBoats[boat:getScript():getName()].dashboard == "ISSalingBoatDashboard" then
+			if AquaConfig.Boats[boat:getScript():getName()].dashboard == "ISSalingBoatDashboard" then
 				data.vehicleDashboard = ISSalingBoatDashboard:new(character:getPlayerNum(), character)
-			elseif AquaBoats[boat:getScript():getName()].dashboard == "ISNewSalingBoatDashboard" then
+			elseif AquaConfig.Boats[boat:getScript():getName()].dashboard == "ISNewSalingBoatDashboard" then
 				data.vehicleDashboard = ISNewSalingBoatDashboard:new(character:getPlayerNum(), character)
 			else
 				data.vehicleDashboard = ISBoatDashboard:new(character:getPlayerNum(), character)

@@ -4,7 +4,7 @@ function SoundControl()
 	local player = getPlayer()
 	if player then
 		local vehicle = player:getVehicle()
-		if vehicle ~= nil and AquaTsarConfig.isBoat(vehicle) then
+		if vehicle ~= nil and AquaConfig.isBoat(vehicle) then
 			local emi = vehicle:getEmitter()
 			if emi:isPlaying("VehicleSkid") then
 				emi:stopSoundByName("VehicleSkid")
