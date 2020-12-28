@@ -64,7 +64,7 @@ local function getBoatAtRearOfTrailer(vehicle)
 		
 		local boat = sq:getVehicleContainer()
 		if boat then
-			if AquaConfig.isBoat(boat) and AquaConfig.trailerAfterLoadBoatOnTrailerTable[vehicle:getScript():getName()][boat:getScript():getName()] then
+			if AquaConfig.isBoat(boat) and AquaConfig.Trailers[vehicle:getScript():getName()].trailerWithBoatTable[boat:getScript():getName()] then
 				return boat
 			end
 		end
@@ -84,17 +84,14 @@ end
 
 
 function ISVehicleMenuForTrailerWithBoat.loadOntoTrailerRadialMenu(playerObj, vehicle)
-	if AquaConfig.trailerAfterLoadBoatOnTrailerTable[vehicle:getScript():getName()] == nil then 	-- check is trailer for boat
-		return
-	end
 	local menu = getPlayerRadialMenu(playerObj:getPlayerNum())
 	
 	local boat = getBoatAtRearOfTrailer(vehicle)
 	if boat then
 		if isEmptyContainersOnVehicle(boat) then	
-			menu:addSlice(getText("ContextMenu_LoadBoatOntoTrailer"), getTexture("media/ui/vehicles/vehicle_repair.png"), ISVehicleMenuForTrailerWithBoat.loadOntoTrailer, playerObj, vehicle, boat)
+			menu:addSlice(getText("ContextMenu_LoadBoatOntoTrailer"), getTexture("media/ui/boats/ICON_boat_on_trailer.png"), ISVehicleMenuForTrailerWithBoat.loadOntoTrailer, playerObj, vehicle, boat)
 		else
-			menu:addSlice(getText("ContextMenu_CantLoadBoatBecauseItemsInside"), getTexture("media/ui/vehicles/vehicle_repair.png"))
+			menu:addSlice(getText("ContextMenu_CantLoadBoatBecauseItemsInside"), getTexture("media/ui/boats/ICON_boat_on_trailer.png"))
 		end
 	end
 end
