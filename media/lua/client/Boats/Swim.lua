@@ -1,7 +1,15 @@
 
 local function swimToBoatPerform(playerObj, boat)
-    ISTimedActionQueue.clear(playerObj)
+    local func = function(pl, vehicle)
+        vehicle:enter(0, pl)
+        vehicle:setCharacterPosition(pl, 0, "inside")
+        vehicle:transmitCharacterPosition(0, "inside")
+        vehicle:playPassengerAnim(0, "idle")
+        triggerEvent("OnEnterVehicle", pl)
+    end
 
+    ISTimedActionQueue.clear(playerObj)
+    ISTimedActionQueue.add(ISSwimAction:new(playerObj, 100, square:getX(), square:getY(), func, playerObj, boat));
 end
 
 local function swimToPointPerform(playerObj, square)
