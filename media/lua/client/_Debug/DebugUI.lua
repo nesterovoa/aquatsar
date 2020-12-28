@@ -34,7 +34,7 @@ local function OpenDebug(key)
 	end
 end
 	
-Events.OnKeyKeepPressed.Add(OpenDebug)  
+--Events.OnKeyKeepPressed.Add(OpenDebug)  
 
 local textManager = getTextManager();
 
@@ -157,8 +157,8 @@ end
 
 local function init()
 	if ibrrusDEBUG then
-		Events.OnPostUIDraw.Add(getCoords)
+		--Events.OnPostUIDraw.Add(getCoords)
 	end
 end
 
-Events.OnGameStart.Add(init)
+--Events.OnGameStart.Add(init)
