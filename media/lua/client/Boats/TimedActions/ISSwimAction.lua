@@ -11,6 +11,27 @@ function ISSwimAction:isValid()
 	return true
 end
 
+local function compare(a,b)
+    return a:getWeight() > b:getWeight()
+end
+
+local function dropItems(playerObj)
+    local inv = playerObj:getInventory()    
+    local items = {}
+
+    for j=1, inv:getItems():size() do
+        local item = inv:getItems():get(j-1);
+        table.insert(items, item)
+    end
+
+    local dropNum = ZombRand(#items * 0.6)
+    table.sort(items, compare)
+
+    for i=1, dropNum do
+        inv:DoRemoveItem(items[i])
+    end
+end
+
 function ISSwimAction:update()
     self.character:setX( self.x + self.dx*self:getJobDelta())
     self.character:setY( self.y + self.dy*self:getJobDelta())
@@ -22,10 +43,42 @@ function ISSwimAction:update()
         self.character:getSprite():getProperties():UnSet(IsoFlagType.invisible)
     end
 
+    if self.enduranceFirst - self:getJobDelta()*self.enduranceValue < 0 then
+        self:stop()
+    end
+    self.character:getStats():setEndurance(self.enduranceFirst - self:getJobDelta()*self.enduranceValue)
+
+    if self.character:getStats():getEndurance() < 0.3 and self.isFail then
+        if self.damageCount < 6 and ZombRand(100) < 60 then
+            if self.damageCount == 0 then
+                self.character:getBodyDamage():getBodyPart(BodyPartType.Torso_Upper):AddDamage(ZombRand(30))
+                self.character:Say(getText("IGUI_IDrown"))
+            elseif self.damageCount == 1 then
+                self.character:getBodyDamage():getBodyPart(BodyPartType.Torso_Lower):AddDamage(ZombRand(30))
+            elseif self.damageCount == 2 then
+                self.character:getBodyDamage():getBodyPart(BodyPartType.UpperLeg_L):AddDamage(ZombRand(30))
+            elseif self.damageCount == 3 then
+                self.character:getBodyDamage():getBodyPart(BodyPartType.UpperLeg_R):AddDamage(ZombRand(30))
+                self.character:Say(getText("IGUI_IDrown"))
+            elseif self.damageCount == 4 then
+                self.character:getBodyDamage():getBodyPart(BodyPartType.UpperArm_L):AddDamage(ZombRand(30))
+            elseif self.damageCount == 5 then
+                self.character:getBodyDamage():getBodyPart(BodyPartType.UpperArm_R):AddDamage(ZombRand(30))    
+            end
+            self.damageCount = self.damageCount + 1
+        end
+    end
+
+    if self.isFail and self.dropCount < 2 and ZombRand(100) < 40 then
+        dropItems(self.character)
+        self.character:Say(getText("IGUI_andDropItems"))
+        self.dropCount = self.dropCount + 1
+    end
 end
 
 function ISSwimAction:start()
     self.sound = getSoundManager():PlayWorldSound("swim", self.character:getSquare(), 0, 10, 1, true);
+    self.character:getBodyDamage():setWetness(100);
 end
 
 function ISSwimAction:stop()
@@ -46,6 +99,10 @@ function ISSwimAction:perform()
 
     if self.func ~= nil then
         self.func(self.arg1, self.arg2)
+    end
+
+    if self.isFail then 
+        self.character:Say(getText("IGUI_almostDie"))
     end
 
 	ISBaseTimedAction.perform(self)
@@ -72,6 +129,12 @@ function ISSwimAction:new(character, chance, x2, y2, func, arg1, arg2)
     o.maxTime = 60 * math.floor(o.len)
 
     o.chance = chance
+    o.isFail = ZombRand(100) < chance
+    o.enduranceFirst = character:getStats():getEndurance()
+    o.enduranceValue = o.len/50
+
+    o.damageCount = 0
+    o.dropCount = 0
 
 	return o
 end

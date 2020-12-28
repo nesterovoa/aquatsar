@@ -1,5 +1,5 @@
 local function spawnBoat(playerObj, boatName, sq)
-    local boat = addVehicleDebug("Base." .. boatName, IsoDirections.S, nil, sq)
+    local boat = addVehicleDebug("Base." .. boatName, IsoDirections.S, 0, sq)
 	playerObj:getInventory():AddItem(boat:createVehicleKey())
 	boat:repair()
 end

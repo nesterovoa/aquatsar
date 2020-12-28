@@ -5,6 +5,86 @@ ISSwimUI.windows = {}
 local FONT_HGT_SMALL = getTextManager():getFontHeight(UIFont.Small)
 local FONT_HGT_MEDIUM = getTextManager():getFontHeight(UIFont.Medium)
 
+local function isWater(square)
+	return square ~= nil and square:Is(IsoFlagType.water)
+end
+
+
+local function getSwimSquares(x, y)
+    local squares = {}
+    local cell = getCell()
+
+    local NminDist = 50
+    local SminDist = 50
+    local EminDist = 50
+    local WminDist = 50
+
+
+    for i=1, 50 do
+        for j = -i, i do
+            local sq = cell:getGridSquare(x+i, y+j, 0)
+            if not isWater(sq) and sq:isNotBlocked(true) then
+                local dist = math.sqrt((i*i + j*j))
+
+                if dist < EminDist then 
+                    EminDist = dist
+                    squares["EAST"] = sq
+                end
+            end
+            
+        end 
+    end
+
+    for i=1, 50 do
+        for j = -i, i do
+            local sq = cell:getGridSquare(x-i, y+j, 0)
+            if not isWater(sq) and sq:isNotBlocked(true) then
+                local dist = math.sqrt((i*i + j*j))
+
+                if dist < WminDist then 
+                    WminDist = dist
+                    squares["WEST"] = sq
+                end
+            end
+            
+        end 
+    end
+
+    for i=1, 50 do
+        for j = -i, i do
+            local sq = cell:getGridSquare(x+j, y+i, 0)
+            
+            if not isWater(sq) and sq:isNotBlocked(true) then
+                local dist = math.sqrt((i*i + j*j))
+
+                if dist < SminDist then 
+                    SminDist = dist
+                    squares["SOUTH"] = sq
+                end
+            end
+        end 
+    end
+
+    for i=1, 50 do
+        for j = -i, i do
+            local sq = cell:getGridSquare(x+j, y-i, 0)
+            
+            if not isWater(sq) and sq:isNotBlocked(true) then
+                local dist = math.sqrt((i*i + j*j))
+
+                if dist < NminDist then 
+                    NminDist = dist
+                    squares["NORTH"] = sq
+                end
+            end
+        end 
+    end
+
+
+    return squares
+end
+
+
 --************************************************************************--
 --** ISSwimUI:initialise
 --**
@@ -73,7 +153,7 @@ function ISSwimUI:render()
             self.ItemsOptions:setOptionEnabled(1, true)
         end    
         
-        local chance = AquatsarYachts.Swim.chanceSuccess(self.player, self.swimSquares["EAST"])
+        local chance = AquatsarYachts.Swim.swimChanceSuccess(self.player, self.swimSquares["EAST"])
         self.chances["EAST"] = chance
         self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2, 1, 1, 1, 1, UIFont.Small);
     else
@@ -87,7 +167,7 @@ function ISSwimUI:render()
             self.ItemsOptions:setOptionEnabled(2, true)
         end    
         
-        local chance = AquatsarYachts.Swim.chanceSuccess(self.player, self.swimSquares["SOUTH"])
+        local chance = AquatsarYachts.Swim.swimChanceSuccess(self.player, self.swimSquares["SOUTH"])
         self.chances["SOUTH"] = chance
         self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2 + yStep, 1, 1, 1, 1, UIFont.Small);
     else
@@ -101,7 +181,7 @@ function ISSwimUI:render()
             self.ItemsOptions:setOptionEnabled(3, true)
         end    
         
-        local chance = AquatsarYachts.Swim.chanceSuccess(self.player, self.swimSquares["WEST"])
+        local chance = AquatsarYachts.Swim.swimChanceSuccess(self.player, self.swimSquares["WEST"])
         self.chances["WEST"] = chance
         self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2 + yStep*2, 1, 1, 1, 1, UIFont.Small);
     else
@@ -115,7 +195,7 @@ function ISSwimUI:render()
             self.ItemsOptions:setOptionEnabled(4, true)
         end    
         
-        local chance = AquatsarYachts.Swim.chanceSuccess(self.player, self.swimSquares["NORTH"])
+        local chance = AquatsarYachts.Swim.swimChanceSuccess(self.player, self.swimSquares["NORTH"])
         self.chances["NORTH"] = chance
         self:drawText(getText("IGUI_chance") .. ": " .. chance .. "%", self.ItemsOptions:getRight()+10, self.ItemsOptions.y + 2 + yStep*3, 1, 1, 1, 1, UIFont.Small);
     else
@@ -158,7 +238,19 @@ function ISSwimUI:onClick(button)
             dir = "NORTH"
         end
 
-        AquatsarYachts.Swim.swimToLand(self.player, self.swimSquares[dir], self.chances[dir])
+        local vehicle = self.player:getVehicle()
+        local seat = vehicle:getSeat(self.player)
+        vehicle:exit(self.player)
+        self.player:PlayAnim("Idle")
+        triggerEvent("OnExitVehicle", self.player)
+        vehicle:updateHasExtendOffsetForExitEnd(self.player)
+
+        local func = function(pl) 
+            pl:getSprite():getProperties():UnSet(IsoFlagType.invisible)
+        end
+    
+        ISTimedActionQueue.clear(self.player)
+        ISTimedActionQueue.add(ISSwimAction:new(self.player, self.chances[dir], self.swimSquares[dir]:getX(), self.swimSquares[dir]:getY(), func, self.player ));
 
         self:setVisible(false);
         self:removeFromUIManager();
@@ -243,7 +335,7 @@ function ISSwimUI:new(x, y, width, height, player, square)
 
     o.searchX = o.player:getX()
     o.searchY = o.player:getY()
-    o.swimSquares = AquatsarYachts.Swim.getSwimSquares(o.searchX, o.searchY)
+    o.swimSquares = getSwimSquares(o.searchX, o.searchY)
     o.chances = {}
 
     return o;
