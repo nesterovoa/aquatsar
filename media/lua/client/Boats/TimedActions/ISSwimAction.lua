@@ -28,7 +28,26 @@ local function dropItems(playerObj)
     table.sort(items, compare)
 
     for i=1, dropNum do
-        inv:DoRemoveItem(items[i])
+        if not items[i]:isEquipped() then
+            inv:DoRemoveItem(items[i])
+        end
+    end
+end
+
+local function wetItems(playerObj)
+    local inv = playerObj:getInventory()    
+    local items = {}
+
+    for j=1, inv:getItems():size() do
+        local item = inv:getItems():get(j-1);
+        table.insert(items, item)
+    end
+
+    for i=1, #items do
+        if items[i]:IsClothing() then
+            items[i]:setWet(true)
+            items[i]:setWetCooldown(7000)
+        end
     end
 end
 
@@ -49,7 +68,7 @@ function ISSwimAction:update()
     self.character:getStats():setEndurance(self.enduranceFirst - self:getJobDelta()*self.enduranceValue)
 
     if self.character:getStats():getEndurance() < 0.3 and self.isFail then
-        if self.damageCount < 6 and ZombRand(100) < 60 then
+        if self.damageCount < 6 and ZombRand(100) < 15 then
             if self.damageCount == 0 then
                 self.character:getBodyDamage():getBodyPart(BodyPartType.Torso_Upper):AddDamage(ZombRand(30))
                 self.character:Say(getText("IGUI_IDrown"))
@@ -69,16 +88,17 @@ function ISSwimAction:update()
         end
     end
 
-    if self.isFail and self.dropCount < 2 and ZombRand(100) < 40 then
+    if self.isFail and (self.dropCount == 1 and self:getJobDelta() > self.dropTime2) or (self.dropCount == 2 and self:getJobDelta() > self.dropTime1) then
         dropItems(self.character)
         self.character:Say(getText("IGUI_andDropItems"))
-        self.dropCount = self.dropCount + 1
+        self.dropCount = self.dropCount - 1
     end
 end
 
 function ISSwimAction:start()
     self.sound = getSoundManager():PlayWorldSound("swim", self.character:getSquare(), 0, 10, 1, true);
     self.character:getBodyDamage():setWetness(100);
+    wetItems(self.character)
 end
 
 function ISSwimAction:stop()
@@ -134,7 +154,19 @@ function ISSwimAction:new(character, chance, x2, y2, func, arg1, arg2)
     o.enduranceValue = o.len/50
 
     o.damageCount = 0
-    o.dropCount = 0
+
+    local eqWeight = round(character:getInventory():getCapacityWeight(), 2)
+
+    if eqWeight > 20 then
+        o.dropCount = 2
+    elseif eqWeight > 10 then
+        o.dropCount = 1
+    else
+        o.dropCount = ZombRand(1)
+    end
+
+    o.dropTime1 = ZombRand(50)/100
+    o.dropTime2 = o.dropTime1 + ZombRand(100 - 100*o.dropTime1)/100
 
 	return o
 end

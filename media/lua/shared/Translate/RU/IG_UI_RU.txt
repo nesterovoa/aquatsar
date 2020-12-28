@@ -57,5 +57,6 @@ IGUI_RU = {
 	IGUI_andDropItems = "еще и вещи потерял...",
 	IGUI_SwimToPoint = "Плыть",
 	IGUI_SwimTo = "Плыть к %1",
-	IGUI_SwimToLand = "Плыть на берег"
+	IGUI_SwimToLand = "Плыть на берег",
+	IGUI_Exit_Boat = "Выйти в воду"
 }

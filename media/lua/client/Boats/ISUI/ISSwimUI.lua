@@ -205,7 +205,7 @@ function ISSwimUI:render()
     end
 
     self.ok:setEnable(false)
-    for i=1, 4 do    
+    for i=1, 5 do    
         if self.ItemsOptions:isOptionEnabled(i) and self.ItemsOptions:isSelected(i) then
             self.ok:setEnable(true)
         end
@@ -236,6 +236,22 @@ function ISSwimUI:onClick(button)
             dir = "WEST"
         elseif self.ItemsOptions:isSelected(4) then
             dir = "NORTH"
+        elseif self.ItemsOptions:isSelected(5) then
+            local vehicle = self.player:getVehicle()
+            local seat = vehicle:getSeat(self.player)
+            vehicle:exit(self.player)
+            self.player:PlayAnim("Idle")
+            triggerEvent("OnExitVehicle", self.player)
+            vehicle:updateHasExtendOffsetForExitEnd(self.player)
+
+            self:setVisible(false);
+            self:removeFromUIManager();
+            local playerNum = self.player:getPlayerNum()
+            if JoypadState.players[playerNum+1] then
+                setJoypadFocus(playerNum, nil)
+            end
+
+            return
         end
 
         local vehicle = self.player:getVehicle()
@@ -294,11 +310,7 @@ function ISSwimUI:doItemsOptions()
     self.ItemsOptions:addOption(getText("IGUI_SOUTH"), "SOUTH");
     self.ItemsOptions:addOption(getText("IGUI_WEST"), "WEST");
     self.ItemsOptions:addOption(getText("IGUI_NORTH"), "NORTH");
-end
-
-function ISSwimUI:findLand()
-    
-
+    self.ItemsOptions:addOption(getText("IGUI_Exit_Boat"), "EXIT");
 end
 
 
