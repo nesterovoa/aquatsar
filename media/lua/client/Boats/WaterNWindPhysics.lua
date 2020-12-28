@@ -1,4 +1,6 @@
--- require("_DebugUIs/AIDebug/DebugValuesInspector")
+--*************************************************************
+--**                    Developer: IBrRus                    **
+--*************************************************************
 
 if WaterNWindPhysics == nil then WaterNWindPhysics = {} end
 

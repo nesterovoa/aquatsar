@@ -1,28 +1,37 @@
+--**************************************************************
+--**                    Developer: Aiteron                    **
+--**************************************************************
+--	Интерфейс для прицепов с лодками (загрузка на прицеп и спуск на воду)
+---------------------------------------
+
 require("Boats/AquaConfig")
-print("AUQATSAR LOADED: ISVehicleMenuForTrailerWithBoat.lua")
 
 ISVehicleMenuForTrailerWithBoat = {}
+
 local vec = Vector3f.new()
-
 ISVehicleMenuForTrailerWithBoat.nearCheckThatTrailerNearWater = 3
-ISVehicleMenuForTrailerWithBoat.spawnDistForBoat = 6
+ISVehicleMenuForTrailerWithBoat.spawnDistForBoat = 7.5
 
 
--- Launch boat on water
+
+-------------------------
+-- Launch on Water
+-------------------------
+
+local function isWater(square)
+	return square ~= nil and square:Is(IsoFlagType.water)
+end
 
 local function canLaunchBoat(boat)
 	local point = boat:getWorldPos(0, 0, -boat:getScript():getPhysicsChassisShape():z()/2 - ISVehicleMenuForTrailerWithBoat.nearCheckThatTrailerNearWater, vec)
-	if not ISVehicleMenuForTrailerWithBoat.isWater(getCell():getGridSquare(point:x(), point:y(), 0)) then return false end
+	if not isWater(getCell():getGridSquare(point:x(), point:y(), 0)) then return false end
 	
 	point = boat:getWorldPos(0, 0, -boat:getScript():getPhysicsChassisShape():z()/2 - ISVehicleMenuForTrailerWithBoat.spawnDistForBoat, vec)
-	if not ISVehicleMenuForTrailerWithBoat.isWater(getCell():getGridSquare(point:x(), point:y(), 0)) then return false end
+	if not isWater(getCell():getGridSquare(point:x(), point:y(), 0)) then return false end
 
 	return true
 end
 
-function ISVehicleMenuForTrailerWithBoat.isWater(square)
-	return square ~= nil and square:Is(IsoFlagType.water)
-end
 
 function ISVehicleMenuForTrailerWithBoat.launchRadialMenu(playerObj, vehicle)
 	local menu = getPlayerRadialMenu(playerObj:getPlayerNum())
@@ -43,7 +52,9 @@ end
 
 
 
--- Load boat on trailer
+-------------------------
+-- Load on Trailer
+-------------------------
 
 local function getBoatAtRearOfTrailer(vehicle)
 	-- Check line at rear of trailer
