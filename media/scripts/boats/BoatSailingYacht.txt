@@ -325,7 +325,7 @@ module Base
 		}
 
 		extents = 0.3925 0.3200 1.2875,
-		mass = 50,
+		mass = 1,
 		physicsChassisShape = 0.4000 0.3200 1.2875,
 		centerOfMassOffset = -0.0012 0.2850 -0.0575,
 
@@ -361,7 +361,7 @@ module Base
 			width = 0.2f,
 		}
 
-		engineForce = 3000,
+		engineForce = 2500,
 		maxSpeed = 1f,
 		engineLoudness = 90,
 		engineQuality = 10,
@@ -369,16 +369,17 @@ module Base
 		gearRatioCount = 1,
 		gearRatioR = 0.1,
 		gearRatio0 = 10,
+		
 		stoppingMovementForce = 2.0f,
-		rollInfluence = 1.0f,
+		rollInfluence = 0.1f,
 		steeringIncrement = 0.03,
 		steeringClamp = 0.3,
 		suspensionStiffness = 50,
 		suspensionCompression = 2,
 		suspensionDamping = 15.88,
 		maxSuspensionTravelCm = 1.1,
-		suspensionRestLength = 0.2,
-		wheelFriction = 0.6f,
+		suspensionRestLength = 0.1,
+		wheelFriction = 0.5f,
 		frontEndHealth = 150,
 		rearEndHealth = 150,
 		seats = 6,
