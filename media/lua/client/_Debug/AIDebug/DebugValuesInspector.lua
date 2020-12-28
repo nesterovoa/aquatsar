@@ -30,7 +30,7 @@ local function renderTextParamsView(self)
             end
         end
 
-        self:drawText(text, 1, step, 1, 1, 1, 1, UIFont.Small);
+        self:drawText(text, 3, step, 1, 1, 1, 1, UIFont.Small);
         step = step + 15
     end
 end
@@ -65,7 +65,7 @@ local function renderTextTableDynamicView(self)
         local text = ""
 
         for i=1, #values do
-            self:drawText(tostring(values[i]), xSteps[i-1]*8 + 1, yStep, 1, 1, 1, 1, UIFont.Small);    
+            self:drawText(tostring(values[i]), xSteps[i-1]*8 + 3, yStep, 1, 1, 1, 1, UIFont.Small);    
         end
 
         yStep = yStep + 15
@@ -85,7 +85,7 @@ local function renderTextTableStaticView(self)
         local text = ""
 
         for i=1, #values do
-            self:drawText(tostring(values[i]), xSteps[i-1]*8 + 1, yStep, 1, 1, 1, 1, UIFont.Small);    
+            self:drawText(tostring(values[i]), xSteps[i-1]*8 + 3, yStep, 1, 1, 1, 1, UIFont.Small);    
         end
 
         yStep = yStep + 15
@@ -261,8 +261,6 @@ function AIDebugValuesInspector.addToolbarButton()
 
 	ISEquippedItem.instance:addChild(AIDebugValuesInspector.toolbarButton);
     ISEquippedItem.instance:setHeight(math.max(ISEquippedItem.instance:getHeight(), AIDebugValuesInspector.toolbarButton:getY() + 64));
-    
-    AIDebugValuesInspector.showInspector()
 end
 
 Events.OnCreatePlayer.Add(AIDebugValuesInspector.addToolbarButton);
