@@ -135,6 +135,10 @@ local function noclip()
     else
         pl:setNoClip(true)
     end
+
+    AIDebugValuesInspector.showInspector(); 
+    AIDebugValuesInspector.showInspector()
+    AIDebugValuesInspector.InspectorPanel:activateView("Cheats")
 end
 
 
@@ -145,6 +149,10 @@ local function godMode()
     else
         pl:setGodMod(true)
     end
+
+    AIDebugValuesInspector.showInspector(); 
+    AIDebugValuesInspector.showInspector()
+    AIDebugValuesInspector.InspectorPanel:activateView("Cheats")
 end
 
 local function ghostMode()
@@ -154,18 +162,22 @@ local function ghostMode()
     else
         pl:setGhostMode(true)
     end
+
+    AIDebugValuesInspector.showInspector(); 
+    AIDebugValuesInspector.showInspector()
+    AIDebugValuesInspector.InspectorPanel:activateView("Cheats")
 end
 
 AIDebugValuesInspector.showWindow = function(player, useSprayCan)--{{{
     -- Set tab window
-    local InspectorPanel = ISTabPanel:new(Core:getInstance():getScreenWidth() - 680, Core:getInstance():getScreenHeight() - 285, 640, 248);
-    InspectorPanel:initialise();
-    InspectorPanel:setAnchorBottom(true);
-    InspectorPanel:setAnchorRight(true);
-    InspectorPanel.target = self;
-    InspectorPanel:setEqualTabWidth(true)
-    InspectorPanel:setCenterTabs(true)
-    AIDebugValuesInspector.window = InspectorPanel:wrapInCollapsableWindow("Values inspector");
+    AIDebugValuesInspector.InspectorPanel = ISTabPanel:new(Core:getInstance():getScreenWidth() - 680, Core:getInstance():getScreenHeight() - 285, 640, 248);
+    AIDebugValuesInspector.InspectorPanel:initialise();
+    AIDebugValuesInspector.InspectorPanel:setAnchorBottom(true);
+    AIDebugValuesInspector.InspectorPanel:setAnchorRight(true);
+    AIDebugValuesInspector.InspectorPanel.target = self;
+    AIDebugValuesInspector.InspectorPanel:setEqualTabWidth(true)
+    AIDebugValuesInspector.InspectorPanel:setCenterTabs(true)
+    AIDebugValuesInspector.window = AIDebugValuesInspector.InspectorPanel:wrapInCollapsableWindow("Values inspector");
     AIDebugValuesInspector.window.close = AIDebugValuesInspector.hideWindow;
     AIDebugValuesInspector.window.closeButton.onmousedown = AIDebugValuesInspector.hideWindow;
     AIDebugValuesInspector.window:setResizable(true);
@@ -225,12 +237,29 @@ AIDebugValuesInspector.showWindow = function(player, useSprayCan)--{{{
 
     btn = ISButton:new(10, btn:getBottom() + 10, 100, 20, "NoClip", nil, noclip); 
     AIDebugValuesInspector.cheatsTab:addChild(btn);
+    local pl = getPlayer()
+    if pl:isNoClip() then
+        btn.textColor = {r=0.0, g=1.0, b=0.0, a=1.0};
+    else
+        btn.textColor = {r=1.0, g=0.0, b=0.0, a=1.0};
+    end
 
     btn = ISButton:new(10, btn:getBottom() + 10, 100, 20, "God Mode", nil, godMode); 
     AIDebugValuesInspector.cheatsTab:addChild(btn);
+    if pl:isGodMod() then
+        btn.textColor = {r=0.0, g=1.0, b=0.0, a=1.0};
+    else
+        btn.textColor = {r=1.0, g=0.0, b=0.0, a=1.0};
+    end
 
     btn = ISButton:new(10, btn:getBottom() + 10, 100, 20, "Ghost Mode", nil, ghostMode); 
     AIDebugValuesInspector.cheatsTab:addChild(btn);
+    if pl:isGhostMode() then
+        btn.textColor = {r=0.0, g=1.0, b=0.0, a=1.0};
+    else
+        btn.textColor = {r=1.0, g=0.0, b=0.0, a=1.0};
+    end
+
 
     AIDebugValuesInspector.window:addToUIManager();
 	AIDebugValuesInspector.toolbarButton:setImage(getTexture("media/textures/AIDebug/Icon_Inspector_On.png"));
