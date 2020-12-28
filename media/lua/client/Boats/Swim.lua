@@ -1,14 +1,21 @@
 
 local function swimToBoatPerform(playerObj, boat)
+    ISTimedActionQueue.clear(playerObj)
 
 end
 
 local function swimToPointPerform(playerObj, square)
-
+    ISTimedActionQueue.clear(playerObj)
+    ISTimedActionQueue.add(ISSwimAction:new(playerObj, 100, square:getX(), square:getY()));
 end
 
 local function swimToLandPerform(playerObj, square)
+    local func = function(pl) 
+        pl:getSprite():getProperties():UnSet(IsoFlagType.invisible)
+    end
 
+    ISTimedActionQueue.clear(playerObj)
+    ISTimedActionQueue.add(ISSwimAction:new(playerObj, 100, square:getX(), square:getY(), func, playerObj ));
 end
 
 local function isWaterLine(x, y, x2, y2)  
@@ -19,7 +26,7 @@ local function isWaterLine(x, y, x2, y2)
     local dy = tmpY / len
 
     local cell = getCell()
-    for i=1, math.floor(len) do
+    for i=2, math.floor(len) do
         local sq = cell:getGridSquare(x + dx*i, y + dy*i, 0)
         if not sq or not sq:Is(IsoFlagType.water) then 
             return false
@@ -67,7 +74,8 @@ local function swimToPoint(player, context, worldobjects, test)
     end
     
     if boat then
-        context:addOption(getText("IGUI_SwimToBoat"), playerObj, swimToBoatPerform, boat)
+        local name = getText("IGUI_BoatName" .. boat:getScript():getName())
+        context:addOption(getText("IGUI_SwimTo", name), playerObj, swimToBoatPerform, boat)
     
     elseif pointSquare and isWaterLine(playerObj:getX(), playerObj:getY(), pointSquare:getX(), pointSquare:getY()) then
         context:addOption(getText("IGUI_SwimToPoint"), playerObj, swimToPointPerform, pointSquare)
