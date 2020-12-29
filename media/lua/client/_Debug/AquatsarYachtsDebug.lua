@@ -1,11 +1,7 @@
-debugScenarios = {}
-
--- if CheatCore == nil then
-	-- CheatCore = {}
--- end
 
 debugScenarios.iBrRusScenario_AquatsarYachts = {
 	name = "Aquatsar Yachts Debug",
+	isCustom = true,
 	forceLaunch = true,
 	startLoc = {x=11828, y=6581, z=0 }, -- Water
 
