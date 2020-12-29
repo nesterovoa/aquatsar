@@ -100,6 +100,7 @@ function Boats.Update.ApiBoatlight(boat, part, elapsedMinutes)
 end
 
 function Boats.Update.GasTank(boat, part, elapsedMinutes)
+
 	local invItem = part:getInventoryItem();
 	if not invItem then return; end
 	local amount = part:getContainerContentAmount()
@@ -112,24 +113,20 @@ function Boats.Update.GasTank(boat, part, elapsedMinutes)
 		end
 		local qualityMultiplier = ((100 - boat:getEngineQuality()) / 200) + 1;
 		local massMultiplier =  ((math.abs(1000 - boat:getScript():getMass())) / 300) + 1;
-		local speedToNextTransmission = ((boat:getMaxSpeed() / boat:getScript():getGearRatioCount()) * 0.71) * boat:getTransmissionNumber();
-		local speedMultiplier = (speedToNextTransmission - boat:getCurrentSpeedKmHour()) * 350;
 		-- if boat is stopped, we half the value of gas consummed
-		if math.floor(boat:getCurrentSpeedKmHour()) > 0 then
-			gasMultiplier = gasMultiplier / qualityMultiplier / massMultiplier/2;
+		-- print(boat:getCurrentSpeedKmHour())
+		if math.floor(math.abs(boat:getCurrentSpeedKmHour())) > 0 then
+			gasMultiplier = gasMultiplier / qualityMultiplier / massMultiplier/4;
+			speedMultiplier = 800;
 		else
 			gasMultiplier = (gasMultiplier / qualityMultiplier);
-			speedMultiplier = 1;
-		end
-		-- we're at max gear, cap general gas consumption
-		if speedMultiplier < 800 then
 			speedMultiplier = 800;
 		end
-		
+
 		local newAmount = (speedMultiplier / gasMultiplier)  * SandboxVars.CarGasConsumption;
 		newAmount =  newAmount * (boat:getEngineSpeed()/2500.0);
 		amount = amount - elapsedMinutes * newAmount;
-		print(elapsedMinutes * newAmount)
+		-- print(elapsedMinutes * newAmount)
 		-- if your gas tank is in bad condition, you can simply lose fuel
 		if part:getCondition() < 70 then
 			if ZombRand(part:getCondition() * 2) == 0 then

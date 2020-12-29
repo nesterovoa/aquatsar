@@ -2,6 +2,8 @@
 
 
 ISNewSalingBoatDashboard = ISPanel:derive("ISNewSalingBoatDashboard")
+local fakeSpeed = 0.8
+
 
 function ISNewSalingBoatDashboard:createChildren()
 	self.backgroundTex = ISImage:new(300, 300, self.dashboardBG:getWidth(), self.dashboardBG:getHeight(), self.dashboardBG);
@@ -200,7 +202,7 @@ function ISNewSalingBoatDashboard:setVehicle(boat)
 end
 
 function ISNewSalingBoatDashboard:setBoatSpeedValue(speed)
-	speed = math.abs(speed)	
+	speed = math.abs(speed)	* fakeSpeed
 	local tens = math.floor(speed / 10)
 	local ones = math.floor(speed % 10)
 	local fraction = 0
@@ -213,7 +215,7 @@ function ISNewSalingBoatDashboard:setBoatSpeedValue(speed)
 end
 
 function ISNewSalingBoatDashboard:setWindSpeedValue(speed)
-	speed = math.abs(speed)	
+	speed = math.abs(speed)	* fakeSpeed
 	local tens = math.floor(speed / 10)
 	local ones = math.floor(speed % 10)
 	local fraction = 0

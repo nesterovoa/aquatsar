@@ -80,10 +80,8 @@ function WaterNWindPhysics.updateVehicles()
         local boat = boats:get(i)
 		local boatScriptName = boat:getScript():getName()
         if boat ~= nil and  AquaConfig.isBoat(boat) then
-		
 			local boatSpeed = boat:getCurrentSpeedKmHour()
 			local collisionWithGround = false
-			
 			boat:getAttachmentWorldPos("trailerfront", frontVector)
 			boat:getAttachmentWorldPos("trailer", rearVector)
 			local x = frontVector:x() - rearVector:x()
@@ -91,42 +89,26 @@ function WaterNWindPhysics.updateVehicles()
 			boatDirVector:set(x, 0, y):normalize()
 			local squareUnderVehicle = getCell():getGridSquare(boat:getX(), boat:getY(), 0)
             if squareUnderVehicle ~= nil and WaterNWindPhysics.isWater(squareUnderVehicle) then
-				-- AIDebug.setInsp("Boat", "boat:getDebugZ()", boat:getDebugZ())
-				-- AIDebug.setInsp("Boat", "boat:getEngineSpeed()", boat:getEngineSpeed())
-				
-				-- AIDebug.setInsp("Boat", " ", " ")
+				--AUD.insp("Boat", "boat:getEngineSpeed()", boat:getEngineSpeed())
+				--AUD.insp("Boat", "boat:isBraking()", insp)
+				--AUD.insp("Boat", "boatSpeed", boatSpeed)
+				-- AUD.insp("Boat", " ", " ")
 				if math.abs(boatSpeed) < 0.2 and boat:getDebugZ() < 0.67 then
-					-- if boatы:getDriver() then
-					-- -- for i = 1, 5 do 
-						-- -- boat:setDebugZ(0.64 + i/100)
 						boat:setPhysicsActive(true)
 						boat:setMass(100)
 						tempVec1:set(0, 5000, 0)
 						tempVec2:set(0, 0, 0)
 						boat:addImpulse(tempVec1, tempVec2)
-						-- if not isKeyDown(Keyboard.KEY_W) then
-							-- boatDirVector:mul(-6000)
-							-- boat:addImpulse(boatDirVector, tempVec2)
-						-- end
-						-- tempVec1:set(5000, 0, 0)
-						-- tempVec2:set(0, 0, 0)
-						-- boat:addImpulse(tempVec1, tempVec2)
-						-- tempVec1:set(500, 0, 5000)
-						-- tempVec2:set(0, 0, 0)
-						-- boat:addImpulse(tempVec1, tempVec2)
 						print("boat:addImpulse")
-					-- else
-					--boat:setDebugZ(0.71)
-					-- end
-					-- end
-					--print("boat:setDebugZ(0.7)")
-				elseif math.abs(boatSpeed) > 5 then
+				elseif math.abs(boatSpeed) > 6 then
 					if isKeyDown(Keyboard.KEY_S) then
-						boat:setMass(2000)
+						boat:setMass(1900)
 					else
 						boat:setMass(1000)
 					end
 				end
+				
+				
                 local notWaterSquares = WaterNWindPhysics.getCollisionSquaresNear(5, 5, squareUnderVehicle)
                 local a = 1
 				for _, square in ipairs(notWaterSquares) do
@@ -154,9 +136,9 @@ function WaterNWindPhysics.updateVehicles()
 				
 				local windSpeed = WaterNWindPhysics.getWindSpeed()
 				
-				-- AIDebug.setInsp("Boat", "windSpeed (MPH):", windSpeed / 1.60934)
-				-- AIDebug.setInsp("Boat", "boatSpeed (MPH):", boat:getCurrentSpeedKmHour() / 1.60934)
-				-- AIDebug.setInsp("Boat", " ", " ")
+				AUD.insp("Boat", "windSpeed (MPH):", windSpeed / 1.60934)
+				-- AUD.insp("Boat", "boatSpeed (MPH):", boat:getCurrentSpeedKmHour() / 1.60934)
+				-- AUD.insp("Boat", " ", " ")
 				boatDirVector:set(x, 0, y):normalize()
 				local boatDirection = math.atan2(x,y) * 57.2958 + 180
 				local sailAngle = boat:getModData()["sailAngle"]
@@ -186,11 +168,11 @@ function WaterNWindPhysics.updateVehicles()
 					end
 				elseif windSpeed < 31 * 1.60934 then
 					if windOnBoat > 25 and windOnBoat < 335 then
-						windForceByDirection = 13 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
+						windForceByDirection = 12 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 					end
 				elseif windSpeed < 61 * 1.60934 then
 					if windOnBoat > 105 and windOnBoat < 285 then
-						windForceByDirection = 16 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
+						windForceByDirection = 14 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 					end
 				else
 					-- TODO WARNING!!!
@@ -262,15 +244,15 @@ function WaterNWindPhysics.updateVehicles()
 					requiredSailAngle = "Another direction"
 				end
 					
-				AIDebug.setInsp("Boat", " ", " ")
-				AIDebug.setInsp("Boat", "windOnBoat:", windOnBoat)
-				AIDebug.setInsp("Boat", " ", " ")
-				AIDebug.setInsp("Boat", "SailAngle:", sailAngle)
-				AIDebug.setInsp("Boat", "RequiredSailAngle (absolute value):", requiredSailAngle)
-				AIDebug.setInsp("Boat", " ", " ")
-				AIDebug.setInsp("Boat", "coefficientSailAngle:", coefficientSailAngle)
-				AIDebug.setInsp("Boat", "windForceByDirection:", windForceByDirection)
-				AIDebug.setInsp("Boat", " ", " ")
+				AUD.insp("Boat", " ", " ")
+				AUD.insp("Boat", "windOnBoat:", windOnBoat)
+				AUD.insp("Boat", " ", " ")
+				AUD.insp("Boat", "SailAngle:", sailAngle)
+				AUD.insp("Boat", "RequiredSailAngle (absolute value):", requiredSailAngle)
+				AUD.insp("Boat", " ", " ")
+				AUD.insp("Boat", "coefficientSailAngle:", coefficientSailAngle)
+				AUD.insp("Boat", "windForceByDirection:", windForceByDirection)
+				AUD.insp("Boat", " ", " ")
 				
 				boat:getAttachmentWorldPos("checkFront", frontVector)
 				
@@ -286,7 +268,7 @@ function WaterNWindPhysics.updateVehicles()
 					savedWindForce = windForceByDirection
 				end
 				boat:getModData()["windForceByDirection"] = savedWindForce
-				AIDebug.setInsp("Boat", "savedWindForce:", savedWindForce)
+				AUD.insp("Boat", "savedWindForce:", savedWindForce)
 				local squareFrontVehicle = getCell():getGridSquare(frontVector:x(), frontVector:y(), 0)
 				if squareFrontVehicle ~= nil and WaterNWindPhysics.isWater(squareFrontVehicle) then
 					if savedWindForce > 0 and boatSpeed < (savedWindForce * 1.60934) and boatSpeed/1.60934 < savedWindForce and not isKeyDown(Keyboard.KEY_S) then
@@ -304,9 +286,9 @@ function WaterNWindPhysics.updateVehicles()
 						tempVec2:set(0, 0, 0)
 						boat:addImpulse(boatDirVector, tempVec2)   
 					end
-					-- AIDebug.setInsp("Boat", "forceVectorX:", boatDirVector:x())
-					-- AIDebug.setInsp("Boat", "forceVectorZ:", boatDirVector:y())
-					-- AIDebug.setInsp("Boat", "forceVectorY:", boatDirVector:z())
+					-- AUD.insp("Boat", "forceVectorX:", boatDirVector:x())
+					-- AUD.insp("Boat", "forceVectorZ:", boatDirVector:y())
+					-- AUD.insp("Boat", "forceVectorY:", boatDirVector:z())
 				end
 				if boat:getDriver() then
 					if isKeyDown(Keyboard.KEY_A) then

@@ -295,6 +295,8 @@ module Base
 		template = Fridges/part/FridgeRearRight,
 		template = Ovens/part/OvenRearRight,
 		template = Microwaves/part/MicrowaveRearRight,
+		
+		template = Brake,
 
 	}
 	vehicle BoatSailingYachtWithSailsLeft
@@ -362,12 +364,12 @@ module Base
 		}
 
 		engineForce = 2500,
-		maxSpeed = 1f,
+		maxSpeed = 0.01f,
 		engineLoudness = 90,
 		engineQuality = 10,
 		brakingForce = 90,
 		gearRatioCount = 1,
-		gearRatioR = 0.1,
+		gearRatioR = 10,
 		gearRatio0 = 10,
 		
 		stoppingMovementForce = 2.0f,
@@ -376,10 +378,10 @@ module Base
 		steeringClamp = 0.3,
 		suspensionStiffness = 50,
 		suspensionCompression = 2,
-		suspensionDamping = 15.88,
+		suspensionDamping = 100,
 		maxSuspensionTravelCm = 1.1,
 		suspensionRestLength = 0.1,
-		wheelFriction = 0.5f,
+		wheelFriction = 5.6f,
 		frontEndHealth = 150,
 		rearEndHealth = 150,
 		seats = 6,
@@ -488,31 +490,30 @@ module Base
 			width = 0.2f,
 		}
 		
-		engineForce = 5000,
-		maxSpeed = 10f,
+		engineForce = 2500,
+		maxSpeed = 0.01f,
 		engineLoudness = 90,
-		engineQuality = 70,
+		engineQuality = 10,
 		brakingForce = 90,
 		gearRatioCount = 1,
-		gearRatioR = 1,
-		gearRatio1 = 1,
+		gearRatioR = 10,
+		gearRatio0 = 10,
+		
 		stoppingMovementForce = 2.0f,
-		rollInfluence = 1.0f,
+		rollInfluence = 0.1f,
 		steeringIncrement = 0.03,
 		steeringClamp = 0.3,
-		
 		suspensionStiffness = 50,
 		suspensionCompression = 2,
-		suspensionDamping = 5.88,
+		suspensionDamping = 100,
 		maxSuspensionTravelCm = 1.1,
-		suspensionRestLength = 0.2,
-		
-		wheelFriction = 1.6f,
+		suspensionRestLength = 0.1,
+		wheelFriction = 5.6f,
 		frontEndHealth = 150,
 		rearEndHealth = 150,
 		seats = 6,
-		
 		template = BoatSailingYachtTemplate,
+		
 		attachment exitLeft
 		{
 			offset = 3.2200 0.0000 -3.1700,
@@ -613,31 +614,30 @@ module Base
 			width = 0.2f,
 		}
 		
-		engineForce = 5000,
-		maxSpeed = 10f,
+		engineForce = 2500,
+		maxSpeed = 0.01f,
 		engineLoudness = 90,
-		engineQuality = 70,
+		engineQuality = 10,
 		brakingForce = 90,
 		gearRatioCount = 1,
-		gearRatioR = 1,
-		gearRatio1 = 1,
+		gearRatioR = 10,
+		gearRatio0 = 10,
+		
 		stoppingMovementForce = 2.0f,
-		rollInfluence = 1.0f,
+		rollInfluence = 0.1f,
 		steeringIncrement = 0.03,
 		steeringClamp = 0.3,
-		
 		suspensionStiffness = 50,
 		suspensionCompression = 2,
-		suspensionDamping = 5.88,
+		suspensionDamping = 100,
 		maxSuspensionTravelCm = 1.1,
-		suspensionRestLength = 0.2,
-		
-		wheelFriction = 1.6f,
+		suspensionRestLength = 0.1,
+		wheelFriction = 5.6f,
 		frontEndHealth = 150,
 		rearEndHealth = 150,
 		seats = 6,
-		
 		template = BoatSailingYachtTemplate,
+		
 		attachment exitLeft
 		{
 			offset = 3.2200 0.0000 -3.1700,
