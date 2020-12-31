@@ -12,13 +12,40 @@ module Base
 		}
 	}
 	
-	sound StartEngineManualy
+	sound TryStartEngineManualy
 	{
 		category = Vehicle,
 		loop = false,
+		volume = 1.25,
 		clip
 		{
-			file = media/sound/boats/startEngineManualy.ogg,
+			file = media/sound/boats/tryStartEngineManualy.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound SuccessStartEngineManualy
+	{
+		category = Vehicle,
+		loop = false,
+		volume = 1.25,
+		clip
+		{
+			file = media/sound/boats/successStartEngineManualy.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound FailStartEngineManualy
+	{
+		category = Vehicle,
+		loop = false,
+		volume = 1.25,
+		clip
+		{
+			file = media/sound/boats/failStartEngineManualy.ogg,
 			distanceMin = 10,
 			distanceMax = 300,
 		}
@@ -36,4 +63,17 @@ module Base
 		}
 	}
 	
+	sound BoatSailing
+	{
+		category = Vehicle,
+		loop = true,
+		volume = 0.25,
+		clip
+		{
+			file = media/sound/boats/boat_sailing.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+		
+	}
 }

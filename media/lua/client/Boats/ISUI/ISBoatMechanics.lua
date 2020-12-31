@@ -1075,8 +1075,8 @@ function ISBoatMechanics:render()
 	y = y + lineHgt;
 	self:drawText(getText("IGUI_OverallCondition") .. ": ", x, y, self.partCatRGB.r, self.partCatRGB.g, self.partCatRGB.b, self.partCatRGB.a, UIFont.Small);
 	self:drawText(self.generalCondition .. "%", x + getTextManager():MeasureStringX(UIFont.Small, getText("IGUI_OverallCondition") .. ": ") + 2, y, self.generalCondRGB.r, self.generalCondRGB.g, self.generalCondRGB.b, self.partCatRGB.a, UIFont.Small);
-	y = y + lineHgt;
-	self:drawText(getText("IGUI_char_Weight") .. ": " .. self.vehicle:getMass(), x, y, self.partCatRGB.r, self.partCatRGB.g, self.partCatRGB.b, self.partCatRGB.a, UIFont.Small);
+	-- y = y + lineHgt;
+	-- self:drawText(getText("IGUI_char_Weight") .. ": " .. self.vehicle:getMass(), x, y, self.partCatRGB.r, self.partCatRGB.g, self.partCatRGB.b, self.partCatRGB.a, UIFont.Small);
 	y = y + lineHgt;
 	if self.vehicle:getPartById("Engine") then
 		self:drawText(getText("IGUI_EnginePower") .. ": " .. (self.vehicle:getEnginePower()/10) .. " hp", x, y, self.partCatRGB.r, self.partCatRGB.g, self.partCatRGB.b, self.partCatRGB.a, UIFont.Small);

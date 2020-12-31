@@ -3,15 +3,36 @@
 function SoundControl()
 	local player = getPlayer()
 	if player then
-		local vehicle = player:getVehicle()
-		if vehicle ~= nil and AquaConfig.isBoat(vehicle) then
-			local emi = vehicle:getEmitter()
+		local boat = player:getVehicle()
+		if boat ~= nil and AquaConfig.isBoat(boat) then
+			local emi = boat:getEmitter()
 			if emi:isPlaying("VehicleSkid") then
 				emi:stopSoundByName("VehicleSkid")
 			end
+			if not emi:isPlaying("BoatSailing") then
+				print("start(BoatSailing")
+				emi:playSoundLooped("BoatSailing")
+			end
+			if emi:isPlaying("VehicleStarted") then
+				-- print("isPlaying(VehicleStarted")
+				emi:stopSoundByName("VehicleStarted")
+				-- emi:stopSoundByName("BoatSailing")
+				emi:playSound("SuccessStartEngineManualy", boat)
+			end
+			if emi:isPlaying("VehicleFailingToStart") then
+				-- print("isPlaying(VehicleStarted")
+				emi:stopSoundByName("VehicleFailingToStart")
+				-- emi:stopSoundByName("BoatSailing")
+				emi:playSound("FailStartEngineManualy", player)
+			end
+		else
+			local emi = DummySoundEmitter.new()
+			if emi:isPlaying("BoatSailing") then
+				emi:stopSoundByName("BoatSailing")
+			end
 		end
 	end
-
+	
 	if player:getSprite():getProperties():Is(IsoFlagType.invisible) and player:getSquare() and not player:getSquare():Is(IsoFlagType.water) then
 		player:getSprite():getProperties():UnSet(IsoFlagType.invisible)
 	end

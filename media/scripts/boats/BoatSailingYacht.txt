@@ -334,7 +334,7 @@ module Base
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 0.1513 0.3550 0.3063,
+			offset = 0.1550 0.3550 0.3063,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -342,7 +342,7 @@ module Base
 		wheel FrontRight
 		{
 			front = true,
-			offset = -0.1513 0.3550 0.3063,
+			offset = -0.1550 0.3550 0.3063,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -371,7 +371,6 @@ module Base
 		gearRatioCount = 1,
 		gearRatioR = 10,
 		gearRatio0 = 10,
-		
 		stoppingMovementForce = 2.0f,
 		rollInfluence = 0.1f,
 		steeringIncrement = 0.03,

@@ -6,8 +6,9 @@ AquaConfig.Trailers = {}
 -- Utils
 ---------------
 
-function AquaConfig.isBoat(vehicle)
-    return AquaConfig.Boats[vehicle:getScript():getName()] ~= nil
+function AquaConfig.isBoat(boat)
+	if not boat then return false end
+    return AquaConfig.Boats[boat:getScript():getName()] ~= nil
 end
 
 --------------
