@@ -53,39 +53,10 @@ function AquaPhysics.Water.getCollisionSquaresAround(dx, dy, square)
 end
 
 function AquaPhysics.Water.Borders(boat)
-	local boatSpeed = boat:getCurrentSpeedKmHour()
-
-	boat:getAttachmentWorldPos("trailerfront", frontVector)
-	boat:getAttachmentWorldPos("trailer", rearVector)
-	local x = frontVector:x() - rearVector:x()
-	local y = frontVector:y() - rearVector:y()
-	boatDirVector:set(x, 0, y):normalize()
-	local squareUnderVehicle = getCell():getGridSquare(boat:getX(), boat:getY(), 0)
-	if squareUnderVehicle ~= nil and isWater(squareUnderVehicle) then
-		if math.abs(boatSpeed) < 0.6 then -- and boat:getDebugZ() < 0.67
-			if boat:getMass() > 100 then 
-				boat:setMass(100)
-			elseif boat:getDebugZ() < 0.67 and boat:getPartById("TireRearLeft"):getInventoryItem() then
-				AUD.insp("Boat", "boat:getDebugZ()", boat:getDebugZ())
-				boat:setPhysicsActive(true)
-				tempVec1:set(0, 5000, 0)
-				tempVec2:set(0, 0, 0)
-				boat:addImpulse(tempVec1, tempVec2)
-				print("boat:addImpulse")
-			end
-		elseif boat:getDriver() and math.abs(boatSpeed) > 12 then
-			--print(boatSpeed)
-			if isKeyDown(getCore():getKey("Backward")) then
-				boat:setMass(1900)
-			else
-				boat:setMass(1000)
-			end
-		end
-		
-		local notWaterSquares = AquaPhysics.Water.getCollisionSquaresAround(5, 5, squareUnderVehicle)
-		local a = 1
+	local boatSquare = boat:getSquare()
+	if boatSquare ~= nil and isWater(boatSquare) then
+		local notWaterSquares = AquaPhysics.Water.getCollisionSquaresAround(5, 5, boatSquare)
 		for _, square in ipairs(notWaterSquares) do
-			--print(a, ": ", square:getX(), " ", square:getY())
 			tempSquare:setX(square:getX())
 			tempSquare:setY(square:getY())
 			tempSquare:setZ(0.8)
@@ -93,14 +64,9 @@ function AquaPhysics.Water.Borders(boat)
 			tempIsoObj:setSquare(tempSquare)
 			local collisionVector = boat:testCollisionWithObject(tempIsoObj, 0.5, collisionPosVector2)
 			if collisionVector then
-				--print(collisionVector:getX(), " ", collisionVector:getY())
 				boat:ApplyImpulse4Break(tempIsoObj, 0.2)
 				boat:ApplyImpulse(tempIsoObj, 120)
 			end
-		end
-	else
-		if boat:getDebugZ() < 0.65 then
-			--boat:setZ(0.65 - boat:getDebugZ())
 		end
 	end
 end
@@ -109,6 +75,7 @@ end
 -------------------------------------
 -- Wind Physics
 -------------------------------------
+
 
 
 -------------------------------------
@@ -125,6 +92,45 @@ function AquaPhysics.boatEngineShutDownOnGround()
 	end
 end
 
+function AquaPhysics.stopVehicleMove(vehicle, force)   
+	local linearVel = vehicle:getLinearVelocity(tempVec1)
+	tempVec2:set(linearVel:x(), linearVel:z(), linearVel:y())   
+
+	tempVec1:set(tempVec2:x(), 0, tempVec2:y())
+	if tempVec1:length() > 1 then 
+		tempVec1:normalize()
+	end
+
+	tempVec1:mul(-force)
+	tempVec2:set(0, 0, 0)
+	vehicle:addImpulse(tempVec1, tempVec2) 
+end
+
+function AquaPhysics.impulseFix(boat)
+	AUD.insp("Boat", "MASS: ", boat:getMass())
+	
+	if boat:getSquare() ~= nil and isWater(boat:getSquare()) then
+		local speed = boat:getCurrentSpeedKmHour()
+		AUD.insp("Boat", "BOAT SPEED: ", speed)
+
+		-- For correct starting move
+		if math.abs(speed) < 6 then
+			if boat:getMass() ~= 100 then 
+				boat:setMass(100)
+			end
+		else
+			if boat:getMass() ~= 1000 then 
+				boat:setMass(1000)
+			end
+		end
+
+		-- For stop too much speed backward
+		if speed < -6 then
+			AquaPhysics.stopVehicleMove(boat, 3000)
+		end
+	end
+end
+
 
 
 function AquaPhysics.updateVehicles()
@@ -135,6 +141,7 @@ function AquaPhysics.updateVehicles()
 		local boatScriptName = boat:getScript():getName()
 		if boat ~= nil and  AquaConfig.isBoat(boat) then
 			
+			AquaPhysics.impulseFix(boat)
 			AquaPhysics.Water.Borders(boat)
 
 			local boatSpeed = boat:getCurrentSpeedKmHour()
@@ -146,6 +153,10 @@ function AquaPhysics.updateVehicles()
 			local x = frontVector:x() - rearVector:x()
 			local y = frontVector:y() - rearVector:y()
 			boatDirVector:set(x, 0, y):normalize()
+
+			-- 	boat:getWorldPos(0, 0, 1, boatDirVector):add(boat:getX(), boat:getY(), boat:getZ())
+			--  boatDirVector:set(boatDirVector:x(), 0, boatDirVector:y()):normalize()
+
 			
 			if AquaConfig.Boats[boat:getScript():getName()].sails then
 				
