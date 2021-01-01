@@ -194,6 +194,27 @@ end
 Events.OnFillWorldObjectContextMenu.Add(swimToPoint)
 
 
+------
+-- Fast swim
+
+local function fastSwim(key)
+    if key == Keyboard.KEY_E and isShiftKeyDown() then
+        local pl = getPlayer()
+        local dir = pl:getForwardDirection()
+        local x = pl:getX() + dir:getX()
+        local y = pl:getY() + dir:getY()
+
+        local sq = getCell():getGridSquare(x, y, pl:getZ())
+
+        if sq and sq:Is(IsoFlagType.water) then 
+            local chance = AquatsarYachts.Swim.swimChanceSuccess(pl, sq)
+            swimToPointPerform(pl, sq, chance)
+        end 
+    end
+end
+
+Events.OnKeyStartPressed.Add(fastSwim)
+
 
 
 
