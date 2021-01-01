@@ -46,15 +46,15 @@ function Boats.InstallComplete.Propeller(boat, part, item)
 end
 
 function Boats.UninstallComplete.Propeller(boat, part, item)
-	-- local part = boat:getPartById("TireFrontLeft")
-	-- part:setInventoryItem(nil)
-	-- part = boat:getPartById("TireFrontRight")
-	-- part:setInventoryItem(nil)
-	local part = boat:getPartById("TireRearLeft")
+	local part = boat:getPartById("TireFrontLeft")
+	part:setInventoryItem(nil)
+	part = boat:getPartById("TireFrontRight")
+	part:setInventoryItem(nil)
+	part = boat:getPartById("TireRearLeft")
 	part:setInventoryItem(nil)
 	part = boat:getPartById("TireRearRight")
 	part:setInventoryItem(nil)
-	part:setModelVisible("InflatedTirePlusWheel", false)
+	--part:setModelVisible("InflatedTirePlusWheel", false)
 end
 
 
