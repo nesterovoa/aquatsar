@@ -74,18 +74,22 @@ function ISSwimAction:update()
         if self.damageCount < 6 and ZombRand(100) < 15 then
             if self.damageCount == 0 then
                 self.character:getBodyDamage():getBodyPart(BodyPartType.Torso_Upper):AddDamage(ZombRand(30))
-                self.character:Say(getText("IGUI_IDrown"))
+                AquatsarYachts.Swim.Say("damage", 20)
             elseif self.damageCount == 1 then
                 self.character:getBodyDamage():getBodyPart(BodyPartType.Torso_Lower):AddDamage(ZombRand(30))
+                AquatsarYachts.Swim.Say("damage", 20)
             elseif self.damageCount == 2 then
                 self.character:getBodyDamage():getBodyPart(BodyPartType.UpperLeg_L):AddDamage(ZombRand(30))
+                AquatsarYachts.Swim.Say("damage", 20)
             elseif self.damageCount == 3 then
                 self.character:getBodyDamage():getBodyPart(BodyPartType.UpperLeg_R):AddDamage(ZombRand(30))
-                self.character:Say(getText("IGUI_IDrown"))
+                AquatsarYachts.Swim.Say("damage", 20)
             elseif self.damageCount == 4 then
                 self.character:getBodyDamage():getBodyPart(BodyPartType.UpperArm_L):AddDamage(ZombRand(30))
+                AquatsarYachts.Swim.Say("damage", 20)
             elseif self.damageCount == 5 then
                 self.character:getBodyDamage():getBodyPart(BodyPartType.UpperArm_R):AddDamage(ZombRand(30))    
+                AquatsarYachts.Swim.Say("damage", 20)
             end
             self.damageCount = self.damageCount + 1
         end
@@ -93,8 +97,8 @@ function ISSwimAction:update()
 
     if self.isFail and (self.dropCount == 1 and self:getJobDelta() > self.dropTime2) or (self.dropCount == 2 and self:getJobDelta() > self.dropTime1) then
         dropItems(self.character)
-        self.character:Say(getText("IGUI_andDropItems"))
         self.dropCount = self.dropCount - 1
+        self.isLostItems = true
     end
 end
 
@@ -124,8 +128,14 @@ function ISSwimAction:perform()
         self.func(self.arg1, self.arg2)
     end
 
-    if self.isFail then 
-        self.character:Say(getText("IGUI_almostDie"))
+    if self.isFail then
+        AquatsarYachts.Swim.Say("fail", 100)
+    else
+        AquatsarYachts.Swim.Say("success", 100)
+    end
+
+    if self.isLostItems then
+        AquatsarYachts.Swim.Say("lostItems", 100)
     end
 
 	ISBaseTimedAction.perform(self)
@@ -152,7 +162,7 @@ function ISSwimAction:new(character, chance, x2, y2, func, arg1, arg2)
     o.maxTime = 60 * math.floor(o.len)
 
     o.chance = chance
-    o.isFail = ZombRand(100) < chance
+    o.isFail = ZombRand(100) > chance
     o.enduranceFirst = character:getStats():getEndurance()
     o.enduranceValue = o.len/50
 

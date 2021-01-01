@@ -53,11 +53,29 @@ IGUI_RU = {
 	IGUI_playerCanSwim = "Вы умеет плавать",
 	IGUI_playerCantSwim = "Вы не умеет плавать",
 	IGUI_DropToWater = "Выкинуть в воду",
-	IGUI_almostDie = "Чуть не умер",
-	IGUI_almostDieFail = "Не вышло и чуть не умер",
-	IGUI_andDropItems = "еще и вещи потерял...",
 	IGUI_SwimToPoint = "Плыть",
 	IGUI_SwimTo = "Плыть к %1",
 	IGUI_SwimToLand = "Плыть на берег",
-	IGUI_Exit_Boat = "Выйти в воду"
+	IGUI_Exit_Boat = "Выйти в воду",
+
+
+	IGUI_SwimWord_Damage1 = "Ах...",
+	IGUI_SwimWord_Damage2 = "Эх...",
+	IGUI_SwimWord_Damage3 = "Как больно...",
+	IGUI_SwimWord_Damage4 = "Тону...",
+	IGUI_SwimWord_Damage5 = "Скорее бы доплыть",
+	IGUI_SwimWord_Damage6 = "Лишь бы доплыть...",
+
+	IGUI_SwimWord_LostItems1 = "Ах, потерял вещи",
+	IGUI_SwimWord_LostItems1 = "Как жаль, вещи пошли ко дну",
+	IGUI_SwimWord_LostItems1 = "Ну вот и нет части вещей",
+
+	IGUI_SwimWord_Success1 = "Отлично поплавал",
+	IGUI_SwimWord_Success2 = "Классный заплыв",
+	IGUI_SwimWord_Success3 = "Это было легко",
+
+	IGUI_SwimWord_Fail1 = "Ужасно поплавал",
+	IGUI_SwimWord_Fail2 = "Чуть не умер",
+	IGUI_SwimWord_Fail3 = "Еле доплыл",
+
 }

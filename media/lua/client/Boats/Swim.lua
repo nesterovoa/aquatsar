@@ -6,7 +6,9 @@ function AquatsarYachts.Swim.swimChanceSuccess(playerObj, square)
     local y = playerObj:getY() - square:getY()    
     local dist = math.sqrt(x*x + y*y)
     local canSwim = playerObj:isRecipeKnown("Swimming")
-    local haveLifebouy = playerObj:getInventory():containsType("Lifebuoy")
+    
+    local item = playerObj:getInventory():getItemFromType("Lifebuoy")
+    local haveLifebouy = item and item:isEquipped()
 
     local chance
     if dist < 10 then
@@ -29,8 +31,8 @@ function AquatsarYachts.Swim.swimChanceSuccess(playerObj, square)
         end
     end
 
-    local haveDivingMask = playerObj:getInventory():containsType("DivingMask")
-    if haveDivingMask then 
+    local haveDivingMask = playerObj:getInventory():getItemFromType("DivingMask")
+    if haveDivingMask and haveDivingMask:isEquipped() then 
         chance = chance * 1.1
     end
 
@@ -190,3 +192,53 @@ local function swimToPoint(player, context, worldobjects, test)
 end
 
 Events.OnFillWorldObjectContextMenu.Add(swimToPoint)
+
+
+
+
+
+------
+
+--- Say when swim
+
+local SwimSayWords = {}
+SwimSayWords.damage = {}
+SwimSayWords.damage["IGUI_SwimWord_Damage1"] = 20
+SwimSayWords.damage["IGUI_SwimWord_Damage2"] = 20
+SwimSayWords.damage["IGUI_SwimWord_Damage3"] = 15
+SwimSayWords.damage["IGUI_SwimWord_Damage4"] = 15
+SwimSayWords.damage["IGUI_SwimWord_Damage5"] = 15
+SwimSayWords.damage["IGUI_SwimWord_Damage6"] = 15
+
+SwimSayWords.lostItems = {}
+SwimSayWords.lostItems["IGUI_SwimWord_LostItems1"] = 33
+SwimSayWords.lostItems["IGUI_SwimWord_LostItems2"] = 33
+SwimSayWords.lostItems["IGUI_SwimWord_LostItems3"] = 34
+
+SwimSayWords.success = {}
+SwimSayWords.success["IGUI_SwimWord_Success1"] = 33
+SwimSayWords.success["IGUI_SwimWord_Success2"] = 33
+SwimSayWords.success["IGUI_SwimWord_Success3"] = 34
+
+SwimSayWords.fail = {}
+SwimSayWords.fail["IGUI_SwimWord_Fail1"] = 33
+SwimSayWords.fail["IGUI_SwimWord_Fail2"] = 33
+SwimSayWords.fail["IGUI_SwimWord_Fail3"] = 34
+
+
+
+
+function AquatsarYachts.Swim.Say(situation, chaceToSay)
+    if ZombRand(100) <= chaceToSay then
+        local currentChance = ZombRand(100)
+        local count = 0
+        for word, chance in pairs(SwimSayWords[situation]) do
+            if currentChance >= count and currentChance < (count + chance) then
+                getPlayer():Say(getText(word))
+                break
+            end
+            count = count + chance
+        end
+    end
+end
+
