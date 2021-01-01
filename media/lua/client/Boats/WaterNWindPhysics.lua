@@ -339,16 +339,69 @@ function AquaPhysics.impulseFix(boat)
 	end
 end
 
+function AquaConfig.waterFlowRotation(boat)
+	if boat:getDriver() and boat:getCurrentSpeedKmHour() < 2 then
+		local lenHalf = boat:getScript():getPhysicsChassisShape():z()/2
+		local force = 400
+
+		if isKeyDown(Keyboard.KEY_A) then
+			boat:setPhysicsActive(true)
+			boat:update()
+
+			local forceVector = boat:getWorldPos(-1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			local pushPoint = boat:getWorldPos(0, 0, lenHalf, tempVec2):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			pushPoint:set(pushPoint:x(), 0, pushPoint:y())
+			
+			forceVector:mul(force)
+			forceVector:set(forceVector:x(), 0, forceVector:y())
+			boat:addImpulse(forceVector, pushPoint)
+
+			boat:update()
+
+			local forceVector = boat:getWorldPos(1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			local pushPoint = boat:getWorldPos(0, 0, -lenHalf, tempVec2):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			pushPoint:set(pushPoint:x(), 0, pushPoint:y())
+			
+			forceVector:mul(force)
+			forceVector:set(forceVector:x(), 0, forceVector:y())
+			boat:addImpulse(forceVector, pushPoint)
+
+		elseif isKeyDown(Keyboard.KEY_D) then
+			boat:setPhysicsActive(true)
+			boat:update()
+
+			local forceVector = boat:getWorldPos(1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			local pushPoint = boat:getWorldPos(0, 0, lenHalf, tempVec2):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			pushPoint:set(pushPoint:x(), 0, pushPoint:y())
+			
+			forceVector:mul(force)
+			forceVector:set(forceVector:x(), 0, forceVector:y())
+			boat:addImpulse(forceVector, pushPoint)
+
+			boat:update()
+
+			local forceVector = boat:getWorldPos(-1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			local pushPoint = boat:getWorldPos(0, 0, -lenHalf, tempVec2):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			pushPoint:set(pushPoint:x(), 0, pushPoint:y())
+			
+			forceVector:mul(force)
+			forceVector:set(forceVector:x(), 0, forceVector:y())
+			boat:addImpulse(forceVector, pushPoint)
+		end
+	end
+end
+
 -----------------------------
 
 function AquaPhysics.updateVehicles()
 	local vehicles = getCell():getVehicles()
     for i=0, vehicles:size()-1 do
         local veh = vehicles:get(i)
-		if veh ~= nil and  AquaConfig.isBoat(veh) then
+		if veh ~= nil and  AquaConfig.isBoat(veh) then		
 			AquaPhysics.impulseFix(veh)
 			AquaPhysics.Water.Borders(veh)
 			AquaPhysics.Wind.windImpulse(veh)
+			AquaConfig.waterFlowRotation(veh)
         end
     end
 	

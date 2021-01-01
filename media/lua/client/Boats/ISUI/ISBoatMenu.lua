@@ -394,7 +394,15 @@ function ISBoatMenu.showRadialMenu(playerObj)
 					-- menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
 				-- else
 				if boat:getPartById("ManualStarter") and boat:getPartById("ManualStarter"):getInventoryItem() then
-					menu:addSlice(getText("ContextMenu_VehicleStartEngineManual"), getTexture("media/textures/Item_ManualStarter.png"), ISBoatMenu.onStartEngineManualy, playerObj)
+					local part = boat:getPartById("Propeller") 
+					if part == nil or part:getInventoryItem() == nil  then
+						menu:addSlice(getText("ContextMenu_VehicleStartEngineManual"), getTexture("media/textures/Item_ManualStarter.png"), function() getPlayer():Say("No propeller") end)
+					else
+						menu:addSlice(getText("ContextMenu_VehicleStartEngineManual"), getTexture("media/textures/Item_ManualStarter.png"), ISBoatMenu.onStartEngineManualy, playerObj)
+					end
+
+
+					
 				-- elseif boat:isHotwired() then
 					-- menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
 				-- else
