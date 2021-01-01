@@ -4,21 +4,39 @@ module Aqua
 
 	item DivingMask
     {
-        Weight	=	1,
-        Type	=	Normal,
-        DisplayName	=	Diving Mask,
-        Icon	=	DivingMask,
+        Type = Clothing,
+		DisplayName = Diving Mask,
+		BodyLocation = Hat,
+		Icon	=	DivingMask,
+		CanHaveHoles = false,
+		BloodLocation = Head,
+		BiteDefense = 10,
+		ScratchDefense = 10,
+		ChanceToFall = 10,
+		Insulation = 0.25,
+		WaterResistance = 0.2,
         MechanicsItem = TRUE,
     }
 
 	item Lifebuoy
     {
-        Weight	=	1,
-        Type	=	Normal,
-        DisplayName	=	Lifebuoy,
-        Icon	=	DivingMask,
+        Type = Clothing,
+		DisplayName = Lifebuoy,
+		ClothingItem = Lifebuoy,
+		BodyLocation = Shirt,
+		Icon = DivingMask,
+		BloodLocation = Shirt,
+        Insulation = 0.25,
+        WindResistance = 0.15,
     }
 
+	item TaintedLiterature
+	{
+		Weight	=	0.5,
+		Type	=	Normal,
+		DisplayName	=	Tainted literature,
+		Icon	=	DivingMask,
+	}
 
 	/************************ Equipment ************************/
 	

@@ -45,8 +45,11 @@ local function wetItems(playerObj)
 
     for i=1, #items do
         if items[i]:IsClothing() then
-            items[i]:setWet(true)
-            items[i]:setWetCooldown(7000)
+            items[i]:setWetness(80 + ZombRand(20))
+        elseif items[i]:IsLiterature() then
+            local item = InventoryItemFactory.CreateItem("Aqua.TaintedLiterature");
+            inv:AddItem(item)
+            inv:DoRemoveItem(items[i])
         end
     end
 end

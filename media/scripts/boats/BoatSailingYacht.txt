@@ -124,12 +124,12 @@ module Base
 
 		area SeatFrontLeft
 		{
-			xywh = 0.7300 -1.7600 1.2400 2.8200,
+			xywh = 0.18375 -0.37 0.2025 0.3875,
 		}
 
 		area SeatFrontRight
 		{
-			xywh = -0.7700 -1.7600 1.1000 2.8800,
+			xywh = -0.18375 -0.37 0.2025 0.3875,
 		}
 
 		template = Seat/part/SeatFrontLeft,
@@ -371,7 +371,6 @@ module Base
 		gearRatioCount = 1,
 		gearRatioR = 10,
 		gearRatio0 = 10,
-		
 		stoppingMovementForce = 2.0f,
 		rollInfluence = 0.1f,
 		steeringIncrement = 0.03,
