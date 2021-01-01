@@ -93,21 +93,25 @@ function WaterNWindPhysics.updateVehicles()
 				--AUD.insp("Boat", "boat:isBraking()", insp)
 				--AUD.insp("Boat", "boatSpeed", boatSpeed)
 				-- AUD.insp("Boat", " ", " ")
-				if math.abs(boatSpeed) < 0.2 and boat:getDebugZ() < 0.67 then
-						boat:setPhysicsActive(true)
+				if math.abs(boatSpeed) < 0.6 then -- and boat:getDebugZ() < 0.67
+					if boat:getMass() > 100 then 
 						boat:setMass(100)
+					elseif boat:getDebugZ() < 0.67 and boat:getPartById("TireRearLeft"):getInventoryItem() then
+						AUD.insp("Boat", "boat:getDebugZ()", boat:getDebugZ())
+						boat:setPhysicsActive(true)
 						tempVec1:set(0, 5000, 0)
 						tempVec2:set(0, 0, 0)
 						boat:addImpulse(tempVec1, tempVec2)
 						print("boat:addImpulse")
-				elseif math.abs(boatSpeed) > 6 then
-					if isKeyDown(Keyboard.KEY_S) then
+					end
+				elseif boat:getDriver() and math.abs(boatSpeed) > 12 then
+					--print(boatSpeed)
+					if isKeyDown(getCore():getKey("Backward")) then
 						boat:setMass(1900)
 					else
 						boat:setMass(1000)
 					end
 				end
-				
 				
                 local notWaterSquares = WaterNWindPhysics.getCollisionSquaresNear(5, 5, squareUnderVehicle)
                 local a = 1
@@ -261,7 +265,7 @@ function WaterNWindPhysics.updateVehicles()
 					savedWindForce = 0
 				end
 				if savedWindForce < windForceByDirection then
-					savedWindForce = (savedWindForce + 0.1)
+					savedWindForce = (savedWindForce + 0.05)
 				elseif savedWindForce > windForceByDirection then
 					savedWindForce = (savedWindForce - 0.02)
 				else
@@ -273,14 +277,14 @@ function WaterNWindPhysics.updateVehicles()
 				if squareFrontVehicle ~= nil and WaterNWindPhysics.isWater(squareFrontVehicle) then
 					if savedWindForce > 0 and boatSpeed < (savedWindForce * 1.60934) and boatSpeed/1.60934 < savedWindForce and not isKeyDown(Keyboard.KEY_S) then
 						local startCoeff = 1
-						if boatSpeed < 2 then
+						if boatSpeed < 2 * 1.60934 then
 							startCoeff = 5
 						end
 						
 						if collisionWithGround then 
 							boatDirVector:mul(250 * savedWindForce)
 						else
-							boatDirVector:mul(450 * savedWindForce * startCoeff)
+							boatDirVector:mul(550 * savedWindForce * startCoeff)
 						end
 						boat:setPhysicsActive(true)
 						tempVec2:set(0, 0, 0)

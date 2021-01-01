@@ -26,7 +26,27 @@ function ISBoatMenu.onKeyStartPressed(key)
 	local playerObj = getPlayer()
 	if not playerObj then return end
 	if playerObj:isDead() then return end
-	if key == Keyboard.KEY_E then
+	local boat = playerObj:getVehicle()
+	if (key == getCore():getKey("Forward") or key == getCore():getKey("StartVehicleEngine") or key == getCore():getKey("Backward")) and AquaConfig.isBoat(boat) then
+		if not boat:isEngineRunning() then
+			playerObj:getModData()["blockForward"] = getCore():getKey("Forward")
+			playerObj:getModData()["blockBackward"] = getCore():getKey("Backward")
+			playerObj:getModData()["blockStartVehicleEngine"] = getCore():getKey("StartVehicleEngine")
+			getCore():addKeyBinding("Forward", nil)
+			getCore():addKeyBinding("StartVehicleEngine", nil)
+		end
+	elseif key == playerObj:getModData()["blockForward"] or 
+			key == playerObj:getModData()["blockBackward"] or 
+			key == playerObj:getModData()["blockStartVehicleEngine"] then
+		if AquaConfig.isBoat(boat) and boat:isEngineRunning() then
+			getCore():addKeyBinding("Forward", playerObj:getModData()["blockForward"])
+			playerObj:getModData()["blockForward"] = nil
+			getCore():addKeyBinding("Backward", playerObj:getModData()["blockBackward"])
+			playerObj:getModData()["blockBackward"] = nil
+			getCore():addKeyBinding("StartVehicleEngine", playerObj:getModData()["blockStartVehicleEngine"])
+			playerObj:getModData()["blockStartVehicleEngine"] = nil
+		end
+	elseif key == getCore():getKey("Interact") then
 		local boat = playerObj:getVehicle()
 		if boat == nil then
 			boat = ISBoatMenu.getBoatToInteractWith(playerObj)
@@ -48,7 +68,6 @@ function ISBoatMenu.onKeyStartPressed(key)
 			ISBoatMenu.showRadialMenuOutside(playerObj)
 			return
 		end
-
 		local vehicle = ISVehicleMenu.getVehicleToInteractWith(playerObj)
 		if vehicle ~= nil and AquaConfig.Trailers[vehicle:getScript():getName()] then
 			if AquaConfig.Trailers[vehicle:getScript():getName()].isWithBoat then
@@ -357,20 +376,21 @@ function ISBoatMenu.showRadialMenu(playerObj)
 			if boat:isEngineStarted() then
 --				menu:addSlice("Ignition", getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
 			else
-				if (SandboxVars.VehicleEasyUse) then
-					menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
-				elseif not boat:isHotwired() and (playerObj:getInventory():haveThisKeyId(boat:getKeyId()) or boat:isKeysInIgnition()) then
-					menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
-				elseif boat:getPartById("ManualStarter") and boat:getPartById("ManualStarter"):getInventoryItem() then
-					menu:addSlice(getText("ContextMenu_VehicleStartEngineManual"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngineManualy, playerObj)
-				elseif boat:isHotwired() then
-					menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
-				else
-					if ((playerObj:getPerkLevel(Perks.Electricity) >= 1 and playerObj:getPerkLevel(Perks.Mechanics) >= 2) or playerObj:HasTrait("Burglar")) then
-						menu:addSlice(getText("ContextMenu_VehicleHotwire"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onHotwire, playerObj)
-					else
-						menu:addSlice(getText("ContextMenu_BoatHotwireSkill"), getTexture("media/ui/vehicles/vehicle_ignitionOFF.png"), nil, playerObj)
-					end
+				-- if (SandboxVars.VehicleEasyUse) then
+					-- menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
+				-- elseif not boat:isHotwired() and (playerObj:getInventory():haveThisKeyId(boat:getKeyId()) or boat:isKeysInIgnition()) then
+					-- menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
+				-- else
+				if boat:getPartById("ManualStarter") and boat:getPartById("ManualStarter"):getInventoryItem() then
+					menu:addSlice(getText("ContextMenu_VehicleStartEngineManual"), getTexture("media/textures/Item_ManualStarter.png"), ISBoatMenu.onStartEngineManualy, playerObj)
+				-- elseif boat:isHotwired() then
+					-- menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
+				-- else
+					-- if ((playerObj:getPerkLevel(Perks.Electricity) >= 1 and playerObj:getPerkLevel(Perks.Mechanics) >= 2) or playerObj:HasTrait("Burglar")) then
+						-- menu:addSlice(getText("ContextMenu_VehicleHotwire"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onHotwire, playerObj)
+					-- else
+						-- menu:addSlice(getText("ContextMenu_BoatHotwireSkill"), getTexture("media/ui/vehicles/vehicle_ignitionOFF.png"), nil, playerObj)
+					-- end
 --					menu:addSlice("You need keys or\nelectricity level 1 and\nmechanic level 2\nto hotwire", getTexture("media/ui/vehicles/vehicle_ignitionOFF.png"), nil, playerObj)
 				end
 			end
@@ -472,9 +492,9 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	-- end
 	
 --	menu:addSlice("Honk", texture, { playerObj, ISBoatMenu.onHonk })
-	if boat:getCurrentSpeedKmHour() > 1 then
-		menu:addSlice(getText("ContextMenu_VehicleMechanicsStopCar"), getTexture("media/ui/vehicles/vehicle_repair.png"), nil, playerObj, boat )
-	else
+	-- if boat:getCurrentSpeedKmHour() > 1 then
+		-- menu:addSlice(getText("ContextMenu_VehicleMechanicsStopCar"), getTexture("media/ui/vehicles/vehicle_repair.png"), nil, playerObj, boat )
+	-- else
 		-- if seat == 1 then
 			-- if boat:isEngineRunning() then
 				-- menu:addSlice(getText("NEWContextMenu_EngineMustBeStop"), getTexture("media/ui/vehicles/vehicle_repair.png"), nil, nil, nil) -- Необходимо заглушить двигатель
@@ -482,7 +502,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		menu:addSlice(getText("ContextMenu_VehicleMechanics"), getTexture("media/ui/vehicles/vehicle_repair.png"), ISBoatMenu.onMechanic, playerObj, boat )
 			-- end
 		--end
-	end
+	-- end
 	if (not isClient() or getServerOptions():getBoolean("SleepAllowed")) then
 		if AquaConfig.isBoat(boat) and seat > 1 or 
 		not AquaConfig.isBoat(boat) then
@@ -1711,4 +1731,3 @@ end
 
 Events.OnKeyPressed.Add(ISBoatMenu.onKeyPressed);
 Events.OnKeyStartPressed.Add(ISBoatMenu.onKeyStartPressed);
-
