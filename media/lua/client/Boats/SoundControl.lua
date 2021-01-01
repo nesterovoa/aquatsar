@@ -9,10 +9,10 @@ function SoundControl()
 			if emi:isPlaying("VehicleSkid") then
 				emi:stopSoundByName("VehicleSkid")
 			end
-			if not emi:isPlaying("BoatSailing") then
-				print("start(BoatSailing")
-				emi:playSoundLooped("BoatSailing")
-			end
+			-- if not emi:isPlaying("BoatSailing") then
+				-- print("start(BoatSailing")
+				-- emi:playSoundLooped("BoatSailing")
+			-- end
 			if emi:isPlaying("VehicleStarted") then
 				-- print("isPlaying(VehicleStarted")
 				emi:stopSoundByName("VehicleStarted")
@@ -25,11 +25,11 @@ function SoundControl()
 				-- emi:stopSoundByName("BoatSailing")
 				emi:playSound("FailStartEngineManualy", player)
 			end
-		else
-			local emi = DummySoundEmitter.new()
-			if emi:isPlaying("BoatSailing") then
-				emi:stopSoundByName("BoatSailing")
-			end
+		-- else
+			-- local SM = getSoundManager()
+			-- if SM:isPlaying("BoatSailing") then
+				-- SM:stopSoundByName("BoatSailing")
+			-- end
 		end
 	end
 	

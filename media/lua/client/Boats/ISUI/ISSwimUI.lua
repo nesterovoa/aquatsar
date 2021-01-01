@@ -226,7 +226,9 @@ end
 
 function ISSwimUI:onClick(button)
     if button.internal == "OK" then
-
+	local vehicle = self.player:getVehicle()
+	local emi = vehicle:getEmitter()
+	emi:stopSoundByName("BoatSailing")
         local dir = "SOUTH"
         if self.ItemsOptions:isSelected(1) then
             dir = "EAST"
@@ -237,20 +239,18 @@ function ISSwimUI:onClick(button)
         elseif self.ItemsOptions:isSelected(4) then
             dir = "NORTH"
         elseif self.ItemsOptions:isSelected(5) then
-            local vehicle = self.player:getVehicle()
             local seat = vehicle:getSeat(self.player)
             vehicle:exit(self.player)
             self.player:PlayAnim("Idle")
             triggerEvent("OnExitVehicle", self.player)
             vehicle:updateHasExtendOffsetForExitEnd(self.player)
-
             self:setVisible(false);
             self:removeFromUIManager();
             local playerNum = self.player:getPlayerNum()
             if JoypadState.players[playerNum+1] then
                 setJoypadFocus(playerNum, nil)
             end
-
+			self.player:getSprite():getProperties():Set(IsoFlagType.invisible)
             return
         end
 

@@ -27,25 +27,35 @@ function ISBoatMenu.onKeyStartPressed(key)
 	if not playerObj then return end
 	if playerObj:isDead() then return end
 	local boat = playerObj:getVehicle()
-	if (key == getCore():getKey("Forward") or key == getCore():getKey("StartVehicleEngine") or key == getCore():getKey("Backward")) and AquaConfig.isBoat(boat) then
-		if not boat:isEngineRunning() then
-			playerObj:getModData()["blockForward"] = getCore():getKey("Forward")
-			playerObj:getModData()["blockBackward"] = getCore():getKey("Backward")
-			playerObj:getModData()["blockStartVehicleEngine"] = getCore():getKey("StartVehicleEngine")
-			getCore():addKeyBinding("Forward", nil)
-			getCore():addKeyBinding("StartVehicleEngine", nil)
-		end
-	elseif key == playerObj:getModData()["blockForward"] or 
+	if not boat and playerObj:getModData()["blockForward"] then
+		getCore():addKeyBinding("Forward", playerObj:getModData()["blockForward"])
+		playerObj:getModData()["blockForward"] = nil
+		getCore():addKeyBinding("Backward", playerObj:getModData()["blockBackward"])
+		playerObj:getModData()["blockBackward"] = nil
+		getCore():addKeyBinding("StartVehicleEngine", playerObj:getModData()["blockStartVehicleEngine"])
+		playerObj:getModData()["StartVehicleEngine"] = nil
+	elseif AquaConfig.isBoat(boat) and 
+			(key == getCore():getKey("Forward") or 
+			key == getCore():getKey("StartVehicleEngine") or 
+			key == getCore():getKey("Backward")) and not boat:isEngineRunning() then
+		playerObj:getModData()["blockForward"] = getCore():getKey("Forward")
+		playerObj:getModData()["blockBackward"] = getCore():getKey("Backward")
+		playerObj:getModData()["blockStartVehicleEngine"] = getCore():getKey("StartVehicleEngine")
+		getCore():addKeyBinding("Forward", nil)
+		getCore():addKeyBinding("Backward", nil)
+		getCore():addKeyBinding("StartVehicleEngine", nil)
+		-- print("38 ", playerObj:getModData()["blockForward"])
+	elseif AquaConfig.isBoat(boat) and 
+			(key == playerObj:getModData()["blockForward"] or 
 			key == playerObj:getModData()["blockBackward"] or 
-			key == playerObj:getModData()["blockStartVehicleEngine"] then
-		if AquaConfig.isBoat(boat) and boat:isEngineRunning() then
-			getCore():addKeyBinding("Forward", playerObj:getModData()["blockForward"])
-			playerObj:getModData()["blockForward"] = nil
-			getCore():addKeyBinding("Backward", playerObj:getModData()["blockBackward"])
-			playerObj:getModData()["blockBackward"] = nil
-			getCore():addKeyBinding("StartVehicleEngine", playerObj:getModData()["blockStartVehicleEngine"])
-			playerObj:getModData()["blockStartVehicleEngine"] = nil
-		end
+			key == playerObj:getModData()["blockStartVehicleEngine"]) and 
+			boat:isEngineRunning() then
+		getCore():addKeyBinding("Forward", playerObj:getModData()["blockForward"])
+		-- playerObj:getModData()["blockForward"] = nil
+		getCore():addKeyBinding("Backward", playerObj:getModData()["blockBackward"])
+		-- playerObj:getModData()["blockBackward"] = nil
+		getCore():addKeyBinding("StartVehicleEngine", playerObj:getModData()["blockStartVehicleEngine"])
+		-- playerObj:getModData()["blockStartVehicleEngine"] = nil
 	elseif key == getCore():getKey("Interact") then
 		local boat = playerObj:getVehicle()
 		if boat == nil then
@@ -53,7 +63,7 @@ function ISBoatMenu.onKeyStartPressed(key)
 			if boat then
 				ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, 0))
 			end
-		elseif starts_with(string.lower(boat:getScript():getName()), "boat") then
+		elseif AquaConfig.isBoat(boat) then
 			ISBoatMenu.onExit(playerObj, 0)
 		end	
 	elseif key == getCore():getKey("VehicleRadialMenu") and playerObj then
@@ -271,11 +281,13 @@ function ISBoatMenu.onExit(playerObj, seatFrom)
     local boat = playerObj:getVehicle()
 	if not boat then return end
     boat:updateHasExtendOffsetForExit(playerObj)
-	if starts_with(string.lower(boat:getScript():getName()), "boat") then
+	if AquaConfig.isBoat(boat) then
 		if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 then 
 			exitPoint = ISBoatMenu.getNearLandForExit(boat)
 			if exitPoint then
 				print("land near")
+				local emi = boat:getEmitter()
+				emi:stopSoundByName("BoatSailing")
 				ISTimedActionQueue.add(ISExitBoat:new(playerObj, exitPoint))
 				return
 			else	
@@ -1729,5 +1741,29 @@ end
 
 -- Events.OnFillWorldObjectContextMenu.Add(ISBoatMenu.OnFillWorldObjectContextMenu)
 
+function ISBoatMenu.onEnterVehicle(playerObj)
+	if instanceof(playerObj, 'IsoPlayer') and playerObj:isLocalPlayer() then
+		local boat = playerObj:getVehicle()
+		if AquaConfig.isBoat(boat) then
+			local emi = boat:getEmitter()
+			if not emi:isPlaying("BoatSailing") then
+				emi:playSoundLooped("BoatSailing")
+			end
+		end
+	end
+end
+
+-- function ISBoatMenu.onExitVehicle(playerObj)
+	-- if instanceof(playerObj, 'IsoPlayer') and playerObj:isLocalPlayer() then
+		-- local boat = playerObj:getVehicle()
+		-- if AquaConfig.isBoat(boat) then
+			-- local emi = boat:getEmitter()
+			-- emi:stopSoundByName("BoatSailing")
+		-- end
+	-- end
+-- end
+
 Events.OnKeyPressed.Add(ISBoatMenu.onKeyPressed);
 Events.OnKeyStartPressed.Add(ISBoatMenu.onKeyStartPressed);
+Events.OnEnterVehicle.Add(ISBoatMenu.onEnterVehicle)
+-- Events.OnExitVehicle.Add(ISBoatMenu.onExitVehicle)

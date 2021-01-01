@@ -33,6 +33,18 @@ local function getWindSpeed()
     return getClimateManager():getWindspeedKph()
 end
 
+function AquaPhysics.Wind.getWindDirection()
+	local angle = getClimateManager():getWindAngleDegrees()
+	local windAngles = { 22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 382.5 }
+	local windAngleStr = { "N", "NW", "W", "SW", "S", "SE", "E", "NE", "N" }
+    for b = 1, #windAngles do
+		if (angle < windAngles[b]) then
+			return windAngleStr[b]
+		end
+	end
+    return windAngleStr[#windAngleStr - 1];
+end
+
 -------------------------------------
 -- Water Physics
 -------------------------------------
@@ -232,12 +244,7 @@ function AquaPhysics.Wind.windImpulse(boat)
 				if boatSpeed < 2 * 1.60934 then
 					startCoeff = 5
 				end
-				
-				if collisionWithGround then 
-					boatDirVector:mul(250 * savedWindForce)
-				else
-					boatDirVector:mul(550 * savedWindForce * startCoeff)
-				end
+				boatDirVector:mul(550 * savedWindForce * startCoeff)
 				boat:setPhysicsActive(true)
 				tempVec2:set(0, 0, 0)
 				boat:addImpulse(boatDirVector, tempVec2)   
