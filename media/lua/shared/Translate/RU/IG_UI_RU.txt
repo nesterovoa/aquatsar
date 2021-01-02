@@ -79,4 +79,13 @@ IGUI_RU = {
 	IGUI_SwimWord_Fail2 = "Чуть не утонул",
 	IGUI_SwimWord_Fail3 = "Еле доплыл",
 
+	IGUI_sayWindInfo = "Определить ветер",
+	IGUI_needBeOutside_tosayWindInfo = "Нельзя определить ветер в помещении",
+	IGUI_Wind = "Ветер ",
+	IGUI_Wind_NoWind = "отсутствует",
+	IGUI_Wind_WeakWind = "слабый",
+	IGUI_Wind_StrongWind = "сильный",
+	IGUI_Wind_StormWind = "штормовой",
+
+	IGUI_RepairSail = "Зашить парус"
 }

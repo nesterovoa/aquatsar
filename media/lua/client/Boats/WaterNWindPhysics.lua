@@ -29,7 +29,7 @@ local function isWater(square)
 	return square ~= nil and square:Is(IsoFlagType.water)
 end
 
-local function getWindSpeed()
+function AquaPhysics.Wind.getWindSpeed()
     return getClimateManager():getWindspeedKph()
 end
 
@@ -96,7 +96,7 @@ function AquaPhysics.Wind.windImpulse(boat)
 	local x = frontVector:x() - rearVector:x()
 	local y = frontVector:y() - rearVector:y()
 	boatDirVector:set(x, 0, y):normalize()		
-	local windSpeed = getWindSpeed()
+	local windSpeed = AquaPhysics.Wind.getWindSpeed()
 	
 	-- AUD.insp("Boat", "boatSpeed (MPH):", boat:getCurrentSpeedKmHour() / 1.60934)
 	-- AUD.insp("Boat", " ", " ")
