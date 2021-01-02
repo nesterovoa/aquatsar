@@ -228,7 +228,7 @@ function ISSwimUI:onClick(button)
     if button.internal == "OK" then
 	local vehicle = self.player:getVehicle()
 	local emi = vehicle:getEmitter()
-	emi:stopSoundByName("BoatSailing")
+	SoundControl.stopWeatherSound(emi)
         local dir = "SOUTH"
         if self.ItemsOptions:isSelected(1) then
             dir = "EAST"

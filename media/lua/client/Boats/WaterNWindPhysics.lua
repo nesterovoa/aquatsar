@@ -117,21 +117,21 @@ function AquaPhysics.Wind.windImpulse(boat)
 	end
 	
 	local windForceByDirection = 0
-	if windSpeed < 7 * 1.60934 then
+	if windSpeed < AquaConfig.windVeryLight then
 		windForceByDirection = 0
-	elseif windSpeed < 12 * 1.60934 then
+	elseif windSpeed < AquaConfig.windLight then
 		if windOnBoat > 105 and windOnBoat < 285 then
 			windForceByDirection = 7 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 		end
-	elseif windSpeed < 23 * 1.60934 then
+	elseif windSpeed < AquaConfig.windMedium then
 		if windOnBoat > 25 and windOnBoat < 335 then
 			windForceByDirection = 10 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 		end
-	elseif windSpeed < 31 * 1.60934 then
+	elseif windSpeed < AquaConfig.windStrong then
 		if windOnBoat > 25 and windOnBoat < 335 then
 			windForceByDirection = 12 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 		end
-	elseif windSpeed < 61 * 1.60934 then
+	elseif windSpeed < AquaConfig.windVeryStrong then
 		if windOnBoat > 105 and windOnBoat < 285 then
 			windForceByDirection = 14 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 		end

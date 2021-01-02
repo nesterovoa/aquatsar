@@ -320,7 +320,7 @@ module Base
 		{
 			file = BoatSailingYachtWithSailsLeftBody,
 			scale = 8.0000,
-			offset = 0.0000 -0.1875 0.0000,
+			offset = 0.0000 0.0225 0.0000,
 		}
 
 		skin
@@ -335,6 +335,7 @@ module Base
 		engineRepairLevel = 5,
 		playerDamageProtection = 1.3,
 		engineRPMType = firebird,
+		
 
 		sound
 		{
@@ -344,7 +345,7 @@ module Base
 		extents = 0.3925 0.3200 1.2875,
 		mass = 1,
 		physicsChassisShape = 0.4000 0.3200 1.2875,
-		centerOfMassOffset = -0.0012 0.2850 -0.0575,
+		centerOfMassOffset = -0.0012 0.4488 -0.0575,
 
 		wheel FrontLeft
 		{
@@ -402,24 +403,6 @@ module Base
 		template = BoatSailingYachtTemplate,
 		template = BoatSailingYachtPassengerTemplate,
 
-		attachment exitLeft
-		{
-			offset = 3.2200 0.0000 -3.1700,
-			rotate = 0.0000 0.0000 0.0000,
-		}
-
-		attachment exitRear
-		{
-			offset = 0.0000 0.0000 -6.3000,
-			rotate = 0.0000 0.0000 0.0000,
-		}
-
-		attachment exitRight
-		{
-			offset = -3.2200 0.0000 -3.1700,
-			rotate = 0.0000 0.0000 0.0000,
-		}
-
 		attachment checkFront
 		{
 			offset = 0.0000 0.0000 0.8525,
@@ -446,7 +429,7 @@ module Base
 		{
 			file = BoatSailingYachtWithSailsRightBody,
 			scale = 8.0000,
-			offset = 0.0000 -0.2050 0.0000,
+			offset = 0.0000 0.0225 0.0000,
 		}
 		
 		skin
@@ -462,7 +445,6 @@ module Base
 		engineRepairLevel = 5,
 		playerDamageProtection = 1.3,
 		engineRPMType = firebird,
-		spawnOffsetY = 0.2,
 		
 		sound
 		{
@@ -470,13 +452,14 @@ module Base
 		}
 		
 		extents = 0.3925 0.3200 1.2875,
-		mass = 50,
+		mass = 1,
 		physicsChassisShape = 0.4000 0.3200 1.2875,
-		centerOfMassOffset = -0.0012 0.2850 -0.0575,
+		centerOfMassOffset = -0.0012 0.4488 -0.0575,
+		
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 0.1513 0.3550 0.3063,
+			offset = 0.1550 0.3550 0.3063,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -484,7 +467,7 @@ module Base
 		wheel FrontRight
 		{
 			front = true,
-			offset = -0.1513 0.3550 0.3063,
+			offset = -0.1550 0.3550 0.3063,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -492,7 +475,7 @@ module Base
 		wheel RearLeft
 		{
 			front = false,
-			offset = 0.1787 0.3550 -0.4213,
+			offset = 0.1787 0.3550 -0.4212,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -500,7 +483,7 @@ module Base
 		wheel RearRight
 		{
 			front = false,
-			offset = -0.1787 0.3550 -0.4213,
+			offset = -0.1787 0.3550 -0.4212,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -529,24 +512,6 @@ module Base
 		seats = 6,
 		template = BoatSailingYachtTemplate,
 		template = BoatSailingYachtPassengerTemplate,
-		
-		attachment exitLeft
-		{
-			offset = 3.2200 0.0000 -3.1700,
-			rotate = 0.0000 0.0000 0.0000,
-		}
-
-		attachment exitRear
-		{
-			offset = 0.0000 0.0000 -6.3000,
-			rotate = 0.0000 0.0000 0.0000,
-		}
-
-		attachment exitRight
-		{
-			offset = -3.2200 0.0000 -3.1700,
-			rotate = 0.0000 0.0000 0.0000,
-		}
 
 		attachment checkFront
 		{
@@ -569,14 +534,14 @@ module Base
 		}
 	}
 	vehicle BoatSailingYacht
-	{		
+	{
 		model
 		{
 			file = BoatSailingYachtBody,
 			scale = 8.0000,
-			offset = 0.0000 -0.2050 0.0000,
+			offset = 0.0000 0.0225 0.0000,
 		}
-		
+
 		skin
 		{
 			texture = Boats/SailingYacht_body,
@@ -584,52 +549,54 @@ module Base
 
 		textureLights = Boats/SailingYacht_light,
 		textureMask = Boats/SailingYacht_mask,
-		
 		mechanicType = 3,
 		offRoadEfficiency = 2,
 		engineRepairLevel = 5,
 		playerDamageProtection = 1.3,
 		engineRPMType = firebird,
-		spawnOffsetY = 0.2,
-		
+
 		sound
 		{
 			horn = BoatHorn,
 		}
-		
+
 		extents = 0.3925 0.3200 1.2875,
-		mass = 50,
+		mass = 1,
 		physicsChassisShape = 0.4000 0.3200 1.2875,
-		centerOfMassOffset = -0.0012 0.2850 -0.0575,
+		centerOfMassOffset = -0.0012 0.4488 -0.0575,
+
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 0.1513 0.3550 0.3063,
+			offset = 0.1550 0.3550 0.3063,
 			radius = 0.15f,
 			width = 0.2f,
 		}
+
 		wheel FrontRight
 		{
 			front = true,
-			offset = -0.1513 0.3550 0.3063,
+			offset = -0.1550 0.3550 0.3063,
 			radius = 0.15f,
 			width = 0.2f,
 		}
+
 		wheel RearLeft
 		{
 			front = false,
-			offset = 0.1787 0.3550 -0.4213,
+			offset = 0.1787 0.3550 -0.4212,
 			radius = 0.15f,
 			width = 0.2f,
 		}
+
 		wheel RearRight
 		{
 			front = false,
-			offset = -0.1787 0.3550 -0.4213,
+			offset = -0.1787 0.3550 -0.4212,
 			radius = 0.15f,
 			width = 0.2f,
 		}
-		
+
 		engineForce = 2500,
 		maxSpeed = 0.01f,
 		engineLoudness = 90,
@@ -638,7 +605,6 @@ module Base
 		gearRatioCount = 1,
 		gearRatioR = 10,
 		gearRatio0 = 10,
-		
 		stoppingMovementForce = 2.0f,
 		rollInfluence = 0.1f,
 		steeringIncrement = 0.03,
@@ -654,41 +620,23 @@ module Base
 		seats = 6,
 		template = BoatSailingYachtTemplate,
 		template = BoatSailingYachtPassengerTemplate,
-		
-		attachment exitLeft
-		{
-			offset = 3.2200 0.0000 -3.1700,
-			rotate = 0.0000 0.0000 0.0000,
-		}
-
-		attachment exitRear
-		{
-			offset = 0.0000 0.0000 -6.3000,
-			rotate = 0.0000 0.0000 0.0000,
-		}
-
-		attachment exitRight
-		{
-			offset = -3.2200 0.0000 -3.1700,
-			rotate = 0.0000 0.0000 0.0000,
-		}
 
 		attachment checkFront
 		{
-			offset = 0.0000 0.0000 0.8525,
+			offset = 0.0000 0.0000 0.8938,
 			rotate = 0.0000 0.0000 0.0000,
 		}
 
 		attachment trailer
 		{
-			offset = 0.0000 0.6125 -1.1475,
+			offset = 0.0000 0.0000 -0.6237,
 			rotate = 0.0000 0.0000 0.0000,
 			zoffset = -1.0000,
 		}
 
 		attachment trailerfront
 		{
-			offset = 0.0000 0.6125 1.1475,
+			offset = 0.0000 0.0000 0.6263,
 			rotate = 0.0000 0.0000 0.0000,
 			zoffset = 1.0000,
 		}
@@ -706,8 +654,6 @@ module Base
 			scale = 1.8000,
 			offset = 0.0000 0.3667 0.8111,
 		}
-
-		spawnOffsetY = 0.3565027,
 
 		skin
 		{

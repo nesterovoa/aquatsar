@@ -2,7 +2,7 @@ module Base
 {
 	sound BoatHorn
 	{
-		category = Vehicle,
+		category = Boat,
 		loop = false,
 		clip
 		{
@@ -12,9 +12,48 @@ module Base
 		}
 	}
 	
+	sound Swim
+	{
+		category = Boat,
+		loop = false,
+		is3D = false,
+		clip
+		{
+			file = media/sound/swimming/swim.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound Dive
+	{
+		category = Boat,
+		loop = false,
+		is3D = false,
+		clip
+		{
+			file = media/sound/swimming/dive.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound LeaveWater
+	{
+		category = Boat,
+		loop = false,
+		is3D = false,
+		clip
+		{
+			file = media/sound/swimming/leave_water.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
 	sound TryStartEngineManualy
 	{
-		category = Vehicle,
+		category = Boat,
 		loop = false,
 		volume = 1.5,
 		clip
@@ -27,7 +66,7 @@ module Base
 	
 	sound SuccessStartEngineManualy
 	{
-		category = Vehicle,
+		category = Boat,
 		loop = false,
 		volume = 1.5,
 		clip
@@ -40,7 +79,7 @@ module Base
 	
 	sound FailStartEngineManualy
 	{
-		category = Vehicle,
+		category = Boat,
 		loop = false,
 		volume = 1.5,
 		is3D = false,
@@ -54,7 +93,7 @@ module Base
 	
 	sound TrumanSetsSail
 	{
-		category = Vehicle,
+		category = Boat,
 		loop = false,
 		clip
 		{
@@ -66,10 +105,10 @@ module Base
 	
 	sound BoatSailing
 	{
-		category = Vehicle,
+		category = Boat,
 		loop = true,
-		volume = 0.4,
-		is3D = false,
+		volume = 0.3,
+		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_sailing.ogg,
@@ -78,4 +117,62 @@ module Base
 		}
 		
 	}
+	
+	sound WindLight
+	{
+		category = Boat,
+		loop = true,
+		volume = 5,
+		is3D = true,
+		clip
+		{
+			file = media/sound/boats/wind_LIGHT.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+		
+	}
+	
+	sound WindMedium
+	{
+		category = Boat,
+		loop = true,
+		volume = 10,
+		is3D = true,
+		clip
+		{
+			file = media/sound/boats/wind_MEDIUM.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound WindStrong
+	{
+		category = Boat,
+		loop = true,
+		volume = 1,
+		is3D = true,
+		clip
+		{
+			file = media/sound/boats/wind_STRONG.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound WindVeryStrong
+	{
+		category = Boat,
+		loop = true,
+		volume = 1,
+		is3D = false,
+		clip
+		{
+			file = media/sound/boats/wind_VERY_STRONG.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
 }

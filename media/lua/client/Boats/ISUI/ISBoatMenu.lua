@@ -289,7 +289,7 @@ function ISBoatMenu.onExit(playerObj, seatFrom)
 			if exitPoint then
 				print("land near")
 				local emi = boat:getEmitter()
-				emi:stopSoundByName("BoatSailing")
+				SoundControl.stopWeatherSound(emi)
 				ISTimedActionQueue.add(ISExitBoat:new(playerObj, exitPoint))
 				return
 			else	
@@ -1745,9 +1745,10 @@ function ISBoatMenu.onEnterVehicle(playerObj)
 	if instanceof(playerObj, 'IsoPlayer') and playerObj:isLocalPlayer() then
 		local boat = playerObj:getVehicle()
 		if AquaConfig.isBoat(boat) then
-			local emi = boat:getEmitter()
+			emi = boat:getEmitter()
 			if not emi:isPlaying("BoatSailing") then
-				emi:playSoundLooped("BoatSailing")
+				local songID = emi:playSoundLooped("BoatSailing")
+				emi:setVolume(songID, 0.4)
 			end
 		end
 	end

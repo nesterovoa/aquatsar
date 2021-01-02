@@ -266,12 +266,12 @@ module Base
 		extents = 0.2971 0.3200 1.0886,
 		mass = 100,
 		physicsChassisShape = 0.2971 0.3200 1.0314,
-		centerOfMassOffset = 0.0000 0.5743 -0.0586,
+		centerOfMassOffset = 0.0000 0.5014 -0.0586,
 
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 0.1814 0.4000 0.5257,
+			offset = 0.1814 0.4000 0.3686,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -279,7 +279,7 @@ module Base
 		wheel FrontRight
 		{
 			front = true,
-			offset = -0.1814 0.4000 0.5257,
+			offset = -0.1814 0.4000 0.3657,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -287,7 +287,7 @@ module Base
 		wheel RearLeft
 		{
 			front = false,
-			offset = 0.1814 0.4000 -0.5929,
+			offset = 0.1814 0.4000 -0.3971,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -295,7 +295,7 @@ module Base
 		wheel RearRight
 		{
 			front = false,
-			offset = -0.1814 0.4000 -0.5943,
+			offset = -0.1814 0.4000 -0.3986,
 			radius = 0.15f,
 			width = 0.2f,
 		}

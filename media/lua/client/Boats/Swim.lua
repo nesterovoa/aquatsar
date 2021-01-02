@@ -161,11 +161,9 @@ local function swimToPoint(player, context, worldobjects, test)
 
 	for i,v in ipairs(worldobjects) do
 		local square = v:getSquare();
-        
-        if square:Is(IsoFlagType.water) then
-            print("ISWATER")
-        end
-
+        -- if square:Is(IsoFlagType.water) then
+            -- print("ISWATER")
+        -- end
         if square then
             pointSquare = square
 
