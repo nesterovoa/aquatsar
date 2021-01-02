@@ -250,7 +250,11 @@ function ISSwimUI:onClick(button)
             if JoypadState.players[playerNum+1] then
                 setJoypadFocus(playerNum, nil)
             end
-			self.player:getSprite():getProperties():Set(IsoFlagType.invisible)
+            
+            local areaVec = vehicle:getAreaCenter("SeatFrontLeft")
+            self.player:setX(areaVec:getX())
+            self.player:setY(areaVec:getY())
+            
             return
         end
 

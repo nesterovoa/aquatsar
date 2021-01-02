@@ -33,21 +33,26 @@ function SoundControl()
 		end
 	end
 	
+	if player:getVehicle() and swimSound and swimSound ~= 0 then
+		player:getEmitter():stopSound(swimSound)
+		swimSound = nil
+	end
+
 	if player:getSquare() then
 		if player:getSquare():Is(IsoFlagType.water) then
 			if not player:getSprite():getProperties():Is(IsoFlagType.invisible) then
 				player:getSprite():getProperties():Set(IsoFlagType.invisible)
-				if not swimSound then
-					swimSound = player:playSound("swim")
-				end
+			end
+			if not swimSound then
+				swimSound = player:playSound("swim")
 			end
 		else
 			if player:getSprite():getProperties():Is(IsoFlagType.invisible) then
 				player:getSprite():getProperties():UnSet(IsoFlagType.invisible)
-				if swimSound and swimSound ~= 0 then
-					player:getEmitter():stopSound(swimSound)
-					swimSound = nil
-				end
+			end
+			if swimSound and swimSound ~= 0 then
+				player:getEmitter():stopSound(swimSound)
+				swimSound = nil
 			end
 		end
 	end
