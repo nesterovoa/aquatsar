@@ -35,6 +35,7 @@ function ISBoatMenu.onKeyStartPressed(key)
 		getCore():addKeyBinding("StartVehicleEngine", playerObj:getModData()["blockStartVehicleEngine"])
 		playerObj:getModData()["StartVehicleEngine"] = nil
 	elseif AquaConfig.isBoat(boat) and 
+			AquaConfig.Boats[boat:getScript():getName()].manualStarter and  -- TODO: заменить на проверку шаблона в скрипте
 			(key == getCore():getKey("Forward") or 
 			key == getCore():getKey("StartVehicleEngine") or 
 			key == getCore():getKey("Backward")) and not boat:isEngineRunning() then
@@ -46,6 +47,7 @@ function ISBoatMenu.onKeyStartPressed(key)
 		getCore():addKeyBinding("StartVehicleEngine", nil)
 		-- print("38 ", playerObj:getModData()["blockForward"])
 	elseif AquaConfig.isBoat(boat) and 
+			AquaConfig.Boats[boat:getScript():getName()].manualStarter and 
 			(key == playerObj:getModData()["blockForward"] or 
 			key == playerObj:getModData()["blockBackward"] or 
 			key == playerObj:getModData()["blockStartVehicleEngine"]) and 
@@ -388,21 +390,22 @@ function ISBoatMenu.showRadialMenu(playerObj)
 			if boat:isEngineStarted() then
 --				menu:addSlice("Ignition", getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
 			else
-				-- if (SandboxVars.VehicleEasyUse) then
-					-- menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
-				-- elseif not boat:isHotwired() and (playerObj:getInventory():haveThisKeyId(boat:getKeyId()) or boat:isKeysInIgnition()) then
-					-- menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
-				-- else
-				if boat:getPartById("ManualStarter") and boat:getPartById("ManualStarter"):getInventoryItem() then
-					menu:addSlice(getText("ContextMenu_VehicleStartEngineManual"), getTexture("media/textures/Item_ManualStarter.png"), ISBoatMenu.onStartEngineManualy, playerObj)
-				-- elseif boat:isHotwired() then
-					-- menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
-				-- else
-					-- if ((playerObj:getPerkLevel(Perks.Electricity) >= 1 and playerObj:getPerkLevel(Perks.Mechanics) >= 2) or playerObj:HasTrait("Burglar")) then
-						-- menu:addSlice(getText("ContextMenu_VehicleHotwire"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onHotwire, playerObj)
-					-- else
-						-- menu:addSlice(getText("ContextMenu_BoatHotwireSkill"), getTexture("media/ui/vehicles/vehicle_ignitionOFF.png"), nil, playerObj)
-					-- end
+				if boat:getPartById("ManualStarter") then 
+					if boat:getPartById("ManualStarter"):getInventoryItem() then
+						menu:addSlice(getText("ContextMenu_VehicleStartEngineManual"), getTexture("media/textures/Item_ManualStarter.png"), ISBoatMenu.onStartEngineManualy, playerObj)
+					end
+				elseif (SandboxVars.VehicleEasyUse) then
+					menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
+				elseif not boat:isHotwired() and (playerObj:getInventory():haveThisKeyId(boat:getKeyId()) or boat:isKeysInIgnition()) then
+					menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
+				elseif boat:isHotwired() then
+					menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
+				else
+					if ((playerObj:getPerkLevel(Perks.Electricity) >= 1 and playerObj:getPerkLevel(Perks.Mechanics) >= 2) or playerObj:HasTrait("Burglar")) then
+						menu:addSlice(getText("ContextMenu_VehicleHotwire"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onHotwire, playerObj)
+					else
+						menu:addSlice(getText("ContextMenu_BoatHotwireSkill"), getTexture("media/ui/vehicles/vehicle_ignitionOFF.png"), nil, playerObj)
+					end
 --					menu:addSlice("You need keys or\nelectricity level 1 and\nmechanic level 2\nto hotwire", getTexture("media/ui/vehicles/vehicle_ignitionOFF.png"), nil, playerObj)
 				end
 			end

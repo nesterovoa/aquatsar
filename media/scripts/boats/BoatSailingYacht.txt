@@ -295,8 +295,6 @@ module Base
 		template = Fridges/part/FridgeRearRight,
 		template = Ovens/part/OvenRearRight,
 		template = Microwaves/part/MicrowaveRearRight,
-		
-		template = Brake,
 
 	}
 	vehicle BoatSailingYachtWithSailsLeft

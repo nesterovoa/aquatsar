@@ -2,6 +2,7 @@ IGUI_RU = {
 	IGUI_BoatNameBoatSailingYacht = "Яхта 'La Brigandine'",
 	IGUI_BoatNameBoatSailingYachtWithSailsLeft = "Яхта 'La Brigandine'",
 	IGUI_BoatNameBoatSailingYachtWithSailsRight = "Яхта 'La Brigandine'",
+	IGUI_BoatNameBoatMotor = "Моторная лодка 'M/Y Orianna'",
 
 	IGUI_VehiclePartPropeller = "Лодочный пропеллер",
 	IGUI_VehiclePartCatHouseholdSystem = "Бытовая система",
@@ -59,9 +60,9 @@ IGUI_RU = {
 	IGUI_Exit_Boat = "Выйти в воду",
 
 
-	IGUI_SwimWord_Damage1 = "Ах...",
+	IGUI_SwimWord_Damage1 = "Фуух...",
 	IGUI_SwimWord_Damage2 = "Эх...",
-	IGUI_SwimWord_Damage3 = "Как больно...",
+	IGUI_SwimWord_Damage3 = "Всё болит...",
 	IGUI_SwimWord_Damage4 = "Тону...",
 	IGUI_SwimWord_Damage5 = "Скорее бы доплыть",
 	IGUI_SwimWord_Damage6 = "Лишь бы доплыть...",
@@ -75,7 +76,7 @@ IGUI_RU = {
 	IGUI_SwimWord_Success3 = "Это было легко",
 
 	IGUI_SwimWord_Fail1 = "Ужасно поплавал",
-	IGUI_SwimWord_Fail2 = "Чуть не умер",
+	IGUI_SwimWord_Fail2 = "Чуть не утонул",
 	IGUI_SwimWord_Fail3 = "Еле доплыл",
 
 }

@@ -34,7 +34,9 @@ module Base
 
 		part Tire*
 		{
+			/**/
 			category = nodisplay,
+			
 			itemType = Aqua.AirBagNormal,
 			container
 			{

@@ -13,17 +13,15 @@ function SoundControl()
 				-- print("start(BoatSailing")
 				-- emi:playSoundLooped("BoatSailing")
 			-- end
-			if emi:isPlaying("VehicleStarted") then
-				-- print("isPlaying(VehicleStarted")
-				emi:stopSoundByName("VehicleStarted")
-				-- emi:stopSoundByName("BoatSailing")
-				emi:playSound("SuccessStartEngineManualy", boat)
-			end
-			if emi:isPlaying("VehicleFailingToStart") then
-				-- print("isPlaying(VehicleStarted")
-				emi:stopSoundByName("VehicleFailingToStart")
-				-- emi:stopSoundByName("BoatSailing")
-				emi:playSound("FailStartEngineManualy", player)
+			if AquaConfig.Boat(boat).manualStarter then
+				if emi:isPlaying("VehicleStarted") then
+					emi:stopSoundByName("VehicleStarted")
+					emi:playSound("SuccessStartEngineManualy", boat)
+				end
+				if emi:isPlaying("VehicleFailingToStart") then
+					emi:stopSoundByName("VehicleFailingToStart")
+					emi:playSound("FailStartEngineManualy", player)
+				end
 			end
 		-- else
 			-- local SM = getSoundManager()

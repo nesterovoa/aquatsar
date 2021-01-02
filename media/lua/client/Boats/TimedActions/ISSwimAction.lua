@@ -74,22 +74,22 @@ function ISSwimAction:update()
         if self.damageCount < 6 and ZombRand(100) < 15 then
             if self.damageCount == 0 then
                 self.character:getBodyDamage():getBodyPart(BodyPartType.Torso_Upper):AddDamage(ZombRand(30))
-                AquatsarYachts.Swim.Say("damage", 20)
+                AquatsarYachts.Swim.Say("damage", 15)
             elseif self.damageCount == 1 then
                 self.character:getBodyDamage():getBodyPart(BodyPartType.Torso_Lower):AddDamage(ZombRand(30))
-                AquatsarYachts.Swim.Say("damage", 20)
+                AquatsarYachts.Swim.Say("damage", 15)
             elseif self.damageCount == 2 then
                 self.character:getBodyDamage():getBodyPart(BodyPartType.UpperLeg_L):AddDamage(ZombRand(30))
-                AquatsarYachts.Swim.Say("damage", 20)
+                AquatsarYachts.Swim.Say("damage", 15)
             elseif self.damageCount == 3 then
                 self.character:getBodyDamage():getBodyPart(BodyPartType.UpperLeg_R):AddDamage(ZombRand(30))
-                AquatsarYachts.Swim.Say("damage", 20)
+                AquatsarYachts.Swim.Say("damage", 15)
             elseif self.damageCount == 4 then
                 self.character:getBodyDamage():getBodyPart(BodyPartType.UpperArm_L):AddDamage(ZombRand(30))
-                AquatsarYachts.Swim.Say("damage", 20)
+                AquatsarYachts.Swim.Say("damage", 15)
             elseif self.damageCount == 5 then
                 self.character:getBodyDamage():getBodyPart(BodyPartType.UpperArm_R):AddDamage(ZombRand(30))    
-                AquatsarYachts.Swim.Say("damage", 20)
+                AquatsarYachts.Swim.Say("damage", 15)
             end
             self.damageCount = self.damageCount + 1
         end
@@ -129,9 +129,9 @@ function ISSwimAction:perform()
     end
 
     if self.isFail then
-        AquatsarYachts.Swim.Say("fail", 100)
+        AquatsarYachts.Swim.Say("fail", 30)
     else
-        AquatsarYachts.Swim.Say("success", 100)
+        AquatsarYachts.Swim.Say("success", 20)
     end
 
     if self.isLostItems then

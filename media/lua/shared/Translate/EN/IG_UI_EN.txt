@@ -2,6 +2,7 @@ IG_UI_EN = {
 	IGUI_BoatNameBoatSailingYacht = "Yacht 'La Brigandine'",
 	IGUI_BoatNameBoatSailingYachtWithSailsLeft = "Yacht 'La Brigandine'",
 	IGUI_BoatNameBoatSailingYachtWithSailsRight = "Yacht 'La Brigandine'",
+	IGUI_BoatNameBoatMotor = "Powerboat 'M/Y Orianna'",
 
 	IGUI_VehicleNameTrailerWithBoatSailingYacht = "Autotsar BT-13M",
 	IGUI_VehicleNameTrailerForBoat = "Autotsar BT-13M",
@@ -51,6 +52,7 @@ IG_UI_EN = {
 	IGUI_SOUTH = "East",
 	IGUI_WEST = "West",
 	IGUI_NORTH = "North",
+	IGUI_Exit_Boat = "Free swimming",
 	IGUI_SwimUI_Title = "Float away",
 	IGUI_playerCanSwim = "You can swim.",
 	IGUI_playerCantSwim = "You can't swim.",
@@ -59,5 +61,25 @@ IG_UI_EN = {
 	IGUI_almostDieFail = "Damn, I couldn't and I almost died.",
 	IGUI_SwimTo = "Swim to",
 	IGUI_andDropItems = "also I lost my things..."
+	
+	IGUI_SwimWord_Damage1 = "Wooh...",
+	IGUI_SwimWord_Damage2 = "Eh...",
+	IGUI_SwimWord_Damage3 = "Everything hurts...",
+	IGUI_SwimWord_Damage4 = "Drowning...",
+	IGUI_SwimWord_Damage5 = "I would rather swim",
+	IGUI_SwimWord_Damage6 = "Just to swim...",
+
+	IGUI_SwimWord_LostItems1 = "Ah, I lost my things",
+	IGUI_SwimWord_LostItems1 = "What a pity my things have gone to the bottom",
+	IGUI_SwimWord_LostItems1 = "Well, there is no part of my things",
+
+	IGUI_SwimWord_Success1 = "Swim great",
+	IGUI_SwimWord_Success2 = "Cool swim",
+	IGUI_SwimWord_Success3 = "It was easy",
+
+	IGUI_SwimWord_Fail1 = "I almost drowned",
+	IGUI_SwimWord_Fail2 = "I almost drowned",
+	IGUI_SwimWord_Fail3 = "I almost drowned",
+	
 }
 
