@@ -103,23 +103,16 @@ function ISSwimAction:update()
 end
 
 function ISSwimAction:start()
-    self.sound = getSoundManager():PlayWorldSound("swim", self.character:getSquare(), 0, 10, 1, true);
     self.character:getBodyDamage():setWetness(100);
     wetItems(self.character)
 end
 
 function ISSwimAction:stop()
-    if self.sound then
-        getSoundManager():StopSound(self.sound)
-    end
-
 	ISBaseTimedAction.stop(self)
 end
 
 function ISSwimAction:perform()
-    if self.sound then
-        getSoundManager():StopSound(self.sound)
-    end
+
 
     self.character:setX( self.x2)
     self.character:setY( self.y2)

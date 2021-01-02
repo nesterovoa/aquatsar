@@ -1,4 +1,6 @@
 
+local swimSound
+
 -- Удаление звука заноса на воде
 function SoundControl()
 	local player = getPlayer()
@@ -35,10 +37,17 @@ function SoundControl()
 		if player:getSquare():Is(IsoFlagType.water) then
 			if not player:getSprite():getProperties():Is(IsoFlagType.invisible) then
 				player:getSprite():getProperties():Set(IsoFlagType.invisible)
+				if not swimSound then
+					swimSound = player:playSound("swim")
+				end
 			end
 		else
 			if player:getSprite():getProperties():Is(IsoFlagType.invisible) then
 				player:getSprite():getProperties():UnSet(IsoFlagType.invisible)
+				if swimSound and swimSound ~= 0 then
+					player:getEmitter():stopSound(swimSound)
+					swimSound = nil
+				end
 			end
 		end
 	end
