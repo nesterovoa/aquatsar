@@ -160,7 +160,7 @@ module Base
 
 		template = Suspension/part/SuspensionFrontLeft,
 		template = Suspension/part/SuspensionFrontRight,
-		template = Suspension/part/SuspensionFrontLeft,
+		template = Suspension/part/SuspensionRearLeft,
 		template = Suspension/part/SuspensionRearRight,
 
 		attachment trailer

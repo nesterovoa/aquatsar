@@ -22,7 +22,7 @@ module Base
 			category = ElecticalSystem,
 			specificItem = false,
 			itemType = Base.LightBulb,
-			mechanicRequireKey = true,
+			mechanicRequireKey = false,
 			table install
 			{
 				items

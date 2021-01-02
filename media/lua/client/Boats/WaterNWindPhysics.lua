@@ -205,16 +205,16 @@ function AquaPhysics.Wind.windImpulse(boat)
 		requiredSailAngle = "Another direction"
 	end
 	
-	AUD.insp("Boat", "Name: ", boatScriptName)
-	AUD.insp("Boat", "Boat Speed: ", boatSpeed)
-	AUD.insp("Boat", "Mass: ", boat:getMass())
-	AUD.insp("Boat", " ", " ")		
-	AUD.insp("Boat", "windSpeed (MPH):", windSpeed / 1.60934)
-	AUD.insp("Boat", "windOnBoat:", windOnBoat)
-	AUD.insp("Boat", "SailAngle:", sailAngle)
-	AUD.insp("Boat", "RequiredSailAngle (absolute value):", requiredSailAngle)
-	AUD.insp("Boat", "coefficientSailAngle:", coefficientSailAngle)
-	AUD.insp("Boat", "windForceByDirection:", windForceByDirection)
+	-- AUD.insp("Boat", "Name: ", boatScriptName)
+	-- AUD.insp("Boat", "Boat Speed: ", boatSpeed)
+	-- AUD.insp("Boat", "Mass: ", boat:getMass())
+	-- AUD.insp("Boat", " ", " ")		
+	-- AUD.insp("Boat", "windSpeed (MPH):", windSpeed / 1.60934)
+	-- AUD.insp("Boat", "windOnBoat:", windOnBoat)
+	-- AUD.insp("Boat", "SailAngle:", sailAngle)
+	-- AUD.insp("Boat", "RequiredSailAngle (absolute value):", requiredSailAngle)
+	-- AUD.insp("Boat", "coefficientSailAngle:", coefficientSailAngle)
+	-- AUD.insp("Boat", "windForceByDirection:", windForceByDirection)
 	
 	boat:getAttachmentWorldPos("checkFront", frontVector)
 	
@@ -230,7 +230,7 @@ function AquaPhysics.Wind.windImpulse(boat)
 		savedWindForce = windForceByDirection
 	end
 	boat:getModData()["windForceByDirection"] = savedWindForce
-	AUD.insp("Boat", "savedWindForce:", savedWindForce)
+	-- AUD.insp("Boat", "savedWindForce:", savedWindForce)
 
 	local squareFrontVehicle = getCell():getGridSquare(frontVector:x(), frontVector:y(), 0)
 	if squareFrontVehicle ~= nil and isWater(squareFrontVehicle) then
@@ -402,7 +402,7 @@ function AquaPhysics.updateVehicles()
         local boat = vehicles:get(i)
 		if boat ~= nil and  AquaConfig.isBoat(boat) then
 			AquaPhysics.Water.Borders(boat)
-			AUD.insp("Boat", "boat:getDebugZ()", boat:getDebugZ())
+			-- AUD.insp("Boat", "boat:getDebugZ()", boat:getDebugZ())
 			AquaPhysics.heightFix(boat)
 			AquaPhysics.inertiaFix(boat)
 			if AquaConfig.Boats[boat:getScript():getName()].sails then

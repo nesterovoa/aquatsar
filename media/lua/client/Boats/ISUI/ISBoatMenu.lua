@@ -1112,14 +1112,11 @@ function ISBoatMenu.onMechanic(playerObj, boat)
 		-- ISTimedActionQueue.add(ISPathFindAction:pathToVehicleAdjacent(playerObj, boat))
 	-- end
 	local data = getPlayerData(playerObj:getPlayerNum())
-	print(data.mechanicsUI)
 	data.mechanicsUI = ISBoatMechanics:new(0,0,playerObj,nil);
     data.mechanicsUI:setVisible(false);
     data.mechanicsUI:setEnabled(false);
 	data.mechanicsUI:initialise();
 	--data.mechanicsUI:addToUIManager();
-	print(playerObj)
-	print(boat)
 	
 	ISTimedActionQueue.add(ISOpenMechanicsUIAction:new(playerObj, boat, engineHood))
 --	local ui = ISVehicleMechanics:new(0,0,playerObj,boat);

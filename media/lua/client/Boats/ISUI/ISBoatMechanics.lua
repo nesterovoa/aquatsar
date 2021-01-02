@@ -91,7 +91,8 @@ print("ISBoatMechanics:initParts()")
 		cat.name = v.name;
 		cat.cat = true;
 		local list = self.listbox;
-		if i == "door" or i == "bodywork" or i == "lights" then list = self.bodyworklist;  end
+		print("i: ", i)
+		if i == "BoatBody" or i == "Other" or i == "other" or i == "HouseholdSystem" or i == "householdsystem" then list = self.bodyworklist;  end
 		list:addItem(cat.name, cat);
 		for j,k in ipairs(v.parts) do
 			list:addItem(k.name, k);
@@ -1329,9 +1330,15 @@ end
 
 function ISBoatMechanics:close()
 print("ISBoatMechanics:close()")
+	
 	self:setVisible(false)
 	self:setEnabled(false);
 	self:removeFromUIManager()
+	local data = getPlayerData(playerObj:getPlayerNum())
+	data.mechanicsUI = ISVehicleMechanics:new(0,0, self.chr, nil);
+    data.mechanicsUI:setVisible(false);
+    data.mechanicsUI:setEnabled(false);
+	data.mechanicsUI:initialise();
 	if JoypadState.players[self.playerNum+1] then
 		setJoypadFocus(self.playerNum, nil)
 	end

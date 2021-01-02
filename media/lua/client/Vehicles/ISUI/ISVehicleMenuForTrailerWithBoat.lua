@@ -88,68 +88,81 @@ function ISVehicleMenuForTrailerWithBoat.loadOntoTrailerRadialMenu(playerObj, ve
 	
 	local boat = getBoatAtRearOfTrailer(vehicle)
 	if boat then
-		if isEmptyContainersOnVehicle(boat) then	
-			menu:addSlice(getText("ContextMenu_LoadBoatOntoTrailer"), getTexture("media/ui/boats/ICON_boat_on_trailer.png"), ISVehicleMenuForTrailerWithBoat.loadOntoTrailer, playerObj, vehicle, boat)
-		else
-			menu:addSlice(getText("ContextMenu_CantLoadBoatBecauseItemsInside"), getTexture("media/ui/boats/ICON_boat_on_trailer.png"))
-		end
+		menu:addSlice(getText("ContextMenu_LoadBoatOntoTrailer"), getTexture("media/ui/boats/ICON_boat_on_trailer.png"), ISVehicleMenuForTrailerWithBoat.loadOntoTrailer, playerObj, vehicle, boat)
 	end
 end
 
 
 function ISVehicleMenuForTrailerWithBoat.loadOntoTrailer(playerObj, vehicle, boat)
+	print(playerObj)
+	print(vehicle)
+	print(boat)
 	if luautils.walkAdj(playerObj, vehicle:getSquare()) then
 		ISTimedActionQueue.add(ISLoadBoatOntoTrailer:new(playerObj, vehicle, boat));
 	end
 end
 
 
+function ISVehicleMenuForTrailerWithBoat.replaceTrailerBoat(veh1, veh2)
+	local partsTable = {}
+	for i=1, veh1:getScript():getPartCount() do
+		local part = veh1:getPartByIndex(i-1)
+		partsTable[part:getId()] = {}
+		partsTable[part:getId()]["InventoryItem"] = part:getInventoryItem()
+		partsTable[part:getId()]["Condition"] = part:getCondition()
+		partsTable[part:getId()]["ItemContainer"] = nil
+		local itemContainer = part:getItemContainer()
+		if itemContainer and not itemContainer:isEmpty()then
+			partsTable[part:getId()]["ItemContainer"] = itemContainer
+		end
+	end
+	for i=1, veh2:getScript():getPartCount() do
+		local part = veh2:getPartByIndex(i-1)
+		if partsTable[part:getId()] then
+			part:setInventoryItem(partsTable[part:getId()]["InventoryItem"])
+			part:setCondition(partsTable[part:getId()]["Condition"])
+			if partsTable[part:getId()]["ItemContainer"] then
+				part:setItemContainer(partsTable[part:getId()]["ItemContainer"])
+			end
+		end
+	end
+	return veh2
+end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function ISVehicleMenuForTrailerWithBoat.replaceTrailer(trailer, newTrailerName)
+	local partsTable = {}
+	for i=1, trailer:getScript():getPartCount() do
+		local part = trailer:getPartByIndex(i-1)
+		partsTable[part:getId()] = {}
+		partsTable[part:getId()]["InventoryItem"] = part:getInventoryItem()
+		partsTable[part:getId()]["Condition"] = part:getCondition()
+		partsTable[part:getId()]["ItemContainer"] = nil
+		local itemContainer = part:getItemContainer()
+		if itemContainer and not itemContainer:isEmpty()then
+			partsTable[part:getId()]["ItemContainer"] = itemContainer
+		end
+	end
+	trailer:setScriptName(newTrailerName)
+	trailer:scriptReloaded()
+	for i=1, trailer:getScript():getPartCount() do
+		local part = trailer:getPartByIndex(i-1)
+		if partsTable[part:getId()] then
+			part:setInventoryItem(partsTable[part:getId()]["InventoryItem"])
+			part:setCondition(partsTable[part:getId()]["Condition"])
+			if partsTable[part:getId()]["ItemContainer"] then
+				part:setItemContainer(partsTable[part:getId()]["ItemContainer"])
+			end
+		end
+	end
+	return trailer
+end
 
 --[[
 
 	Должна быть вода в нужных точках
 	спавн лодки на воду
 
-	Обратно аналогично
+	Обратно аналогичноv
 	должна быть лодка в нужных точках
 
 	Надо сохранять состояние всех контейнеров и топлива и аккумулятора в мод дата

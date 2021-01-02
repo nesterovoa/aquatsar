@@ -4,7 +4,7 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 	name = "Aquatsar Yachts Debug",
 	isCustom = true,
 	forceLaunch = true,
-	startLoc = {x=11828, y=6574, z=0 }, -- Water
+	startLoc = {x=11840, y=6599, z=0 }, -- Water
 
 	setSandbox = function()
 		

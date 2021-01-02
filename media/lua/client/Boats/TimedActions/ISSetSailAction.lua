@@ -28,7 +28,7 @@ function ISSetSailAction:update()
 end
 
 function ISSetSailAction:start()
-    if self.character:getModData()["isFirstSail"] == nil then
+    if not AquaConfig.Boat(self.boat).sails and	self.character:getModData()["isFirstSail"] == nil then
         self.character:getModData()["isFirstSail"] = false
         getSoundManager():StopMusic()
         self.sound = getSoundManager():playMusic("TrumanSetsSail");
@@ -51,14 +51,14 @@ end
 
 function ISSetSailAction:perform()
     if self.dir == "LEFT" then
-        local nameWithSails = AquaConfig.Boats[self.boat:getScript():getName()].setLeftSailsScript
+        local nameWithSails = AquaConfig.Boat(self.boat).setLeftSailsScript
         if nameWithSails then
             ISBoatMenu.replaceBoat(self.boat, nameWithSails)
         else
             print("AQUATSAR: script for SetLeftSails (" .. self.boat:getScript():getName() .. ") didn't find.")
         end    
     elseif self.dir == "RIGHT" then
-        local nameWithSails = AquaConfig.Boats[self.boat:getScript():getName()].setRightSailsScript
+        local nameWithSails = AquaConfig.Boat(self.boat).setRightSailsScript
         if nameWithSails then
             ISBoatMenu.replaceBoat(self.boat, nameWithSails)
         else

@@ -8,11 +8,11 @@ ISLaunchBoatOnWater = ISBaseTimedAction:derive("ISLaunchBoatOnWater")
 
 
 function ISLaunchBoatOnWater:isValid()
-	return self.vehicle and not self.vehicle:isRemovedFromWorld();
+	return self.trailer and not self.trailer:isRemovedFromWorld();
 end
 
 function ISLaunchBoatOnWater:update()
-	self.character:faceThisObject(self.vehicle)
+	self.character:faceThisObject(self.trailer)
 
 	-- speed 1 = 1, 2 = 5, 3 = 20, 4 = 40
 	local uispeed = UIManager.getSpeedControls():getCurrentGameSpeed()
@@ -42,51 +42,12 @@ function ISLaunchBoatOnWater:stop()
 end
 
 function ISLaunchBoatOnWater:perform()
-	local newTrailerName = AquaConfig.Trailers[self.vehicle:getScript():getName()].emptyTrailer
-	local boatName = AquaConfig.Trailers[self.vehicle:getScript():getName()].boat
-	
+	local newTrailerName = AquaConfig.Trailers[self.trailer:getScript():getName()].emptyTrailer
+	local boatName = AquaConfig.Trailers[self.trailer:getScript():getName()].boat
 	local boat = addVehicleDebug("Base."..boatName, IsoDirections.N, 0, self.square)
-	boat:setAngles(self.vehicle:getAngleX(), self.vehicle:getAngleY(), self.vehicle:getAngleZ())
-
-	local partData = self.vehicle:getModData()["boatParts"]
-	if partData ~= nil then
-		for i=1, boat:getPartCount() do
-			local part = boat:getPartByIndex(i)
-			if part ~= nil then 
-				local tmp = partData[part:getId()]
-
-				if tmp == nil then
-					part:setInventoryItem(nil)
-				else
-					part:setCondition(tmp)
-				end
-			end
-		end
-	end
-
-	local data = self.vehicle:getModData()
-	local gastank = boat:getPartById("GasTank")
-	if gastank and data["boatPart_GasTank"] then
-		gastank:setContainerContentAmount(data["boatPart_GasTank"]) 
-	end
-
-	local battery = boat:getPartById("Battery")
-	if battery and battery:getInventoryItem() and data["boatPart_Battery"] then
-		battery:getInventoryItem():setUsedDelta(data["boatPart_Battery"])
-	end
-
-	self.vehicle:setScriptName(newTrailerName)
-	self.vehicle:scriptReloaded()
-
-	for i=1, boat:getPartCount() do
-		local part = boat:getPartByIndex(i-1)	
-		if part:isContainer() and part:getItemContainer() ~= nil then
-			local itemContainer = part:getItemContainer()
-			itemContainer:getItems():clear()
-		end
-	end
-
-
+	boat:setAngles(self.trailer:getAngleX(), self.trailer:getAngleY(), self.trailer:getAngleZ())
+	ISVehicleMenuForTrailerWithBoat.replaceTrailerBoat(self.trailer, boat)
+	ISVehicleMenuForTrailerWithBoat.replaceTrailer(self.trailer, newTrailerName)
 	-- Delete key
 	local xx = boat:getX()
 	local yy = boat:getY()
@@ -134,12 +95,12 @@ function ISLaunchBoatOnWater:perform()
 end
 
 
-function ISLaunchBoatOnWater:new(character, vehicle, sq)
+function ISLaunchBoatOnWater:new(character, trailer, sq)
 	local o = {}
 	setmetatable(o, self)
 	self.__index = self
 	o.character = character
-    o.vehicle = vehicle
+    o.trailer = trailer
     o.square = sq
 
 	o.isFadeOut = false

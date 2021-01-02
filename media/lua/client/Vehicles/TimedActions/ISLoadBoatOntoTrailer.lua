@@ -8,11 +8,11 @@ ISLoadBoatOntoTrailer = ISBaseTimedAction:derive("ISLoadBoatOntoTrailer")
 
 
 function ISLoadBoatOntoTrailer:isValid()
-	return self.vehicle and not self.vehicle:isRemovedFromWorld();
+	return self.trailer and not self.trailer:isRemovedFromWorld();
 end
 
 function ISLoadBoatOntoTrailer:update()
-	self.character:faceThisObject(self.vehicle)
+	self.character:faceThisObject(self.trailer)
 
 	-- speed 1 = 1, 2 = 5, 3 = 20, 4 = 40
 	local uispeed = UIManager.getSpeedControls():getCurrentGameSpeed()
@@ -42,30 +42,9 @@ function ISLoadBoatOntoTrailer:stop()
 end
 
 function ISLoadBoatOntoTrailer:perform()
-	local trailerName = AquaConfig.Trailers[self.vehicle:getScript():getName()].trailerWithBoatTable[self.boat:getScript():getName()]		
-	self.vehicle:setScriptName(trailerName)
-	self.vehicle:scriptReloaded()
-
-	local data = self.vehicle:getModData()
-	data["boatParts"] = {}
-	for i=1, self.boat:getPartCount() do
-		local part = self.boat:getPartByIndex(i-1)	
-
-		if part:getInventoryItem() or not part:getTable("install") then
-			data["boatParts"][part:getId()] = part:getCondition()
-		end		
-	end
-
-	local gastank = self.boat:getPartById("GasTank")
-	if gastank then
-		data["boatPart_GasTank"] = gastank:getContainerContentAmount()
-	end
-
-	local battery = self.boat:getPartById("Battery")
-	if battery and battery:getInventoryItem() then
-		data["boatPart_Battery"] = battery:getInventoryItem():getUsedDelta()
-	end
-
+	local newTrailerName = AquaConfig.Trailers[self.trailer:getScript():getName()].trailerWithBoatTable[self.boat:getScript():getName()]
+	ISVehicleMenuForTrailerWithBoat.replaceTrailer(self.trailer, newTrailerName)
+	ISVehicleMenuForTrailerWithBoat.replaceTrailerBoat(self.boat, self.trailer)
 	self.boat:removeFromWorld()
 
 	local playerNum = self.character:getPlayerNum()
@@ -76,12 +55,12 @@ function ISLoadBoatOntoTrailer:perform()
 end
 
 
-function ISLoadBoatOntoTrailer:new(character, vehicle, boat)
+function ISLoadBoatOntoTrailer:new(character, trailer, boat)
 	local o = {}
 	setmetatable(o, self)
 	self.__index = self
 	o.character = character
-    o.vehicle = vehicle
+    o.trailer = trailer
     o.boat = boat
 
 	o.isFadeOut = false
