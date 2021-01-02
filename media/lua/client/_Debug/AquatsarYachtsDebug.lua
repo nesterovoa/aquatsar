@@ -125,8 +125,18 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		playerObj:getInventory():AddItem("Base.EmptyPetrolCan");
 		playerObj:getInventory():AddItem("Base.PetrolCan");
 		playerObj:getInventory():AddItem("Base.Wrench");
+
+		playerObj:getInventory():AddItem("Base.Needle");
+		playerObj:getInventory():AddItem("Base.Thread");
+		playerObj:getInventory():AddItems("Base.RippedSheets", 10);
+		playerObj:getInventory():AddItems("Base.LeatherStrips", 10);
+		playerObj:getInventory():AddItems("Base.DenimStrips", 10);
+		
 		playerObj:getInventory():AddItem("Aqua.DivingMask");
 		playerObj:getInventory():AddItem("Aqua.Lifebuoy");
+		playerObj:getInventory():AddItem("Aqua.Compass");
+		playerObj:getInventory():AddItem("Aqua.Sail");
+
 		playerObj:getInventory():AddItem("Aqua.BoatMag1");
 		playerObj:getInventory():AddItem("Aqua.BoatMag2");
 		playerObj:getInventory():AddItem("Aqua.BoatMag3");

@@ -6,28 +6,34 @@ module Aqua
     {
         Type = Clothing,
 		DisplayName = Diving Mask,
-		BodyLocation = Hat,
-		Icon	=	DivingMask,
+		ClothingItem = Hat_Spiffo,
+		BodyLocation = FullHat,
+		Icon = DivingMask,
 		CanHaveHoles = false,
-		BloodLocation = Head,
-		BiteDefense = 10,
-		ScratchDefense = 10,
 		ChanceToFall = 10,
-		Insulation = 0.25,
-		WaterResistance = 0.2,
+        BloodLocation = Head,
+        Insulation = 0.75,
+        WindResistance = 0.75,
+        WaterResistance = 0.75,
         MechanicsItem = TRUE,
     }
 
-	item Lifebuoy
+    item Lifebuoy
     {
         Type = Clothing,
-		DisplayName = Lifebuoy,
-		ClothingItem = Lifebuoy,
-		BodyLocation = Shirt,
-		Icon = DivingMask,
-		BloodLocation = Shirt,
-        Insulation = 0.25,
-        WindResistance = 0.15,
+        DisplayName = Lifebuoy,
+        ClothingItem = WeddingJacket,
+        BodyLocation = Jacket,
+        BloodLocation = Jacket,
+        Icon = Lifebuoy,
+        RunSpeedModifier = 0.93,
+        CombatSpeedModifier = 0.95,
+        ScratchDefense = 20,
+        NeckProtectionModifier = 0.5,
+        Insulation = 0.40,
+        WindResistance = 0.2,
+        FabricType = Cotton,
+        Weight = 2,
     }
 
 	item TaintedLiterature
@@ -36,6 +42,14 @@ module Aqua
 		Type	=	Normal,
 		DisplayName	=	Tainted literature,
 		Icon	=	DivingMask,
+	}
+
+    item Compass
+	{
+		Weight	=	0.5,
+		Type	=	Normal,
+		DisplayName	=	Compass,
+		Icon	=	Compass,
 	}
 
 	/************************ Equipment ************************/
@@ -60,6 +74,18 @@ module Aqua
         Icon	=	ManualStarter,
         VehicleType =   1,
         ChanceToSpawnDamaged = 0,
+        ConditionMax = 100,
+        MechanicsItem = TRUE,
+    }
+
+    item Sail
+    {
+        Weight	=	20.0,
+        Type	=	Normal,
+        DisplayName	=	Sail,
+        Icon	=	Sail,
+        VehicleType =   1,
+        ChanceToSpawnDamaged = 10,
         ConditionMax = 100,
         MechanicsItem = TRUE,
     }

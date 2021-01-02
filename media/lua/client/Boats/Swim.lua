@@ -96,10 +96,10 @@ local function swimToBoatPerform(playerObj, boat, chance)
         triggerEvent("OnEnterVehicle", pl)
     end
 
-    local square = boat:getAreaCenter("SeatFrontLeft")
+    local areaVec = boat:getAreaCenter("SeatFrontLeft")
 
     ISTimedActionQueue.clear(playerObj)
-    ISTimedActionQueue.add(ISSwimAction:new(playerObj, chance, square:getX(), square:getY(), func, playerObj, boat));
+    ISTimedActionQueue.add(ISSwimAction:new(playerObj, chance, areaVec:getX(), areaVec:getY(), func, playerObj, boat));
 end
 
 local function swimToPointPerform(playerObj, square, chance)
