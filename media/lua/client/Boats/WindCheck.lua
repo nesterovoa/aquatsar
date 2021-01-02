@@ -41,17 +41,26 @@ local function sayWindInfo(playerObj)
     local speed = AquaPhysics.Wind.getWindSpeed()
     local force = ""
 
-    if speed < 1 then 
+	print(speed)
+    if speed <= 1 then 
         force = getText("IGUI_Wind_NoWind")
-    elseif speed < 10 then
-        force = getText("IGUI_Wind_WeakWind")
-    elseif speed < 30 then
-        force = getText("IGUI_Wind_StrongWind")
+		playerObj:Say(force)
+    elseif speed < AquaConfig.windVeryLight then
+        force = getText("IGUI_Wind_VeryLight")
+    elseif speed < AquaConfig.windLight then
+        force = getText("IGUI_Wind_Light")
+	elseif speed < AquaConfig.windMedium then
+        force = getText("IGUI_Wind_Medium")
+	elseif speed < AquaConfig.windStrong then
+		force = getText("IGUI_Wind_Strong")
+	elseif speed < AquaConfig.windVeryStrong then
+		force = getText("IGUI_Wind_VeryStrong")
     else
-        force = getText("IGUI_Wind_StormWind")
+        force = getText("IGUI_Wind_Storm")
     end
-
-    playerObj:Say(getText("IGUI_Wind") .. force .. ", " .. AquaPhysics.Wind.getWindDirection())
+	if speed > 1 then 
+		playerObj:Say(getText("IGUI_Wind") .. " " .. force .. ", " .. getText("IGUI_Wind_in") .. " " .. getText("IGUI_Wind_" .. AquaPhysics.Wind.inWindDirection()) .. " " .. getText("IGUI_Wind_direction"))
+	end
 end
 
 local function sayWindInfoContext( player, context, items)

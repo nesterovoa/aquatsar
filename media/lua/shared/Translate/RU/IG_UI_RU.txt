@@ -79,13 +79,27 @@ IGUI_RU = {
 	IGUI_SwimWord_Fail2 = "Чуть не утонул",
 	IGUI_SwimWord_Fail3 = "Еле доплыл",
 
-	IGUI_sayWindInfo = "Определить ветер",
+	IGUI_sayWindInfo = "Определить направление ветра",
 	IGUI_needBeOutside_tosayWindInfo = "Нельзя определить ветер в помещении",
-	IGUI_Wind = "Ветер ",
-	IGUI_Wind_NoWind = "отсутствует",
-	IGUI_Wind_WeakWind = "слабый",
-	IGUI_Wind_StrongWind = "сильный",
-	IGUI_Wind_StormWind = "штормовой",
-
-	IGUI_RepairSail = "Зашить парус"
+	IGUI_Wind = "Ветер",
+	IGUI_Wind_in = "в",
+	IGUI_Wind_direction = "направлении.",
+	IGUI_Wind_NoWind = "Aбсолютно безветренно.",
+	IGUI_Wind_VeryLight = "очень слабый",
+	IGUI_Wind_Light = "слабый",
+	IGUI_Wind_Medium = "средний",
+	IGUI_Wind_Strong = "сильный",
+	IGUI_Wind_VeryStrong = "очень сильный",
+	IGUI_Wind_Storm = "штормовой",
+	
+	IGUI_Wind_N = "северном",
+	IGUI_Wind_NW = "северо-западном",
+	IGUI_Wind_W = "западном",
+	IGUI_Wind_SW = "юго-западном",
+	IGUI_Wind_S = "южном",
+	IGUI_Wind_SE = "юго-восточном",
+	IGUI_Wind_E = "восточном",
+	IGUI_Wind_NE = "северо-восточном",
+	
+	IGUI_RepairSail = "Зашить парус",
 }

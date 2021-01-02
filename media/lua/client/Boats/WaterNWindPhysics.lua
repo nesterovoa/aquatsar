@@ -33,7 +33,19 @@ function AquaPhysics.Wind.getWindSpeed()
     return getClimateManager():getWindspeedKph()
 end
 
-function AquaPhysics.Wind.getWindDirection()
+function AquaPhysics.Wind.inWindDirection()
+	local angle = getClimateManager():getWindAngleDegrees()
+	local windAngles = { 22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 382.5 }
+	local windAngleStr = { "S", "SE", "E", "NE", "N", "NW", "W", "SW", "S" }
+    for b = 1, #windAngles do
+		if (angle < windAngles[b]) then
+			return windAngleStr[b]
+		end
+	end
+    return windAngleStr[#windAngleStr - 1];
+end
+
+function AquaPhysics.Wind.fromWindDirection()
 	local angle = getClimateManager():getWindAngleDegrees()
 	local windAngles = { 22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 382.5 }
 	local windAngleStr = { "N", "NW", "W", "SW", "S", "SE", "E", "NE", "N" }

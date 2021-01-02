@@ -52,15 +52,18 @@ IG_UI_EN = {
 	IGUI_SOUTH = "East",
 	IGUI_WEST = "West",
 	IGUI_NORTH = "North",
-	IGUI_Exit_Boat = "Free swimming",
+	
 	IGUI_SwimUI_Title = "Float away",
 	IGUI_playerCanSwim = "You can swim.",
 	IGUI_playerCantSwim = "You can't swim.",
-	IGUI_DropToWater = "Throw in water",
 	IGUI_almostDie = "Damn, I almost died",
 	IGUI_almostDieFail = "Damn, I couldn't and I almost died.",
-	IGUI_SwimTo = "Swim to",
-	IGUI_andDropItems = "also I lost my things..."
+	IGUI_andDropItems = "also I lost my things...",
+	IGUI_DropToWater = "Throw in water",
+	IGUI_SwimTo = "Swim to %1",
+	IGUI_SwimToLand = "Sail to the shore",
+	IGUI_Exit_Boat = "Free swimming",
+	IGUI_SwimToPoint = "Swim",
 	
 	IGUI_SwimWord_Damage1 = "Wooh...",
 	IGUI_SwimWord_Damage2 = "Eh...",
@@ -81,5 +84,28 @@ IG_UI_EN = {
 	IGUI_SwimWord_Fail2 = "I almost drowned",
 	IGUI_SwimWord_Fail3 = "I almost drowned",
 	
+	IGUI_sayWindInfo = "Detect wind direction",
+	IGUI_needBeOutside_tosayWindInfo = "Indoor wind cannot be detected",
+	IGUI_Wind = "The wind is",
+	IGUI_Wind_in = "in the",
+	IGUI_Wind_direction = "direction.",
+	IGUI_Wind_NoWind = "Absolutely calm.",
+	IGUI_Wind_VeryLight = "very light",
+	IGUI_Wind_Light = "light",
+	IGUI_Wind_Medium = "medium",
+	IGUI_Wind_Strong = "strong",
+	IGUI_Wind_VeryStrong = "very strong",
+	IGUI_Wind_Storm = "stormy",
+	
+	IGUI_Wind_N = "north",
+	IGUI_Wind_NW = "northwest",
+	IGUI_Wind_W = "west",dwds
+	IGUI_Wind_SW = "southwest",
+	IGUI_Wind_S = "south",
+	IGUI_Wind_SE = "southeast",
+	IGUI_Wind_E = "east",
+	IGUI_Wind_NE = "northeast",
+	
+	IGUI_RepairSail = "Sew up the sail",
 }
 

@@ -85,8 +85,8 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		
 		ibrrusDEBUG = true
 		
-		playerObj:setGhostMode(true);
-		playerObj:setGodMod(true)
+		-- playerObj:setGhostMode(true);
+		-- playerObj:setGodMod(true)
 		
 		-- Visual
 		local visual = playerObj:getHumanVisual();

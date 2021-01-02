@@ -1334,7 +1334,7 @@ print("ISBoatMechanics:close()")
 	self:setVisible(false)
 	self:setEnabled(false);
 	self:removeFromUIManager()
-	local data = getPlayerData(playerObj:getPlayerNum())
+	local data = getPlayerData(self.playerNum)
 	data.mechanicsUI = ISVehicleMechanics:new(0,0, self.chr, nil);
     data.mechanicsUI:setVisible(false);
     data.mechanicsUI:setEnabled(false);

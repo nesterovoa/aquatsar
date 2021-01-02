@@ -7,9 +7,13 @@ ContextMenu_RU = {
 	ContextMenu_BoatHeadlightsOn = "Включить прожекторы",
 	ContextMenu_BoatHotwireSkill = "Нужны ключи от лодки или<br>навыки электроники I уровня<br>и автомеханики II уровня",
 	
-
 	ContextMenu_RemoveSail = "Спустить паруса", 
 	ContextMenu_SetLeftSail = "Установить паруса<br>на левую сторону",
 	ContextMenu_SetRightSail = "Установить паруса<br>на правую сторону",
 	ContextMenu_SwimToLand = "Уплыть",
+	
+	ContextMenu_LaunchBoat = "Спустить лодку<br>на воду",
+	ContextMenu_LoadBoatOntoTrailer = "Загрузить лодку<br>на прицеп",
+	
+	ContextMenu_VehicleStartEngineManual = "Запустить двигатель вручную",
 }
