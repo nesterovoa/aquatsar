@@ -31,9 +31,18 @@ function SoundControl()
 		end
 	end
 	
-	if player:getSprite():getProperties():Is(IsoFlagType.invisible) and player:getSquare() and not player:getSquare():Is(IsoFlagType.water) then
-		player:getSprite():getProperties():UnSet(IsoFlagType.invisible)
+	if player:getSquare() then
+		if player:getSquare():Is(IsoFlagType.water) then
+			if not player:getSprite():getProperties():Is(IsoFlagType.invisible) then
+				player:getSprite():getProperties():Set(IsoFlagType.invisible)
+			end
+		else
+			if player:getSprite():getProperties():Is(IsoFlagType.invisible) then
+				player:getSprite():getProperties():UnSet(IsoFlagType.invisible)
+			end
+		end
 	end
+	
 end
 
 Events.OnTick.Add(SoundControl)

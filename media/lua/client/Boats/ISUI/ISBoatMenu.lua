@@ -223,14 +223,14 @@ function ISBoatMenu.getBoatToInteractWith(playerObj)
 	if not boat then
 		local sqs = {}
 		local dir = playerObj:getDir()
-		if (dir == IsoDirections.N) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 0,-4)
-		elseif (dir == IsoDirections.NE) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 3,-3)
-		elseif (dir == IsoDirections.E) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 4,0)
-		elseif (dir == IsoDirections.SE) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 3,3)
-		elseif (dir == IsoDirections.S) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 0,4)
-		elseif (dir == IsoDirections.SW) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, -3,3)
-		elseif (dir == IsoDirections.W) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, -4,0)
-		elseif (dir == IsoDirections.NW) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, -3,-3)
+		if (dir == IsoDirections.N) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 0,-3)
+		elseif (dir == IsoDirections.NE) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 2,-2)
+		elseif (dir == IsoDirections.E) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 3,0)
+		elseif (dir == IsoDirections.SE) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 2,2)
+		elseif (dir == IsoDirections.S) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 0,3)
+		elseif (dir == IsoDirections.SW) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, -2,2)
+		elseif (dir == IsoDirections.W) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, -3,0)
+		elseif (dir == IsoDirections.NW) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, -2,-2)
 		end
 		
 		for _,sq in ipairs(sqs) do
@@ -251,7 +251,7 @@ function ISBoatMenu.getNearLandForExit(boat)
 	if square == nil then return nil end
 	local vec = Vector3f.new()
 	
-	local max_distance = 6
+	local max_distance = 3
 	local minDist = 9999999
 	local nearestSq = nil
 

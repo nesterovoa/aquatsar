@@ -5,7 +5,7 @@ module Base
         mesh = boats/BoatMotor,
         shader = vehicle_multiuv,
         invertX = FALSE,
-        scale = 0.0018,
+        scale = 0.0014,
     }
 	template vehicle BoatMotorTemplate
 	{
@@ -263,9 +263,9 @@ module Base
 			horn = BoatHorn,
 		}
 
-		extents = 0.4057 0.3200 1.4343,
+		extents = 0.2971 0.3200 1.0886,
 		mass = 100,
-		physicsChassisShape = 0.4543 0.3200 1.4314,
+		physicsChassisShape = 0.2971 0.3200 1.0314,
 		centerOfMassOffset = 0.0000 0.5743 -0.0586,
 
 		wheel FrontLeft

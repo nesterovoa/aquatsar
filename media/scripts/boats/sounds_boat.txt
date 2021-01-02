@@ -16,7 +16,7 @@ module Base
 	{
 		category = Vehicle,
 		loop = false,
-		volume = 1.25,
+		volume = 1.5,
 		clip
 		{
 			file = media/sound/boats/tryStartEngineManualy.ogg,
@@ -29,7 +29,7 @@ module Base
 	{
 		category = Vehicle,
 		loop = false,
-		volume = 1.25,
+		volume = 1.5,
 		clip
 		{
 			file = media/sound/boats/successStartEngineManualy.ogg,
@@ -42,7 +42,8 @@ module Base
 	{
 		category = Vehicle,
 		loop = false,
-		volume = 1.25,
+		volume = 1.5,
+		is3D = false,
 		clip
 		{
 			file = media/sound/boats/failStartEngineManualy.ogg,
@@ -67,7 +68,8 @@ module Base
 	{
 		category = Vehicle,
 		loop = true,
-		volume = 0.25,
+		volume = 0.4,
+		is3D = false,
 		clip
 		{
 			file = media/sound/boats/boat_sailing.ogg,

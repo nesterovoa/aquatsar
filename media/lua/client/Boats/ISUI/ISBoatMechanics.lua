@@ -1459,30 +1459,30 @@ function ISBoatMechanics:onKeyRelease(key)
 	end
 end
 
-ISBoatMechanics.OnMechanicActionDone = function(chr, success, vehicleId, partId, itemId, installing)
-print("ISBoatMechanics:OnMechanicActionDone()")
-	if success and itemId ~= -1 then
-		local vehicle = getVehicleById(vehicleId);
-		if not vehicle then noise('no such vehicle ' .. vehicleId); return; end
-		local part = vehicle:getPartById(partId);
-		if not part then noise('no such part in vehicle ' .. partId); return; end
-		if installing then
-			chr:addMechanicsItem(itemId .. vehicle:getMechanicalID() .. "1", part, getGameTime():getCalender():getTimeInMillis());
-		else
-			chr:addMechanicsItem(itemId .. vehicle:getMechanicalID() .. "0", part, getGameTime():getCalender():getTimeInMillis());
-		end
-	end
+-- ISBoatMechanics.OnMechanicActionDone = function(chr, success, vehicleId, partId, itemId, installing)
+-- print("ISBoatMechanics:OnMechanicActionDone()")
+	-- if success and itemId ~= -1 then
+		-- local vehicle = getVehicleById(vehicleId);
+		-- if not vehicle then noise('no such vehicle ' .. vehicleId); return; end
+		-- local part = vehicle:getPartById(partId);
+		-- if not part then noise('no such part in vehicle ' .. partId); return; end
+		-- if installing then
+			-- chr:addMechanicsItem(itemId .. vehicle:getMechanicalID() .. "1", part, getGameTime():getCalender():getTimeInMillis());
+		-- else
+			-- chr:addMechanicsItem(itemId .. vehicle:getMechanicalID() .. "0", part, getGameTime():getCalender():getTimeInMillis());
+		-- end
+	-- end
 	
-	local ui = getPlayerMechanicsUI(chr:getPlayerNum());
-	if ui and ui:isReallyVisible() then
-		if success then ui:startFlashGreen()
-		else ui:startFlashRed() end
-	end
+	-- local ui = getPlayerMechanicsUI(chr:getPlayerNum());
+	-- if ui and ui:isReallyVisible() then
+		-- if success then ui:startFlashGreen()
+		-- else ui:startFlashRed() end
+	-- end
 	
-	-- Give some exp if you fail
-	if not success then
-		chr:getXp():AddXP(Perks.Mechanics, 1);
-	end
-end
+	-- -- Give some exp if you fail
+	-- if not success then
+		-- chr:getXp():AddXP(Perks.Mechanics, 1);
+	-- end
+-- end
 
-Events.OnMechanicActionDone.Add(ISBoatMechanics.OnMechanicActionDone);
+-- Events.OnMechanicActionDone.Add(ISBoatMechanics.OnMechanicActionDone);

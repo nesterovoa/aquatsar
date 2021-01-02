@@ -234,7 +234,7 @@ function AquaPhysics.Wind.windImpulse(boat)
 
 	local squareFrontVehicle = getCell():getGridSquare(frontVector:x(), frontVector:y(), 0)
 	if squareFrontVehicle ~= nil and isWater(squareFrontVehicle) then
-		if savedWindForce > 0 and boatSpeed < (savedWindForce * 1.60934) and boatSpeed/1.60934 < savedWindForce and not isKeyDown(Keyboard.KEY_S) then
+		if savedWindForce > 0 and boatSpeed < (savedWindForce * 1.60934) and boatSpeed/1.60934 < savedWindForce and not isKeyDown(getCore():getKey("Backward")) then
 			local startCoeff = 1
 			if boatSpeed < 2 * 1.60934 then
 				startCoeff = 5
@@ -249,7 +249,7 @@ function AquaPhysics.Wind.windImpulse(boat)
 		-- AUD.insp("Boat", "forceVectorY:", boatDirVector:z())
 	end
 	if boat:getDriver() then
-		if isKeyDown(Keyboard.KEY_A) then
+		if isKeyDown(getCore():getKey("Left")) then
 			boat:update()
 			forceVector = boat:getWorldPos(-1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
 			forceVector:mul(10)
@@ -258,7 +258,7 @@ function AquaPhysics.Wind.windImpulse(boat)
 			boat:getWorldPos(0, 0, -3, tempVec2):add(-boat:getX(), -boat:getY(), -boat:getZ())
 			tempVec2:set(tempVec2:x(), tempVec2:z(), tempVec2:y())
 			boat:addImpulse(forceVector, tempVec2)   
-		elseif isKeyDown(Keyboard.KEY_D) then
+		elseif isKeyDown(getCore():getKey("Right")) then
 			boat:update()
 			forceVector = boat:getWorldPos(1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
 			forceVector:mul(10)
@@ -327,6 +327,7 @@ end
 
 function AquaPhysics.reverseSpeedFix(boat)	
 	if boat:getSquare() ~= nil and isWater(boat:getSquare()) then
+		local speed = boat:getCurrentSpeedKmHour()
 		if speed < -6 then
 			AquaPhysics.stopVehicleMove(boat, 3000)
 		end
@@ -343,6 +344,56 @@ function AquaPhysics.heightFix(boat)
 	end
 end
 
+function AquaConfig.waterFlowRotation(boat)
+	if boat:getDriver() and boat:getCurrentSpeedKmHour() < 2 then
+		local lenHalf = boat:getScript():getPhysicsChassisShape():z()/2
+		local force = 100
+		if isKeyDown(getCore():getKey("Right")) then
+			boat:setPhysicsActive(true)
+			boat:update()
+
+			local forceVector = boat:getWorldPos(-1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			local pushPoint = boat:getWorldPos(0, 0, lenHalf, tempVec2):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			pushPoint:set(pushPoint:x(), 0, pushPoint:y())
+			
+			forceVector:mul(force)
+			forceVector:set(forceVector:x(), 0, forceVector:y())
+			boat:addImpulse(forceVector, pushPoint)
+
+			boat:update()
+
+			local forceVector = boat:getWorldPos(1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			local pushPoint = boat:getWorldPos(0, 0, -lenHalf, tempVec2):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			pushPoint:set(pushPoint:x(), 0, pushPoint:y())
+			
+			forceVector:mul(force)
+			forceVector:set(forceVector:x(), 0, forceVector:y())
+			boat:addImpulse(forceVector, pushPoint)
+
+		elseif isKeyDown(getCore():getKey("Left")) then
+			boat:setPhysicsActive(true)
+			boat:update()
+
+			local forceVector = boat:getWorldPos(1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			local pushPoint = boat:getWorldPos(0, 0, lenHalf, tempVec2):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			pushPoint:set(pushPoint:x(), 0, pushPoint:y())
+			
+			forceVector:mul(force)
+			forceVector:set(forceVector:x(), 0, forceVector:y())
+			boat:addImpulse(forceVector, pushPoint)
+
+			boat:update()
+
+			local forceVector = boat:getWorldPos(-1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			local pushPoint = boat:getWorldPos(0, 0, -lenHalf, tempVec2):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			pushPoint:set(pushPoint:x(), 0, pushPoint:y())
+			
+			forceVector:mul(force)
+			forceVector:set(forceVector:x(), 0, forceVector:y())
+			boat:addImpulse(forceVector, pushPoint)
+		end
+	end
+end
 -----------------------------
 
 function AquaPhysics.updateVehicles()
@@ -357,6 +408,7 @@ function AquaPhysics.updateVehicles()
 			if AquaConfig.Boats[boat:getScript():getName()].sails then
 				AquaPhysics.reverseSpeedFix(boat)
 				AquaPhysics.Wind.windImpulse(boat)
+				AquaConfig.waterFlowRotation(boat)
 			end
         end
     end

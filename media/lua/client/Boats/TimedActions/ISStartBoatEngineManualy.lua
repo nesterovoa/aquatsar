@@ -42,7 +42,7 @@ function ISStartBoatEngineManualy:new(character)
 	setmetatable(o, self)
 	self.__index = self
 	o.character = character
-	o.maxTime = 6.5 * 50
+	o.maxTime = 9 * 50
 	return o
 end
 
