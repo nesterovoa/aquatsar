@@ -116,21 +116,22 @@ local function swimToLandPerform(playerObj, square, chance)
     ISTimedActionQueue.add(ISSwimAction:new(playerObj, chance, square:getX(), square:getY(), func, playerObj ));
 end
 
-local function isWaterLine(x, y, x2, y2)  
+local function isWaterLine(x, y, x2, y2)
     local tmpX = x2 - x
     local tmpY = y2 - y    
-    local len = math.sqrt(tmpX*tmpX + tmpY*tmpY)
+    local len = math.abs(math.sqrt(tmpX*tmpX + tmpY*tmpY))
     local dx = tmpX / len
     local dy = tmpY / len
+
+    if len < 2 then return false end
 
     local cell = getCell()
     for i=2, math.floor(len) do
         local sq = cell:getGridSquare(x + dx*i, y + dy*i, 0)
-        if not sq or not sq:Is(IsoFlagType.water) then 
+        if not sq or not sq:getFloor():getSprite():getProperties():Is(IsoFlagType.water) then 
             return false
         end    
     end
-
     return true
 end
 
@@ -161,6 +162,10 @@ local function swimToPoint(player, context, worldobjects, test)
 	for i,v in ipairs(worldobjects) do
 		local square = v:getSquare();
         
+        if square:Is(IsoFlagType.water) then
+            print("ISWATER")
+        end
+
         if square then
             pointSquare = square
 
@@ -176,7 +181,7 @@ local function swimToPoint(player, context, worldobjects, test)
         local name = getText("IGUI_BoatName" .. boat:getScript():getName())
         context:addOption(getText("IGUI_SwimTo", name).. " (" .. getText("IGUI_chance") .. ": " .. chance .. "%)", playerObj, swimToBoatPerform, boat, chance)
     
-    elseif pointSquare and isWaterLine(playerObj:getX(), playerObj:getY(), pointSquare:getX(), pointSquare:getY()) then
+    elseif pointSquare and pointSquare ~= playerSquare and isWaterLine(playerObj:getX(), playerObj:getY(), pointSquare:getX(), pointSquare:getY()) then
         local chance = AquatsarYachts.Swim.swimChanceSuccess(playerObj, pointSquare)
         context:addOption(getText("IGUI_SwimToPoint").. " (" .. getText("IGUI_chance") .. ": " .. chance .. "%)", playerObj, swimToPointPerform, pointSquare, chance)
 
