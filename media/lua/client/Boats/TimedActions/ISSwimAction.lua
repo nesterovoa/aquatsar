@@ -96,7 +96,7 @@ function ISSwimAction:update()
     end
 
     if self.isFail and (self.dropCount == 1 and self:getJobDelta() > self.dropTime2) or (self.dropCount == 2 and self:getJobDelta() > self.dropTime1) then
-        dropItems(self.character)
+        AquatsarYachts.Swim.dropItems(self.character)
         self.dropCount = self.dropCount - 1
         self.isLostItems = true
     end
@@ -104,7 +104,7 @@ end
 
 function ISSwimAction:start()
     self.character:getBodyDamage():setWetness(100);
-    wetItems(self.character)
+    AquatsarYachts.Swim.wetItems(self.character)
 end
 
 function ISSwimAction:stop()

@@ -45,7 +45,7 @@ module Aquatsar
 		Weight	=	0.5,
 		Type	=	Normal,
 		DisplayName	=	Tainted literature,
-		Icon	=	DivingMask,
+		Icon	=	TaintedLiterature,
 	}
 
     item Compass

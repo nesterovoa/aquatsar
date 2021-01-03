@@ -137,12 +137,11 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		playerObj:getInventory():AddItem("Aquatsar.Compass");
 		playerObj:getInventory():AddItem("Aquatsar.Sail");
 
-		playerObj:getInventory():AddItem("Aquatsar.BoatMag1");
-		playerObj:getInventory():AddItem("Aquatsar.BoatMag2");
-		playerObj:getInventory():AddItem("Aquatsar.BoatMag3");
-		playerObj:getInventory():AddItem("Aquatsar.SwimMag");
-		--playerObj:getInventory():AddItem("Base.PotOfSoup");
-		--playerObj:getInventory():AddItem("Base.PotOfSoup");
+
+		playerObj:getInventory():AddItem("Aqua.BoatMag");
+		playerObj:getInventory():AddItem("Aqua.SwimMag");
+		-- playerObj:getInventory():AddItem("Base.PotOfSoup");
+		-- playerObj:getInventory():AddItem("Base.PotOfSoup");
 		playerObj:getInventory():AddItem("Base.Screwdriver");
 		--playerObj:getInventory():AddItem("Radio.HamRadio2");
 		--playerObj:getInventory():AddItem("Base.AlarmClock");
