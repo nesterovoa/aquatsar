@@ -93,7 +93,7 @@ module Base
 
 		part Seat*
 		{
-			itemType = Aqua.NotRemovableBoatSeat,
+			itemType = Aquatsar.NotRemovableBoatSeat,
 			category = nodisplay,
 
 			container

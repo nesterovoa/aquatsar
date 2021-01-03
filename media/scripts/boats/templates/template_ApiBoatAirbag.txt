@@ -37,7 +37,7 @@ module Base
 			/**/
 			category = nodisplay,
 			
-			itemType = Aqua.AirBagNormal,
+			itemType = Aquatsar.AirBagNormal,
 			container
 			{
 				capacity = 100,

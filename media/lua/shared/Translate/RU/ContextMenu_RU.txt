@@ -16,4 +16,7 @@ ContextMenu_RU = {
 	ContextMenu_LoadBoatOntoTrailer = "Загрузить лодку<br>на прицеп",
 	
 	ContextMenu_VehicleStartEngineManual = "Запустить двигатель вручную",
+	
+	ContextMenu_Wooden_Pantone = "Деревянный понтон",
+	
 }

@@ -284,7 +284,7 @@ function ISBoatMenu.onExit(playerObj, seatFrom)
 	if not boat then return end
     boat:updateHasExtendOffsetForExit(playerObj)
 	if AquaConfig.isBoat(boat) then
-		if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 then 
+		if math.abs(boat:getCurrentSpeedKmHour()) < 4 then 
 			exitPoint = ISBoatMenu.getNearLandForExit(boat)
 			if exitPoint then
 				print("land near")

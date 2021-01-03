@@ -12,45 +12,6 @@ module Base
 		}
 	}
 	
-	sound Swim
-	{
-		category = Boat,
-		loop = false,
-		is3D = false,
-		clip
-		{
-			file = media/sound/swimming/swim.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
-		}
-	}
-	
-	sound Dive
-	{
-		category = Boat,
-		loop = false,
-		is3D = false,
-		clip
-		{
-			file = media/sound/swimming/dive.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
-		}
-	}
-	
-	sound LeaveWater
-	{
-		category = Boat,
-		loop = false,
-		is3D = false,
-		clip
-		{
-			file = media/sound/swimming/leave_water.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
-		}
-	}
-	
 	sound TryStartEngineManualy
 	{
 		category = Boat,

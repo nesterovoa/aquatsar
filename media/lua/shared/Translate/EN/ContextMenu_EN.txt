@@ -16,4 +16,5 @@ ContextMenu_EN = {
 	ContextMenu_LoadBoatOntoTrailer = "Load boat onto trailer",
 	
 	ContextMenu_VehicleStartEngineManual = "Start engine manually",
+	ContextMenu_Wooden_Pantone = "Wooden pantone",
 }

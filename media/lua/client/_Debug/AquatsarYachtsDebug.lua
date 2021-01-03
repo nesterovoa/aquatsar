@@ -83,7 +83,7 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		local playerObj = getPlayer();
 		local inv = playerObj:getInventory();
 		
-		ibrrusDEBUG = true
+		TDEBUG = true
 		
 		-- playerObj:setGhostMode(true);
 		-- playerObj:setGodMod(true)
@@ -122,8 +122,8 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		playerObj:getKnownRecipes():add("Powerboats Mechanics");
 		
 		-- Items
-		playerObj:getInventory():AddItem("Base.EmptyPetrolCan");
-		playerObj:getInventory():AddItem("Base.PetrolCan");
+		--playerObj:getInventory():AddItem("Base.EmptyPetrolCan");
+		--playerObj:getInventory():AddItem("Base.PetrolCan");
 		playerObj:getInventory():AddItem("Base.Wrench");
 
 		playerObj:getInventory():AddItem("Base.Needle");
@@ -132,20 +132,20 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		playerObj:getInventory():AddItems("Base.LeatherStrips", 10);
 		playerObj:getInventory():AddItems("Base.DenimStrips", 10);
 		
-		playerObj:getInventory():AddItem("Aqua.DivingMask");
-		playerObj:getInventory():AddItem("Aqua.Lifebuoy");
-		playerObj:getInventory():AddItem("Aqua.Compass");
-		playerObj:getInventory():AddItem("Aqua.Sail");
+		playerObj:getInventory():AddItem("Aquatsar.DivingMask");
+		playerObj:getInventory():AddItem("Aquatsar.Lifebuoy");
+		playerObj:getInventory():AddItem("Aquatsar.Compass");
+		playerObj:getInventory():AddItem("Aquatsar.Sail");
 
-		playerObj:getInventory():AddItem("Aqua.BoatMag1");
-		playerObj:getInventory():AddItem("Aqua.BoatMag2");
-		playerObj:getInventory():AddItem("Aqua.BoatMag3");
-		playerObj:getInventory():AddItem("Aqua.SwimMag");
-		playerObj:getInventory():AddItem("Base.PotOfSoup");
-		playerObj:getInventory():AddItem("Base.PotOfSoup");
+		playerObj:getInventory():AddItem("Aquatsar.BoatMag1");
+		playerObj:getInventory():AddItem("Aquatsar.BoatMag2");
+		playerObj:getInventory():AddItem("Aquatsar.BoatMag3");
+		playerObj:getInventory():AddItem("Aquatsar.SwimMag");
+		--playerObj:getInventory():AddItem("Base.PotOfSoup");
+		--playerObj:getInventory():AddItem("Base.PotOfSoup");
 		playerObj:getInventory():AddItem("Base.Screwdriver");
-		playerObj:getInventory():AddItem("Radio.HamRadio2");
-		playerObj:getInventory():AddItem("Base.AlarmClock");
+		--playerObj:getInventory():AddItem("Radio.HamRadio2");
+		--playerObj:getInventory():AddItem("Base.AlarmClock");
 		for i=1, 10 do
 			playerObj:LevelPerk(Perks.Mechanics);
 		end

@@ -1,0 +1,107 @@
+module Aquatsar
+{
+	
+	imports
+	{
+		Base
+	}
+	
+	sound Swim
+	{
+		category = Water,
+		loop = false,
+		is3D = false,
+		clip
+		{
+			file = media/sound/swimming/swim.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound Dive
+	{
+		category = Water,
+		loop = false,
+		is3D = false,
+		clip
+		{
+			file = media/sound/water/dive.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound LeaveWater
+	{
+		category = Water,
+		loop = false,
+		is3D = false,
+		clip
+		{
+			file = media/sound/water/leave_water.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound LeaveWater
+	{
+		category = Water,
+		loop = false,
+		is3D = false,
+		clip
+		{
+			file = media/sound/water/leave_water.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound ThrowInWater
+	{
+		category = Water,
+		loop = false,
+		is3D = false,
+		clip
+		{
+			file = media/sound/water/throw_in_water.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound TireTubeInflatingSound
+	{
+		category = Item,
+		clip
+		{
+			file = media/sound/items/tire_tube_inflating.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound HandPumpSound
+	{
+		category = Item,
+		clip
+		{
+			file = media/sound/items/hand_pump.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound ExtractTireTubeSound
+	{
+		category = Item,
+		clip
+		{
+			file = media/sound/items/extract_tire_tube.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+}

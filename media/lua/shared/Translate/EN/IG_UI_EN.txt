@@ -33,6 +33,7 @@ IG_UI_EN = {
 	IGUI_PlayerText_CanNotSwim = "I can't swim",
 	IGUI_PlayerText_CabinlightDoNotWork = "It looks like the light isn't working",
 	IGUI_PlayerText_FloodlightsDoNotWork = "Spotlights don't work",
+	IGUI_PlayerText_PontoonNeeded = "Pontoon is needed here",
 	
 	IGUI_BoatSeat_Self = "You are already here",
 	IGUI_BoatSeat_Person = "There is a man standing here",

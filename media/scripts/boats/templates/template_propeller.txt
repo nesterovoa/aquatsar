@@ -6,7 +6,7 @@ module Base
 		{
 			category = MechanicalSystem,
 			area = SeatFrontLeft,
-			itemType = Aqua.BoatPropeller,
+			itemType = Aquatsar.BoatPropeller,
 			specificItem = false,
 			table install
 			{
@@ -14,7 +14,7 @@ module Base
 				{
 					1
 					{
-						type = Aqua.DivingMask,
+						type = Aquatsar.DivingMask,
 						count = 1,
 						keep = true,
 						equip = primary,
@@ -39,7 +39,7 @@ module Base
 				{
 					1
 					{
-						type = Aqua.DivingMask,
+						type = Aquatsar.DivingMask,
 						count = 1,
 						keep = true,
 						equip = primary,

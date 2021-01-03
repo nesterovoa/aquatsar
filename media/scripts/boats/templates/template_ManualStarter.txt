@@ -6,7 +6,7 @@ module Base
 		{
 			category = MechanicalSystem,
 			area = SeatFrontLeft,
-			itemType = Aqua.ManualStarter,
+			itemType = Aquatsar.ManualStarter,
 			specificItem = false,
 			table install
 			{

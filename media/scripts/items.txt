@@ -1,0 +1,105 @@
+module Aquatsar
+{
+
+	imports
+	{
+		Base
+	}
+	
+	item DivingMask
+    {
+        Type = Clothing,
+		DisplayName = Diving Mask,
+		ClothingItem = Hat_Spiffo,
+		BodyLocation = FullHat,
+		Icon = DivingMask,
+		CanHaveHoles = false,
+		ChanceToFall = 10,
+        BloodLocation = Head,
+        Insulation = 0.75,
+        WindResistance = 0.75,
+        WaterResistance = 0.75,
+        MechanicsItem = TRUE,
+    }
+
+    item Lifebuoy
+    {
+        Type = Clothing,
+        DisplayName = Lifebuoy,
+        ClothingItem = WeddingJacket,
+        BodyLocation = Jacket,
+        BloodLocation = Jacket,
+        Icon = Lifebuoy,
+        RunSpeedModifier = 0.93,
+        CombatSpeedModifier = 0.95,
+        ScratchDefense = 20,
+        NeckProtectionModifier = 0.5,
+        Insulation = 0.40,
+        WindResistance = 0.2,
+        FabricType = Cotton,
+        Weight = 2,
+    }
+
+	item TaintedLiterature
+	{
+		Weight	=	0.5,
+		Type	=	Normal,
+		DisplayName	=	Tainted literature,
+		Icon	=	DivingMask,
+	}
+
+    item Compass
+	{
+		Weight	=	0.5,
+		Type	=	Normal,
+		DisplayName	=	Compass,
+		Icon	=	Compass,
+	}
+
+	item DeflatedTireTube
+	{
+		Weight	=	0.1,
+		Type	=	Normal,
+		DisplayName	=	Deflated Tire Tube,
+		Icon	=	DeflatedTireTube,
+		Tooltip = Tooltip_SheetRope, /*Не надута*/ 
+	}
+	
+	item TireTube
+	{
+		Weight	=	1,
+		Type	=	Normal,
+		DisplayName	=	Tire Tube,
+		Icon	=	TireTube,
+		Tooltip = Tooltip_SheetRope,
+	}
+	
+	recipe Extract Tire Tube
+    {
+        OldTire1/NormalTire1/ModernTire1/OldTire2/NormalTire2/ModernTire2/OldTire3/NormalTire3/ModernTire3,
+        Result:DeflatedTireTube,
+		keep Screwdriver,
+        Time:200.0,
+		Sound:Aquatsar.ExtractTireTubeSound,
+        Category:Survivalist,
+    }
+	
+	recipe Inflate Tire Tube
+    {
+        DeflatedTireTube,
+        Result:TireTube,
+        Time:500.0,
+		Sound:Aquatsar.TireTubeInflatingSound,
+        Category:Survivalist,
+    }
+	
+	recipe Inflate Tire Tube
+    {
+        DeflatedTireTube,
+		keep TirePump,
+        Result:TireTube,
+        Time:50.0,
+		Sound:Aquatsar.HandPumpSound,
+        Category:Survivalist,
+    }
+}
