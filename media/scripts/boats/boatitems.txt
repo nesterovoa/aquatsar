@@ -41,7 +41,7 @@ module Aqua
 		Weight	=	0.5,
 		Type	=	Normal,
 		DisplayName	=	Tainted literature,
-		Icon	=	DivingMask,
+		Icon	=	TaintedLiterature,
 	}
 
     item Compass
@@ -184,39 +184,15 @@ module Aqua
 	
 	/************************ Magazines ************************/
 	
-	item BoatMag1
+	item BoatMag
     {
         Weight	=	0.1,
         Type	=	Literature,
-        DisplayName	=	Tsar Boat Manual - Powerboats,
-        Icon	=	MagazineMechanic1,
-        TeachedRecipes  =   Powerboats Mechanics,
-        ReplaceOnUse    =   BoatMag1,
-        Tooltip = Tooltip_item_BoatMag1,
-        StaticModel = Magazine,
-    }
-	
-	item BoatMag2
-    {
-        Weight	=	0.1,
-        Type	=	Literature,
-        DisplayName	=	Tsar Boat Manual - Sailboats,
-        Icon	=	MagazineMechanic2,
-        TeachedRecipes  =   Sailboats Mechanics,
-        ReplaceOnUse    =   BoatMag2,
-        Tooltip = Tooltip_item_BoatMag2,
-        StaticModel = Magazine,
-    }
-
-    item BoatMag3
-    {
-        Weight	=	0.1,
-        Type	=	Literature,
-        DisplayName	=	Tsar Boat Manual - Performance Models,
-        Icon	=	MagazineMechanic3,
-        TeachedRecipes  =   Performance Boat Mechanics,
-        ReplaceOnUse    =   BoatMag3,
-        Tooltip = Tooltip_item_BoatMag3,
+        DisplayName	=	Tsar Boat Manual,
+        Icon	=	MagazineBoatMechanics,
+        TeachedRecipes  =   Powerboats Mechanics; Sailboats Mechanics; Performance Boat Mechanics,
+        ReplaceOnUse    =   BoatMag,
+        Tooltip = Tooltip_item_BoatMag,
         StaticModel = Magazine,
     }
 	
