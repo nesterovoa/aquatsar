@@ -150,7 +150,8 @@ function AquaPhysics.Wind.windImpulse(boat)
 	else
 		-- TODO WARNING!!!
 	end
-	
+	AUD.insp("Boat", "windSpeed (MPH):", windSpeed / 1.60934)
+	AUD.insp("Boat", "windForceByDirection154:", windForceByDirection)
 	local coefficientSailAngle = 0
 	local requiredSailAngle = 0
 	if windOnBoat >= 150 and windOnBoat <= 210 then
@@ -221,12 +222,12 @@ function AquaPhysics.Wind.windImpulse(boat)
 	-- AUD.insp("Boat", "Boat Speed: ", boatSpeed)
 	-- AUD.insp("Boat", "Mass: ", boat:getMass())
 	-- AUD.insp("Boat", " ", " ")		
-	-- AUD.insp("Boat", "windSpeed (MPH):", windSpeed / 1.60934)
-	-- AUD.insp("Boat", "windOnBoat:", windOnBoat)
+	
+	AUD.insp("Boat", "windOnBoat:", windOnBoat)
 	-- AUD.insp("Boat", "SailAngle:", sailAngle)
 	-- AUD.insp("Boat", "RequiredSailAngle (absolute value):", requiredSailAngle)
 	-- AUD.insp("Boat", "coefficientSailAngle:", coefficientSailAngle)
-	-- AUD.insp("Boat", "windForceByDirection:", windForceByDirection)
+	AUD.insp("Boat", "windForceByDirection:", windForceByDirection)
 	
 	boat:getAttachmentWorldPos("checkFront", frontVector)
 	
@@ -242,11 +243,19 @@ function AquaPhysics.Wind.windImpulse(boat)
 		savedWindForce = windForceByDirection
 	end
 	boat:getModData()["windForceByDirection"] = savedWindForce
-	-- AUD.insp("Boat", "savedWindForce:", savedWindForce)
+	AUD.insp("Boat", "savedWindForce:", savedWindForce)
 
 	local squareFrontVehicle = getCell():getGridSquare(frontVector:x(), frontVector:y(), 0)
 	if squareFrontVehicle ~= nil and isWater(squareFrontVehicle) then
 		if savedWindForce > 0 and boatSpeed < (savedWindForce * 1.60934) and boatSpeed/1.60934 < savedWindForce and not isKeyDown(getCore():getKey("Backward")) then
+			local emi = boat:getEmitter()
+			if savedWindForce > 8 and not emi:isPlaying("BoatSailingByWind") then
+				emi:stopSoundByName("BoatSailing")
+				emi:setVolume(emi:playSoundLooped("BoatSailingByWind"), 0.2)
+			elseif savedWindForce < 6 and not emi:isPlaying("BoatSailing") then
+				emi:stopSoundByName("BoatSailingByWind")
+				emi:setVolume(emi:playSoundLooped("BoatSailing"), 0.3)
+			end
 			local startCoeff = 1
 			if boatSpeed < 2 * 1.60934 then
 				startCoeff = 5
@@ -357,7 +366,7 @@ function AquaPhysics.heightFix(boat)
 end
 
 function AquaConfig.waterFlowRotation(boat)
-	if boat:getDriver() and boat:getCurrentSpeedKmHour() < 2 then
+	if boat:getDriver() then
 		local lenHalf = boat:getScript():getPhysicsChassisShape():z()/2
 		local force = 100
 		if isKeyDown(getCore():getKey("Right")) then
@@ -420,7 +429,9 @@ function AquaPhysics.updateVehicles()
 			if AquaConfig.Boats[boat:getScript():getName()].sails then
 				AquaPhysics.reverseSpeedFix(boat)
 				AquaPhysics.Wind.windImpulse(boat)
-				AquaConfig.waterFlowRotation(boat)
+				if math.abs(boat:getCurrentSpeedKmHour()) < 4 then
+					AquaConfig.waterFlowRotation(boat)
+				end
 			end
         end
     end

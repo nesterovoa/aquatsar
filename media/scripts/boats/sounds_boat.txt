@@ -1,5 +1,142 @@
-module Base
+module Aquatsar
 {
+	sound aquatsar_main_theme
+	{
+		category = Boat,
+		loop = false,
+		clip
+		{
+			file = media/sound/boats/aquatsar_main_theme.wav,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound boat_sails_set
+	{
+		category = Boat,
+		loop = false,
+		clip
+		{
+			file = media/sound/boats/boat_sails_set.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound boat_sails_remove
+	{
+		category = Boat,
+		loop = false,
+		clip
+		{
+			file = media/sound/boats/boat_sails_remove.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound boat_sails_change_direction
+	{
+		category = Boat,
+		loop = false,
+		clip
+		{
+			file = media/sound/boats/boat_sails_change_direction.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound boat_launching
+	{
+		category = Boat,
+		loop = false,
+		clip
+		{
+			file = media/sound/boats/boat_launching.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound motoryacht_engine_start
+	{
+		category = Boat,
+		loop = false,
+		clip
+		{
+			file = media/sound/boats/motoryacht_engine_start.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound motoryacht_engine_stop
+	{
+		category = Boat,
+		loop = false,
+		clip
+		{
+			file = media/sound/boats/motoryacht_engine_stop.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound sail_yacht_engine_start
+	{
+		category = Boat,
+		loop = false,
+		clip
+		{
+			file = media/sound/boats/sail_yacht_engine_start.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound sail_yacht_engine_stop
+	{
+		category = Boat,
+		loop = false,
+		clip
+		{
+			file = media/sound/boats/sail_yacht_engine_stop.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+		
+	sound BoatSailing
+	{
+		category = Boat,
+		loop = true,
+		volume = 0.2,
+		is3D = true,
+		clip
+		{
+			file = media/sound/boats/boat_sailing.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound BoatSailingByWind
+	{
+		category = Boat,
+		loop = true,
+		volume = 0.3,
+		is3D = true,
+		clip
+		{
+			file = media/sound/boats/boat_sailing_wind.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
 	sound BoatHorn
 	{
 		category = Boat,
@@ -17,6 +154,7 @@ module Base
 		category = Boat,
 		loop = false,
 		volume = 1.5,
+		is3D = false,
 		clip
 		{
 			file = media/sound/boats/tryStartEngineManualy.ogg,
@@ -30,6 +168,7 @@ module Base
 		category = Boat,
 		loop = false,
 		volume = 1.5,
+		is3D = false,
 		clip
 		{
 			file = media/sound/boats/successStartEngineManualy.ogg,
@@ -63,28 +202,14 @@ module Base
 			distanceMax = 300,
 		}
 	}
-	
-	sound BoatSailing
-	{
-		category = Boat,
-		loop = true,
-		volume = 0.3,
-		is3D = true,
-		clip
-		{
-			file = media/sound/boats/boat_sailing.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
-		}
-		
-	}
+
 	
 	sound WindLight
 	{
 		category = Boat,
 		loop = true,
 		volume = 5,
-		is3D = true,
+		is3D = false,
 		clip
 		{
 			file = media/sound/boats/wind_LIGHT.ogg,
@@ -99,7 +224,7 @@ module Base
 		category = Boat,
 		loop = true,
 		volume = 10,
-		is3D = true,
+		is3D = false,
 		clip
 		{
 			file = media/sound/boats/wind_MEDIUM.ogg,
@@ -113,7 +238,7 @@ module Base
 		category = Boat,
 		loop = true,
 		volume = 1,
-		is3D = true,
+		is3D = false,
 		clip
 		{
 			file = media/sound/boats/wind_STRONG.ogg,

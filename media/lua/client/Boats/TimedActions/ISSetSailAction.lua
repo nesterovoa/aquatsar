@@ -21,31 +21,36 @@ function ISSetSailAction:update()
 
 	local timeLeftNow =  (1 - self:getJobDelta()) * self.maxTime
 
-	if self.isFadeOut == false and timeLeftNow < 300 * speedCoeff[uispeed] then
-		UIManager.FadeOut(self.character:getPlayerNum(), 1)
+	if self.isFadeOut == false and timeLeftNow < 100 * speedCoeff[uispeed] then
+		UIManager.FadeOut(self.playerNum, 1)
         self.isFadeOut = true
 	end
 end
 
 function ISSetSailAction:start()
-    if not AquaConfig.Boat(self.boat).sails and	self.character:getModData()["isFirstSail"] == nil then
-        self.character:getModData()["isFirstSail"] = false
-        getSoundManager():StopMusic()
-        self.sound = getSoundManager():playMusic("TrumanSetsSail");
-        self.isFirstSail = true
-    end
+    if not AquaConfig.Boat(self.boat).sails then
+		self.boat:getEmitter():playSound("boat_sails_set")
+		if self.character:getModData()["isFirstSail"] == nil then
+			self.character:getModData()["isFirstSail"] = false
+			getSoundManager():StopMusic()
+			self.sound = getSoundManager():playMusic("aquatsar_main_theme");
+			self.isFirstSail = true
+		end
+    else
+		self.maxTime = 200
+		self.boat:getEmitter():playSound("boat_sails_change_direction")
+	end
 end
 
 function ISSetSailAction:stop()
-    if self.sound then
-        getSoundManager():StopSound(self.sound)
-    end
-    
+    -- if self.sound then
+        -- getSoundManager():StopSound(self.sound)
+    -- end
+	self.boat:getEmitter():stopSoundByName("boat_sails_set")
     if self.isFadeOut == true then
-		UIManager.FadeIn(self.character:getPlayerNum(), 1)
-		UIManager.setFadeBeforeUI(self.character:getPlayerNum(), false)
+		UIManager.FadeIn(self.playerNum, 1)
+		UIManager.setFadeBeforeUI(self.playerNum, false)
 	end
-
 	ISBaseTimedAction.stop(self)
 end
 
@@ -66,9 +71,8 @@ function ISSetSailAction:perform()
         end
     end
 
-    local playerNum = self.character:getPlayerNum()
-	UIManager.FadeIn(playerNum, 1)
-	UIManager.setFadeBeforeUI(playerNum, false)
+	UIManager.FadeIn(self.playerNum, 1)
+	UIManager.setFadeBeforeUI(self.playerNum, false)
 
 	ISBaseTimedAction.perform(self)
 end
@@ -78,7 +82,7 @@ function ISSetSailAction:new(character, boat, dir)
 	setmetatable(o, self)
 	self.__index = self
     o.character = character
-    
+    o.playerNum = character:getPlayerNum()
     o.isFadeOut = false
 	o.maxTime = 400
     o.boat = boat

@@ -18,14 +18,14 @@ function ISRemoveSailAction:update()
 
 	local timeLeftNow =  (1 - self:getJobDelta()) * self.maxTime
 
-	if self.isFadeOut == false and timeLeftNow < 300 * speedCoeff[uispeed] then
+	if self.isFadeOut == false and timeLeftNow < 200 * speedCoeff[uispeed] then
 		UIManager.FadeOut(self.character:getPlayerNum(), 1)
         self.isFadeOut = true
 	end
 end
 
 function ISRemoveSailAction:start()
-
+	self.boat:getEmitter():playSound("boat_sails_remove")
 end
 
 function ISRemoveSailAction:stop()
@@ -33,7 +33,7 @@ function ISRemoveSailAction:stop()
 		UIManager.FadeIn(self.character:getPlayerNum(), 1)
 		UIManager.setFadeBeforeUI(self.character:getPlayerNum(), false)
 	end
-
+	self.boat:getEmitter():stopSoundByName("boat_sails_remove")
 	ISBaseTimedAction.stop(self)
 end
 
@@ -55,7 +55,7 @@ function ISRemoveSailAction:new(character, boat)
     o.character = character
     
     o.isFadeOut = false
-	o.maxTime = 400
+	o.maxTime = 300
     o.boat = boat
 
 	return o

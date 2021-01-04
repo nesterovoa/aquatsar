@@ -13,7 +13,7 @@ module Aquatsar
 		is3D = false,
 		clip
 		{
-			file = media/sound/swimming/swim.ogg,
+			file = media/sound/water/swim.ogg,
 			distanceMin = 10,
 			distanceMax = 300,
 		}

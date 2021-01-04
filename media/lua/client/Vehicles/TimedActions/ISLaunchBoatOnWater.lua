@@ -30,6 +30,7 @@ end
 
 function ISLaunchBoatOnWater:start()
 	self:setActionAnim("Loot")
+	self.trailer:getEmitter():playSound("boat_launching")
 end
 
 function ISLaunchBoatOnWater:stop()
@@ -37,7 +38,7 @@ function ISLaunchBoatOnWater:stop()
 		UIManager.FadeIn(self.character:getPlayerNum(), 1)
 		UIManager.setFadeBeforeUI(self.character:getPlayerNum(), false)
 	end
-
+	self.trailer:getEmitter():stopSoundByName("boat_launching")
 	ISBaseTimedAction.stop(self)
 end
 
@@ -104,7 +105,7 @@ function ISLaunchBoatOnWater:new(character, trailer, sq)
     o.square = sq
 
 	o.isFadeOut = false
-    o.maxTime = 100; -- TODO исправить на 1000
+    o.maxTime = 300;
     
 	if character:isTimedActionInstant() then o.maxTime = 10 end
 	return o
