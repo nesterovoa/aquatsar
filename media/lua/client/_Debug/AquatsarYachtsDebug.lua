@@ -1,5 +1,3 @@
-debugScenarios = {}
-
 debugScenarios.iBrRusScenario_AquatsarYachts = {
 	name = "Aquatsar Yachts Debug",
 	isCustom = true,
