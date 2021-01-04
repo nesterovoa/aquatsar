@@ -76,7 +76,7 @@ local function sayWindInfoContext( player, context, items)
                 context:addOption(getText("IGUI_needBeOutside_tosayWindInfo"));   
             end
         end
-        if item:getType() == "Sail" and item:getCondition() < 100 then
+        if item:getType() == "Sails" and item:getCondition() < 100 then
             showRepairSailMenu(playerObj, item, context)
         end
 	end

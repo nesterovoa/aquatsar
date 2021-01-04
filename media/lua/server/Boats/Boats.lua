@@ -57,6 +57,9 @@ function Boats.UninstallComplete.Propeller(boat, part, item)
 	--part:setModelVisible("InflatedTirePlusWheel", false)
 end
 
+function Boats.Create.Sails(boat, part)
+	local item = BoatUtils.createPartInventoryItem(part)
+end
 
 function Boats.Create.ManualStarter(boat, part)
 	local item = BoatUtils.createPartInventoryItem(part)

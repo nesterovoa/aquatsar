@@ -80,18 +80,20 @@ function AquaPhysics.Water.Borders(boat)
 	local boatSquare = boat:getSquare()
 	if boatSquare ~= nil and isWater(boatSquare) then
 		local notWaterSquares = AquaPhysics.Water.getCollisionSquaresAround(5, 5, boatSquare)
+		local collisionWithGround = false
 		for _, square in ipairs(notWaterSquares) do
 			tempSquare:setX(square:getX())
 			tempSquare:setY(square:getY())
 			tempSquare:setZ(0.8)
-
 			tempIsoObj:setSquare(tempSquare)
 			local collisionVector = boat:testCollisionWithObject(tempIsoObj, 0.5, collisionPosVector2)
 			if collisionVector then
 				boat:ApplyImpulse4Break(tempIsoObj, 0.2)
 				boat:ApplyImpulse(tempIsoObj, 120)
+				collisionWithGround = true
 			end
 		end
+		return collisionWithGround
 	end
 end
 
@@ -100,7 +102,8 @@ end
 -- Wind Physics
 -------------------------------------
 
-function AquaPhysics.Wind.windImpulse(boat)
+function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
+	
 	local boatScriptName = boat:getScript():getName()
 	local boatSpeed = boat:getCurrentSpeedKmHour()
 	boat:getAttachmentWorldPos("trailerfront", frontVector)
@@ -109,7 +112,7 @@ function AquaPhysics.Wind.windImpulse(boat)
 	local y = frontVector:y() - rearVector:y()
 	boatDirVector:set(x, 0, y):normalize()		
 	local windSpeed = AquaPhysics.Wind.getWindSpeed()
-	
+
 	-- AUD.insp("Boat", "boatSpeed (MPH):", boat:getCurrentSpeedKmHour() / 1.60934)
 	-- AUD.insp("Boat", " ", " ")
 	boatDirVector:set(x, 0, y):normalize()
@@ -235,32 +238,32 @@ function AquaPhysics.Wind.windImpulse(boat)
 	if savedWindForce == nil then
 		savedWindForce = 0
 	end
-	if savedWindForce < windForceByDirection then
+	
+	if isKeyDown(getCore():getKey("Backward")) then
+		savedWindForce = 0
+	elseif collisionWithGround then
+		savedWindForce = 0
+	elseif savedWindForce < windForceByDirection then
 		savedWindForce = (savedWindForce + 0.05)
-	elseif savedWindForce > windForceByDirection then
+	elseif savedWindForce >= windForceByDirection then
 		savedWindForce = (savedWindForce - 0.02)
-	else
-		savedWindForce = windForceByDirection
 	end
+	
 	boat:getModData()["windForceByDirection"] = savedWindForce
 	AUD.insp("Boat", "savedWindForce:", savedWindForce)
 
 	local squareFrontVehicle = getCell():getGridSquare(frontVector:x(), frontVector:y(), 0)
 	if squareFrontVehicle ~= nil and isWater(squareFrontVehicle) then
 		if savedWindForce > 0 and boatSpeed < (savedWindForce * 1.60934) and boatSpeed/1.60934 < savedWindForce and not isKeyDown(getCore():getKey("Backward")) then
-			local emi = boat:getEmitter()
-			if savedWindForce > 8 and not emi:isPlaying("BoatSailingByWind") then
-				emi:stopSoundByName("BoatSailing")
-				emi:setVolume(emi:playSoundLooped("BoatSailingByWind"), 0.2)
-			elseif savedWindForce < 6 and not emi:isPlaying("BoatSailing") then
-				emi:stopSoundByName("BoatSailingByWind")
-				emi:setVolume(emi:playSoundLooped("BoatSailing"), 0.3)
-			end
 			local startCoeff = 1
 			if boatSpeed < 2 * 1.60934 then
 				startCoeff = 5
 			end
-			boatDirVector:mul(550 * savedWindForce * startCoeff)
+			if collisionWithGround then 
+				boatDirVector:mul(150 * savedWindForce)
+			else
+				boatDirVector:mul(550 * savedWindForce * startCoeff)
+			end
 			boat:setPhysicsActive(true)
 			tempVec2:set(0, 0, 0)
 			boat:addImpulse(boatDirVector, tempVec2)   
@@ -334,7 +337,7 @@ end
 function AquaPhysics.inertiaFix(boat)	
 	if boat:getSquare() ~= nil and isWater(boat:getSquare()) then
 		local speed = boat:getCurrentSpeedKmHour()
-		if math.abs(speed) < 6 then
+		if math.abs(speed) < 10 then
 			if boat:getMass() ~= 100 then 
 				boat:setMass(100)
 			end
@@ -346,7 +349,7 @@ function AquaPhysics.inertiaFix(boat)
 	end
 end
 
-function AquaPhysics.reverseSpeedFix(boat)	
+function AquaPhysics.reverseSpeedFix(boat)	-- TODO необходимо исправить функцию. Из-за неё при движении задним ходом лодка врезается в невидимые препятствия
 	if boat:getSquare() ~= nil and isWater(boat:getSquare()) then
 		local speed = boat:getCurrentSpeedKmHour()
 		if speed < -6 then
@@ -422,13 +425,13 @@ function AquaPhysics.updateVehicles()
     for i=0, vehicles:size()-1 do
         local boat = vehicles:get(i)
 		if boat ~= nil and  AquaConfig.isBoat(boat) then
-			AquaPhysics.Water.Borders(boat)
+			local collisionWithGround = AquaPhysics.Water.Borders(boat)
 			-- AUD.insp("Boat", "boat:getDebugZ()", boat:getDebugZ())
 			AquaPhysics.heightFix(boat)
 			AquaPhysics.inertiaFix(boat)
 			if AquaConfig.Boats[boat:getScript():getName()].sails then
 				AquaPhysics.reverseSpeedFix(boat)
-				AquaPhysics.Wind.windImpulse(boat)
+				AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 				if math.abs(boat:getCurrentSpeedKmHour()) < 4 then
 					AquaConfig.waterFlowRotation(boat)
 				end

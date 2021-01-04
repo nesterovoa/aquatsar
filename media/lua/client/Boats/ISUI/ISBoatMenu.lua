@@ -420,8 +420,8 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		end
 	end
 	
-	if AquaConfig.isBoat(boat) and seat > 1 or 
-	not AquaConfig.isBoat(boat) then
+	if AquaConfig.Boat(boat).driverBehind and seat > 1 or 
+	not AquaConfig.Boat(boat).driverBehind then
 		if boat:getPartById("HeadlightRearRight") and boat:getPartById("HeadlightRearRight"):getInventoryItem() then
 			menu:addSlice(getText("ContextMenu_BoatCabinelightsOff"), getTexture("media/ui/boats/boat_switch_off.png"), ISBoatMenu.offToggleCabinlights, playerObj)
 		else
@@ -429,8 +429,8 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		end
 	end
 	if boat:getPartById("Heater") then
-		if AquaConfig.isBoat(boat) and seat > 1 or 
-		not AquaConfig.isBoat(boat) and seat <= 1 then
+		if AquaConfig.Boat(boat).driverBehind and seat > 1 or 
+		not AquaConfig.Boat(boat).driverBehind and seat <= 1 then
 			local tex = getTexture("media/ui/vehicles/vehicle_temperatureHOT.png")
 			if (boat:getPartById("Heater"):getModData().temperature or 0) < 0 then
 				tex = getTexture("media/ui/vehicles/vehicle_temperatureCOLD.png")
@@ -458,18 +458,18 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	end
 
 
-	if AquaConfig.Boats[boatScriptName].removeSailsScript then
+	if seat < 2 and AquaConfig.Boat(boat).removeSailsScript then
 		menu:addSlice(getText("ContextMenu_RemoveSail"), getTexture("media/ui/boats/ICON_remove_sails.png"), ISBoatMenu.RemoveSails, playerObj, boat)
 	end
-	if AquaConfig.Boats[boatScriptName].setLeftSailsScript then
+	if seat < 2 and AquaConfig.Boat(boat).setLeftSailsScript then
 		menu:addSlice(getText("ContextMenu_SetLeftSail"), getTexture("media/ui/boats/ICON_set_left_sails.png"), ISBoatMenu.SetLeftSails, playerObj, boat)
 	end
-	if AquaConfig.Boats[boatScriptName].setRightSailsScript then
+	if seat < 2 and AquaConfig.Boat(boat).setRightSailsScript then
 		menu:addSlice(getText("ContextMenu_SetRightSail"), getTexture("media/ui/boats/ICON_set_right_sails.png"), ISBoatMenu.SetRightSails, playerObj, boat)
 	end
 
 	-- Cabin
-	if not boat:getModData()["AquaCabin_isUnlocked"] then
+	if seat < 2 and not boat:getModData()["AquaCabin_isUnlocked"] then
 		if playerObj:getInventory():haveThisKeyId(boat:getKeyId()) then
 			local func =  function(arg_boat, arg_pl) 
 				arg_boat:getModData()["AquaCabin_isUnlocked"] = true
@@ -489,12 +489,9 @@ function ISBoatMenu.showRadialMenu(playerObj)
 			end
 		end
 	end
-
 	
-
-	
-	if AquaConfig.isBoat(boat) and seat > 1 or 
-	not AquaConfig.isBoat(boat) and seat <= 1 then
+	if AquaConfig.Boat(boat).driverBehind and seat > 1 or 
+	not AquaConfig.Boat(boat).driverBehind and seat <= 1 then
 		for partIndex=1,boat:getPartCount() do
 			local part = boat:getPartByIndex(partIndex-1)
 			if part:getDeviceData() and part:getInventoryItem() then
@@ -544,14 +541,14 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		--end
 	-- end
 	if (not isClient() or getServerOptions():getBoolean("SleepAllowed")) then
-		if AquaConfig.isBoat(boat) and seat > 1 or 
-		not AquaConfig.isBoat(boat) then
+		if AquaConfig.Boat(boat).driverBehind and seat > 1 or 
+		not AquaConfig.Boat(boat).driverBehind then
 			local doSleep = true;
 			if playerObj:getStats():getFatigue() <= 0.3 then
 				menu:addSlice(getText("IGUI_Sleep_NotTiredEnough"), getTexture("media/ui/vehicles/vehicle_sleep.png"), nil, playerObj, boat)
 				doSleep = false;
-			elseif boat:getCurrentSpeedKmHour() > 1 or boat:getCurrentSpeedKmHour() < -1 then
-				menu:addSlice(getText("IGUI_PlayerText_CanNotSleepInMovingCar"), getTexture("media/ui/vehicles/vehicle_sleep.png"), nil, playerObj, boat)
+			elseif boat:getCurrentSpeedKmHour() > 5 or boat:getCurrentSpeedKmHour() < -5 then
+				menu:addSlice(getText("IGUI_PlayerText_CanNotSleepInMovingBoat"), getTexture("media/ui/vehicles/vehicle_sleep.png"), nil, playerObj, boat)
 				doSleep = false;
 			else
 				-- Sleeping pills counter those sleeping problems
@@ -1402,25 +1399,25 @@ end
 	-- end
 -- end
 
--- function ISBoatMenu.onSleep(playerObj, boat)
-	-- if boat:getCurrentSpeedKmHour() > 1 or boat:getCurrentSpeedKmHour() < -1 then
-		-- playerObj:Say(getText("IGUI_PlayerText_CanNotSleepInMovingCar"))
-		-- return;
-	-- end
-	-- local playerNum = playerObj:getPlayerNum()
-	-- local modal = ISModalDialog:new(0,0, 250, 150, getText("IGUI_ConfirmSleep"), true, nil, ISBoatMenu.onConfirmSleep, playerNum, playerNum, nil);
-	-- modal:initialise()
-	-- modal:addToUIManager()
-	-- if JoypadState.players[playerNum+1] then
-		-- setJoypadFocus(playerNum, modal)
-	-- end
--- end
+function ISBoatMenu.onSleep(playerObj, boat)
+	if boat:getCurrentSpeedKmHour() > 5 or boat:getCurrentSpeedKmHour() < -5 then
+		playerObj:Say(getText("IGUI_PlayerText_CanNotSleepInMovingCar"))
+		return;
+	end
+	local playerNum = playerObj:getPlayerNum()
+	local modal = ISModalDialog:new(0,0, 250, 150, getText("IGUI_ConfirmSleep"), true, nil, ISBoatMenu.onConfirmSleep, playerNum, playerNum, nil);
+	modal:initialise()
+	modal:addToUIManager()
+	if JoypadState.players[playerNum+1] then
+		setJoypadFocus(playerNum, modal)
+	end
+end
 
--- function ISBoatMenu.onConfirmSleep(this, button, player, bed)
-	-- if button.internal == "YES" then
-		-- ISWorldObjectContextMenu.onSleepWalkToComplete(player, nil)
-	-- end
--- end
+function ISBoatMenu.onConfirmSleep(this, button, player, bed)
+	if button.internal == "YES" then
+		ISWorldObjectContextMenu.onSleepWalkToComplete(player, nil)
+	end
+end
 
 -- function ISBoatMenu.onOpenDoor(playerObj, part)
 	-- local boat = part:getVehicle()
@@ -1773,7 +1770,7 @@ function ISBoatMenu.onEnterVehicle(playerObj)
 			emi = boat:getEmitter()
 			if not emi:isPlaying("BoatSailing") then
 				local songID = emi:playSoundLooped("BoatSailing")
-				emi:setVolume(songID, 0.4)
+				emi:setVolume(songID, 0.3)
 			end
 		end
 	end

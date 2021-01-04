@@ -1,0 +1,32 @@
+module Base
+{
+	template vehicle Sails
+	{
+		part Sails
+		{
+			category = MechanicalSystem,
+			area = SeatFrontLeft,
+			itemType = Aquatsar.Sails,
+			specificItem = false,
+			table install
+			{
+				time = 3000,
+				skills = Mechanics:5,
+				recipes = Sailboats Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				time = 3000,
+				skills = Mechanics:3,
+				recipes = Sailboats Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Boats.Create.Sails,
+			}
+		}
+	}
+}
+

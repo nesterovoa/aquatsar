@@ -21,7 +21,8 @@ end
 
 function SoundControl.stopWeatherSound(emi)
 	emi:stopSoundByName("BoatSailing")
-	emi:stopSoundByName("BoatSailingByWind")
+	print("Stop BoatSailing")
+	-- emi:stopSoundByName("BoatSailingByWind")
 	for i, j in pairs(SoundTable.Wind) do 
 		emi:stopSoundByName(i)
 	end
@@ -41,7 +42,7 @@ function SoundControl.isWater(paramIsoObject)
 end
 
 function SoundControl.checkWaterBuild(paramIsoObject)
-	print(paramIsoObject)
+	-- print(paramIsoObject)
 	if SoundControl.isWater(paramIsoObject) then
 		local floorTile = paramIsoObject:getTile()
 		local sq = paramIsoObject:getSquare()
@@ -56,24 +57,27 @@ function SoundControl.main()
 		print("SoundTable.waterConstruction")
 		for sq, floorTile in pairs(SoundTable.waterConstruction) do 
 			if not floorTile then return end
+			local old_tile = sq:getFloor():getTile()
 			sq:addFloor(floorTile)
 			sq:RecalcProperties()
+			if string.match(old_tile, "carpentry_02") then
+				sq:AddWorldInventoryItem("Base.Plank", ZombRandFloat(0,0.9), ZombRandFloat(0,0.9), 0)
+			end
 			getSoundManager():PlaySound("ThrowInWater", true, 0.0)
-			sq:AddWorldInventoryItem("Base.Plank", ZombRandFloat(0,0.9), ZombRandFloat(0,0.9), 0)
 			player:Say(getText("IGUI_PlayerText_PontoonNeeded"))
 		end
 		SoundTable.waterConstruction = nil
 	end
 	
-	
 	if player then
 		local boat = player:getVehicle()
 		if boat ~= nil and AquaConfig.isBoat(boat) then
+			local boatSpeed = boat:getCurrentSpeedKmHour()
 			local emi = boat:getEmitter()
 			if emi:isPlaying("VehicleSkid") then -- Удаление звука заноса на воде
 				emi:stopSoundByName("VehicleSkid")
 			end
-			if emi:isPlaying("BoatSailing") or emi:isPlaying("BoatSailingByWind") then
+			if emi:isPlaying("BoatSailing") then 
 				local windSpeed = getClimateManager():getWindspeedKph()
 				--AUD.insp("Wind", "windSpeed:", windSpeed/1.60934)
 				local volume = 0
@@ -98,6 +102,7 @@ function SoundControl.main()
 				end
 				AUD.insp("Wind", "volume:", volume)
 			end
+
 			if AquaConfig.Boat(boat).manualStarter then
 				if emi:isPlaying("VehicleStarted") then
 					emi:stopSoundByName("VehicleStarted")
@@ -109,30 +114,30 @@ function SoundControl.main()
 				end
 			end
 		end
-	end
 	
-	local emiPl = player:getEmitter()
-	
-	if player:getVehicle() and emiPl:isPlaying("Swim") then
-		emiPl:stopSoundByName("Swim")
-	end
+		local emiPl = player:getEmitter()
+		
+		if boat and emiPl:isPlaying("Swim") then
+			emiPl:stopSoundByName("Swim")
+		end
 
-	if player:getSquare() and not player:getVehicle() then
-		if player:getSquare():Is(IsoFlagType.water) then
-			if not player:getSprite():getProperties():Is(IsoFlagType.invisible) then
-				getSoundManager():PlaySound("Dive", true, 0.0)
-				player:getSprite():getProperties():Set(IsoFlagType.invisible)
-			end
-			if not emiPl:isPlaying("Swim") then
-				player:playSound("Swim")
-			end
-		else
-			if player:getSprite():getProperties():Is(IsoFlagType.invisible) then
-				getSoundManager():PlaySound("LeaveWater", true, 0.0)
-				player:getSprite():getProperties():UnSet(IsoFlagType.invisible)
-			end
-			if emiPl:isPlaying("Swim") then
-				emiPl:stopSoundByName("Swim")
+		if not player:getVehicle() and player:getSquare() then
+			if player:getSquare():Is(IsoFlagType.water) then
+				if not player:getSprite():getProperties():Is(IsoFlagType.invisible) then
+					getSoundManager():PlaySound("Dive", true, 0.0)
+					player:getSprite():getProperties():Set(IsoFlagType.invisible)
+				end
+				if not emiPl:isPlaying("Swim") then
+					player:playSound("Swim")
+				end
+			else
+				if player:getSprite():getProperties():Is(IsoFlagType.invisible) then
+					getSoundManager():PlaySound("LeaveWater", true, 0.0)
+					player:getSprite():getProperties():UnSet(IsoFlagType.invisible)
+				end
+				if emiPl:isPlaying("Swim") then
+					emiPl:stopSoundByName("Swim")
+				end
 			end
 		end
 	end

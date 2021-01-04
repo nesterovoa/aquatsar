@@ -32,7 +32,7 @@ module Aquatsar
         MechanicsItem = TRUE,
     }
 
-    item Sail
+    item Sails
     {
         Weight	=	20.0,
         Type	=	Normal,

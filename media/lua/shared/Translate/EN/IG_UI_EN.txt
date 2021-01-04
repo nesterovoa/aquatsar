@@ -62,7 +62,7 @@ IG_UI_EN = {
 	IGUI_andDropItems = "also I lost my things...",
 	IGUI_DropToWater = "Throw in water",
 	IGUI_SwimTo = "Swim to %1",
-	IGUI_SwimToLand = "Sail to the shore",
+	IGUI_SwimToLand = "Swim to the shore",
 	IGUI_Exit_Boat = "Free swimming",
 	IGUI_SwimToPoint = "Swim",
 	

@@ -135,7 +135,7 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		playerObj:getInventory():AddItem("Aquatsar.DivingMask");
 		playerObj:getInventory():AddItem("Aquatsar.Lifebuoy");
 		playerObj:getInventory():AddItem("Aquatsar.Compass");
-		playerObj:getInventory():AddItem("Aquatsar.Sail");
+		playerObj:getInventory():AddItem("Aquatsar.Sails");
 
 
 		playerObj:getInventory():AddItem("Aqua.BoatMag");
