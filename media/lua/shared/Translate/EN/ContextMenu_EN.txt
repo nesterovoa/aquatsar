@@ -17,4 +17,9 @@ ContextMenu_EN = {
 	
 	ContextMenu_VehicleStartEngineManual = "Start engine manually",
 	ContextMenu_Wooden_Pantone = "Wooden pantone",
+
+	ContextMenu_Open_Cabin = "Unlock cabin<br>(with key)",
+	ContextMenu_Open_Cabin_Force = "Unlock cabin<br>(with crowbar)",
+	ContextMenu_Open_Cabin_Force_Need_Crowbar = "Unlock cabin<br>(need crowbar or key)"
+
 }

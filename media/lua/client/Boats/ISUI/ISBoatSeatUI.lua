@@ -131,7 +131,7 @@ function ISBoatSeatUI:render()
 		local pngr = script:getPassenger(seat-1)
 		local posn = pngr:getPositionById("inside")
 
-		local playerHaveAccesToCabin = self.vehicle:getModData()["AquaCabin_isUnlocked"] or self.character:getInventory():haveThisKeyId(self.vehicle:getKeyId())
+		local playerHaveAccesToCabin = self.vehicle:getModData()["AquaCabin_isUnlocked"]
 		local isCabin = false
 		for i, val in ipairs(AquaConfig.Boats["BoatSailingYacht"].cabinSeats) do
 			if val == seat-1 then
@@ -344,7 +344,7 @@ function ISBoatSeatUI:useSeat(seat)
 	if not self:isSeatInstalled(seat) then return end
 	if self.vehicle:getCharacter(seat) then return end
 
-	local playerHaveAccesToCabin = self.vehicle:getModData()["AquaCabin_isUnlocked"] or self.character:getInventory():haveThisKeyId(self.vehicle:getKeyId())
+	local playerHaveAccesToCabin = self.vehicle:getModData()["AquaCabin_isUnlocked"]
 	local isCabin = false
 	for i, val in ipairs(AquaConfig.Boats["BoatSailingYacht"].cabinSeats) do
 		if val == seat-1 then
