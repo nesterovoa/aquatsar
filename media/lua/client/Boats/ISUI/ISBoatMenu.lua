@@ -467,6 +467,31 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	if AquaConfig.Boats[boatScriptName].setRightSailsScript then
 		menu:addSlice(getText("ContextMenu_SetRightSail"), getTexture("media/ui/boats/ICON_set_right_sails.png"), ISBoatMenu.SetRightSails, playerObj, boat)
 	end
+
+	-- Cabin
+	if not boat:getModData()["AquaCabin_isUnlocked"] then
+		if playerObj:getInventory():haveThisKeyId(boat:getKeyId()) then
+			local func =  function(arg_boat, arg_pl) 
+				arg_boat:getModData()["AquaCabin_isUnlocked"] = true
+				arg_pl:getEmitter():playSound("UnlockDoor")
+			end
+			menu:addSlice(getText("ContextMenu_Open_Cabin"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
+		else
+			if playerObj:getInventory():containsTypeRecurse("Crowbar") then
+				local func = function(arg_boat, arg_pl) 
+					arg_boat:getModData()["AquaCabin_isUnlocked"] = true
+					getSoundManager():PlayWorldSoundWav("PZ_MetalSnap", arg_pl:getCurrentSquare(), 1, 10, 2, true)
+				end
+				
+				menu:addSlice(getText("ContextMenu_Open_Cabin_Force"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
+			else
+				menu:addSlice(getText("ContextMenu_Open_Cabin_Force_Need_Crowbar"), getTexture("media/ui/boats/RadialMenu_Door.png"))
+			end
+		end
+	end
+
+	
+
 	
 	if AquaConfig.isBoat(boat) and seat > 1 or 
 	not AquaConfig.isBoat(boat) and seat <= 1 then

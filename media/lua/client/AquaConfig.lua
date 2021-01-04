@@ -81,6 +81,7 @@ boat.boatSeatUI_SeatOffsetY = {
 	["RearLeft"] = -30,
 	["RearRight"] = 10,
 }
+boat.cabinSeats = { 2, 3, 4, 5 }
 
 -- BoatSailingYachtWithSailsLeft --
 AquaConfig.Boats["BoatSailingYachtWithSailsLeft"] = {}

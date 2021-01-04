@@ -130,6 +130,16 @@ function ISBoatSeatUI:render()
 	for seat=1,self.vehicle:getMaxPassengers() do
 		local pngr = script:getPassenger(seat-1)
 		local posn = pngr:getPositionById("inside")
+
+		local playerHaveAccesToCabin = self.vehicle:getModData()["AquaCabin_isUnlocked"]
+		local isCabin = false
+		for i, val in ipairs(AquaConfig.Boats["BoatSailingYacht"].cabinSeats) do
+			if val == seat-1 then
+				isCabin = true
+				break
+			end
+		end
+
 		if posn then
 			local offset = posn:getOffset()
 			local x = self:getWidth() / 2 - offset:get(0) * scale - sizeX / 2
@@ -181,6 +191,17 @@ function ISBoatSeatUI:render()
 					outlineG = 0.0
 					outlineB = 0.0
 				end
+			elseif isCabin and not playerHaveAccesToCabin then
+				texName = "icon_vehicle_uninstalled.png"
+				fillR = 0.5
+				fillG = 0.5
+				fillB = 0.5
+				if mouseOver then
+					outlineR = 1.0
+					outlineG = 0.0
+					outlineB = 0.0
+				end
+				canSwitch = false
 			else
 				canSwitch = true
 			end
@@ -322,11 +343,26 @@ end
 function ISBoatSeatUI:useSeat(seat)
 	if not self:isSeatInstalled(seat) then return end
 	if self.vehicle:getCharacter(seat) then return end
+
+	local playerHaveAccesToCabin = self.vehicle:getModData()["AquaCabin_isUnlocked"]
+	local isCabin = false
+	for i, val in ipairs(AquaConfig.Boats["BoatSailingYacht"].cabinSeats) do
+		if val == seat-1 then
+			isCabin = true
+			break
+		end
+	end
+
 	self:closeSelf()
 	if self.character:getVehicle() then
 		if self.vehicle:canSwitchSeat(self.vehicle:getSeat(self.character), seat) then
-			if not ISVehicleMenu.moveItemsFromSeat(self.character, self.vehicle, seat, true, false) then return; end
-			ISVehicleMenu.onSwitchSeat(self.character, seat)						   
+			if (not isCabin or playerHaveAccesToCabin) then
+				if not ISVehicleMenu.moveItemsFromSeat(self.character, self.vehicle, seat, true, false) then return; end
+				ISVehicleMenu.onSwitchSeat(self.character, seat)						   
+			else
+				self.character:Say("Cabin door is locked")	
+			end
+			
 		end
 	else
 		ISTimedActionQueue.add(ISEnterVehicle:new(self.character, self.vehicle, seat))
