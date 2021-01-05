@@ -1,3 +1,5 @@
+debugScenarios = {}
+
 debugScenarios.iBrRusScenario_AquatsarYachts = {
 	name = "Aquatsar Yachts Debug",
 	isCustom = true,
@@ -138,11 +140,11 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 
 		playerObj:getInventory():AddItem("Aqua.BoatMag");
 		playerObj:getInventory():AddItem("Aqua.SwimMag");
-		-- playerObj:getInventory():AddItem("Base.PotOfSoup");
-		-- playerObj:getInventory():AddItem("Base.PotOfSoup");
+		playerObj:getInventory():AddItem("Base.SoupBowl");
+		playerObj:getInventory():AddItem("Base.SoupBowl");
 		playerObj:getInventory():AddItem("Base.Screwdriver");
 		--playerObj:getInventory():AddItem("Radio.HamRadio2");
-		--playerObj:getInventory():AddItem("Base.AlarmClock");
+		playerObj:getInventory():AddItem("Base.AlarmClock");
 		for i=1, 10 do
 			playerObj:LevelPerk(Perks.Mechanics);
 		end

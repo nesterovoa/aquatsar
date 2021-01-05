@@ -59,8 +59,7 @@ module Base
 			lua
 			{
 				create = Boats.Create.ApiBoatlight,
-				init = Boats.Init.ApiBoatlight,
-				update = Boats.Update.ApiBoatlight,
+				init = Vehicles.Init.Headlight,
 			}
 		}
 	}

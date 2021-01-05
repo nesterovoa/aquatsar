@@ -57,6 +57,7 @@ module Base
 			{
 				create = Boats.Create.BoatHeadlight,
 				init = Boats.Init.BoatHeadlight,
+				update = Vehicles.Update.Headlight,
 			}
 		}
 	}

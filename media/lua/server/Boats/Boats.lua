@@ -103,7 +103,7 @@ function Boats.Update.ApiBoatlight(boat, part, elapsedMinutes)
 end
 
 function Boats.Update.GasTank(boat, part, elapsedMinutes)
-
+	print("Boats.Update.GasTank")
 	local invItem = part:getInventoryItem();
 	if not invItem then return; end
 	local amount = part:getContainerContentAmount()
@@ -145,8 +145,6 @@ function Boats.Update.GasTank(boat, part, elapsedMinutes)
 		end
 	end
 end
-
-
 
 function Boats.Create.BoatHeadlight(boat, part)
 	local item = BoatUtils.createPartInventoryItem(part)

@@ -11,7 +11,7 @@ end
 
 function ISDropItemToWaterAction:start()
 	self:setActionAnim("Loot")
-	getSoundManager():PlayWorldSoundWav("dropWater4", self.character:getSquare(), 0, 10, 1, true);
+	self.character:playSound("DropWater", self.character:getSquare(), 0, 10, 1, true);
 end
 
 function ISDropItemToWaterAction:stop()

@@ -1,5 +1,5 @@
 --***********************************************************
---**              THE INDIE STONE / edited iBrRus          **
+--**             			iBrRus        				   **
 --***********************************************************
 
 CommonTemplates = {}
@@ -15,64 +15,230 @@ CommonTemplates.UninstallTest = {}
 CommonTemplates.Update = {}
 CommonTemplates.Use = {}
 
-function CommonTemplates.Create.Propeller(vehicle, part)
-	print("CommonTemplates.Create.Propeller")
-	print(part:getInventoryItem())
-	local item = BoatUtils.createPartInventoryItem(part)
-	print(part:getInventoryItem())
-	if (part:getInventoryItem()== nil) then
-		part:setInventoryItem(InventoryItemFactory.CreateItem("Aquatsar.BoatPropeller"), 10)
+local OvenBatteryChange = -0.000500
+local FridgeBatteryChange = -0.000020
+local MicrowaveBatteryChange = -0.000200
+
+
+--***********************************************************
+--**                                                       **
+--**                         Common                        **
+--**                                                       **
+--***********************************************************
+function CommonTemplates.createActivePart(part)
+	if not part:getLight() then
+		part:createSpotLight(0.1, 0.1, 0.1, 0.01, 100, 0)
 	end
 end
 
-function CommonTemplates.InstallComplete.Propeller(vehicle, part, item)
-	local part = vehicle:getPartById("TireFrontLeft")
-	part:setInventoryItem(InventoryItemFactory.CreateItem("Aquatsar.AirBagNormal3"), 10)
-	part:setContainerContentAmount(35)
-	vehicle:transmitPartItem(part)
-	part = vehicle:getPartById("TireFrontRight")
-	part:setInventoryItem(InventoryItemFactory.CreateItem("Aquatsar.AirBagNormal3"), 10)
-	part:setContainerContentAmount(35)
-	vehicle:transmitPartItem(part)
-	part = vehicle:getPartById("TireRearLeft")
-	part:setInventoryItem(InventoryItemFactory.CreateItem("Aquatsar.AirBagNormal3"), 10)
-	part:setContainerContentAmount(35)
-	vehicle:transmitPartItem(part)
-	part = vehicle:getPartById("TireRearRight")
-	part:setInventoryItem(InventoryItemFactory.CreateItem("Aquatsar.AirBagNormal3"), 10)
-	part:setContainerContentAmount(35)
-	vehicle:transmitPartItem(part)
-	--part:setModelVisible("InflatedTirePlusWheel", true)
+--***********************************************************
+--**                                                       **
+--**                    Fridge n Freezer                   **
+--**                                                       **
+--***********************************************************
+function CommonTemplates.Create.Freezer(vehicle, part)
+	local invItem = VehicleUtils.createPartInventoryItem(part);
+	if part:getInventoryItem() and part:getItemContainer() then
+		part:getItemContainer():setType("freezer")
+	end
+	CommonTemplates.createActivePart(part)
 end
 
-function CommonTemplates.UninstallComplete.Propeller(vehicle, part, item)
-	local part = vehicle:getPartById("TireFrontLeft")
-	part:setInventoryItem(nil)
-	part = vehicle:getPartById("TireFrontRight")
-	part:setInventoryItem(nil)
-	part = vehicle:getPartById("TireRearLeft")
-	part:setInventoryItem(nil)
-	part = vehicle:getPartById("TireRearRight")
-	part:setInventoryItem(nil)
-	--part:setModelVisible("InflatedTirePlusWheel", false)
+function CommonTemplates.Create.Fridge(vehicle, part)
+	--print("CommonTemplates.Create.Fridge")
+	local invItem = VehicleUtils.createPartInventoryItem(part);
+	if part:getInventoryItem() and part:getItemContainer() then
+		part:getItemContainer():setType("fridge")
+	end
+	CommonTemplates.createActivePart(part)
 end
 
-function CommonTemplates.Init.ApiBoatlight(vehicle, part)
+function CommonTemplates.Init.Fridge(vehicle, part)
+	--print("CommonTemplates.Init.Fridge")
 	part:setModelVisible("test", true)
+	if part:getInventoryItem() and part:getItemContainer() then
+		if part:getItemContainer():isActive() and vehicle:getBatteryCharge() > 0.00010 then
+			part:getItemContainer():setCustomTemperature(0.2)
+		else		
+			part:getItemContainer():setCustomTemperature(1.0)
+		end
+	end
 end
 
-function CommonTemplates.Update.ApiBoatlight(vehicle, part, elapsedMinutes)
-	local light = part:getLight()
-	if not light then return end
-	local active = vehicle:getHeadlightsOn()
-	if active and (not part:getInventoryItem() or vehicle:getBatteryCharge() <= 0.0) then
-		active = false
-	end
-	part:setLightActive(active)
-	if active and not vehicle:isEngineRunning() then
-		VehicleUtils.chargeBattery(vehicle, -0.000025 * elapsedMinutes)
+function CommonTemplates.Update.Fridge(vehicle, part, elapsedMinutes)
+	-- print("CommonTemplates.Update.Fridge")
+	local currentTemp = part:getItemContainer():getTemprature()
+	local minTemp = 0.2
+	local maxTemp = 1.0
+	if part:getInventoryItem() and part:getItemContainer() then
+		if part:getItemContainer():isActive() and vehicle:getBatteryCharge() > 0.00010 then
+			if currentTemp < minTemp then
+				part:getItemContainer():setCustomTemperature(minTemp)
+			elseif currentTemp > minTemp then
+				part:getItemContainer():setCustomTemperature(currentTemp - (0.04 * elapsedMinutes))
+			end
+			VehicleUtils.chargeBattery(vehicle, FridgeBatteryChange * elapsedMinutes)
+		else
+			if currentTemp < maxTemp then
+				part:getItemContainer():setCustomTemperature(currentTemp + (0.04 * elapsedMinutes))
+			elseif currentTemp >= maxTemp then
+				part:getItemContainer():setCustomTemperature(maxTemp)
+				part:setLightActive(false)
+			end
+		end
 	end
 end
+--***********************************************************
+--**                                                       **
+--**                    Oven n Microwave                   **
+--**                                                       **
+--***********************************************************
+function CommonTemplates.Create.Oven(vehicle, part)
+	local invItem = VehicleUtils.createPartInventoryItem(part);
+	if part:getInventoryItem() and part:getItemContainer() then
+		part:getItemContainer():setType("stove")
+	end
+	part:getModData().timer = 0
+	part:getModData().timePassed = 0
+	part:getModData().maxTemperature = 0
+	CommonTemplates.createActivePart(part)
+end
+
+function CommonTemplates.Use.DefaultDevice(vehicle, part, player)
+	if part:getItemContainer():isActive() then
+		part:getItemContainer():setActive(false)
+		player:getEmitter():playSound("ToggleStove")
+	else
+		part:getItemContainer():setActive(true)
+		part:setLightActive(true)
+		player:getEmitter():playSound("ToggleStove")
+	end
+end
+
+function CommonTemplates.Init.Oven(vehicle, part)
+	part:setModelVisible("test", true)
+	if part:getInventoryItem() and part:getItemContainer() 
+			and part:getItemContainer():isActive() and vehicle:getBatteryCharge() > 0.00200 then
+		part:getItemContainer():setCustomTemperature(2.0)
+	else		
+		part:getItemContainer():setCustomTemperature(1.0)
+	end
+end
+
+function CommonTemplates.Update.Oven(vehicle, part, elapsedMinutes)
+	-- print("CommonTemplates.Update.Oven")
+	local currentTemp = part:getItemContainer():getTemprature()
+	print(currentTemp)
+	local minTemp = 1.0
+	local maxTemp = (part:getModData().maxTemperature + 100) / 100
+	local contType = part:getItemContainer():getType()
+	local emi = vehicle:getEmitter()
+	-- print("part:getModData().maxTemperature ", part:getModData().maxTemperature)
+	print("part:getModData().timer ", part:getModData().timer)
+	if part:getInventoryItem() and part:getItemContainer() then
+		if part:getItemContainer():isActive() and vehicle:getBatteryCharge() > 0.00200 then
+			if currentTemp < maxTemp then
+				part:getItemContainer():setCustomTemperature(currentTemp + (0.04 * elapsedMinutes))
+			elseif currentTemp >= maxTemp then
+				part:getItemContainer():setCustomTemperature(maxTemp)
+			end
+			VehicleUtils.chargeBattery(vehicle, OvenBatteryChange * elapsedMinutes)
+			if part:getModData().timer > 0 then
+				if part:getModData().timePassed < part:getModData().timer then
+					part:getModData().timePassed = part:getModData().timePassed + elapsedMinutes
+				else 
+					emi:playSound("StoveTimerExpired")
+					part:getModData().timer = 0
+					part:getModData().timePassed = 0
+				end
+			end
+		else
+			if currentTemp > minTemp then
+				part:getItemContainer():setCustomTemperature(currentTemp - (0.04 * elapsedMinutes))
+			elseif currentTemp <= minTemp then
+				part:getItemContainer():setCustomTemperature(minTemp)
+				part:setLightActive(false)
+			end
+		end
+	end
+end
+--***********************************************************
+--**                                                       **
+--**                        Microwave                      **
+--**                                                       **
+--***********************************************************
+
+function CommonTemplates.Create.Microwave(vehicle, part)
+	local invItem = VehicleUtils.createPartInventoryItem(part);
+	if part:getInventoryItem() and part:getItemContainer() then
+		part:getItemContainer():setType("portablemicrowave")
+	end
+	part:getModData().timer = 0
+	part:getModData().timePassed = 0
+	part:getModData().maxTemperature = 0
+	CommonTemplates.createActivePart(part)
+end
+
+function CommonTemplates.Use.Microwave(vehicle, part, player)
+	if part:getItemContainer():isActive() then
+		part:getItemContainer():setActive(false)
+		vehicle:getEmitter():stopSoundByName("MicrowaveRunning")
+		vehicle:getEmitter():playSound("MicrowaveTimerExpired")
+		part:getModData().timer = 0
+		part:getModData().timePassed = 0
+	elseif part:getModData().timer > 0 then
+		part:getModData().timePassed = 0.001
+		part:getItemContainer():setActive(true)
+		part:setLightActive(true)
+		vehicle:getEmitter():playSound("ToggleStove")
+		vehicle:getEmitter():playSoundLooped("MicrowaveRunning")
+	end
+end
+
+function CommonTemplates.Update.Microwave(vehicle, part, elapsedMinutes)
+	print("CommonTemplates.Update.Microwave")
+	local currentTemp = part:getItemContainer():getTemprature()
+	local minTemp = 1.0
+	local maxTemp = (part:getModData().maxTemperature + 100) / 100
+	print("currentTemp: ", currentTemp)
+	print("maxTemp: ", maxTemp)
+	if part:getInventoryItem() and part:getItemContainer() then
+		if part:getItemContainer():isActive() and vehicle:getBatteryCharge() > 0.00200 then
+			if currentTemp < maxTemp then
+				part:getItemContainer():setCustomTemperature(currentTemp + (0.2 * elapsedMinutes))
+			elseif currentTemp >= maxTemp then
+				part:getItemContainer():setCustomTemperature(maxTemp)
+			end
+			VehicleUtils.chargeBattery(vehicle, MicrowaveBatteryChange * elapsedMinutes)
+			if part:getModData().timer > 0 then
+				if part:getModData().timePassed < part:getModData().timer then
+					print("part:getModData().timePassed ", part:getModData().timePassed)
+					part:getModData().timePassed = part:getModData().timePassed + elapsedMinutes
+				else 
+					vehicle:getEmitter():stopSoundByName("MicrowaveRunning")
+					vehicle:getEmitter():playSound("MicrowaveTimerExpired")
+					part:getItemContainer():setActive(false)
+					part:getModData().timer = 0
+					part:getModData().timePassed = 0
+				end
+			end
+		else
+			part:getModData().timePassed = 0
+			if currentTemp > minTemp then
+				part:getItemContainer():setCustomTemperature(currentTemp - (0.2 * elapsedMinutes))
+			elseif currentTemp <= minTemp then
+				part:getItemContainer():setCustomTemperature(minTemp)
+				part:setLightActive(false)
+			end
+		end
+	end
+end
+
+--***********************************************************
+--**                                                       **
+--**                        Another                        **
+--**                                                       **
+--***********************************************************
 
 function CommonTemplates.ContainerAccess.Container(transport, part, chr)
 	if not part:getInventoryItem() then return false; end
@@ -83,118 +249,6 @@ function CommonTemplates.ContainerAccess.Container(transport, part, chr)
 		return part:getArea() == seatname
 	else
 		return false
-	end
-end
-
-function CommonTemplates.Create.Fridge(vehicle, part)
-	--print("TC: Create Fridge")
-	local invItem = VehicleUtils.createPartInventoryItem(part);
-
-	if part:getInventoryItem() and part:getItemContainer() then
-	if vehicle:getBatteryCharge() > 0.00005 then
-		part:getModData().coolerActive = true
-	else
-		part:getModData().coolerActive = false
-	end
-		part:getItemContainer():setType("fridge")
-		part:getItemContainer():setCustomTemperature(0.2)
-	end
-end
-
-function CommonTemplates.Init.Fridge(vehicle, part)
-	--print("TC: Init Fridge")
-	part:setModelVisible("test", true)
-	if vehicle:getBatteryCharge() > 0.00005 then
-		part:getModData().coolerActive = true
-	else
-		part:getModData().coolerActive = false
-	end
-	
-	part:getItemContainer():setType("fridge")
-	part:getItemContainer():setCustomTemperature(0.2)
-end
-
-function CommonTemplates.Update.Fridge(vehicle, part, elapsedMinutes)
-	--print("TC: Update Fridge")
-	if part:getInventoryItem() and part:getItemContainer() and part:getModData().coolerActive then
-		--print("ACTIVE")
-		local batteryChange = -0.000050;
-
-		if vehicle:getBatteryCharge() <= 0.0 then
-			part:getModData().coolerActive = false
-		else
-			part:getItemContainer():setCustomTemperature(0.2)
-			--print("COOLER")
-			if not vehicle:isEngineRunning() then
-				VehicleUtils.chargeBattery(vehicle, batteryChange * elapsedMinutes)
-			end
-		end
-	end
-end
-
-function CommonTemplates.Create.Oven(vehicle, part)
-	local invItem = VehicleUtils.createPartInventoryItem(part);
-	if part:getInventoryItem() and part:getItemContainer() then
-		part:getItemContainer():setType("stove")
-		part:getItemContainer():setActive(false)
-		part:getModData().ovenActive = false
-	end
-end
-
-
-function CommonTemplates.Init.Oven(vehicle, part)
-	--print("TC: Init Oven")
-	part:setModelVisible("test", true)
-	if part:getInventoryItem() and part:getItemContainer() and part:getItemContainer():isActive() and vehicle:isEngineRunning() then
-		part:getItemContainer():setCustomTemperature(2.0)
-	else		
-		part:getItemContainer():setCustomTemperature(1.0)
-	end
-	
-end
-
-function CommonTemplates.Use.Oven(vehicle, cont, player)
-	--print("TC: Use Fridge")
-	local id = vehicle:getId()
-	if cont:isActive() then
-		cont:setActive(false)
-		player:getEmitter():playSound("PZ_Switch")
-		--print("Oven Off")
-	elseif vehicle:getBatteryCharge() > 0.00005 then
-		cont:setActive(true)
-		VehicleUtils.chargeBattery(vehicle, -0.00005)
-		player:getEmitter():playSound("PZ_Switch")
-		--print("Oven On")
-	end
-end
-
-function CommonTemplates.Update.Oven(vehicle, part, elapsedMinutes)
-	--print("UPDATE OVEN SERVER?")
-	local id = vehicle:getId()
-	--print(part:getItemContainer():isActive())
-	
-	if part:getInventoryItem() and part:getItemContainer() and part:getItemContainer():isActive() and vehicle:isEngineRunning() then
-		local currentTemp = part:getItemContainer():getTemprature()
-		--print(tostring(currentTemp))
-		local maxTemp = 2.0
-
-		if currentTemp < maxTemp then
-			part:getItemContainer():setCustomTemperature(currentTemp + (0.05 * elapsedMinutes))
-		elseif currentTemp > maxTemp then
-			part:getItemContainer():setCustomTemperature(maxTemp)
-		end
-	end
-
-	if part:getInventoryItem() and part:getItemContainer() and not part:getItemContainer():isActive() then
-		local currentTemp = part:getItemContainer():getTemprature()
-		--print(tostring(currentTemp))
-		local minTemp = 1.0
-
-		if currentTemp > minTemp then
-			part:getItemContainer():setCustomTemperature(currentTemp - (0.05 * elapsedMinutes))
-		elseif currentTemp < minTemp then
-			part:getItemContainer():setCustomTemperature(minTemp)
-		end
 	end
 end
 
@@ -233,35 +287,4 @@ function CommonTemplates.Create.Medicine(vehicle, part)
 	end
 end
 
-function CommonTemplates.Create.Microwave(vehicle, part)
-	local invItem = VehicleUtils.createPartInventoryItem(part);
-	if part:getInventoryItem() and part:getItemContainer() then
-		part:getItemContainer():setType("microwave")
-	end
-end
 
-function CommonTemplates.Create.Freezer(vehicle, part)
-	local invItem = VehicleUtils.createPartInventoryItem(part);
-	if part:getInventoryItem() and part:getItemContainer() then
-		if vehicle:getBatteryCharge() > 0.00005 then
-			part:getModData().coolerActive = true
-		else
-			part:getModData().coolerActive = false
-		end
-		part:getItemContainer():setType("freezer")
-		part:getItemContainer():setCustomTemperature(0.2)
-	end
-end
-
-function CommonTemplates.Init.Freezer(vehicle, part)
-	--print("TC: Init Fridge")
-	part:setModelVisible("test", true)
-	if vehicle:getBatteryCharge() > 0.00005 then
-		part:getModData().coolerActive = true
-	else
-		part:getModData().coolerActive = false
-	end
-	
-	part:getItemContainer():setType("freezer")
-	part:getItemContainer():setCustomTemperature(0.2)
-end

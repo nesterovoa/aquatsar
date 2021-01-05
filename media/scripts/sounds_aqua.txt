@@ -71,6 +71,20 @@ module Aquatsar
 		}
 	}
 	
+	sound DropWater
+	{
+		category = Water,
+		loop = false,
+		is3D = false,
+		clip
+		{
+			file = media/sound/water/drop_water.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	
 	sound TireTubeInflatingSound
 	{
 		category = Item,

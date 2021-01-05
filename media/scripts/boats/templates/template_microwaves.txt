@@ -85,6 +85,8 @@ module Base
 			lua
 			{
 				create = CommonTemplates.Create.Microwave,
+				init = CommonTemplates.Init.Oven,
+				update = CommonTemplates.Update.Microwave,
 			}
 		}
 	}

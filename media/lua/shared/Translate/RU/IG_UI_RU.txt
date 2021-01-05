@@ -33,6 +33,7 @@ IGUI_RU = {
 	IGUI_PlayerText_FloodlightsDoNotWork = "Прожекторы не работают",
 	IGUI_PlayerText_PontoonNeeded = "Сперва нужно построить понтон",
 	IGUI_PlayerText_CanNotSleepInMovingBoat = "Нужно сбавить скорость", 
+	IGUI_PlayerText_NoPower = "Отсутствует питание",
 	
 	IGUI_BoatSeat_Self = "Вы уже здесь",
 	IGUI_BoatSeat_Person = "Здесь стоит человек",

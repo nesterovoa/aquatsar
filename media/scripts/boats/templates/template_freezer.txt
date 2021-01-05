@@ -85,7 +85,7 @@ module Base
 			lua
 			{
 				create = CommonTemplates.Create.Freezer,
-				init = CommonTemplates.Init.Freezer,
+				init = CommonTemplates.Init.Fridge,
 				update = CommonTemplates.Update.Fridge,
 			}
 		}
