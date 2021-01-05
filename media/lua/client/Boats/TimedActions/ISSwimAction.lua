@@ -11,49 +11,6 @@ function ISSwimAction:isValid()
 	return true
 end
 
-local function compare(a,b)
-    return a:getWeight() > b:getWeight()
-end
-
-local function dropItems(playerObj)
-    local inv = playerObj:getInventory()    
-    local items = {}
-
-    for j=1, inv:getItems():size() do
-        local item = inv:getItems():get(j-1);
-        table.insert(items, item)
-    end
-
-    local dropNum = ZombRand(#items * 0.6)
-    table.sort(items, compare)
-
-    for i=1, dropNum do
-        if not items[i]:isEquipped() then
-            inv:DoRemoveItem(items[i])
-        end
-    end
-end
-
-local function wetItems(playerObj)
-    local inv = playerObj:getInventory()    
-    local items = {}
-
-    for j=1, inv:getItems():size() do
-        local item = inv:getItems():get(j-1);
-        table.insert(items, item)
-    end
-
-    for i=1, #items do
-        if items[i]:IsClothing() then
-            items[i]:setWetness(80 + ZombRand(20))
-        elseif items[i]:IsLiterature() then
-            local item = InventoryItemFactory.CreateItem("Aquatsar.TaintedLiterature");
-            inv:AddItem(item)
-            inv:DoRemoveItem(items[i])
-        end
-    end
-end
-
 function ISSwimAction:update()
     self.character:setX( self.x + self.dx*self:getJobDelta())
     self.character:setY( self.y + self.dy*self:getJobDelta())

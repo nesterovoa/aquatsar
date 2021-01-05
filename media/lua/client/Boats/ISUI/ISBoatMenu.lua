@@ -478,20 +478,30 @@ function ISBoatMenu.showRadialMenu(playerObj)
 			menu:addSlice(getText("ContextMenu_Open_Cabin"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
 		else
 			if playerObj:getInventory():containsTypeRecurse("Crowbar") then
-				local func = function(arg_boat, arg_pl) 
-					arg_boat:getModData()["AquaCabin_isUnlocked"] = true
-					arg_boat:getModData()["AquaCabin_isLockRuined"] = true
-					getSoundManager():PlayWorldSoundWav("PZ_MetalSnap", arg_pl:getCurrentSquare(), 1, 10, 2, true)
-				end
+				local bored = playerObj:getStats():getBoredom() > 25
+				local tired = playerObj:getStats():getEndurance() < 0.7
+				local unhappy = playerObj:getBodyDamage():getUnhappynessLevel() > 20
 				
-				menu:addSlice(getText("ContextMenu_Open_Cabin_Force"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
+				if tired then
+					playerObj:Say(getText("IGUI_cabinForceUnlock_tooTired"))
+				elseif bored then
+					playerObj:Say(getText("IGUI_cabinForceUnlock_tooBored"))
+				elseif unhappy then
+					playerObj:Say(getText("IGUI_cabinForceUnlock_tooUnhappy"))
+				end	
+				if not tired and not bored and not unhappy then				
+					local func = function(arg_boat, arg_pl) 
+						ISTimedActionQueue.add(ISForceUnlockCabin:new(playerObj, boat));
+					end
+					menu:addSlice(getText("ContextMenu_Open_Cabin_Force"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
+				end
 			else
 				menu:addSlice(getText("ContextMenu_Open_Cabin_Force_Need_Crowbar"), getTexture("media/ui/boats/RadialMenu_Door.png"))
 			end
 		end
 	end
 
-	if seat < 2 and boat:getModData()["AquaCabin_isUnlocked"] and not arg_boat:getModData()["AquaCabin_isLockRuined"] then
+	if seat < 2 and boat:getModData()["AquaCabin_isUnlocked"] and not boat:getModData()["AquaCabin_isLockRuined"] then
 		local func = function(arg_boat, arg_pl) 
 			arg_boat:getModData()["AquaCabin_isUnlocked"] = false
 			arg_pl:getEmitter():playSound("LockDoor")
