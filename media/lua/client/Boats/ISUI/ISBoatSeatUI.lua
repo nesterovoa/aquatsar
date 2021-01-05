@@ -347,7 +347,7 @@ function ISBoatSeatUI:useSeat(seat)
 	local playerHaveAccesToCabin = self.vehicle:getModData()["AquaCabin_isUnlocked"]
 	local isCabin = false
 	for i, val in ipairs(AquaConfig.Boats["BoatSailingYacht"].cabinSeats) do
-		if val == seat-1 then
+		if val == seat then
 			isCabin = true
 			break
 		end
@@ -365,7 +365,11 @@ function ISBoatSeatUI:useSeat(seat)
 			
 		end
 	else
-		ISTimedActionQueue.add(ISEnterVehicle:new(self.character, self.vehicle, seat))
+		if (not isCabin or playerHaveAccesToCabin) then
+			ISTimedActionQueue.add(ISEnterVehicle:new(self.character, self.vehicle, seat))
+		else
+			self.character:Say("Cabin door is locked")
+		end
 	end
 end
 
