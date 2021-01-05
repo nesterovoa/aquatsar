@@ -353,7 +353,6 @@ function AquaPhysics.reverseSpeedFix(boat, limit)	-- TODO необходимо �
 		local speed = boat:getCurrentSpeedKmHour()
 		if speed < -limit then
 			AquaPhysics.stopVehicleMove(boat, 3000)
-			print("YES")
 		end
 	end
 end
