@@ -108,6 +108,7 @@ function CommonTemplates.Use.DefaultDevice(vehicle, part, player)
 	if part:getItemContainer():isActive() then
 		part:getItemContainer():setActive(false)
 		player:getEmitter():playSound("ToggleStove")
+		part:getModData().timePassed = 0
 	else
 		part:getItemContainer():setActive(true)
 		part:setLightActive(true)
@@ -124,28 +125,26 @@ function CommonTemplates.Init.Oven(vehicle, part)
 		part:getItemContainer():setCustomTemperature(1.0)
 	end
 end
-
+a = 0
 function CommonTemplates.Update.Oven(vehicle, part, elapsedMinutes)
 	-- print("CommonTemplates.Update.Oven")
 	local currentTemp = part:getItemContainer():getTemprature()
-	print(currentTemp)
+	-- print(currentTemp)
 	local minTemp = 1.0
 	local maxTemp = (part:getModData().maxTemperature + 100) / 100
 	local contType = part:getItemContainer():getType()
 	local emi = vehicle:getEmitter()
-	-- print("part:getModData().maxTemperature ", part:getModData().maxTemperature)
-	print("part:getModData().timer ", part:getModData().timer)
 	if part:getInventoryItem() and part:getItemContainer() then
 		if part:getItemContainer():isActive() and vehicle:getBatteryCharge() > 0.00200 then
 			if currentTemp < maxTemp then
-				part:getItemContainer():setCustomTemperature(currentTemp + (0.04 * elapsedMinutes))
+				part:getItemContainer():setCustomTemperature(currentTemp + 0.2)
 			elseif currentTemp >= maxTemp then
 				part:getItemContainer():setCustomTemperature(maxTemp)
 			end
-			VehicleUtils.chargeBattery(vehicle, OvenBatteryChange * elapsedMinutes)
+			VehicleUtils.chargeBattery(vehicle, OvenBatteryChange)
 			if part:getModData().timer > 0 then
 				if part:getModData().timePassed < part:getModData().timer then
-					part:getModData().timePassed = part:getModData().timePassed + elapsedMinutes
+					part:getModData().timePassed = part:getModData().timePassed + 1
 				else 
 					emi:playSound("StoveTimerExpired")
 					part:getModData().timer = 0
@@ -153,8 +152,9 @@ function CommonTemplates.Update.Oven(vehicle, part, elapsedMinutes)
 				end
 			end
 		else
+			part:getModData().timePassed = 0
 			if currentTemp > minTemp then
-				part:getItemContainer():setCustomTemperature(currentTemp - (0.04 * elapsedMinutes))
+				part:getItemContainer():setCustomTemperature(currentTemp - 0.2)
 			elseif currentTemp <= minTemp then
 				part:getItemContainer():setCustomTemperature(minTemp)
 				part:setLightActive(false)
@@ -196,24 +196,21 @@ function CommonTemplates.Use.Microwave(vehicle, part, player)
 end
 
 function CommonTemplates.Update.Microwave(vehicle, part, elapsedMinutes)
-	print("CommonTemplates.Update.Microwave")
+	--print("CommonTemplates.Update.Microwave")
 	local currentTemp = part:getItemContainer():getTemprature()
 	local minTemp = 1.0
 	local maxTemp = (part:getModData().maxTemperature + 100) / 100
-	print("currentTemp: ", currentTemp)
-	print("maxTemp: ", maxTemp)
 	if part:getInventoryItem() and part:getItemContainer() then
 		if part:getItemContainer():isActive() and vehicle:getBatteryCharge() > 0.00200 then
 			if currentTemp < maxTemp then
-				part:getItemContainer():setCustomTemperature(currentTemp + (0.2 * elapsedMinutes))
+				part:getItemContainer():setCustomTemperature(currentTemp + 0.5)
 			elseif currentTemp >= maxTemp then
 				part:getItemContainer():setCustomTemperature(maxTemp)
 			end
-			VehicleUtils.chargeBattery(vehicle, MicrowaveBatteryChange * elapsedMinutes)
+			VehicleUtils.chargeBattery(vehicle, MicrowaveBatteryChange)
 			if part:getModData().timer > 0 then
 				if part:getModData().timePassed < part:getModData().timer then
-					print("part:getModData().timePassed ", part:getModData().timePassed)
-					part:getModData().timePassed = part:getModData().timePassed + elapsedMinutes
+					part:getModData().timePassed = part:getModData().timePassed + 1
 				else 
 					vehicle:getEmitter():stopSoundByName("MicrowaveRunning")
 					vehicle:getEmitter():playSound("MicrowaveTimerExpired")
@@ -221,11 +218,17 @@ function CommonTemplates.Update.Microwave(vehicle, part, elapsedMinutes)
 					part:getModData().timer = 0
 					part:getModData().timePassed = 0
 				end
+			else
+				vehicle:getEmitter():stopSoundByName("MicrowaveRunning")
+				vehicle:getEmitter():playSound("MicrowaveTimerExpired")
+				part:getItemContainer():setActive(false)
+				part:getModData().timer = 0
+				part:getModData().timePassed = 0
 			end
 		else
 			part:getModData().timePassed = 0
 			if currentTemp > minTemp then
-				part:getItemContainer():setCustomTemperature(currentTemp - (0.2 * elapsedMinutes))
+				part:getItemContainer():setCustomTemperature(currentTemp - 0.5)
 			elseif currentTemp <= minTemp then
 				part:getItemContainer():setCustomTemperature(minTemp)
 				part:setLightActive(false)

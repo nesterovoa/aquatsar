@@ -41,7 +41,7 @@ module Base
 		
 		part Oven*
 		{
-			category = HouseholdSystem,
+			category = nodisplay,
 			specificItem = false,
 			itemType = Base.TransportOven,
 			container

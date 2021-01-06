@@ -380,9 +380,10 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	menu:setY(getPlayerScreenTop(playerObj:getPlayerNum()) + getPlayerScreenHeight(playerObj:getPlayerNum()) / 2 - menu:getHeight() / 2)
 	
 	local seat = boat:getSeat(playerObj)
+	local timeHours = getGameTime():getHour()
 	
 	menu:addSlice(getText("IGUI_SwitchSeat"), getTexture("media/ui/vehicles/vehicle_changeseats.png"), ISBoatMenu.onShowSeatUI, playerObj, boat )
-
+	
 	if boat:isDriver(playerObj) then -- and boat:isEngineWorking()
 		if boat:isEngineRunning() then
 			menu:addSlice(getText("ContextMenu_VehicleShutOff"), getTexture("media/ui/boats/boat_stop_engine.png"), ISBoatMenu.onShutOff, playerObj)
@@ -457,7 +458,6 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		menu:addSlice(getText("ContextMenu_SwimToLand"), getTexture("media/ui/boats/ICON_boat_swim.png"), ISBoatMenu.showSwimMenu, playerObj)
 	end
 
-
 	if seat < 2 and AquaConfig.Boat(boat).removeSailsScript then
 		menu:addSlice(getText("ContextMenu_RemoveSail"), getTexture("media/ui/boats/ICON_remove_sails.png"), ISBoatMenu.RemoveSails, playerObj, boat)
 	end
@@ -469,7 +469,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	end
 
 	-- Cabin
-	if seat < 2 and not boat:getModData()["AquaCabin_isUnlocked"] then		
+	if AquaConfig.Boat(boat).driverBehind and seat < 2 and not boat:getModData()["AquaCabin_isUnlocked"] then		
 		if playerObj:getInventory():haveThisKeyId(boat:getKeyId()) then
 			local func =  function(arg_boat, arg_pl) 
 				arg_boat:getModData()["AquaCabin_isUnlocked"] = true
@@ -501,7 +501,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		end
 	end
 
-	if seat < 2 and boat:getModData()["AquaCabin_isUnlocked"] and not boat:getModData()["AquaCabin_isLockRuined"] then
+	if AquaConfig.Boat(boat).driverBehind and seat < 2 and boat:getModData()["AquaCabin_isUnlocked"] and not boat:getModData()["AquaCabin_isLockRuined"] then
 		local func = function(arg_boat, arg_pl) 
 			arg_boat:getModData()["AquaCabin_isUnlocked"] = false
 			arg_pl:getEmitter():playSound("LockDoor")
@@ -595,11 +595,10 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		end
 	end
 	
-	if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 and ISBoatMenu.getNearLandForExit(boat) then
+	if boat:getCurrentSpeedKmHour() < 5 and boat:getCurrentSpeedKmHour() > -5 and ISBoatMenu.getNearLandForExit(boat) then
 		menu:addSlice(getText("IGUI_ExitBoat"), getTexture("media/ui/boats/boat_exit.png"), ISBoatMenu.onExit, playerObj)
 	end
 	
-
 	menu:addToUIManager()
 
 	if JoypadState.players[playerObj:getPlayerNum()+1] then

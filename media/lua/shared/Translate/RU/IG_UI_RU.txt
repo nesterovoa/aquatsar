@@ -24,6 +24,13 @@ IGUI_RU = {
 	IGUI_VehiclePartmedicine = "Шкафчик",
 	IGUI_VehiclePartsidetable = "Выдвижной ящик",
 	
+	IGUI_UseStove = "Использовать плиту",
+	IGUI_UseMicrowave = "Использовать микроволновку",
+	IGUI_Turn_Fridge_On = "Включить холодильник",
+	IGUI_Turn_Fridge_Off = "Выключить холодильник",
+	IGUI_Turn_Freezer_On = "Включить морозильник",
+	IGUI_Turn_Freezer_Off = "Выключить морозильник",
+	
 	IGUI_VehicleNameSailingBoatWithSales = "Яхта",
 	IGUI_ExitBoat = "Сойти на берег",
 	IGUI_EnterBoat = "Взойти на лодку",

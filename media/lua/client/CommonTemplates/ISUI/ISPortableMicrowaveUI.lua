@@ -60,6 +60,7 @@ end
 function ISPortableMicrowaveUI:ChangeKnob()
     self.oven:getModData().maxTemperature = self.tempKnob:getValue()
     self.oven:getModData().timer = self.timerKnob:getValue()
+	self.oven:getModData().timePassed = 0
 end
 
 function ISPortableMicrowaveUI:update()

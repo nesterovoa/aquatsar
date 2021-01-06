@@ -4,7 +4,7 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = false,
+		is3D = true,
 		clip
 		{
 			file = media/sound/boats/aquatsar_main_theme.wav,
@@ -17,7 +17,7 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = false,
+		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_sails_set.ogg,
@@ -30,7 +30,7 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = false,
+		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_sails_remove.ogg,
@@ -43,7 +43,7 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = false,
+		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_sails_change_direction.ogg,
@@ -56,7 +56,7 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = false,
+		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_launching.ogg,

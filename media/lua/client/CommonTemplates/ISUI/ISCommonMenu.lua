@@ -29,7 +29,7 @@ function ISCommonMenu.showRadialMenu(playerObj, vehicle)
 	local microwave = vehicle:getPartById(microwaveBySeat)
 	
 	if oven then
-		menu:addSlice(getText("ContextMenu_UseStove"), getTexture("media/ui/Container_Oven"), ISCommonMenu.onStoveSetting, playerObj, vehicle, oven, seat)
+		menu:addSlice(getText("IGUI_UseStove"), getTexture("media/ui/Container_Oven"), ISCommonMenu.onStoveSetting, playerObj, vehicle, oven, seat)
 		-- if oven:getItemContainer():isActive() then
 			-- menu:addSlice(getText("IGUI_Turn_Oven_Off"), getTexture("media/ui/Container_Oven"), ISCommonMenu.ToggleDevice, playerObj, vehicle, oven)
 		-- else
@@ -38,7 +38,7 @@ function ISCommonMenu.showRadialMenu(playerObj, vehicle)
 	end
 	
 	if microwave then
-		menu:addSlice(getText("ContextMenu_UseMicrowave"), getTexture("media/ui/Container_Microwave"), ISCommonMenu.onMicrowaveSetting, playerObj, vehicle, microwave, seat)
+		menu:addSlice(getText("IGUI_UseMicrowave"), getTexture("media/ui/Container_Microwave"), ISCommonMenu.onMicrowaveSetting, playerObj, vehicle, microwave, seat)
 		-- if microwave:getItemContainer():isActive() then
 			-- menu:addSlice(getText("IGUI_Turn_Oven_Off"), getTexture("media/ui/Container_Microwave"), ISCommonMenu.ToggleMicrowave, playerObj, vehicle, microwave)
 		-- else

@@ -90,7 +90,7 @@ end
 function ISPortableOvenUI:ChangeKnob()
     self.oven:getModData().maxTemperature = self.tempKnob:getValue()
     self.oven:getModData().timer = self.timerKnob:getValue()
-	print("self.oven:getModData().timer ", self.oven:getModData().timer)
+	self.oven:getModData().timePassed = 0
 end
 
 function ISPortableOvenUI:update()
@@ -103,7 +103,7 @@ function ISPortableOvenUI:update()
 end
 
 function ISPortableOvenUI:updateButtons()
-    if not self.timerKnob.dragging then
+    if not self.timerKnob.dragging then	
         if self.oven:getModData().timePassed > 0 then
             self.timerKnob:setKnobPosition(math.ceil((self.oven:getModData().timer - self.oven:getModData().timePassed)));
         else
