@@ -1,23 +1,23 @@
 module Base
 {
-	template vehicle BoatLight
+	template vehicle Light
 	{
-		part BoatLightFloodlightLeft
+		part LightFloodlightLeft
 		{
 			area = Engine,
 		}
 
-		part BoatLightFloodlightRight
+		part LightFloodlightRight
 		{
 			area = Engine,
 		}
 
-		part BoatLightCabin
+		part LightCabin
 		{
 			area = TruckBed,
 		}
-
-		part BoatLight*
+		
+		part Light*
 		{
 			category = ElecticalSystem,
 			specificItem = false,
@@ -55,10 +55,35 @@ module Base
 			}
 			lua
 			{
-				create = Boats.Create.BoatHeadlight,
-				init = Boats.Init.BoatHeadlight,
+				create = CommonTemplates.Create.Light,
+				init = CommonTemplates.Init.Light,
 				update = Vehicles.Update.Headlight,
 			}
+		}
+
+		part SwitchLightFrontLeft
+		{
+			area = SeatFrontLeft,
+		}
+		part SwitchLightFrontRight
+		{
+			area = SeatFrontRight,
+		}
+		part SwitchLightMiddleLeft
+		{
+			area = SeatMiddleLeft,
+		}
+		part SwitchLightMiddleRight
+		{
+			area = SeatMiddleRight,
+		}
+		part SwitchLightRearLeft
+		{
+			area = SeatRearLeft,
+		}
+		part SwitchLightRearRight
+		{
+			area = SeatRearRight,
 		}
 	}
 }

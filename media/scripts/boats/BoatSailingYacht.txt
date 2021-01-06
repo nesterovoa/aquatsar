@@ -287,10 +287,15 @@ module Base
 			category = ElecticalSystem,
 		}
 
-		template = ApiBoatLight,
-		template = BoatLight/part/BoatLightFloodlightLeft,
-		template = BoatLight/part/BoatLightFloodlightRight,
-		template = BoatLight/part/BoatLightCabin,
+		template = LightApi,
+		template = Light/part/LightFloodlightLeft,
+		template = Light/part/LightFloodlightRight,
+		template = Light/part/LightCabin,
+		template = Light/part/SwitchLightMiddleLeft,
+		template = Light/part/SwitchLightMiddleRight,
+		template = Light/part/SwitchLightRearLeft,
+		template = Light/part/SwitchLightRearRight,
+		
 		template = Heater,
 		part Heater
 		{
@@ -846,7 +851,7 @@ module Base
 		{
 			category = nodisplay,
 		}
-		part BoatLightCabin
+		part LightCabin
 		{
 			category = nodisplay,
 		}

@@ -1,6 +1,6 @@
 module Base
 {
-	template vehicle ApiBoatLight
+	template vehicle LightApi
 	{
 		/* Boat headlight left. On texture mask use color: #C00000 */
 		part HeadlightLeft
@@ -38,7 +38,6 @@ module Base
 				}
 				time = 100,
 				test = Vehicles.InstallTest.Default,
-				complete = Boats.InstallComplete.Boatlight,
 			}
 			table uninstall
 			{
@@ -54,11 +53,10 @@ module Base
 				}
 				time = 100,
 				test = Vehicles.UninstallTest.Default,
-				complete = Boats.UninstallComplete.Boatlight,
 			}
 			lua
 			{
-				create = Boats.Create.ApiBoatlight,
+				create = CommonTemplates.Create.LightApi,
 				init = Vehicles.Init.Headlight,
 			}
 		}

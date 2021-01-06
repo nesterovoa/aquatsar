@@ -12,9 +12,9 @@ IG_UI_EN = {
 	IGUI_VehiclePartCatMechanicalSystem = "Mechanical System",
 	IGUI_VehiclePartCatElecticalSystem = "Electical System",
 	IGUI_VehiclePartCatBoatBody = "Boat Body",
-	IGUI_VehiclePartBoatLightFloodlightLeft = "Spotlights left",
-	IGUI_VehiclePartBoatLightFloodlightRight = "Spotlights right",
-	IGUI_VehiclePartBoatLightCabin = "Cockpit light",	
+	IGUI_VehiclePartNewHeadlightFloodlightLeft = "Spotlights left",
+	IGUI_VehiclePartNewHeadlightFloodlightRight = "Spotlights right",
+	IGUI_VehiclePartNewHeadlightCabin = "Cockpit light",	
 	
 	IGUI_VehiclePartshelves = "Shelves",
 	IGUI_VehiclePartstove = "Stove",
