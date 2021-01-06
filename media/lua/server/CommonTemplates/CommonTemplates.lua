@@ -236,6 +236,58 @@ function CommonTemplates.Update.Microwave(vehicle, part, elapsedMinutes)
 		end
 	end
 end
+--***********************************************************
+--**                                                       **
+--**                         Light                         **
+--**                                                       **
+--***********************************************************
+function CommonTemplates.Create.LightApi(boat, part)
+	local item = BoatUtils.createPartInventoryItem(part)
+	-- if part:getId() == "HeadlightLeft" then
+		-- part:createSpotLight(0.5, 2.0, 8.0+ZombRand(16.0), 0.75, 0.96, ZombRand(200))
+	-- elseif part:getId() == "HeadlightRight" then
+		-- part:createSpotLight(-0.5, 2.0, 8.0+ZombRand(16.0), 0.75, 0.96, ZombRand(200))
+	-- end
+	part:setInventoryItem(nil)
+end
+
+function CommonTemplates.Init.LightApi(boat, part)
+	part:setModelVisible("test", true)
+end
+
+function CommonTemplates.Update.LightApi(boat, part, elapsedMinutes)
+	local light = part:getLight()
+	if not light then return end
+	local active = boat:getHeadlightsOn()
+	if active and (not part:getInventoryItem() or boat:getBatteryCharge() <= 0.0) then
+		active = false
+	end
+	part:setLightActive(active)
+	if active and not boat:isEngineRunning() then
+		VehicleUtils.chargeBattery(boat, -0.000025 * elapsedMinutes)
+	end
+end
+
+function CommonTemplates.Create.Light(boat, part)
+	local item = BoatUtils.createPartInventoryItem(part)
+	if part:getId() == "LightFloodlightLeft" then
+		part:createSpotLight(0.5, 2.0, 8.0+ZombRand(16.0), 0.75, 0.96, ZombRand(200))
+	elseif part:getId() == "LightFloodlightRight" then
+		part:createSpotLight(-0.5, 2.0, 8.0+ZombRand(16.0), 0.75, 0.96, ZombRand(200))
+	end
+end
+
+function CommonTemplates.Init.Light(boat, part)
+	part:setModelVisible("test", true)
+end
+
+function CommonTemplates.InstallComplete.Cabinlight(boat, partt)
+	print("Boats.InstallComplete.Cabinlight")
+end
+
+function CommonTemplates.UninstallComplete.Cabinlight(boat, partt)
+	print("Boats.UninstallComplete.Cabinlight")
+end
 
 --***********************************************************
 --**                                                       **

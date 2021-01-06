@@ -9,9 +9,9 @@ IGUI_RU = {
 	IGUI_VehiclePartCatMechanicalSystem = "Механическая система",
 	IGUI_VehiclePartCatElecticalSystem = "Электрическая система",
 	IGUI_VehiclePartCatBoatBody = "Элементы корпуса",
-	IGUI_VehiclePartBoatLightFloodlightLeft = "Прожектор левый",
-	IGUI_VehiclePartBoatLightFloodlightRight = "Прожектор правый",
-	IGUI_VehiclePartBoatLightCabin = "Лампочка в кабине",	
+	IGUI_VehiclePartLightFloodlightLeft = "Прожектор левый",
+	IGUI_VehiclePartLightFloodlightRight = "Прожектор правый",
+	IGUI_VehiclePartLightCabin = "Лампочка в кабине",	
 	IGUI_VehiclePartManualStarter = "Ручной стартер",
 	
 	IGUI_VehiclePartshelves = "Полки",

@@ -19,16 +19,28 @@ function ISCommonMenu.showRadialMenu(playerObj, vehicle)
 	if isPaused then return end
 	local menu = getPlayerRadialMenu(playerObj:getPlayerNum())
 	local seat = seatName[vehicle:getSeat(playerObj)+1]
-	local ovenBySeat = "Oven" .. seat
-	local fridgeBySeat = "Fridge" .. seat
-	local freezerBySeat = "Freezer" .. seat
-	local microwaveBySeat = "Microwave" .. seat
-	local oven = vehicle:getPartById(ovenBySeat)
-	local fridge = vehicle:getPartById(fridgeBySeat)
-	local freezer = vehicle:getPartById(freezerBySeat)
-	local microwave = vehicle:getPartById(microwaveBySeat)
+	local oven = vehicle:getPartById("Oven" .. seat)
+	local fridge = vehicle:getPartById("Fridge" .. seat)
+	local freezer = vehicle:getPartById("Freezer" .. seat)
+	local microwave = vehicle:getPartById("Microwave" .. seat)
+	local lightswitch = vehicle:getPartById("SwitchLight" .. seat)
+	local lightIsOn = true
+	local timeHours = getGameTime():getHour()
 	
-	if oven then
+	if lightswitch then
+		if vehicle:getPartById("HeadlightRearRight") and vehicle:getPartById("HeadlightRearRight"):getInventoryItem() then
+			menu:addSlice(getText("ContextMenu_BoatCabinelightsOff"), getTexture("media/ui/boats/boat_switch_off.png"), ISCommonMenu.offToggleCabinlights, playerObj)
+		else
+			if (timeHours > 22 or timeHours < 7) then
+				menu:addSlice(getText("ContextMenu_BoatCabinelightsOn"), getTexture("media/ui/boats/boat_switch_on.png"), ISCommonMenu.onToggleCabinlights, playerObj)
+				lightIsOn = false
+			else
+				menu:addSlice(getText("ContextMenu_BoatCabinelightsOn"), getTexture("media/ui/boats/boat_switch_on_day.png"), ISCommonMenu.onToggleCabinlights, playerObj)
+			end
+		end
+	end
+	
+	if oven and lightIsOn then
 		menu:addSlice(getText("IGUI_UseStove"), getTexture("media/ui/Container_Oven"), ISCommonMenu.onStoveSetting, playerObj, vehicle, oven, seat)
 		-- if oven:getItemContainer():isActive() then
 			-- menu:addSlice(getText("IGUI_Turn_Oven_Off"), getTexture("media/ui/Container_Oven"), ISCommonMenu.ToggleDevice, playerObj, vehicle, oven)
@@ -37,7 +49,7 @@ function ISCommonMenu.showRadialMenu(playerObj, vehicle)
 		-- end
 	end
 	
-	if microwave then
+	if microwave and lightIsOn then
 		menu:addSlice(getText("IGUI_UseMicrowave"), getTexture("media/ui/Container_Microwave"), ISCommonMenu.onMicrowaveSetting, playerObj, vehicle, microwave, seat)
 		-- if microwave:getItemContainer():isActive() then
 			-- menu:addSlice(getText("IGUI_Turn_Oven_Off"), getTexture("media/ui/Container_Microwave"), ISCommonMenu.ToggleMicrowave, playerObj, vehicle, microwave)
@@ -46,7 +58,7 @@ function ISCommonMenu.showRadialMenu(playerObj, vehicle)
 		-- end
 	end
 		
-	if fridge then
+	if fridge and lightIsOn then
 		if fridge:getItemContainer():isActive() then
 			menu:addSlice(getText("IGUI_Turn_Fridge_Off"), getTexture("media/ui/Container_Fridge"), ISCommonMenu.ToggleDevice, playerObj, vehicle, fridge)
 		else
@@ -54,7 +66,7 @@ function ISCommonMenu.showRadialMenu(playerObj, vehicle)
 		end
 	end
 	
-	if freezer then
+	if freezer and lightIsOn then
 		if freezer:getItemContainer():isActive() then
 			menu:addSlice(getText("IGUI_Turn_Freezer_Off"), getTexture("media/ui/Container_Freezer"), ISCommonMenu.ToggleDevice, playerObj, vehicle, freezer)
 		else
@@ -82,5 +94,48 @@ function ISCommonMenu.onMicrowaveSetting(playerObj, vehicle, part, seat)
 	ui:initialise()
 	ui:addToUIManager()
 end
+
+function ISCommonMenu.onToggleCabinlights(playerObj)
+	local boat = playerObj:getVehicle()
+	if not boat then return end
+	local part = boat:getPartById("LightCabin")
+	if part and part:getInventoryItem() then
+		local apipart = boat:getPartById("HeadlightRearRight")
+		local newInvItem = InventoryItemFactory.CreateItem("Base.LightBulb")
+		print(newInvItem)
+		newInvItem:setCondition(part:getInventoryItem():getCondition())
+		apipart:setInventoryItem(newInvItem, 10)
+		sendClientCommand(playerObj, 'vehicle', 'setHeadlightsOn', { on = true })
+	else
+		playerObj:Say(getText("IGUI_PlayerText_CabinlightDoNotWork"))
+	end
+	--sendClientCommand(playerObj, 'vehicle', 'setStoplightsOn', { on = not boat:getHeadlightsOn() })
+end
+
+function ISCommonMenu.offToggleCabinlights(playerObj)
+	local boat = playerObj:getVehicle()
+	if not boat then return end
+	local part = boat:getPartById("HeadlightRearRight")
+	part:setInventoryItem(nil)
+	local lightIsOn = false
+	part = boat:getPartById("HeadlightLeft")
+	if part then
+		if part:getInventoryItem() then
+			lightIsOn = true
+		end
+	end
+	part = boat:getPartById("HeadlightRight")
+	if part then
+		if part:getInventoryItem() then
+			lightIsOn = true
+		end
+	end
+	if not lightIsOn then
+		sendClientCommand(playerObj, 'vehicle', 'setHeadlightsOn', { on = false })
+	end
 	
+	
+	--sendClientCommand(playerObj, 'vehicle', 'setStoplightsOn', { on = not boat:getHeadlightsOn() })
+end
+
 Events.OnKeyStartPressed.Add(ISCommonMenu.onKeyStartPressed)
