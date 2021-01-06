@@ -24,20 +24,17 @@ module Aquatsar
 
     item Lifebuoy
     {
-        Type = Clothing,
-        DisplayName = Lifebuoy,
-        ClothingItem = WeddingJacket,
-        BodyLocation = Jacket,
+		Type = Clothing,
+		DisplayName = Lifebuoy,
+		ClothingItem = WeddingJacket,
+		BodyLocation = Jacket,
+		Icon = Lifebuoy,
+		CanHaveHoles = false,
+		ChanceToFall = 10,
         BloodLocation = Jacket,
-        Icon = Lifebuoy,
-        RunSpeedModifier = 0.93,
-        CombatSpeedModifier = 0.95,
-        ScratchDefense = 20,
-        NeckProtectionModifier = 0.5,
-        Insulation = 0.40,
-        WindResistance = 0.2,
-        FabricType = Cotton,
-        Weight = 2,
+        Insulation = 0.75,
+        WindResistance = 0.75,
+        WaterResistance = 0.75
     }
 
 	item TaintedLiterature
@@ -68,10 +65,17 @@ module Aquatsar
 	item TireTube
 	{
 		Weight	=	1,
-		Type	=	Normal,
-		DisplayName	=	Tire Tube,
-		Icon	=	TireTube,
-		Tooltip = Tooltip_SheetRope,
+		Type = Clothing,
+		DisplayName = Tire Tube,
+		ClothingItem = WeddingJacket,
+		BodyLocation = Jacket,
+		Icon = TireTube,
+		CanHaveHoles = false,
+		ChanceToFall = 10,
+        BloodLocation = Jacket,
+        Insulation = 0.75,
+        WindResistance = 0.75,
+        WaterResistance = 0.75
 	}
 	
 	recipe Extract Tire Tube

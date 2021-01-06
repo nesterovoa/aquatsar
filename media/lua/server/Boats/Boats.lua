@@ -61,6 +61,10 @@ function Boats.Create.Sails(boat, part)
 	local item = BoatUtils.createPartInventoryItem(part)
 end
 
+function Boats.Update.Sails(boat, part)
+	print("DUCK")
+end
+
 function Boats.Create.ManualStarter(boat, part)
 	local item = BoatUtils.createPartInventoryItem(part)
 end
