@@ -10,7 +10,8 @@ AquaConfig.windVeryLight = 7 * 1.60934
 AquaConfig.windLight = 12 * 1.60934
 AquaConfig.windMedium = 23 * 1.60934
 AquaConfig.windStrong = 31 * 1.60934
-AquaConfig.windVeryStrong = 61 * 1.60934
+AquaConfig.windVeryStrong = 55 * 1.60934
+
 
 function AquaConfig.isBoat(boat)
 	if not boat then return false end

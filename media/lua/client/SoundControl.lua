@@ -79,26 +79,32 @@ function SoundControl.main()
 			end
 			if emi:isPlaying("BoatSailing") then 
 				local windSpeed = getClimateManager():getWindspeedKph()
-				--AUD.insp("Wind", "windSpeed:", windSpeed/1.60934)
+				AUD.insp("Wind", "windSpeed (MPH):", windSpeed/1.60934)
 				local volume = 0
-				if windSpeed < AquaConfig.windLight then
-					AUD.insp("Wind", "windControlSpeed:", "WindLight")
+				if windSpeed < AquaConfig.windVeryLight then
+					AUD.insp("Wind", "windControlSpeed:", "windVeryLight")
+					volume = 1
+					SoundControl.switchTheWind(emi, "WindLight", volume)
+				elseif windSpeed < AquaConfig.windLight then
+					AUD.insp("Wind", "windControlSpeed:", "windLight")
 					volume = windSpeed/AquaConfig.windLight
 					SoundControl.switchTheWind(emi, "WindLight", volume)
 				elseif windSpeed < AquaConfig.windMedium then
-					AUD.insp("Wind", "windControlSpeed:", "WindMedium")
+					AUD.insp("Wind", "windControlSpeed:", "windMedium")
 					volume = windSpeed/AquaConfig.windMedium
 					SoundControl.switchTheWind(emi, "WindMedium", volume)
 				elseif windSpeed < AquaConfig.windStrong then
-					AUD.insp("Wind", "windControlSpeed:", "WindStrong")
+					AUD.insp("Wind", "windControlSpeed:", "windStrong")
 					volume = (windSpeed - 20 * 1.60934)/(AquaConfig.windStrong - 20 * 1.60934)
 					SoundControl.switchTheWind(emi, "WindStrong", volume)
 				elseif windSpeed < AquaConfig.windVeryStrong then
-					AUD.insp("Wind", "windControlSpeed:", "WindVeryStrong")
+					AUD.insp("Wind", "windControlSpeed:", "windVeryStrong")
 					volume = (windSpeed - 18 * 1.60934)/(AquaConfig.windVeryStrong - 18 * 1.60934)
 					SoundControl.switchTheWind(emi, "WindVeryStrong", volume)
 				else
-					SoundControl.switchTheWind(emi, "WindVeryStrong", 1)
+					AUD.insp("Wind", "windControlSpeed:", "windStorm")
+					volume = (windSpeed - 18 * 1.60934)/(AquaConfig.windVeryStrong - 18 * 1.60934)
+					SoundControl.switchTheWind(emi, "WindStorm", 1)
 				end
 				AUD.insp("Wind", "volume:", volume)
 			end
