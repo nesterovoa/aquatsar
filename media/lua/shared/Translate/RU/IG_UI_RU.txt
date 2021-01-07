@@ -18,6 +18,7 @@ IGUI_RU = {
 	IGUI_VehiclePartstove = "Плита",
 	IGUI_VehiclePartfridge = "Холодильник",
 	IGUI_VehiclePartcounter = "Тумба",
+	IGUI_VehiclePartportablemicrowave = "Микроволновка",
 	IGUI_VehiclePartmicrowave = "Микроволновка",
 	IGUI_VehiclePartfreezer = "Морозильная камера",
 	IGUI_VehiclePartwardrobe = "Шкаф",

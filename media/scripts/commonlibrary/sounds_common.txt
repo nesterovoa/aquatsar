@@ -6,6 +6,16 @@ module CommonLib
 		Base
 	}
 	
+	sound NewMicrowaveRunning
+	{
+		category = Object,
+		clip
+		{
+			event = microwave_working,
+			volume = 1.5,
+		}
+	}
+	
 	sound BulbSmash
 	{
 		category = Water,
@@ -37,12 +47,13 @@ module CommonLib
 		category = Water,
 		loop = false,
 		is3D = false,
-		volume = 3.0,
+		
 		clip
 		{
 			file = media/sound/common/switch_lamp_fail.ogg,
 			distanceMin = 10,
 			distanceMax = 300,
+			volume = 2.0,
 		}
 	}
 }

@@ -20,6 +20,7 @@ IG_UI_EN = {
 	IGUI_VehiclePartstove = "Stove",
 	IGUI_VehiclePartfridge = "Fridge",
 	IGUI_VehiclePartcounter = "Counter",
+	IGUI_VehiclePartportablemicrowave = "Microwave",
 	IGUI_VehiclePartmicrowave = "Microwave",
 	IGUI_VehiclePartfreezer = "Freezer",
 	IGUI_VehiclePartwardrobe = "Cupboard",

@@ -52,9 +52,9 @@ function ISCommonMenu.showRadialMenu(playerObj, vehicle)
 	if microwave and lightIsOn then
 		menu:addSlice(getText("IGUI_UseMicrowave"), getTexture("media/ui/Container_Microwave"), ISCommonMenu.onMicrowaveSetting, playerObj, vehicle, microwave, seat)
 		-- if microwave:getItemContainer():isActive() then
-			-- menu:addSlice(getText("IGUI_Turn_Oven_Off"), getTexture("media/ui/Container_Microwave"), ISCommonMenu.ToggleMicrowave, playerObj, vehicle, microwave)
+			-- menu:addSlice(getText("IGUI_Turn_Oven_Off"), getTexture("media/ui/Container_Microwave"), ISCommonMenu.ToggleMicrowave, playerObj, vehicle, microwave, false)
 		-- else
-			-- menu:addSlice(getText("IGUI_Turn_Oven_On"), getTexture("media/ui/Container_Microwave"), ISCommonMenu.ToggleMicrowave, playerObj, vehicle, microwave)
+			-- menu:addSlice(getText("IGUI_Turn_Oven_On"), getTexture("media/ui/Container_Microwave"), ISCommonMenu.ToggleMicrowave, playerObj, vehicle, microwave, true)
 		-- end
 	end
 		
@@ -79,8 +79,8 @@ function ISCommonMenu.ToggleDevice(playerObj, vehicle, part)
 	CommonTemplates.Use.DefaultDevice(vehicle, part, playerObj)
 end
 
-function ISCommonMenu.ToggleMicrowave(playerObj, vehicle, part)
-	CommonTemplates.Use.Microwave(vehicle, part, playerObj)
+function ISCommonMenu.ToggleMicrowave(playerObj, vehicle, part, on)
+	CommonTemplates.Use.Microwave(vehicle, part, playerObj, on)
 end
 
 function ISCommonMenu.onStoveSetting(playerObj, vehicle, part, seat)

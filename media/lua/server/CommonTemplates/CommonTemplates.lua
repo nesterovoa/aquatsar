@@ -179,19 +179,21 @@ function CommonTemplates.Create.Microwave(vehicle, part)
 	CommonTemplates.createActivePart(part)
 end
 
-function CommonTemplates.Use.Microwave(vehicle, part, player)
-	if part:getItemContainer():isActive() then
+function CommonTemplates.Use.Microwave(vehicle, part, player, on)
+	if part:getItemContainer():isActive() and not on then
 		part:getItemContainer():setActive(false)
-		vehicle:getEmitter():stopSoundByName("MicrowaveRunning")
+		vehicle:getEmitter():stopSoundByName("NewMicrowaveRunning")
 		vehicle:getEmitter():playSound("MicrowaveTimerExpired")
 		part:getModData().timer = 0
 		part:getModData().timePassed = 0
-	elseif part:getModData().timer > 0 then
+	elseif part:getModData().timer > 0 and on then
 		part:getModData().timePassed = 0.001
 		part:getItemContainer():setActive(true)
 		part:setLightActive(true)
 		vehicle:getEmitter():playSound("ToggleStove")
-		vehicle:getEmitter():playSoundLooped("MicrowaveRunning")
+		if not vehicle:getEmitter():isPlaying("NewMicrowaveRunning") then
+			vehicle:getEmitter():playSoundLooped("NewMicrowaveRunning")
+		end
 	end
 end
 
@@ -212,14 +214,14 @@ function CommonTemplates.Update.Microwave(vehicle, part, elapsedMinutes)
 				if part:getModData().timePassed < part:getModData().timer then
 					part:getModData().timePassed = part:getModData().timePassed + 1
 				else 
-					vehicle:getEmitter():stopSoundByName("MicrowaveRunning")
+					vehicle:getEmitter():stopSoundByName("NewMicrowaveRunning")
 					vehicle:getEmitter():playSound("MicrowaveTimerExpired")
 					part:getItemContainer():setActive(false)
 					part:getModData().timer = 0
 					part:getModData().timePassed = 0
 				end
 			else
-				vehicle:getEmitter():stopSoundByName("MicrowaveRunning")
+				vehicle:getEmitter():stopSoundByName("NewMicrowaveRunning")
 				vehicle:getEmitter():playSound("MicrowaveTimerExpired")
 				part:getItemContainer():setActive(false)
 				part:getModData().timer = 0
