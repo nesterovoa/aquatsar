@@ -2,16 +2,19 @@ module Base
 {
 	template vehicle Light
 	{
+		/*HeadlightLeft*/
 		part LightFloodlightLeft
 		{
 			area = Engine,
 		}
-
+		
+		/*HeadlightRight*/
 		part LightFloodlightRight
 		{
 			area = Engine,
 		}
-
+		
+		/*HeadlightRearRight*/
 		part LightCabin
 		{
 			area = TruckBed,
@@ -37,6 +40,8 @@ module Base
 				}
 				time = 100,
 				test = Vehicles.InstallTest.Default,
+				complete = CommonTemplates.InstallComplete.Light,
+				
 			}
 			table uninstall
 			{
@@ -52,6 +57,7 @@ module Base
 				}
 				time = 100,
 				test = Vehicles.UninstallTest.Default,
+				complete = CommonTemplates.UninstallComplete.Light,
 			}
 			lua
 			{
@@ -59,31 +65,6 @@ module Base
 				init = CommonTemplates.Init.Light,
 				update = Vehicles.Update.Headlight,
 			}
-		}
-
-		part SwitchLightFrontLeft
-		{
-			area = SeatFrontLeft,
-		}
-		part SwitchLightFrontRight
-		{
-			area = SeatFrontRight,
-		}
-		part SwitchLightMiddleLeft
-		{
-			area = SeatMiddleLeft,
-		}
-		part SwitchLightMiddleRight
-		{
-			area = SeatMiddleRight,
-		}
-		part SwitchLightRearLeft
-		{
-			area = SeatRearLeft,
-		}
-		part SwitchLightRearRight
-		{
-			area = SeatRearRight,
 		}
 	}
 }

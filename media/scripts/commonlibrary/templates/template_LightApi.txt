@@ -20,7 +20,9 @@ module Base
 		
 		part Headlight*
 		{
+			/**/
 			category = nodisplay,
+			
 			specificItem = false,
 			itemType = Base.LightBulb,
 			mechanicRequireKey = true,

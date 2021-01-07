@@ -96,35 +96,47 @@ function ISCommonMenu.onMicrowaveSetting(playerObj, vehicle, part, seat)
 end
 
 function ISCommonMenu.onToggleCabinlights(playerObj)
-	local boat = playerObj:getVehicle()
-	if not boat then return end
-	local part = boat:getPartById("LightCabin")
-	if part and part:getInventoryItem() then
-		local apipart = boat:getPartById("HeadlightRearRight")
-		local newInvItem = InventoryItemFactory.CreateItem("Base.LightBulb")
-		print(newInvItem)
-		newInvItem:setCondition(part:getInventoryItem():getCondition())
-		apipart:setInventoryItem(newInvItem, 10)
-		sendClientCommand(playerObj, 'vehicle', 'setHeadlightsOn', { on = true })
+	local vehicle = playerObj:getVehicle()
+	if not vehicle then return end
+	local part = vehicle:getPartById("LightCabin")
+	local partCondition = part:getCondition()
+	if part and part:getInventoryItem() and partCondition > 0 then
+		local chanceFail = (100 - partCondition)/10
+		if ZombRand(100) < chanceFail then
+			part:setCondition(0)
+			vehicle:getEmitter():playSound("BulbSmash")
+		else
+			local apipart = vehicle:getPartById("HeadlightRearRight")
+			local newItem = InventoryItemFactory.CreateItem("Base.LightBulb")
+			newItem:setCondition(partCondition)
+			apipart:setInventoryItem(newItem, 10)
+			partCondition = partCondition - 1
+			part:setCondition(partCondition)
+			-- print(part:getInventoryItem():getCondition())
+			vehicle:getEmitter():playSound("SwitchLamp")
+			sendClientCommand(playerObj, 'vehicle', 'setHeadlightsOn', { on = true })
+		end
 	else
-		playerObj:Say(getText("IGUI_PlayerText_CabinlightDoNotWork"))
+		vehicle:getEmitter():playSound("SwitchLampFail")
+		-- playerObj:Say(getText("IGUI_PlayerText_CabinlightDoNotWork"))
 	end
 	--sendClientCommand(playerObj, 'vehicle', 'setStoplightsOn', { on = not boat:getHeadlightsOn() })
 end
 
 function ISCommonMenu.offToggleCabinlights(playerObj)
-	local boat = playerObj:getVehicle()
-	if not boat then return end
-	local part = boat:getPartById("HeadlightRearRight")
+	local vehicle = playerObj:getVehicle()
+	if not vehicle then return end
+	local part = vehicle:getPartById("HeadlightRearRight")
 	part:setInventoryItem(nil)
+	vehicle:getEmitter():playSound("SwitchLamp")
 	local lightIsOn = false
-	part = boat:getPartById("HeadlightLeft")
+	part = vehicle:getPartById("HeadlightLeft")
 	if part then
 		if part:getInventoryItem() then
 			lightIsOn = true
 		end
 	end
-	part = boat:getPartById("HeadlightRight")
+	part = vehicle:getPartById("HeadlightRight")
 	if part then
 		if part:getInventoryItem() then
 			lightIsOn = true
@@ -133,8 +145,6 @@ function ISCommonMenu.offToggleCabinlights(playerObj)
 	if not lightIsOn then
 		sendClientCommand(playerObj, 'vehicle', 'setHeadlightsOn', { on = false })
 	end
-	
-	
 	--sendClientCommand(playerObj, 'vehicle', 'setStoplightsOn', { on = not boat:getHeadlightsOn() })
 end
 

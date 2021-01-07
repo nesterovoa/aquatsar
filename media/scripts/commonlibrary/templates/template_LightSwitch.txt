@@ -1,0 +1,36 @@
+module Base
+{
+	template vehicle SwitchLight
+	{
+		part SwitchLightFrontLeft
+		{
+			area = SeatFrontLeft,
+		}
+		part SwitchLightFrontRight
+		{
+			area = SeatFrontRight,
+		}
+		part SwitchLightMiddleLeft
+		{
+			area = SeatMiddleLeft,
+		}
+		part SwitchLightMiddleRight
+		{
+			area = SeatMiddleRight,
+		}
+		part SwitchLightRearLeft
+		{
+			area = SeatRearLeft,
+		}
+		part SwitchLightRearRight
+		{
+			area = SeatRearRight,
+		}
+		
+		part SwitchLight*
+		{
+			category = nodisplay,
+		}
+	}
+}
+

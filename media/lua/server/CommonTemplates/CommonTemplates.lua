@@ -281,14 +281,21 @@ function CommonTemplates.Init.Light(boat, part)
 	part:setModelVisible("test", true)
 end
 
-function CommonTemplates.InstallComplete.Cabinlight(boat, partt)
-	print("Boats.InstallComplete.Cabinlight")
+function CommonTemplates.InstallComplete.Light(boat, part)
+	print("CommonTemplates.InstallComplete.Light")
+	
 end
 
-function CommonTemplates.UninstallComplete.Cabinlight(boat, partt)
-	print("Boats.UninstallComplete.Cabinlight")
+function CommonTemplates.UninstallComplete.Light(boat, part)
+	print("CommonTemplates.UninstallComplete.Light")
+	if part:getId() == "LightCabin" then
+		boat:getPartById("HeadlightRearRight"):setInventoryItem(nil)
+	elseif part:getId() == "LightFloodlightLeft" then
+		boat:getPartById("HeadlightLeft"):setInventoryItem(nil) 
+	elseif part:getId() == "LightFloodlightRight" then
+		boat:getPartById("HeadlightRight"):setInventoryItem(nil) 
+	end
 end
-
 --***********************************************************
 --**                                                       **
 --**                        Another                        **

@@ -3,7 +3,7 @@ require '_Debug/AquatsarYachtsDebug'
 local function spawnBoat(playerObj, boatName, sq)
     local boat = addVehicleDebug("Base." .. boatName, IsoDirections.W, nil, sq)
 	playerObj:getInventory():AddItem(boat:createVehicleKey())
-	boat:repair()
+	-- boat:repair()
 end
 
 

@@ -291,10 +291,10 @@ module Base
 		template = Light/part/LightFloodlightLeft,
 		template = Light/part/LightFloodlightRight,
 		template = Light/part/LightCabin,
-		template = Light/part/SwitchLightMiddleLeft,
-		template = Light/part/SwitchLightMiddleRight,
-		template = Light/part/SwitchLightRearLeft,
-		template = Light/part/SwitchLightRearRight,
+		template = SwitchLight/part/SwitchLightMiddleLeft,
+		template = SwitchLight/part/SwitchLightMiddleRight,
+		template = SwitchLight/part/SwitchLightRearLeft,
+		template = SwitchLight/part/SwitchLightRearRight,
 		
 		template = Heater,
 		part Heater

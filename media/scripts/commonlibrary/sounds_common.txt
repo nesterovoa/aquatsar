@@ -1,0 +1,48 @@
+module CommonLib
+{
+	
+	imports
+	{
+		Base
+	}
+	
+	sound BulbSmash
+	{
+		category = Water,
+		loop = false,
+		is3D = false,
+		clip
+		{
+			file = media/sound/common/bulb_smash.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound SwitchLamp
+	{
+		category = Water,
+		loop = false,
+		is3D = false,
+		clip
+		{
+			file = media/sound/common/switch_lamp.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound SwitchLampFail
+	{
+		category = Water,
+		loop = false,
+		is3D = false,
+		volume = 3.0,
+		clip
+		{
+			file = media/sound/common/switch_lamp_fail.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+}
