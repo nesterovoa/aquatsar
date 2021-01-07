@@ -11,7 +11,7 @@ end
 
 function ISDropItemToWaterAction:start()
 	self:setActionAnim("Loot")
-	self.character:playSound("DropWater", self.character:getSquare(), 0, 10, 1, true);
+	
 end
 
 function ISDropItemToWaterAction:stop()
@@ -19,10 +19,10 @@ function ISDropItemToWaterAction:stop()
 end
 
 function ISDropItemToWaterAction:perform()
+	self.character:getEmitter():playSound("DropWater")
 	if self.item:getContainer() ~= nil then
 		self.item:getContainer():Remove(self.item)
 	end
-	
 	ISBaseTimedAction.perform(self)
 end
 

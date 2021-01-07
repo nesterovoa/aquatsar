@@ -78,7 +78,7 @@ module Aquatsar
 		is3D = false,
 		clip
 		{
-			file = media/sound/water/drop_water.ogg,
+			file = media/sound/water/drop_water.wav,
 			distanceMin = 10,
 			distanceMax = 300,
 		}
