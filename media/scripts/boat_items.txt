@@ -10,7 +10,7 @@ module Aquatsar
     {
         Type = Clothing,
 		DisplayName = Diving Mask,
-		ClothingItem = Hat_Spiffo,
+		ClothingItem = divingMask,
 		BodyLocation = FullHat,
 		Icon = DivingMask,
 		CanHaveHoles = false,
