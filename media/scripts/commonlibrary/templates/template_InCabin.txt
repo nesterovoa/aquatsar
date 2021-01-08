@@ -1,33 +1,33 @@
 module Base
 {
-	template vehicle SwitchLight
+	template vehicle InCabin
 	{
-		part SwitchLightFrontLeft
+		part InCabinFrontLeft
 		{
 			area = SeatFrontLeft,
 		}
-		part SwitchLightFrontRight
+		part InCabinFrontRight
 		{
 			area = SeatFrontRight,
 		}
-		part SwitchLightMiddleLeft
+		part InCabinMiddleLeft
 		{
 			area = SeatMiddleLeft,
 		}
-		part SwitchLightMiddleRight
+		part InCabinMiddleRight
 		{
 			area = SeatMiddleRight,
 		}
-		part SwitchLightRearLeft
+		part InCabinRearLeft
 		{
 			area = SeatRearLeft,
 		}
-		part SwitchLightRearRight
+		part InCabinRearRight
 		{
 			area = SeatRearRight,
 		}
 		
-		part SwitchLight*
+		part InCabin*
 		{
 			category = nodisplay,
 		}

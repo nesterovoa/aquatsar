@@ -94,9 +94,8 @@ function ISPortableOvenUI:ChangeKnob()
 end
 
 function ISPortableOvenUI:update()
-	-- print(self.oven:getModData().maxTemperature)
     self:updateButtons();
-	if not self.character:getVehicle() or not self.character:getVehicle():getSeat(character) == self.seat then
+	if not self.character:getVehicle() or not (self.vehicle:getSeat(self.character) == self.seat) then
         self:setVisible(false);
         self:removeFromUIManager();
     end

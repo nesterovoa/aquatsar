@@ -25,6 +25,67 @@ function Boats.Create.Propeller(boat, part)
 	end
 end
 
+
+--***********************************************************
+--**                                                       **
+--**                       Propeller                       **
+--**                                                       **
+--***********************************************************
+function Boats.InstallTest.Propeller(vehicle, part, playerObj)
+	if ISVehicleMechanics.cheat then return true; end
+	local keyvalues = part:getTable("install")
+	if not keyvalues then return false end
+	if part:getInventoryItem() then return false end
+	if not part:getItemType() or part:getItemType():isEmpty() then return false end
+	if vehicle:isEngineRunning() then return false end
+	if vehicle:getPartById("InCabin" .. seatNameTable[vehicle:getSeat(playerObj)+1]) then return false end
+	local typeToItem = VehicleUtils.getItems(playerObj:getPlayerNum())
+	if keyvalues.requireInstalled then
+		local split = keyvalues.requireInstalled:split(";");
+		for i,v in ipairs(split) do
+			if not vehicle:getPartById(v) or not vehicle:getPartById(v):getInventoryItem() then return false; end
+		end
+	end
+	if not VehicleUtils.testProfession(playerObj, keyvalues.professions) then return false end
+	-- allow all perk, but calculate success/failure risk
+	if not VehicleUtils.testRecipes(playerObj, keyvalues.recipes) then return false end
+	if not VehicleUtils.testTraits(playerObj, keyvalues.traits) then return false end
+	if not VehicleUtils.testItems(playerObj, keyvalues.items, typeToItem) then return false end
+	if VehicleUtils.RequiredKeyNotFound(part, playerObj) then
+		return false;
+	end
+	return true
+end
+
+function Boats.UninstallTest.Propeller(vehicle, part, playerObj)
+	if ISVehicleMechanics.cheat then return true; end
+	local keyvalues = part:getTable("uninstall")
+	if not keyvalues then return false end
+	if not part:getInventoryItem() then return false end
+	if not part:getItemType() or part:getItemType():isEmpty() then return false end
+	if vehicle:isEngineRunning() then return false end
+	if vehicle:getPartById("InCabin" .. seatNameTable[vehicle:getSeat(playerObj)+1]) then return false end
+	local typeToItem = VehicleUtils.getItems(playerObj:getPlayerNum())
+	if keyvalues.requireUninstalled and (vehicle:getPartById(keyvalues.requireUninstalled) and vehicle:getPartById(keyvalues.requireUninstalled):getInventoryItem()) then
+		return false;
+	end
+	if not VehicleUtils.testProfession(playerObj, keyvalues.professions) then return false end
+	-- allow all perk, but calculate success/failure risk
+--	if not VehicleUtils.testPerks(playerObj, keyvalues.skills) then return false end
+	if not VehicleUtils.testRecipes(playerObj, keyvalues.recipes) then return false end
+	if not VehicleUtils.testTraits(playerObj, keyvalues.traits) then return false end
+	if not VehicleUtils.testItems(playerObj, keyvalues.items, typeToItem) then return false end
+	if keyvalues.requireEmpty and round(part:getContainerContentAmount(), 3) > 0 then return false end
+	local seatNumber = part:getContainerSeatNumber()
+	local seatOccupied = (seatNumber ~= -1) and vehicle:isSeatOccupied(seatNumber)
+	if keyvalues.requireEmpty and seatOccupied then return false end
+	-- if doing mechanics on this part require key but player doesn't have it, we'll check that door or windows aren't unlocked also
+	if VehicleUtils.RequiredKeyNotFound(part, playerObj) then
+		return false
+	end
+	return true
+end
+
 function Boats.InstallComplete.Propeller(boat, part, item)
 	local part = boat:getPartById("TireFrontLeft")
 	part:setInventoryItem(InventoryItemFactory.CreateItem("Aquatsar.AirBagNormal3"), 10)
@@ -123,7 +184,7 @@ function Boats.Update.GasTank(boat, part, elapsedMinutes)
 	end
 end
 
-function Boats.ContainerAccess.BlockSeat(boat, part, chr)
+function Boats.ContainerAccess.BlockSeat(boat, part, playerObj)
 	return false
 end
 
@@ -206,25 +267,25 @@ end
 
 
 
-function BoatUtils.testTraits(chr, traits)
+function BoatUtils.testTraits(playerObj, traits)
 	if not traits or traits == "" then return true end
 	for _,trait in ipairs(traits:split(";")) do
-		if not chr:getTraits():contains(trait) then return false end
+		if not playerObj:getTraits():contains(trait) then return false end
 	end
 	return true
 end
 
-function BoatUtils.testRecipes(chr, recipes)
+function BoatUtils.testRecipes(playerObj, recipes)
 	if not recipes or recipes == "" then return true end
 	for _,recipe in ipairs(recipes:split(";")) do
-		if not chr:isRecipeKnown(recipe) then return false end
+		if not playerObj:isRecipeKnown(recipe) then return false end
 	end
 	return true
 end
 
 
 
-function BoatUtils.testItems(chr, items, typeToItem)
+function BoatUtils.testItems(playerObj, items, typeToItem)
 	if not items then return true end
 	for _,item in pairs(items) do
 		if not typeToItem[item.type] then return false end

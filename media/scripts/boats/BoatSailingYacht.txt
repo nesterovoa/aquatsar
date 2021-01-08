@@ -177,6 +177,14 @@ module Base
 		part Battery
 		{
 			category = ElecticalSystem,
+			table install
+			{
+				test = CommonTemplates.InstallTest.PartInCabin,
+			}
+			table uninstall
+			{
+				test = CommonTemplates.UninstallTest.PartInCabin,
+			}
 		}
 
 		template = Engine,
@@ -198,85 +206,32 @@ module Base
 		part Windshield
 		{
 			category = BoatBody,
+			table install
+			{
+				test = CommonTemplates.InstallTest.PartInCabin,
+			}
+			table uninstall
+			{
+				test = CommonTemplates.UninstallTest.PartInCabin,
+			}
 		}
-
-		part WindowFrontLeft
+		
+		part Window*
 		{
 			category = BoatBody,
-
 			window
 			{
 				openable = false,
 			}
-
 			table install
 			{
 				requireInstalled =,
+				test = CommonTemplates.InstallTest.PartInCabin,
 			}
-
 			table uninstall
 			{
 				requireInstalled =,
-			}
-		}
-
-		part WindowFrontRight
-		{
-			category = BoatBody,
-
-			window
-			{
-				openable = false,
-			}
-
-			table install
-			{
-				requireInstalled =,
-			}
-
-			table uninstall
-			{
-				requireInstalled =,
-			}
-		}
-
-		part WindowRearLeft
-		{
-			category = BoatBody,
-
-			window
-			{
-				openable = false,
-			}
-
-			table install
-			{
-				requireInstalled =,
-			}
-
-			table uninstall
-			{
-				requireInstalled =,
-			}
-		}
-
-		part WindowRearRight
-		{
-			category = BoatBody,
-
-			window
-			{
-				openable = false,
-			}
-
-			table install
-			{
-				requireInstalled =,
-			}
-
-			table uninstall
-			{
-				requireInstalled =,
+				test = CommonTemplates.UninstallTest.PartInCabin,
 			}
 		}
 
@@ -285,16 +240,46 @@ module Base
 		part Radio
 		{
 			category = ElecticalSystem,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 100,
+				test = CommonTemplates.InstallTest.PartInCabin,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 100,
+				test = CommonTemplates.UninstallTest.PartInCabin,
+			}
 		}
 
 		template = LightApi,
 		template = Light/part/LightFloodlightLeft,
 		template = Light/part/LightFloodlightRight,
 		template = Light/part/LightCabin,
-		template = SwitchLight/part/SwitchLightMiddleLeft,
-		template = SwitchLight/part/SwitchLightMiddleRight,
-		template = SwitchLight/part/SwitchLightRearLeft,
-		template = SwitchLight/part/SwitchLightRearRight,
+		template = InCabin/part/InCabinMiddleLeft,
+		template = InCabin/part/InCabinMiddleRight,
+		template = InCabin/part/InCabinRearLeft,
+		template = InCabin/part/InCabinRearRight,
 		
 		template = Heater,
 		part Heater
@@ -415,14 +400,14 @@ module Base
 
 		attachment trailer
 		{
-			offset = 0.0000 0.6125 -1.1475,
+			offset = 0.0000 0.0000 -0.6250,
 			rotate = 0.0000 0.0000 0.0000,
 			zoffset = -1.0000,
 		}
 
 		attachment trailerfront
 		{
-			offset = 0.0000 0.6125 1.1475,
+			offset = 0.0000 0.0000 0.6250,
 			rotate = 0.0000 0.0000 0.0000,
 			zoffset = 1.0000,
 		}
@@ -567,7 +552,7 @@ module Base
 		extents = 0.3925 0.3200 1.2875,
 		mass = 1,
 		physicsChassisShape = 0.4000 0.3200 1.2875,
-		centerOfMassOffset = -0.0012 0.4488 -0.0575,
+		centerOfMassOffset = 0.0000 0.4487 -0.0575,
 
 		wheel FrontLeft
 		{
@@ -633,14 +618,14 @@ module Base
 
 		attachment trailer
 		{
-			offset = 0.0000 0.0000 -0.6237,
+			offset = 0.0000 0.3537 -0.6237,
 			rotate = 0.0000 0.0000 0.0000,
 			zoffset = -1.0000,
 		}
 
 		attachment trailerfront
 		{
-			offset = 0.0000 0.0000 0.6263,
+			offset = 0.0000 0.3537 0.6263,
 			rotate = 0.0000 0.0000 0.0000,
 			zoffset = 1.0000,
 		}

@@ -30,7 +30,7 @@ module Base
 				time = 2000,
 				skills = Mechanics:5,
 				recipes = Powerboats Mechanics,
-				test = Vehicles.InstallTest.Default,
+				test = Boats.InstallTest.Propeller,
 				complete = Boats.InstallComplete.Propeller,
 			}
 			table uninstall
@@ -55,7 +55,7 @@ module Base
 				time = 2000,
 				skills = Mechanics:3,
 				recipes = Powerboats Mechanics,
-				test = Vehicles.UninstallTest.Default,
+				test = Boats.UninstallTest.Propeller,
 				complete = Boats.UninstallComplete.Propeller,
 			}
 			lua

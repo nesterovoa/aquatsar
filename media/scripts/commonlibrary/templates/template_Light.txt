@@ -6,26 +6,6 @@ module Base
 		part LightFloodlightLeft
 		{
 			area = Engine,
-		}
-		
-		/*HeadlightRight*/
-		part LightFloodlightRight
-		{
-			area = Engine,
-		}
-		
-		/*HeadlightRearRight*/
-		part LightCabin
-		{
-			area = TruckBed,
-		}
-		
-		part Light*
-		{
-			category = ElecticalSystem,
-			specificItem = false,
-			itemType = Base.LightBulb,
-			mechanicRequireKey = false,
 			table install
 			{
 				items
@@ -39,9 +19,8 @@ module Base
 					}
 				}
 				time = 100,
-				test = Vehicles.InstallTest.Default,
+				test = CommonTemplates.InstallTest.PartNotInCabin,
 				complete = CommonTemplates.InstallComplete.Light,
-				
 			}
 			table uninstall
 			{
@@ -56,9 +35,93 @@ module Base
 					}
 				}
 				time = 100,
-				test = Vehicles.UninstallTest.Default,
+				test = CommonTemplates.UninstallTest.PartNotInCabin,
 				complete = CommonTemplates.UninstallComplete.Light,
 			}
+		}
+		
+		/*HeadlightRight*/
+		part LightFloodlightRight
+		{
+			area = Engine,
+						table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 100,
+				test = CommonTemplates.InstallTest.PartNotInCabin,
+				complete = CommonTemplates.InstallComplete.Light,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 100,
+				test = CommonTemplates.UninstallTest.PartNotInCabin,
+				complete = CommonTemplates.UninstallComplete.Light,
+			}
+		}
+		
+		/*HeadlightRearRight*/
+		part LightCabin
+		{
+			area = TruckBed,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 100,
+				test = CommonTemplates.InstallTest.PartInCabin,
+				complete = CommonTemplates.InstallComplete.Light,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 100,
+				test = CommonTemplates.UninstallTest.PartInCabin,
+				complete = CommonTemplates.UninstallComplete.Light,
+			}
+		}
+		
+		part Light*
+		{
+			category = ElecticalSystem,
+			specificItem = false,
+			itemType = Base.LightBulb,
+			mechanicRequireKey = false,
 			lua
 			{
 				create = CommonTemplates.Create.Light,

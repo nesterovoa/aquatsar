@@ -3,7 +3,6 @@
 -- --***********************************************************
 
 require 'Boats/Init'
-local seatName = {"FrontLeft", "FrontRight", "MiddleLeft", "MiddleRight", "RearLeft", "RearRight"}
 
 local function starts_with(str, start)
    return str:sub(1, #start) == start
@@ -381,13 +380,13 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	menu:setY(getPlayerScreenTop(playerObj:getPlayerNum()) + getPlayerScreenHeight(playerObj:getPlayerNum()) / 2 - menu:getHeight() / 2)
 	
 	local seatNum = boat:getSeat(playerObj)
-	local seat = seatName[seatNum+1]
+	local seat = seatNameTable[seatNum+1]
 	local lightIsOn = true
 	local timeHours = getGameTime():getHour()
 	
 	menu:addSlice(getText("IGUI_SwitchSeat"), getTexture("media/ui/vehicles/vehicle_changeseats.png"), ISBoatMenu.onShowSeatUI, playerObj, boat )
 	
-	local lightswitch = boat:getPartById("SwitchLight" .. seat)
+	local lightswitch = boat:getPartById("InCabin" .. seat)
 	if lightswitch then
 		if boat:getPartById("HeadlightRearRight") and 
 				not boat:getPartById("HeadlightRearRight"):getInventoryItem() then
@@ -565,9 +564,8 @@ function ISBoatMenu.showRadialMenu(playerObj)
 				-- menu:addSlice(getText("NEWContextMenu_EngineMustBeStop"), getTexture("media/ui/vehicles/vehicle_repair.png"), nil, nil, nil) -- Необходимо заглушить двигатель
 			-- else
 
-	if seatNum < 2 then
-		menu:addSlice(getText("ContextMenu_VehicleMechanics"), getTexture("media/ui/vehicles/vehicle_repair.png"), ISBoatMenu.onMechanic, playerObj, boat )
-	end
+	menu:addSlice(getText("ContextMenu_VehicleMechanics"), getTexture("media/ui/vehicles/vehicle_repair.png"), ISBoatMenu.onMechanic, playerObj, boat )
+
 			-- end
 		--end
 	-- end
@@ -1216,7 +1214,7 @@ function ISBoatMenu.onMechanic(playerObj, boat)
 		-- ISTimedActionQueue.add(ISPathFindAction:pathToVehicleAdjacent(playerObj, boat))
 	-- end
 	local data = getPlayerData(playerObj:getPlayerNum())
-	data.mechanicsUI = ISBoatMechanics:new(0,0,playerObj,nil);
+	data.mechanicsUI = ISBoatMechanics:new(0, 0, playerObj, boat);
     data.mechanicsUI:setVisible(false);
     data.mechanicsUI:setEnabled(false);
 	data.mechanicsUI:initialise();

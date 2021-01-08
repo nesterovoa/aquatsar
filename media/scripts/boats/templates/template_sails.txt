@@ -13,14 +13,14 @@ module Base
 				time = 3000,
 				skills = Mechanics:5,
 				recipes = Sailboats Mechanics,
-				test = Vehicles.InstallTest.Default,
+				test = CommonTemplates.InstallTest.PartNotInCabin,
 			}
 			table uninstall
 			{
 				time = 3000,
 				skills = Mechanics:3,
 				recipes = Sailboats Mechanics,
-				test = Vehicles.UninstallTest.Default,
+				test = CommonTemplates.UninstallTest.PartNotInCabin,
 			}
 			lua
 			{

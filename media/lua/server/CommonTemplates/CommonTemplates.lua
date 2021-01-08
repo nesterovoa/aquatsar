@@ -19,6 +19,7 @@ local OvenBatteryChange = -0.000500
 local FridgeBatteryChange = -0.000020
 local MicrowaveBatteryChange = -0.000200
 
+seatNameTable = {"FrontLeft", "FrontRight", "MiddleLeft", "MiddleRight", "RearLeft", "RearRight"}
 
 --***********************************************************
 --**                                                       **
@@ -29,6 +30,98 @@ function CommonTemplates.createActivePart(part)
 	if not part:getLight() then
 		part:createSpotLight(0.1, 0.1, 0.1, 0.01, 100, 0)
 	end
+end
+
+function CommonTemplates.InstallTest.PartInCabin(vehicle, part, playerObj)
+	if ISVehicleMechanics.cheat then return true; end
+	local keyvalues = part:getTable("install")
+	if not keyvalues then return false end
+	if part:getInventoryItem() then return false end
+	if not part:getItemType() or part:getItemType():isEmpty() then return false end
+	if not vehicle:getPartById("InCabin" .. seatNameTable[vehicle:getSeat(playerObj)+1]) then return false end
+	local typeToItem = VehicleUtils.getItems(playerObj:getPlayerNum())
+	if keyvalues.requireInstalled then
+		local split = keyvalues.requireInstalled:split(";");
+		for i,v in ipairs(split) do
+			if not vehicle:getPartById(v) or not vehicle:getPartById(v):getInventoryItem() then return false; end
+		end
+	end
+	if not VehicleUtils.testProfession(playerObj, keyvalues.professions) then return false end
+	-- allow all perk, but calculate success/failure risk
+	if not VehicleUtils.testRecipes(playerObj, keyvalues.recipes) then return false end
+	if not VehicleUtils.testTraits(playerObj, keyvalues.traits) then return false end
+	if not VehicleUtils.testItems(playerObj, keyvalues.items, typeToItem) then return false end
+	return true
+end
+
+function CommonTemplates.UninstallTest.PartInCabin(vehicle, part, playerObj)
+	if ISVehicleMechanics.cheat then return true; end
+	local keyvalues = part:getTable("uninstall")
+	if not keyvalues then return false end
+	if not part:getInventoryItem() then return false end
+	if not part:getItemType() or part:getItemType():isEmpty() then return false end
+	if not vehicle:getPartById("InCabin" .. seatNameTable[vehicle:getSeat(playerObj)+1]) then return false end
+	local typeToItem = VehicleUtils.getItems(playerObj:getPlayerNum())
+	if keyvalues.requireUninstalled and (vehicle:getPartById(keyvalues.requireUninstalled) and vehicle:getPartById(keyvalues.requireUninstalled):getInventoryItem()) then
+		return false;
+	end
+	if not VehicleUtils.testProfession(playerObj, keyvalues.professions) then return false end
+	-- allow all perk, but calculate success/failure risk
+	if not VehicleUtils.testRecipes(playerObj, keyvalues.recipes) then return false end
+	if not VehicleUtils.testTraits(playerObj, keyvalues.traits) then return false end
+	if not VehicleUtils.testItems(playerObj, keyvalues.items, typeToItem) then return false end
+	if keyvalues.requireEmpty and round(part:getContainerContentAmount(), 3) > 0 then return false end
+	local seatNumber = part:getContainerSeatNumber()
+	local seatOccupied = (seatNumber ~= -1) and vehicle:isSeatOccupied(seatNumber)
+	if keyvalues.requireEmpty and seatOccupied then return false end
+	-- if doing mechanics on this part require key but player doesn't have it, we'll check that door or windows aren't unlocked also
+	return true
+end
+
+function CommonTemplates.InstallTest.PartNotInCabin(vehicle, part, playerObj)
+	if ISVehicleMechanics.cheat then return true; end
+	local keyvalues = part:getTable("install")
+	if not keyvalues then return false end
+	if part:getInventoryItem() then return false end
+	if not part:getItemType() or part:getItemType():isEmpty() then return false end
+	if vehicle:getPartById("InCabin" .. seatNameTable[vehicle:getSeat(playerObj)+1]) then return false end
+	local typeToItem = VehicleUtils.getItems(playerObj:getPlayerNum())
+	if keyvalues.requireInstalled then
+		local split = keyvalues.requireInstalled:split(";");
+		for i,v in ipairs(split) do
+			if not vehicle:getPartById(v) or not vehicle:getPartById(v):getInventoryItem() then return false; end
+		end
+	end
+	if not VehicleUtils.testProfession(playerObj, keyvalues.professions) then return false end
+	-- allow all perk, but calculate success/failure risk
+	if not VehicleUtils.testRecipes(playerObj, keyvalues.recipes) then return false end
+	if not VehicleUtils.testTraits(playerObj, keyvalues.traits) then return false end
+	if not VehicleUtils.testItems(playerObj, keyvalues.items, typeToItem) then return false end
+	return true
+end
+
+function CommonTemplates.UninstallTest.PartNotInCabin(vehicle, part, playerObj)
+	if ISVehicleMechanics.cheat then return true; end
+	local keyvalues = part:getTable("uninstall")
+	if not keyvalues then return false end
+	if not part:getInventoryItem() then return false end
+	if not part:getItemType() or part:getItemType():isEmpty() then return false end
+	if vehicle:getPartById("InCabin" .. seatNameTable[vehicle:getSeat(playerObj)+1]) then return false end
+	local typeToItem = VehicleUtils.getItems(playerObj:getPlayerNum())
+	if keyvalues.requireUninstalled and (vehicle:getPartById(keyvalues.requireUninstalled) and vehicle:getPartById(keyvalues.requireUninstalled):getInventoryItem()) then
+		return false;
+	end
+	if not VehicleUtils.testProfession(playerObj, keyvalues.professions) then return false end
+	-- allow all perk, but calculate success/failure risk
+	if not VehicleUtils.testRecipes(playerObj, keyvalues.recipes) then return false end
+	if not VehicleUtils.testTraits(playerObj, keyvalues.traits) then return false end
+	if not VehicleUtils.testItems(playerObj, keyvalues.items, typeToItem) then return false end
+	if keyvalues.requireEmpty and round(part:getContainerContentAmount(), 3) > 0 then return false end
+	local seatNumber = part:getContainerSeatNumber()
+	local seatOccupied = (seatNumber ~= -1) and vehicle:isSeatOccupied(seatNumber)
+	if keyvalues.requireEmpty and seatOccupied then return false end
+	-- if doing mechanics on this part require key but player doesn't have it, we'll check that door or windows aren't unlocked also
+	return true
 end
 
 --***********************************************************
@@ -245,11 +338,11 @@ end
 --***********************************************************
 function CommonTemplates.Create.LightApi(boat, part)
 	local item = BoatUtils.createPartInventoryItem(part)
-	-- if part:getId() == "HeadlightLeft" then
-		-- part:createSpotLight(0.5, 2.0, 8.0+ZombRand(16.0), 0.75, 0.96, ZombRand(200))
-	-- elseif part:getId() == "HeadlightRight" then
-		-- part:createSpotLight(-0.5, 2.0, 8.0+ZombRand(16.0), 0.75, 0.96, ZombRand(200))
-	-- end
+	if part:getId() == "HeadlightLeft" then
+		part:createSpotLight(0.5, 2.0, 8.0+ZombRand(16.0), 0.75, 0.96, ZombRand(200))
+	elseif part:getId() == "HeadlightRight" then
+		part:createSpotLight(-0.5, 2.0, 8.0+ZombRand(16.0), 0.75, 0.96, ZombRand(200))
+	end
 	part:setInventoryItem(nil)
 end
 
@@ -272,11 +365,11 @@ end
 
 function CommonTemplates.Create.Light(boat, part)
 	local item = BoatUtils.createPartInventoryItem(part)
-	if part:getId() == "LightFloodlightLeft" then
-		part:createSpotLight(0.5, 2.0, 8.0+ZombRand(16.0), 0.75, 0.96, ZombRand(200))
-	elseif part:getId() == "LightFloodlightRight" then
-		part:createSpotLight(-0.5, 2.0, 8.0+ZombRand(16.0), 0.75, 0.96, ZombRand(200))
-	end
+	-- if part:getId() == "LightFloodlightLeft" then
+		-- part:createSpotLight(0.5, 2.0, 8.0+ZombRand(16.0), 0.75, 0.96, ZombRand(200))
+	-- elseif part:getId() == "LightFloodlightRight" then
+		-- part:createSpotLight(-0.5, 2.0, 8.0+ZombRand(16.0), 0.75, 0.96, ZombRand(200))
+	-- end
 end
 
 function CommonTemplates.Init.Light(boat, part)
@@ -304,11 +397,11 @@ end
 --**                                                       **
 --***********************************************************
 
-function CommonTemplates.ContainerAccess.Container(transport, part, chr)
+function CommonTemplates.ContainerAccess.Container(transport, part, playerObj)
 	if not part:getInventoryItem() then return false; end
-	if chr:getVehicle() == transport then
+	if playerObj:getVehicle() == transport then
 		local script = transport:getScript()
-		local seat = transport:getSeat(chr)
+		local seat = transport:getSeat(playerObj)
 		local seatname = 'Seat'..script:getPassenger(seat):getId()
 		return part:getArea() == seatname
 	else

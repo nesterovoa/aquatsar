@@ -28,11 +28,10 @@ end
 
 -- tick
 function ISBoatMechanics:update()
-	if self.vehicle and (self.chr:DistTo(self.vehicle:getX(), self.vehicle:getY()) > 16 or math.abs(self.vehicle:getCurrentSpeedKmHour()) > 10) then
-		self:close()
-	elseif not self.vehicle or not self.vehicle:getSquare() or self.vehicle:getSquare():getMovingObjects():indexOf(self.vehicle) < 0 then
-		self:close() -- handle vehicle being removed by admin/cheat command
-	else
+	if not self.character:getVehicle() or math.abs(self.vehicle:getCurrentSpeedKmHour()) > 10 then 
+		-- not (self.vehicle:getSeat(self.character) == self.seat) or 
+        self:close()
+    else
 		self:recalculGeneralCondition();
 	end
 end
@@ -250,7 +249,7 @@ function ISBoatMechanics:doPartContextMenu(part, x,y)
 				else
 					local subMenu = ISContextMenu:getNew(self.context);
 					self.context:addSubMenu(option, subMenu);
-					local typeToItem = VehicleUtils.getItems(self.chr:getPlayerNum())
+					local typeToItem = VehicleUtils.getItems(self.character:getPlayerNum())
 					-- display all possible item that can be installed
 					for i=0,part:getItemType():size() - 1 do
 						local name = part:getItemType():get(i);
@@ -295,7 +294,7 @@ function ISBoatMechanics:doPartContextMenu(part, x,y)
 			option.notAvailable = true
 		end
 		local tirePump = InventoryItemFactory.CreateItem("Base.TirePump");
-		if not self.chr:getInventory():contains("TirePump", true) then
+		if not self.character:getInventory():contains("TirePump", true) then
 			option.notAvailable = true
 			local tooltip = ISToolTip:new();
 			tooltip:initialise();
@@ -324,8 +323,8 @@ function ISBoatMechanics:doPartContextMenu(part, x,y)
 		option.toolTip = tooltip;
 	end
 	
-	if part:getId() == "Engine" and not VehicleUtils.RequiredKeyNotFound(part, self.chr) then
-		if part:getCondition() > 10 and self.chr:getPerkLevel(Perks.Mechanics) >= part:getVehicle():getScript():getEngineRepairLevel() and self.chr:getInventory():contains("Wrench") then
+	if part:getId() == "Engine" and not VehicleUtils.RequiredKeyNotFound(part, self.character) then
+		if part:getCondition() > 10 and self.character:getPerkLevel(Perks.Mechanics) >= part:getVehicle():getScript():getEngineRepairLevel() and self.character:getInventory():contains("Wrench") then
 			option = self.context:addOption(getText("IGUI_TakeEngineParts"), playerObj, ISBoatMechanics.onTakeEngineParts, part);
 			self:doMenuTooltip(part, option, "takeengineparts");
 		else
@@ -333,7 +332,7 @@ function ISBoatMechanics:doPartContextMenu(part, x,y)
 			self:doMenuTooltip(part, option, "takeengineparts");
 			option.notAvailable = true;
 		end
-		if part:getCondition() < 100 and self.chr:getInventory():getNumberOfItem("EngineParts", false, true) > 0 and self.chr:getPerkLevel(Perks.Mechanics) >= part:getVehicle():getScript():getEngineRepairLevel() and self.chr:getInventory():contains("Wrench") then
+		if part:getCondition() < 100 and self.character:getInventory():getNumberOfItem("EngineParts", false, true) > 0 and self.character:getPerkLevel(Perks.Mechanics) >= part:getVehicle():getScript():getEngineRepairLevel() and self.character:getInventory():contains("Wrench") then
 			local option = self.context:addOption(getText("IGUI_RepairEngine"), playerObj, ISBoatMechanics.onRepairEngine, part);
 			self:doMenuTooltip(part, option, "repairengine");
 		else
@@ -344,8 +343,8 @@ function ISBoatMechanics:doPartContextMenu(part, x,y)
 	end
 --[[
 	if ((part:getId() == "HeadlightLeft") or (part:getId() == "HeadlightRight")) and part:getInventoryItem() then
-		if part:getLight():canFocusingUp() and self.chr:getPerkLevel(Perks.Mechanics) >= part:getVehicle():getScript():getHeadlightConfigLevel() then
-		--if part:getLight():canFocusingUp() and self.chr:getInventory():contains("Spanner") then
+		if part:getLight():canFocusingUp() and self.character:getPerkLevel(Perks.Mechanics) >= part:getVehicle():getScript():getHeadlightConfigLevel() then
+		--if part:getLight():canFocusingUp() and self.character:getInventory():contains("Spanner") then
 			option = self.context:addOption(getText("IGUI_HeadlightFocusingUp"), playerObj, ISBoatMechanics.onConfigHeadlight, part, 1);
 			self:doMenuTooltip(part, option, "configheadlight");
 		else
@@ -353,8 +352,8 @@ function ISBoatMechanics:doPartContextMenu(part, x,y)
 			self:doMenuTooltip(part, option, "configheadlight");
 			option.notAvailable = true;
 		end
-		if part:getLight():canFocusingDown() and self.chr:getPerkLevel(Perks.Mechanics) >= part:getVehicle():getScript():getHeadlightConfigLevel() then
-		--if part:getLight():canFocusingDown() and self.chr:getInventory():contains("Spanner") then
+		if part:getLight():canFocusingDown() and self.character:getPerkLevel(Perks.Mechanics) >= part:getVehicle():getScript():getHeadlightConfigLevel() then
+		--if part:getLight():canFocusingDown() and self.character:getInventory():contains("Spanner") then
 			option = self.context:addOption(getText("IGUI_HeadlightFocusingDown"), playerObj, ISBoatMechanics.onConfigHeadlight, part, -1);
 			self:doMenuTooltip(part, option, "configheadlight");
 		else
@@ -620,13 +619,13 @@ function ISBoatMechanics:doMenuTooltip(part, option, lua, name)
 			tooltip.description = tooltip.description .. rgb .. " " .. getText("Tooltip_Vehicle_EngineCondition", part:getCondition() .. addedTxt) .. " <LINE>";
 		end
 		rgb = " <RGB:1,1,1>";
-		if self.chr:getPerkLevel(Perks.Mechanics) < part:getVehicle():getScript():getEngineRepairLevel() then
+		if self.character:getPerkLevel(Perks.Mechanics) < part:getVehicle():getScript():getEngineRepairLevel() then
 			rgb = " <RGB:1,0,0>";
 		end
-		tooltip.description = tooltip.description .. rgb .. getText("IGUI_perks_Mechanics") .. " " .. self.chr:getPerkLevel(Perks.Mechanics) .. "/" .. part:getVehicle():getScript():getEngineRepairLevel() .. " <LINE>";
+		tooltip.description = tooltip.description .. rgb .. getText("IGUI_perks_Mechanics") .. " " .. self.character:getPerkLevel(Perks.Mechanics) .. "/" .. part:getVehicle():getScript():getEngineRepairLevel() .. " <LINE>";
 		rgb = " <RGB:1,1,1>";
 		local item = InventoryItemFactory.CreateItem("Base.Wrench");
-		if not self.chr:getInventory():contains("Wrench") then
+		if not self.character:getInventory():contains("Wrench") then
 			tooltip.description = tooltip.description .. " <RGB:1,0,0>" .. item:getDisplayName() .. " 0/1 <LINE>";
 		else
 			tooltip.description = tooltip.description .. " <RGB:1,1,1>" .. item:getDisplayName() .. " 1/1 <LINE>";
@@ -641,19 +640,19 @@ function ISBoatMechanics:doMenuTooltip(part, option, lua, name)
 			tooltip.description = tooltip.description .. " <RGB:1,0,0> " .. getText("Tooltip_Vehicle_EngineCondition", part:getCondition()) .. " <LINE>";
 		end
 		rgb = " <RGB:1,1,1>";
-		if self.chr:getPerkLevel(Perks.Mechanics) < part:getVehicle():getScript():getEngineRepairLevel() then
+		if self.character:getPerkLevel(Perks.Mechanics) < part:getVehicle():getScript():getEngineRepairLevel() then
 			rgb = " <RGB:1,0,0>";
 		end
-		tooltip.description = tooltip.description .. rgb .. getText("IGUI_perks_Mechanics") .. " " .. self.chr:getPerkLevel(Perks.Mechanics) .. "/" .. part:getVehicle():getScript():getEngineRepairLevel() .. " <LINE>";
+		tooltip.description = tooltip.description .. rgb .. getText("IGUI_perks_Mechanics") .. " " .. self.character:getPerkLevel(Perks.Mechanics) .. "/" .. part:getVehicle():getScript():getEngineRepairLevel() .. " <LINE>";
 		rgb = " <RGB:1,1,1>";
 		local item = InventoryItemFactory.CreateItem("Base.Wrench");
-		if not self.chr:getInventory():contains("Wrench") then
+		if not self.character:getInventory():contains("Wrench") then
 			tooltip.description = tooltip.description .. " <RGB:1,0,0>" .. item:getDisplayName() .. " 0/1 <LINE>";
 		else
 			tooltip.description = tooltip.description .. " <RGB:1,1,1>" .. item:getDisplayName() .. " 1/1 <LINE>";
 		end
 		local item = InventoryItemFactory.CreateItem("Base.EngineParts");
-		if not self.chr:getInventory():contains("EngineParts") then
+		if not self.character:getInventory():contains("EngineParts") then
 			tooltip.description = tooltip.description .. " <RGB:1,0,0>" .. item:getDisplayName() .. " 0/1 <LINE>";
 		else
 			tooltip.description = tooltip.description .. " <RGB:1,1,1>" .. item:getDisplayName() .. " <LINE>";
@@ -666,20 +665,20 @@ function ISBoatMechanics:doMenuTooltip(part, option, lua, name)
 		--tooltip.description = tooltip.description .. " <RGB:1,0,0> Intensity: " .. part:getLight():getIntensity() .. " <LINE>";
 		--rgb = " <RGB:1,1,1>";
 		--local item = InventoryItemFactory.CreateItem("Base.Spanner");
-		--if not self.chr:getInventory():contains("Spanner") then
+		--if not self.character:getInventory():contains("Spanner") then
 		--	tooltip.description = tooltip.description .. " <RGB:1,0,0>" .. item:getDisplayName() .. " 0/1 <LINE>";
 		--else
 		--	tooltip.description = tooltip.description .. " <RGB:1,1,1>" .. item:getDisplayName() .. " 1/1 <LINE>";
 		--end
 		rgb = " <RGB:1,1,1>";
-		if self.chr:getPerkLevel(Perks.Mechanics) < part:getVehicle():getScript():getHeadlightConfigLevel() then
+		if self.character:getPerkLevel(Perks.Mechanics) < part:getVehicle():getScript():getHeadlightConfigLevel() then
 			rgb = " <RGB:1,0,0>";
 		end
-		tooltip.description = tooltip.description .. rgb .. " Mechanic Skill: " .. self.chr:getPerkLevel(Perks.Mechanics) .. "/" .. part:getVehicle():getScript():getHeadlightConfigLevel() .. " <LINE>";
+		tooltip.description = tooltip.description .. rgb .. " Mechanic Skill: " .. self.character:getPerkLevel(Perks.Mechanics) .. "/" .. part:getVehicle():getScript():getHeadlightConfigLevel() .. " <LINE>";
 	end
 
 	-- do you need the key to operate
-	if VehicleUtils.RequiredKeyNotFound(part, self.chr) then
+	if VehicleUtils.RequiredKeyNotFound(part, self.character) then
 		tooltip.description = tooltip.description .. " <RGB:1,0,0> " .. getText("Tooltip_vehicle_keyRequired") .. " <LINE>";
 	end
 	
@@ -714,7 +713,7 @@ function ISBoatMechanics:doMenuTooltip(part, option, lua, name)
 	-- recipes
 	if keyvalues.recipes and keyvalues.recipes ~= "" then
 		for _,recipe in ipairs(keyvalues.recipes:split(";")) do
-			if not self.chr:isRecipeKnown(recipe) then
+			if not self.character:isRecipeKnown(recipe) then
 				tooltip.description = tooltip.description .. " <RGB:1,0,0> " .. getText("Tooltip_vehicle_requireRecipe", getRecipeDisplayName(recipe)) .. " <LINE>";
 			else
 				tooltip.description = tooltip.description .. " <RGB:1,1,1> " .. getText("Tooltip_vehicle_requireRecipe", getRecipeDisplayName(recipe)) .. " <LINE>";
@@ -745,12 +744,12 @@ function ISBoatMechanics:doMenuTooltip(part, option, lua, name)
 		for _,perk in ipairs(perks:split(";")) do
 			local name,level = VehicleUtils.split(perk, ":")
 			local rgb = " <RGB:1,1,1> ";
-			tooltip.description = tooltip.description .. rgb .. getText("Tooltip_vehicle_recommendedSkill", getText("IGUI_perks_" .. name), self.chr:getPerkLevel(Perks.FromString(name)) .. "/" .. level) .. " <LINE> <LINE>";
+			tooltip.description = tooltip.description .. rgb .. getText("Tooltip_vehicle_recommendedSkill", getText("IGUI_perks_" .. name), self.character:getPerkLevel(Perks.FromString(name)) .. "/" .. level) .. " <LINE> <LINE>";
 		end
 	end
 	-- install/uninstall success/failure chances
 	local perks = keyvalues.skills;
-	local success, failure = VehicleUtils.calculateInstallationSuccess(perks, self.chr);
+	local success, failure = VehicleUtils.calculateInstallationSuccess(perks, self.character);
 	if success < 100 and failure > 0 then
 		local colorSuccess = "<GREEN>";
 		if success < 65 then
@@ -1090,7 +1089,7 @@ function ISBoatMechanics:render()
 	--		self:drawText("Failure", x + getTextManager():MeasureStringX(UIFont.Small, "Engine :") + 2, y, 1, 0, 0, self.partCatRGB.a, UIFont.Small);
 	--	end
 	y = y + lineHgt + 4;
-	local actionQueue = ISTimedActionQueue.getTimedActionQueue(self.chr);
+	local actionQueue = ISTimedActionQueue.getTimedActionQueue(self.character);
 	local progress = false;
 	if actionQueue and actionQueue.queue and actionQueue.queue[1] and actionQueue.queue[1].jobType and actionQueue.queue[1].jobType ~= "" then
 		local progressY = 30 + rectHgt - lineHgt - 4
@@ -1169,7 +1168,7 @@ function ISBoatMechanics:renderPartDetail(part)
 	end
 	local capacity = self:roundContainerContentAmount(part) .. " / " .. part:getContainerCapacity();
 	if part:getItemContainer() then
-		capacity = round(part:getItemContainer():getCapacityWeight(), 2) .. " / " .. part:getContainerCapacity(self.chr);
+		capacity = round(part:getItemContainer():getCapacityWeight(), 2) .. " / " .. part:getContainerCapacity(self.character);
 	end
 	if part:getItemType() and part:getInventoryItem() then
 		if part:getId() == "GasTank" and round(part:getContainerContentAmount(), 3) <= 0.1 then
@@ -1244,7 +1243,7 @@ function ISBoatMechanics:renderPartDetail(part)
 	end
 	if getCore():getDebug() and part:getInventoryItem() then
 		local text = "true";
-		if self.chr:getMechanicsItem(part:getInventoryItem():getID() .. self.vehicle:getMechanicalID() .. "1") then
+		if self.character:getMechanicsItem(part:getInventoryItem():getID() .. self.vehicle:getMechanicalID() .. "1") then
 			text = "false";
 		end
 		self:drawText("DBG: Gain XP: " .. text, x, y, 1, 1, 1, 0.5);
@@ -1316,13 +1315,13 @@ function ISBoatMechanics:setVisible(bVisible, joypadData)
 	
 	if self.usedHood then
 		if not bVisible then
-			if self.chr and self.vehicle and self.vehicle:isInArea(self.usedHood:getArea(), self.chr) then
-				ISTimedActionQueue.add(ISCloseVehicleDoor:new(self.chr, self.vehicle, self.usedHood))
+			if self.character and self.vehicle and self.vehicle:isInArea(self.usedHood:getArea(), self.character) then
+				ISTimedActionQueue.add(ISCloseVehicleDoor:new(self.character, self.vehicle, self.usedHood))
 			end
 			self.usedHood = nil
 		else
-			if self.chr and self.vehicle then
-				ISTimedActionQueue.add(ISOpenVehicleDoor:new(self.chr, self.vehicle, self.usedHood))
+			if self.character and self.vehicle then
+				ISTimedActionQueue.add(ISOpenVehicleDoor:new(self.character, self.vehicle, self.usedHood))
 			end
 		end
 	end
@@ -1335,7 +1334,7 @@ print("ISBoatMechanics:close()")
 	self:setEnabled(false);
 	self:removeFromUIManager()
 	local data = getPlayerData(self.playerNum)
-	data.mechanicsUI = ISVehicleMechanics:new(0,0, self.chr, nil);
+	data.mechanicsUI = ISVehicleMechanics:new(0,0, self.character, nil);
     data.mechanicsUI:setVisible(false);
     data.mechanicsUI:setEnabled(false);
 	data.mechanicsUI:initialise();
@@ -1427,9 +1426,10 @@ function ISBoatMechanics:new(x, y, character, vehicle)
 	setmetatable(o, self);
 	self.__index = self;
 	o.minimumHeight = height
-	o.chr = character;
+	o.character = character;
 	o.playerNum = character:getPlayerNum();
 	o.vehicle = vehicle;
+	-- o.seat = vehicle:getSeat(character)
 	o:setResizable(true);
 	o.partCatRGB = {r=1;g=1;b=1;a=1};
 	o.partRGB = {r=0.8;g=0.8;b=0.8;a=1};
@@ -1455,8 +1455,8 @@ end
 
 function ISBoatMechanics:onKeyRelease(key)
 	if key == Keyboard.KEY_ESCAPE then
-		if isPlayerDoingActionThatCanBeCancelled(self.chr) then
-			stopDoingActionThatCanBeCancelled(self.chr)
+		if isPlayerDoingActionThatCanBeCancelled(self.character) then
+			stopDoingActionThatCanBeCancelled(self.character)
 		else
 			self:close()
 		end
@@ -1466,7 +1466,7 @@ function ISBoatMechanics:onKeyRelease(key)
 	end
 end
 
--- ISBoatMechanics.OnMechanicActionDone = function(chr, success, vehicleId, partId, itemId, installing)
+-- ISBoatMechanics.OnMechanicActionDone = function(character, success, vehicleId, partId, itemId, installing)
 -- print("ISBoatMechanics:OnMechanicActionDone()")
 	-- if success and itemId ~= -1 then
 		-- local vehicle = getVehicleById(vehicleId);
@@ -1474,13 +1474,13 @@ end
 		-- local part = vehicle:getPartById(partId);
 		-- if not part then noise('no such part in vehicle ' .. partId); return; end
 		-- if installing then
-			-- chr:addMechanicsItem(itemId .. vehicle:getMechanicalID() .. "1", part, getGameTime():getCalender():getTimeInMillis());
+			-- character:addMechanicsItem(itemId .. vehicle:getMechanicalID() .. "1", part, getGameTime():getCalender():getTimeInMillis());
 		-- else
-			-- chr:addMechanicsItem(itemId .. vehicle:getMechanicalID() .. "0", part, getGameTime():getCalender():getTimeInMillis());
+			-- character:addMechanicsItem(itemId .. vehicle:getMechanicalID() .. "0", part, getGameTime():getCalender():getTimeInMillis());
 		-- end
 	-- end
 	
-	-- local ui = getPlayerMechanicsUI(chr:getPlayerNum());
+	-- local ui = getPlayerMechanicsUI(character:getPlayerNum());
 	-- if ui and ui:isReallyVisible() then
 		-- if success then ui:startFlashGreen()
 		-- else ui:startFlashRed() end
@@ -1488,7 +1488,7 @@ end
 	
 	-- -- Give some exp if you fail
 	-- if not success then
-		-- chr:getXp():AddXP(Perks.Mechanics, 1);
+		-- character:getXp():AddXP(Perks.Mechanics, 1);
 	-- end
 -- end
 

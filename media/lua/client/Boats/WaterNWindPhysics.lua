@@ -110,7 +110,6 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 	boat:getAttachmentWorldPos("trailer", rearVector)
 	local x = frontVector:x() - rearVector:x()
 	local y = frontVector:y() - rearVector:y()
-	boatDirVector:set(x, 0, y):normalize()		
 	local windSpeed = AquaPhysics.Wind.getWindSpeed()
 
 	-- AUD.insp("Boat", "boatSpeed (MPH):", boat:getCurrentSpeedKmHour() / 1.60934)
@@ -351,8 +350,11 @@ end
 function AquaPhysics.reverseSpeedFix(boat, limit)	-- TODO необходимо исправить функцию. Из-за неё при движении задним ходом лодка врезается в невидимые препятствия
 	if boat:getSquare() ~= nil and isWater(boat:getSquare()) then
 		local speed = boat:getCurrentSpeedKmHour()
-		if speed < -limit then
-			AquaPhysics.stopVehicleMove(boat, 3000)
+		if isKeyDown(getCore():getKey("Backward")) then
+			if speed < -limit then
+				print("AquaPhysics.stopVehicleMove(boat, 3000)")
+				AquaPhysics.stopVehicleMove(boat, 3000)
+			end
 		end
 	end
 end
@@ -428,11 +430,9 @@ function AquaPhysics.updateVehicles()
 			-- AUD.insp("Boat", "boat:getDebugZ()", boat:getDebugZ())
 			AquaPhysics.heightFix(boat)
 			AquaPhysics.inertiaFix(boat)
-
 			if AquaConfig.Boats[boat:getScript():getName()].limitReverseSpeed ~= nil then
 				AquaPhysics.reverseSpeedFix(boat, AquaConfig.Boats[boat:getScript():getName()].limitReverseSpeed)
-			end
-			
+			end	
 			if AquaConfig.Boats[boat:getScript():getName()].sails then
 				AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 				if math.abs(boat:getCurrentSpeedKmHour()) < 4 then

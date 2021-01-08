@@ -1,6 +1,4 @@
 require "ISUI/ISPanelJoypad"
---***********************************************************--**              	  ROBERT JOHNSON                       **
---***********************************************************
 
 ISPortableMicrowaveUI = ISPanelJoypad:derive("ISPortableMicrowaveUI");
 ISPortableMicrowaveUI.messages = {};
@@ -72,7 +70,7 @@ end
 
 function ISPortableMicrowaveUI:update()
     self:updateButtons();
-    if not self.character:getVehicle() or not self.character:getVehicle():getSeat(character) == self.seat then
+    if not self.character:getVehicle() or not (self.vehicle:getSeat(self.character) == self.seat) then
         self:setVisible(false);
         self:removeFromUIManager();
     end

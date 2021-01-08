@@ -1,8 +1,6 @@
 ISCommonMenu = {}
 require 'Boats/ISUI/ISBoatMenu'
 
-local seatName = {"FrontLeft", "FrontRight", "MiddleLeft", "MiddleRight", "RearLeft", "RearRight"}
-
 function ISCommonMenu.onKeyStartPressed(key)
 	local playerObj = getPlayer()
 	if not playerObj then return end
@@ -18,12 +16,13 @@ function ISCommonMenu.showRadialMenu(playerObj, vehicle)
 	local isPaused = UIManager.getSpeedControls() and UIManager.getSpeedControls():getCurrentGameSpeed() == 0
 	if isPaused then return end
 	local menu = getPlayerRadialMenu(playerObj:getPlayerNum())
-	local seat = seatName[vehicle:getSeat(playerObj)+1]
-	local oven = vehicle:getPartById("Oven" .. seat)
-	local fridge = vehicle:getPartById("Fridge" .. seat)
-	local freezer = vehicle:getPartById("Freezer" .. seat)
-	local microwave = vehicle:getPartById("Microwave" .. seat)
-	local lightswitch = vehicle:getPartById("SwitchLight" .. seat)
+	local seatNum = vehicle:getSeat(playerObj)
+	local seat = seatNameTable[seatNum+1]
+	local oven = vehicle:getPartById("Oven" .. seatNameTable[seatNum+1])
+	local fridge = vehicle:getPartById("Fridge" .. seatNameTable[seatNum+1])
+	local freezer = vehicle:getPartById("Freezer" .. seatNameTable[seatNum+1])
+	local microwave = vehicle:getPartById("Microwave" .. seatNameTable[seatNum+1])
+	local lightswitch = vehicle:getPartById("InCabin" .. seatNameTable[seatNum+1])
 	local lightIsOn = true
 	local timeHours = getGameTime():getHour()
 	
@@ -41,7 +40,7 @@ function ISCommonMenu.showRadialMenu(playerObj, vehicle)
 	end
 	
 	if oven and lightIsOn then
-		menu:addSlice(getText("IGUI_UseStove"), getTexture("media/ui/Container_Oven"), ISCommonMenu.onStoveSetting, playerObj, vehicle, oven, seat)
+		menu:addSlice(getText("IGUI_UseStove"), getTexture("media/ui/Container_Oven"), ISCommonMenu.onStoveSetting, playerObj, vehicle, oven, seatNum)
 		-- if oven:getItemContainer():isActive() then
 			-- menu:addSlice(getText("IGUI_Turn_Oven_Off"), getTexture("media/ui/Container_Oven"), ISCommonMenu.ToggleDevice, playerObj, vehicle, oven)
 		-- else
@@ -50,7 +49,7 @@ function ISCommonMenu.showRadialMenu(playerObj, vehicle)
 	end
 	
 	if microwave and lightIsOn then
-		menu:addSlice(getText("IGUI_UseMicrowave"), getTexture("media/ui/Container_Microwave"), ISCommonMenu.onMicrowaveSetting, playerObj, vehicle, microwave, seat)
+		menu:addSlice(getText("IGUI_UseMicrowave"), getTexture("media/ui/Container_Microwave"), ISCommonMenu.onMicrowaveSetting, playerObj, vehicle, microwave, seatNum)
 		-- if microwave:getItemContainer():isActive() then
 			-- menu:addSlice(getText("IGUI_Turn_Oven_Off"), getTexture("media/ui/Container_Microwave"), ISCommonMenu.ToggleMicrowave, playerObj, vehicle, microwave, false)
 		-- else
@@ -83,14 +82,14 @@ function ISCommonMenu.ToggleMicrowave(playerObj, vehicle, part, on)
 	CommonTemplates.Use.Microwave(vehicle, part, playerObj, on)
 end
 
-function ISCommonMenu.onStoveSetting(playerObj, vehicle, part, seat)
-	ui = ISPortableOvenUI:new(0,0,430,310, playerObj, vehicle, part, seat)
+function ISCommonMenu.onStoveSetting(playerObj, vehicle, part, seatNum)
+	ui = ISPortableOvenUI:new(0,0,430,310, playerObj, vehicle, part, seatNum)
 	ui:initialise()
 	ui:addToUIManager()
 end
 
-function ISCommonMenu.onMicrowaveSetting(playerObj, vehicle, part, seat)
-	ui = ISPortableMicrowaveUI:new(0,0,430,310, playerObj, vehicle, part, seat)
+function ISCommonMenu.onMicrowaveSetting(playerObj, vehicle, part, seatNum)
+	ui = ISPortableMicrowaveUI:new(0,0,430,310, playerObj, vehicle, part, seatNum)
 	ui:initialise()
 	ui:addToUIManager()
 end
