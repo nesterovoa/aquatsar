@@ -384,7 +384,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	local lightIsOn = true
 	local timeHours = getGameTime():getHour()
 	
-	menu:addSlice(getText("IGUI_SwitchSeat"), getTexture("media/ui/vehicles/vehicle_changeseats.png"), ISBoatMenu.onShowSeatUI, playerObj, boat )
+	menu:addSlice(getText("IGUI_SwitchPlace"), getTexture("media/ui/boats/RadialMenu_ChangePlace.png"), ISBoatMenu.onShowSeatUI, playerObj, boat )
 	
 	local lightswitch = boat:getPartById("InCabin" .. seat)
 	if lightswitch then
@@ -405,7 +405,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 			else
 				if boat:getPartById("ManualStarter") then 
 					if boat:getPartById("ManualStarter"):getInventoryItem() then
-						menu:addSlice(getText("ContextMenu_VehicleStartEngineManual"), getTexture("media/textures/Item_ManualStarter.png"), ISBoatMenu.onStartEngineManualy, playerObj)
+						menu:addSlice(getText("ContextMenu_VehicleStartEngineManual"), getTexture("media/ui/boats/RadialMenu_ManualStarter.png"), ISBoatMenu.onStartEngineManualy, playerObj)
 					end
 				elseif (SandboxVars.VehicleEasyUse) then
 					menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
@@ -744,7 +744,7 @@ function ISBoatMenu.showRadialMenuOutside(playerObj)
 		-- menu:addSlice(getText("ContextMenu_VehicleMechanics"), getTexture("media/ui/vehicles/vehicle_repair.png"), ISBoatMenu.onMechanic, playerObj, boat)
 		
 		if boat:getScript() and boat:getScript():getPassengerCount() > 0 then
-			menu:addSlice(getText("IGUI_EnterBoat"), getTexture("media/ui/vehicles/vehicle_changeseats.png"), ISBoatMenu.onShowSeatUI, playerObj, boat )
+			menu:addSlice(getText("IGUI_EnterBoat"), getTexture("media/ui/boats/RadialMenu_ChangePlace.png"), ISBoatMenu.onShowSeatUI, playerObj, boat )
 		end
 		
 		--
