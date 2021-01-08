@@ -164,6 +164,7 @@ module Base
 		part GasTank
 		{
 			category = MechanicalSystem,
+			mechanicRequireKey = false,
 			lua
 			{
 				create = Vehicles.Create.GasTank,
@@ -219,6 +220,7 @@ module Base
 		part Window*
 		{
 			category = BoatBody,
+			mechanicRequireKey = false,
 			window
 			{
 				openable = false,

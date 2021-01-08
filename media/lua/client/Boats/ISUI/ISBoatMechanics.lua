@@ -323,7 +323,7 @@ function ISBoatMechanics:doPartContextMenu(part, x,y)
 		option.toolTip = tooltip;
 	end
 	
-	if part:getId() == "Engine" and not VehicleUtils.RequiredKeyNotFound(part, self.character) then
+	if part:getId() == "Engine" then
 		if part:getCondition() > 10 and self.character:getPerkLevel(Perks.Mechanics) >= part:getVehicle():getScript():getEngineRepairLevel() and self.character:getInventory():contains("Wrench") then
 			option = self.context:addOption(getText("IGUI_TakeEngineParts"), playerObj, ISBoatMechanics.onTakeEngineParts, part);
 			self:doMenuTooltip(part, option, "takeengineparts");

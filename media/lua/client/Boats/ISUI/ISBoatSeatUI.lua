@@ -522,8 +522,8 @@ end
 
 function ISBoatSeatUI:new(x, y, character)
 	local playerNum = character:getPlayerNum()
-	local width = 263
-	local height = 794
+	local width = 300
+	local height = 940
 	if y == 0 then
 		y = getPlayerScreenTop(playerNum) + (getPlayerScreenHeight(playerNum) - height) / 2
 	end

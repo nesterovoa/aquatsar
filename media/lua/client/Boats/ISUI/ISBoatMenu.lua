@@ -485,32 +485,28 @@ function ISBoatMenu.showRadialMenu(playerObj)
 				local bored = playerObj:getStats():getBoredom() > 25
 				local tired = playerObj:getStats():getEndurance() < 0.7
 				local unhappy = playerObj:getBodyDamage():getUnhappynessLevel() > 20
-				
-				if tired then
-					playerObj:Say(getText("IGUI_cabinForceUnlock_tooTired"))
-				elseif bored then
-					playerObj:Say(getText("IGUI_cabinForceUnlock_tooBored"))
-				elseif unhappy then
-					playerObj:Say(getText("IGUI_cabinForceUnlock_tooUnhappy"))
-				end	
+
 				if not tired and not bored and not unhappy then				
 					local func = function(arg_boat, arg_pl) 
 						ISTimedActionQueue.add(ISForceUnlockCabin:new(playerObj, boat));
 					end
 					menu:addSlice(getText("ContextMenu_Open_Cabin_Force"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
+				elseif tired then
+					menu:addSlice(getText("ContextMenu_cabinForceUnlock_tooTired"), getTexture("media/ui/boats/RadialMenu_Door.png"), nil)
+				elseif bored then
+					menu:addSlice(getText("ContextMenu_cabinForceUnlock_tooBored"), getTexture("media/ui/boats/RadialMenu_Door.png"), nil)
+				elseif unhappy then
+					menu:addSlice(getText("ContextMenu_cabinForceUnlock_tooUnhappy"), getTexture("media/ui/boats/RadialMenu_Door.png"), nil)
 				end
 			else
 				menu:addSlice(getText("ContextMenu_Open_Cabin_Force_Need_Crowbar"), getTexture("media/ui/boats/RadialMenu_Door.png"))
 			end
 		end
-	end
-
-	if AquaConfig.Boat(boat).driverBehind and seatNum < 2 and boat:getModData()["AquaCabin_isUnlocked"] and not boat:getModData()["AquaCabin_isLockRuined"] then
+	elseif AquaConfig.Boat(boat).driverBehind and seatNum < 2 and boat:getModData()["AquaCabin_isUnlocked"] and not boat:getModData()["AquaCabin_isLockRuined"] then
 		local func = function(arg_boat, arg_pl) 
 			arg_boat:getModData()["AquaCabin_isUnlocked"] = false
 			arg_pl:getEmitter():playSound("LockDoor")
 		end
-		
 		menu:addSlice(getText("ContextMenu_Close_Cabin"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
 	end
 
