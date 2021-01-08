@@ -15,6 +15,9 @@ CommonTemplates.UninstallTest = {}
 CommonTemplates.Update = {}
 CommonTemplates.Use = {}
 
+CommonUtils = {}
+
+
 local OvenBatteryChange = -0.000500
 local FridgeBatteryChange = -0.000020
 local MicrowaveBatteryChange = -0.000200
@@ -31,6 +34,15 @@ function CommonTemplates.createActivePart(part)
 		part:createSpotLight(0.1, 0.1, 0.1, 0.01, 100, 0)
 	end
 end
+
+function CommonUtils.PartInCabin(vehicle, part)
+	if vehicle:getPartById("InCabin" .. seatNameTable[vehicle:getSeat(playerObj)+1]) then
+		return true
+	else
+		return false
+	end
+end
+
 
 function CommonTemplates.InstallTest.PartInCabin(vehicle, part, playerObj)
 	if ISVehicleMechanics.cheat then return true; end
