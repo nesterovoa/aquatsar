@@ -7,22 +7,105 @@ module Base
         invertX = FALSE,
         scale = 0.0014,
     }
-	template vehicle BoatMotorTemplate
-	{
 
-		template = PassengerSeat4,
+	vehicle BoatMotor
+	{
+		model
+		{
+			file = BoatMotorBody,
+			scale = 7.0000,
+			offset = 0.0000 0.0043 0.0000,
+		}
+
+		skin
+		{
+			texture = Boats/BoatMotor_base,
+		}
+
+		textureLights = Boats/BoatMotor_light,
+		textureMask = Boats/BoatMotor_mask,
+		mechanicType = 3,
+		offRoadEfficiency = 1,
+		engineRepairLevel = 5,
+		playerDamageProtection = 1.3,
+		engineRPMType = firebird,
+
+		sound
+		{
+			horn = BoatHorn,
+		}
+
+		extents = 0.2971 0.3200 1.0886,
+		mass = 100,
+		physicsChassisShape = 0.2971 0.3200 1.0314,
+		centerOfMassOffset = 0.0000 0.5014 -0.0586,
+
+		wheel FrontLeft
+		{
+			front = true,
+			offset = 0.1814 0.4000 0.3686,
+			radius = 0.15f,
+			width = 0.2f,
+		}
+
+		wheel FrontRight
+		{
+			front = true,
+			offset = -0.1814 0.4000 0.3657,
+			radius = 0.15f,
+			width = 0.2f,
+		}
+
+		wheel RearLeft
+		{
+			front = false,
+			offset = 0.1814 0.4000 -0.3971,
+			radius = 0.15f,
+			width = 0.2f,
+		}
+
+		wheel RearRight
+		{
+			front = false,
+			offset = -0.1814 0.4000 -0.3986,
+			radius = 0.15f,
+			width = 0.2f,
+		}
+
+		engineForce = 2500,
+		maxSpeed = 30f,
+		engineLoudness = 90,
+		engineQuality = 10,
+		brakingForce = 90,
+		gearRatioCount = 1,
+		gearRatioR = 10,
+		gearRatio0 = 10,
+		stoppingMovementForce = 2.0f,
+		rollInfluence = 0.1f,
+		steeringIncrement = 0.03,
+		steeringClamp = 0.3,
+		suspensionStiffness = 50,
+		suspensionCompression = 2,
+		suspensionDamping = 100,
+		maxSuspensionTravelCm = 1.1,
+		suspensionRestLength = 0.1,
+		wheelFriction = 5.6f,
+		frontEndHealth = 150,
+		rearEndHealth = 150,
+		seats = 6,
+		template = PassengerSeat6,
 
 		passenger FrontLeft
 		{
 			position inside
 			{
-				offset = 0.0737 0.0812 -0.4087,
+				offset = -0.0586 0.1100 -0.0171,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
 			position outside
 			{
-				offset = -0.0012 -0.0600 -0.4050,
+				offset = -0.0014 -0.0600 -0.4057,
 				rotate = 0.0000 0.0000 0.0000,
 				area = SeatFrontLeft,
 			}
@@ -32,15 +115,47 @@ module Base
 		{
 			position inside
 			{
-				offset = -0.0737 0.0812 -0.4087,
+				offset = 0.0671 0.1086 -0.1543,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
 			position outside
 			{
-				offset = 0.0000 -0.0600 -0.4063,
+				offset = 0.0000 -0.0600 -0.4057,
 				rotate = 0.0000 0.0000 0.0000,
 				area = SeatFrontRight,
+			}
+		}
+
+		passenger MiddleLeft
+		{
+			position inside
+			{
+				offset = 0.0514 0.0471 0.2214,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = 0.0000 -0.0600 -0.4057,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatMiddleLeft,
+			}
+		}
+
+		passenger MiddleRight
+		{
+			position inside
+			{
+				offset = -0.0900 0.0471 0.2686,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = 0.0000 -0.0600 -0.4057,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatMiddleRight,
 			}
 		}
 
@@ -48,15 +163,15 @@ module Base
 		{
 			position inside
 			{
-				offset = 0.0375 0.1900 -0.0388,
+				offset = 0.0714 0.0714 -0.4171,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
 			position outside
 			{
-				offset = -0.0012 -0.0600 -0.3750,
+				offset = -0.0014 -0.0600 -0.3743,
 				rotate = 0.0000 0.0000 0.0000,
-				area = SeatFrontRight,
+				area = SeatRearLeft,
 			}
 		}
 
@@ -64,32 +179,34 @@ module Base
 		{
 			position inside
 			{
-				offset = -0.0900 0.1800 -0.1725,
+				offset = -0.0714 0.0714 -0.4171,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
 			position outside
 			{
-				offset = 0.0000 -0.0600 -0.3713,
+				offset = 0.0000 -0.0600 -0.3714,
 				rotate = 0.0000 0.0000 0.0000,
-				area = SeatFrontRight,
+				area = SeatRearRight,
 			}
 		}
 
 		area SeatFrontLeft
 		{
-			xywh = 0.18375 -0.37 0.2025 0.3875,
+			xywh = 0.1843 -0.3700 0.2029 0.3886,
 		}
 
 		area SeatFrontRight
 		{
-			xywh = -0.18375 -0.37 0.2025 0.3875,
+			xywh = -0.1843 -0.3700 0.2029 0.3886,
 		}
 
 		template = Seat/part/SeatFrontLeft,
 		template = Seat/part/SeatFrontRight,
 		template = Seat/part/SeatRearLeft,
 		template = Seat/part/SeatRearRight,
+		template = Seat/part/SeatMiddleLeft,
+		template = Seat/part/SeatMiddleRight,
 
 		part Seat*
 		{
@@ -107,6 +224,7 @@ module Base
 		part GasTank
 		{
 			category = MechanicalSystem,
+
 			lua
 			{
 				create = Vehicles.Create.GasTank,
@@ -235,93 +353,6 @@ module Base
 		template = Light/part/LightCabin,
 		template = Heater,
 		template = GloveBox,
-	}
-	vehicle BoatMotor
-	{
-		model
-		{
-			file = BoatMotorBody,
-			scale = 7.0000,
-			offset = 0.0000 0.0043 0.0000,
-		}
-
-		skin
-		{
-			texture = Boats/BoatMotor_base,
-		}
-
-		textureLights = Boats/BoatMotor_light,
-		textureMask = Boats/BoatMotor_mask,
-		mechanicType = 3,
-		offRoadEfficiency = 1,
-		engineRepairLevel = 5,
-		playerDamageProtection = 1.3,
-		engineRPMType = firebird,
-
-		sound
-		{
-			horn = BoatHorn,
-		}
-
-		extents = 0.2971 0.3200 1.0886,
-		mass = 100,
-		physicsChassisShape = 0.2971 0.3200 1.0314,
-		centerOfMassOffset = 0.0000 0.5014 -0.0586,
-
-		wheel FrontLeft
-		{
-			front = true,
-			offset = 0.1814 0.4000 0.3686,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		wheel FrontRight
-		{
-			front = true,
-			offset = -0.1814 0.4000 0.3657,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		wheel RearLeft
-		{
-			front = false,
-			offset = 0.1814 0.4000 -0.3971,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		wheel RearRight
-		{
-			front = false,
-			offset = -0.1814 0.4000 -0.3986,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		engineForce = 2500,
-		maxSpeed = 30f,
-		engineLoudness = 90,
-		engineQuality = 10,
-		brakingForce = 90,
-		gearRatioCount = 1,
-		gearRatioR = 10,
-		gearRatio0 = 10,
-		stoppingMovementForce = 2.0f,
-		rollInfluence = 0.1f,
-		steeringIncrement = 0.03,
-		steeringClamp = 0.3,
-		suspensionStiffness = 50,
-		suspensionCompression = 2,
-		suspensionDamping = 100,
-		maxSuspensionTravelCm = 1.1,
-		suspensionRestLength = 0.1,
-		wheelFriction = 5.6f,
-		frontEndHealth = 150,
-		rearEndHealth = 150,
-		seats = 6,
-		template = BoatMotorTemplate,
 
 		attachment exitLeft
 		{
@@ -360,5 +391,11 @@ module Base
 			rotate = 0.0000 0.0000 0.0000,
 			zoffset = 1.0000,
 		}
+		
+		template = InCabin/part/InCabinMiddleLeft,
+		template = InCabin/part/InCabinMiddleRight,
+		template = InCabin/part/InCabinFrontLeft,
+		template = InCabin/part/InCabinFrontRight,
+		
 	}
 }

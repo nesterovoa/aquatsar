@@ -34,24 +34,24 @@ boat.manualStarter = false
 boat.dashboard = "ISBoatDashboard"
 boat.driverBehind = false
 boat.sails = false
-boat.boatSeatUI_Image = "BoatSailingYacht_seat"
-boat.boatSeatUI_Scale = 0.75
+boat.boatSeatUI_Image = "BoatMotorYacht_seat"
+boat.boatSeatUI_Scale = 1
 boat.windInfluence = 1.1
 boat.boatSeatUI_SeatOffsetX = {
-	["FrontLeft"] = 1,
-	["FrontRight"] = 1,
+	["FrontLeft"] = 0,
+	["FrontRight"] = 0,
 	["MiddleLeft"] = 0,
-	["MiddleRight"] = 1,
-	["RearLeft"] = -4,
-	["RearRight"] = 1,
+	["MiddleRight"] = 0,
+	["RearLeft"] = 0,
+	["RearRight"] = 0,
 }
 boat.boatSeatUI_SeatOffsetY = {
-	["FrontLeft"] = 10,
-	["FrontRight"] = 10,
-	["MiddleLeft"] = -75, 
-	["MiddleRight"] = -55,
-	["RearLeft"] = -30,
-	["RearRight"] = 10,
+	["FrontLeft"] = 0,
+	["FrontRight"] = 0,
+	["MiddleLeft"] = 0, 
+	["MiddleRight"] = 0,
+	["RearLeft"] = 0,
+	["RearRight"] = 0,
 }
 
 -- BoatSailingYacht --
@@ -83,7 +83,6 @@ boat.boatSeatUI_SeatOffsetY = {
 	["RearLeft"] = -40,
 	["RearRight"] = 50,
 }
-boat.cabinSeats = { 2, 3, 4, 5 }
 
 -- BoatSailingYachtWithSailsLeft --
 AquaConfig.Boats["BoatSailingYachtWithSailsLeft"] = {}

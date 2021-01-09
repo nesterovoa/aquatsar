@@ -336,7 +336,7 @@ module Base
 		extents = 0.3925 0.3200 1.2875,
 		mass = 1,
 		physicsChassisShape = 0.4000 0.3200 1.2875,
-		centerOfMassOffset = -0.0012 0.4850 -0.0575,
+		centerOfMassOffset = 0.0000 0.4850 -0.0575,
 
 		wheel FrontLeft
 		{
