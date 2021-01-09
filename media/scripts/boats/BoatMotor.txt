@@ -7,7 +7,6 @@ module Base
         invertX = FALSE,
         scale = 0.0014,
     }
-
 	vehicle BoatMotor
 	{
 		model
@@ -99,15 +98,12 @@ module Base
 		{
 			position inside
 			{
-				offset = -0.0586 0.1100 -0.0171,
+				offset = -0.0586 0.1100 -0.0329,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
 			position outside
 			{
-				offset = -0.0014 -0.0600 -0.4057,
-				rotate = 0.0000 0.0000 0.0000,
-				area = SeatFrontLeft,
 			}
 		}
 
@@ -121,9 +117,6 @@ module Base
 
 			position outside
 			{
-				offset = 0.0000 -0.0600 -0.4057,
-				rotate = 0.0000 0.0000 0.0000,
-				area = SeatFrontRight,
 			}
 		}
 
@@ -137,9 +130,6 @@ module Base
 
 			position outside
 			{
-				offset = 0.0000 -0.0600 -0.4057,
-				rotate = 0.0000 0.0000 0.0000,
-				area = SeatMiddleLeft,
 			}
 		}
 
@@ -153,9 +143,6 @@ module Base
 
 			position outside
 			{
-				offset = 0.0000 -0.0600 -0.4057,
-				rotate = 0.0000 0.0000 0.0000,
-				area = SeatMiddleRight,
 			}
 		}
 
@@ -191,12 +178,12 @@ module Base
 			}
 		}
 
-		area SeatFrontLeft
+		area SeatRearLeft
 		{
 			xywh = 0.1843 -0.3700 0.2029 0.3886,
 		}
 
-		area SeatFrontRight
+		area SeatRearRight
 		{
 			xywh = -0.1843 -0.3700 0.2029 0.3886,
 		}
@@ -353,6 +340,10 @@ module Base
 		template = Light/part/LightCabin,
 		template = Heater,
 		template = GloveBox,
+		template = InCabin/part/InCabinMiddleLeft,
+		template = InCabin/part/InCabinMiddleRight,
+		template = InCabin/part/InCabinFrontLeft,
+		template = InCabin/part/InCabinFrontRight,
 
 		attachment exitLeft
 		{
@@ -391,11 +382,5 @@ module Base
 			rotate = 0.0000 0.0000 0.0000,
 			zoffset = 1.0000,
 		}
-		
-		template = InCabin/part/InCabinMiddleLeft,
-		template = InCabin/part/InCabinMiddleRight,
-		template = InCabin/part/InCabinFrontLeft,
-		template = InCabin/part/InCabinFrontRight,
-		
 	}
 }

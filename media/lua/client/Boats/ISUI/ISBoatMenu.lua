@@ -63,7 +63,9 @@ function ISBoatMenu.onKeyStartPressed(key)
 		if boat == nil then
 			boat = ISBoatMenu.getBoatToInteractWith(playerObj)
 			if boat then
-				ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, 0))
+				print("OnEnterBoat")
+				ISBoatMenu.onEnter(playerObj, boat)
+				-- ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, 0))
 			end
 		elseif AquaConfig.isBoat(boat) then
 			ISBoatMenu.onExit(playerObj, 0)
@@ -279,6 +281,59 @@ function ISBoatMenu.getNearLandForExit(boat)
 	return Vector3f.new(nearestSq:getX(), nearestSq:getY(), 0)
 end
 
+
+
+-- function ISBoatMenu.getBestSwitchSeatEnter(playerObj, boat, seatNum)
+	-- local seats = {}
+	-- for seat2=0,boat:getMaxPassengers()-1 do
+		-- if seatNum ~= seat2 and
+				-- boat:canSwitchSeat(seat2, seatNum) and
+				-- not boat:isSeatOccupied(seat2) and
+				-- not boat:isEnterBlocked(playerObj, seat2) then
+			-- table.insert(seats, seat2)
+		-- end
+	-- end
+	-- return getClosestSeat(playerObj, boat, seats)
+-- end
+
+-- function ISBoatMenu.getBestSwitchSeatExit(playerObj, boat, seatNum)
+	-- local seats = {}
+	-- for seat2=0,boat:getMaxPassengers()-1 do
+		-- if seatNum ~= seat2 and
+				-- boat:canSwitchSeat(seatNum, seat2) and
+				-- not boat:isSeatOccupied(seat2) and
+				-- not boat:isExitBlocked(seat2) then
+			-- table.insert(seats, seat2)
+		-- end
+	-- end
+	-- return getClosestSeat(playerObj, boat, seats)
+-- end
+
+function ISBoatMenu.onEnter(playerObj, boat)
+	local seat = ISBoatMenu.getBestSeatEnter(playerObj, boat)
+	if seat then
+		ISBoatMenu.onEnterAux(playerObj, boat, seat)
+	else
+		playerObj:Say(getText("IGUI_PlayerText_BoatSeatBlock")) -- Проход заблокирован.
+	end
+end
+
+function ISBoatMenu.getBestSeatEnter(playerObj, boat)
+	for seat=0, boat:getMaxPassengers()-1 do
+		if boat:getPassengerPosition(seat, "outside") and
+				not boat:getCharacter(seat) then
+			-- print("getBestSeatEnter: ", seat)
+			return seat
+		end
+	end
+end
+
+function ISBoatMenu.onEnterAux(playerObj, boat, seat)
+	if seat then
+		ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, seat))
+	end
+end
+
 function ISBoatMenu.onExit(playerObj, seatFrom)
     local boat = playerObj:getVehicle()
 	if not boat then return end
@@ -473,7 +528,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	end
 
 	-- Cabin
-	if AquaConfig.Boat(boat).driverBehind and seatNum < 2 and not boat:getModData()["AquaCabin_isUnlocked"] then		
+	if not boat:getPartById("InCabin" .. seatNameTable[seatNum+1]) and not boat:getModData()["AquaCabin_isUnlocked"] then		
 		if playerObj:getInventory():haveThisKeyId(boat:getKeyId()) then
 			local func =  function(arg_boat, arg_pl) 
 				arg_boat:getModData()["AquaCabin_isUnlocked"] = true
@@ -502,7 +557,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 				menu:addSlice(getText("ContextMenu_Open_Cabin_Force_Need_Crowbar"), getTexture("media/ui/boats/RadialMenu_Door.png"))
 			end
 		end
-	elseif AquaConfig.Boat(boat).driverBehind and seatNum < 2 and boat:getModData()["AquaCabin_isUnlocked"] and not boat:getModData()["AquaCabin_isLockRuined"] then
+	elseif not boat:getPartById("InCabin" .. seatNameTable[seatNum+1]) and boat:getModData()["AquaCabin_isUnlocked"] and not boat:getModData()["AquaCabin_isLockRuined"] then
 		local func = function(arg_boat, arg_pl) 
 			arg_boat:getModData()["AquaCabin_isUnlocked"] = false
 			arg_pl:getEmitter():playSound("LockDoor")
@@ -1462,31 +1517,7 @@ end
 -- -- position, which is the case for VanSeats' rear seats that are not accessible
 -- -- by any door.  The player must enter through a front or middle door then
 -- -- switch to the rear seatNum.
--- function ISBoatMenu.getBestSwitchSeatEnter(playerObj, boat, seatNum)
-	-- local seats = {}
-	-- for seat2=0,boat:getMaxPassengers()-1 do
-		-- if seatNum ~= seat2 and
-				-- boat:canSwitchSeat(seat2, seatNum) and
-				-- not boat:isSeatOccupied(seat2) and
-				-- not boat:isEnterBlocked(playerObj, seat2) then
-			-- table.insert(seats, seat2)
-		-- end
-	-- end
-	-- return getClosestSeat(playerObj, boat, seats)
--- end
 
--- function ISBoatMenu.getBestSwitchSeatExit(playerObj, boat, seatNum)
-	-- local seats = {}
-	-- for seat2=0,boat:getMaxPassengers()-1 do
-		-- if seatNum ~= seat2 and
-				-- boat:canSwitchSeat(seatNum, seat2) and
-				-- not boat:isSeatOccupied(seat2) and
-				-- not boat:isExitBlocked(seat2) then
-			-- table.insert(seats, seat2)
-		-- end
-	-- end
-	-- return getClosestSeat(playerObj, boat, seats)
--- end
 
 -- function ISBoatMenu.moveItemsOnSeat(seatNum, newSeat, playerObj, moveThem, itemListIndex)
 -- --	if moveThem then print("moving item on seatNum from", seatNum:getId(), "to", newSeat:getId()) end

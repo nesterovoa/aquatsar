@@ -251,7 +251,12 @@ function ISSwimUI:onClick(button)
                 setJoypadFocus(playerNum, nil)
             end
             
-            local areaVec = vehicle:getAreaCenter("SeatFrontLeft")
+			-- TODO: Выбирать зону в зависимость от сидения (слева или справа)
+            
+			local areaVec = vehicle:getAreaCenter("SeatFrontLeft")
+			if not areaVec then
+				areaVec = vehicle:getAreaCenter("SeatRearLeft")
+			end
             self.player:setX(areaVec:getX())
             self.player:setY(areaVec:getY())
             

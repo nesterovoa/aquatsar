@@ -95,7 +95,7 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		playerObj:getDescriptor():setForename("IBrRus")
 		playerObj:getDescriptor():setSurname("")
 		visual:setBeardModel("Full");
-		visual:setHairModel("Messy");
+		visual:setHairModel("Bald");
 		local immutableColor = ImmutableColor.new(0.105, 0.09, 0.086, 1)
 		visual:setHairColor(immutableColor)
 		visual:setBeardColor(immutableColor)

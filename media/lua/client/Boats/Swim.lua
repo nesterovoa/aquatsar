@@ -88,18 +88,19 @@ end
 
 
 local function swimToBoatPerform(playerObj, boat, chance)
-    local func = function(pl, vehicle)
-        vehicle:enter(0, pl)
-        vehicle:setCharacterPosition(pl, 0, "inside")
-        vehicle:transmitCharacterPosition(0, "inside")
-        vehicle:playPassengerAnim(0, "idle")
-        triggerEvent("OnEnterVehicle", pl)
-    end
-
-    local areaVec = boat:getAreaCenter("SeatFrontLeft")
+    -- local func = function(pl, vehicle)
+        -- vehicle:enter(0, pl)
+        -- vehicle:setCharacterPosition(pl, 0, "inside")
+        -- vehicle:transmitCharacterPosition(0, "inside")
+        -- vehicle:playPassengerAnim(0, "idle")
+        -- triggerEvent("OnEnterVehicle", pl)
+    -- end
+	
+	local seat = seatNameTable[ISBoatMenu.getBestSeatEnter(playerObj, boat)+1]
+    local areaVec = boat:getAreaCenter("Seat" .. seat)
 
     ISTimedActionQueue.clear(playerObj)
-    ISTimedActionQueue.add(ISSwimAction:new(playerObj, chance, areaVec:getX(), areaVec:getY(), func, playerObj, boat));
+    ISTimedActionQueue.add(ISSwimAction:new(playerObj, chance, areaVec:getX(), areaVec:getY(), ISBoatMenu.onEnter, playerObj, boat));
 end
 
 local function swimToPointPerform(playerObj, square, chance)

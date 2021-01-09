@@ -74,9 +74,6 @@ module Base
 
 			position outside
 			{
-				offset = 0.0000 -0.0600 -0.4050,
-				rotate = 0.0000 0.0000 0.0000,
-				area = SeatFrontRight,
 			}
 		}
 
@@ -90,9 +87,6 @@ module Base
 
 			position outside
 			{
-				offset = 0.0012 -0.0600 -0.3750,
-				rotate = 0.0000 0.0000 0.0000,
-				area = SeatFrontRight,
 			}
 		}
 
@@ -106,9 +100,6 @@ module Base
 
 			position outside
 			{
-				offset = -0.0012 -0.0600 -0.3750,
-				rotate = 0.0000 0.0000 0.0000,
-				area = SeatFrontRight,
 			}
 		}
 
@@ -122,9 +113,6 @@ module Base
 
 			position outside
 			{
-				offset = 0.0000 -0.0600 -0.3713,
-				rotate = 0.0000 0.0000 0.0000,
-				area = SeatFrontRight,
 			}
 		}
 
