@@ -87,8 +87,9 @@ end
 -- Wind Physics
 -------------------------------------
 
+
+
 function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
-	
 	local boatScriptName = boat:getScript():getName()
 	local boatSpeed = boat:getCurrentSpeedKmHour()
 	boat:getAttachmentWorldPos("trailerfront", frontVector)
@@ -135,7 +136,10 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 			windForceByDirection = 14 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 		end
 	else
-		-- TODO WARNING!!!
+		if windOnBoat > 105 and windOnBoat < 285 then
+			windForceByDirection = 16 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
+		end
+		print("SAIL DAMAGE!")
 	end
 	AUD.insp("Boat", "windSpeed (MPH):", windSpeed / 1.60934)
 	AUD.insp("Boat", "windForceByDirection154:", windForceByDirection)
@@ -290,6 +294,9 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 	end
 end
 
+
+
+
 -------------------------------------
 -- Physics
 -------------------------------------
@@ -406,9 +413,6 @@ end
 -----------------------------
 
 function AquaPhysics.updateVehicles()
-	AUD.insp("Boat", "Wind Direction: ", AquaPhysics.Wind.inWindDirection())
-	AUD.insp("Boat", "Wind speed: ", AquaPhysics.Wind.getWindSpeed())
-
 	local vehicles = getCell():getVehicles()
     for i=0, vehicles:size()-1 do
         local boat = vehicles:get(i)
