@@ -31,6 +31,18 @@ function AquaPhysics.Wind.getWindSpeed()
     return getClimateManager():getWindspeedKph()
 end
 
+-- function AquaPhysics.Wind.fromWindDirection()	
+	-- local angle = getClimateManager():getWindAngleDegrees()	
+	-- local windAngles = { 22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 382.5 }	
+	-- local windAngleStr = { "N", "NW", "W", "SW", "S", "SE", "E", "NE", "N" }	
+    -- for b = 1, #windAngles do	
+		-- if (angle < windAngles[b]) then	
+			-- return windAngleStr[b]	
+		-- end	
+	-- end	
+    -- return windAngleStr[#windAngleStr - 1];	
+-- end
+
 function AquaPhysics.Wind.inWindDirection()
 	local angle = getClimateManager():getWindAngleDegrees()
 	local windAngles = { 22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 382.5 }
@@ -101,6 +113,9 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 	-- AUD.insp("Boat", "boatSpeed (MPH):", boat:getCurrentSpeedKmHour() / 1.60934)
 	-- AUD.insp("Boat", " ", " ")
 	boatDirVector:set(x, 0, y):normalize()
+	-- boat:getWorldPos(0, 0, 1, boatDirVector):add(-boat:getX(), -boat:getY(), -boat:getZ())
+	-- boatDirVector:set(boatDirVector:x(), 0, boatDirVector:y())
+	-- boatDirVector:normalize()
 	local boatDirection = math.atan2(x,y) * 57.2958 + 180
 	local sailAngle = boat:getModData()["sailAngle"]
 	if sailAngle == nil then
@@ -254,7 +269,7 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 			end
 			boat:setPhysicsActive(true)
 			tempVec2:set(0, 0, 0)
-			boat:addImpulse(boatDirVector, tempVec2)   
+			boat:addImpulse(boatDirVector, tempVec2)
 		end
 		-- AUD.insp("Boat", "forceVectorX:", boatDirVector:x())
 		-- AUD.insp("Boat", "forceVectorZ:", boatDirVector:y())
