@@ -43,18 +43,6 @@ function AquaPhysics.Wind.inWindDirection()
     return windAngleStr[#windAngleStr - 1];
 end
 
-function AquaPhysics.Wind.fromWindDirection()
-	local angle = getClimateManager():getWindAngleDegrees()
-	local windAngles = { 22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 382.5 }
-	local windAngleStr = { "N", "NW", "W", "SW", "S", "SE", "E", "NE", "N" }
-    for b = 1, #windAngles do
-		if (angle < windAngles[b]) then
-			return windAngleStr[b]
-		end
-	end
-    return windAngleStr[#windAngleStr - 1];
-end
-
 -------------------------------------
 -- Water Physics
 -------------------------------------
@@ -86,7 +74,6 @@ function AquaPhysics.Water.Borders(boat)
 			tempIsoObj:setSquare(tempSquare)
 			local collisionVector = boat:testCollisionWithObject(tempIsoObj, 0.5, collisionPosVector2)
 			if collisionVector then
-				--boat:ApplyImpulse4Break(tempIsoObj, 0.2)
 				boat:ApplyImpulse(tempIsoObj, 60)
 				boat:update()
 				collisionWithGround = true
@@ -95,7 +82,6 @@ function AquaPhysics.Water.Borders(boat)
 		return collisionWithGround
 	end
 end
-
 
 -------------------------------------
 -- Wind Physics
@@ -368,7 +354,7 @@ function AquaPhysics.heightFix(boat)
 	end
 end
 
-function AquaConfig.waterFlowRotation(boat)
+function AquaPhysics.waterFlowRotation(boat)
 	if boat:getDriver() then
 		local lenHalf = boat:getScript():getPhysicsChassisShape():z()/2
 		local force = 180
@@ -420,6 +406,9 @@ end
 -----------------------------
 
 function AquaPhysics.updateVehicles()
+	AUD.insp("Boat", "Wind Direction: ", AquaPhysics.Wind.inWindDirection())
+	AUD.insp("Boat", "Wind speed: ", AquaPhysics.Wind.getWindSpeed())
+
 	local vehicles = getCell():getVehicles()
     for i=0, vehicles:size()-1 do
         local boat = vehicles:get(i)
@@ -438,7 +427,7 @@ function AquaPhysics.updateVehicles()
 			end
 
 			if math.abs(boat:getCurrentSpeedKmHour()) < 4 then
-				AquaConfig.waterFlowRotation(boat)
+				AquaPhysics.waterFlowRotation(boat)
 			end
         end
     end
