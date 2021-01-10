@@ -96,8 +96,8 @@ local function swimToBoatPerform(playerObj, boat, chance)
         -- triggerEvent("OnEnterVehicle", pl)
     -- end
 	
-	local seat = seatNameTable[ISBoatMenu.getBestSeatEnter(playerObj, boat)+1]
-    local areaVec = boat:getAreaCenter("Seat" .. seat)
+	local seat = ISBoatMenu.getBestSeatEnter(playerObj, boat)
+    local areaVec = boat:getAreaCenter(boat:getPassengerArea(seat))
 
     ISTimedActionQueue.clear(playerObj)
     ISTimedActionQueue.add(ISSwimAction:new(playerObj, chance, areaVec:getX(), areaVec:getY(), ISBoatMenu.onEnter, playerObj, boat));

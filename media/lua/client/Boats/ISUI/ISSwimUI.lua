@@ -226,64 +226,56 @@ end
 
 function ISSwimUI:onClick(button)
     if button.internal == "OK" then
-	local vehicle = self.player:getVehicle()
-	local emi = vehicle:getEmitter()
-	SoundControl.stopWeatherSound(emi)
-        local dir = "SOUTH"
-        if self.ItemsOptions:isSelected(1) then
-            dir = "EAST"
-        elseif self.ItemsOptions:isSelected(2) then
-            dir = "SOUTH"
-        elseif self.ItemsOptions:isSelected(3) then
-            dir = "WEST"
-        elseif self.ItemsOptions:isSelected(4) then
-            dir = "NORTH"
-        elseif self.ItemsOptions:isSelected(5) then
-            local seat = vehicle:getSeat(self.player)
-            vehicle:exit(self.player)
-            self.player:PlayAnim("Idle")
-            triggerEvent("OnExitVehicle", self.player)
-            vehicle:updateHasExtendOffsetForExitEnd(self.player)
-            self:setVisible(false);
-            self:removeFromUIManager();
-            local playerNum = self.player:getPlayerNum()
-            if JoypadState.players[playerNum+1] then
-                setJoypadFocus(playerNum, nil)
-            end
-            
-			-- TODO: Выбирать зону в зависимость от сидения (слева или справа)
-            
-			local areaVec = vehicle:getAreaCenter("SeatFrontLeft")
-			if not areaVec then
-				areaVec = vehicle:getAreaCenter("SeatRearLeft")
-			end
-            self.player:setX(areaVec:getX())
-            self.player:setY(areaVec:getY())
-            
-            return
-        end
+		local vehicle = self.player:getVehicle()
+		local emi = vehicle:getEmitter()
+		SoundControl.stopWeatherSound(emi)
+		local dir = "SOUTH"
+		if self.ItemsOptions:isSelected(1) then
+			dir = "EAST"
+		elseif self.ItemsOptions:isSelected(2) then
+			dir = "SOUTH"
+		elseif self.ItemsOptions:isSelected(3) then
+			dir = "WEST"
+		elseif self.ItemsOptions:isSelected(4) then
+			dir = "NORTH"
+		elseif self.ItemsOptions:isSelected(5) then
+			local seat = vehicle:getSeat(self.player)
+			-- self.player:PlayAnim("Idle")
+			triggerEvent("OnExitVehicle", self.player)
+			-- vehicle:updateHasExtendOffsetForExitEnd(self.player)
+			self:setVisible(false);
+			self:removeFromUIManager();
+			local playerNum = self.player:getPlayerNum()
+			if JoypadState.players[playerNum+1] then
+				setJoypadFocus(playerNum, nil)
+			end		
+			local areaVec = ISBoatMenu.getBestSeatExit(self.player, vehicle, false)
+			vehicle:exit(self.player)
+			self.player:setX(areaVec:x())
+			self.player:setY(areaVec:y())
+			return
+		end
 
-        local vehicle = self.player:getVehicle()
-        local seat = vehicle:getSeat(self.player)
-        vehicle:exit(self.player)
-        self.player:PlayAnim("Idle")
-        triggerEvent("OnExitVehicle", self.player)
-        vehicle:updateHasExtendOffsetForExitEnd(self.player)
+		local vehicle = self.player:getVehicle()
+		local seat = vehicle:getSeat(self.player)
+		vehicle:exit(self.player)
+		self.player:PlayAnim("Idle")
+		triggerEvent("OnExitVehicle", self.player)
+		vehicle:updateHasExtendOffsetForExitEnd(self.player)
 
-        local func = function(pl) 
-            pl:getSprite():getProperties():UnSet(IsoFlagType.invisible)
-        end
-    
-        ISTimedActionQueue.clear(self.player)
-        ISTimedActionQueue.add(ISSwimAction:new(self.player, self.chances[dir], self.swimSquares[dir]:getX(), self.swimSquares[dir]:getY(), func, self.player ));
+		local func = function(pl) 
+			pl:getSprite():getProperties():UnSet(IsoFlagType.invisible)
+		end
+	
+		ISTimedActionQueue.clear(self.player)
+		ISTimedActionQueue.add(ISSwimAction:new(self.player, self.chances[dir], self.swimSquares[dir]:getX(), self.swimSquares[dir]:getY(), func, self.player ));
 
-        self:setVisible(false);
-        self:removeFromUIManager();
-        local playerNum = self.player:getPlayerNum()
-        if JoypadState.players[playerNum+1] then
-            setJoypadFocus(playerNum, nil)
-        end
-
+		self:setVisible(false);
+		self:removeFromUIManager();
+		local playerNum = self.player:getPlayerNum()
+		if JoypadState.players[playerNum+1] then
+			setJoypadFocus(playerNum, nil)
+		end
     elseif button.internal == "CLOSE" then
         self:setVisible(false);
         self:removeFromUIManager();

@@ -86,7 +86,8 @@ function AquaPhysics.Water.Borders(boat)
 			tempIsoObj:setSquare(tempSquare)
 			local collisionVector = boat:testCollisionWithObject(tempIsoObj, 0.5, collisionPosVector2)
 			if collisionVector then
-				boat:ApplyImpulse(tempIsoObj, 60)
+				boat:ApplyImpulse4Break(tempIsoObj, 0.2)
+				boat:ApplyImpulse(tempIsoObj, 80)
 				boat:update()
 				collisionWithGround = true
 			end
@@ -366,13 +367,18 @@ function AquaPhysics.reverseSpeedFix(boat, limit)
 	end
 end
 
-function AquaPhysics.heightFix(boat)	
-	if boat:getDebugZ() < -0.2 then 
-		boat:setPhysicsActive(true)
-		tempVec1:set(0, 5000, 0)
-		tempVec2:set(0, 0, 0)
-		boat:addImpulse(tempVec1, tempVec2)
-		boat:update()
+function AquaPhysics.heightFix(boat)
+	local squareUnderVehicle = getCell():getGridSquare(boat:getX(), boat:getY(), 0)
+	if squareUnderVehicle ~= nil and isWater(squareUnderVehicle) then
+		if boat:getDebugZ() < -0.2 then 
+			boat:setPhysicsActive(true)
+			tempVec1:set(0, 5000, 0)
+			tempVec2:set(0, 0, 0)
+			boat:addImpulse(tempVec1, tempVec2)
+			boat:update()
+		end
+	elseif boat:getDebugZ() < 0 then
+		boat:setZ(0 - boat:getDebugZ())
 	end
 end
 
@@ -433,15 +439,16 @@ function AquaPhysics.updateVehicles()
         local boat = vehicles:get(i)
 		if boat ~= nil and AquaConfig.isBoat(boat) then
 			local collisionWithGround = AquaPhysics.Water.Borders(boat)
-
+			
 			AquaPhysics.heightFix(boat)
-			AquaPhysics.inertiaFix(boat)
+			-- AquaPhysics.inertiaFix(boat)
 
 			if AquaConfig.Boats[boat:getScript():getName()].limitReverseSpeed ~= nil then
 				AquaPhysics.reverseSpeedFix(boat, AquaConfig.Boats[boat:getScript():getName()].limitReverseSpeed)
 			end
 
 			if AquaConfig.Boats[boat:getScript():getName()].sails then
+				-- print(collisionWithGround)
 				AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 			end
 

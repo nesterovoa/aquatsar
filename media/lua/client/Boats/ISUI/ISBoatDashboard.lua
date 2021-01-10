@@ -561,10 +561,10 @@ end
 function ISBoatDashboard.onEnterVehicle(character)
 	local boat = character:getVehicle()
 	if instanceof(character, 'IsoPlayer') and character:isLocalPlayer() and boat:isDriver(character) then
-		if AquaConfig.Boats[boat:getScript():getName()] then
+		if AquaConfig.isBoat(boat) then
 			getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(nil)
 			local data = getPlayerData(character:getPlayerNum())
-			if AquaConfig.Boats[boat:getScript():getName()].dashboard == "ISSalingBoatDashboard" then
+			if AquaConfig.Boat(boat).dashboard == "ISSalingBoatDashboard" then
 				data.vehicleDashboard = ISSalingBoatDashboard:new(character:getPlayerNum(), character)
 			elseif AquaConfig.Boats[boat:getScript():getName()].dashboard == "ISNewSalingBoatDashboard" then
 				data.vehicleDashboard = ISNewSalingBoatDashboard:new(character:getPlayerNum(), character)
@@ -597,10 +597,21 @@ end
 function ISBoatDashboard.onSwitchVehicleSeat(character)
 	if instanceof(character, 'IsoPlayer') and character:isLocalPlayer() then
 		local boat = character:getVehicle()
-		if boat:isDriver(character) then
-			getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(boat)
-		else
+		if AquaConfig.isBoat(boat) and not string.match(getPlayerVehicleDashboard(character:getPlayerNum()).dashboardBG:getName(), "boat_dashboard") then
 			getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(nil)
+			local data = getPlayerData(character:getPlayerNum())
+			if AquaConfig.Boat(boat).dashboard == "ISSalingBoatDashboard" then
+				data.vehicleDashboard = ISSalingBoatDashboard:new(character:getPlayerNum(), character)
+			elseif AquaConfig.Boats[boat:getScript():getName()].dashboard == "ISNewSalingBoatDashboard" then
+				data.vehicleDashboard = ISNewSalingBoatDashboard:new(character:getPlayerNum(), character)
+			else
+				data.vehicleDashboard = ISBoatDashboard:new(character:getPlayerNum(), character)
+			end
+			data.vehicleDashboard:initialise()
+			data.vehicleDashboard:instantiate()
+			data.vehicleDashboard:setVehicle(boat)
+		-- else
+			-- getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(nil)
 		end
 	end
 end

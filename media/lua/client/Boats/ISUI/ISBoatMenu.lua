@@ -4,6 +4,34 @@
 
 require 'Boats/Init'
 
+-- --***********************************************************
+-- --**                   	    LOCAL                         **
+-- --***********************************************************
+
+local SORTVARS = {
+	pos = Vector3f.new()
+}
+local function distanceToPassengerPosition(seatNum)
+	local outside = SORTVARS.boat:getPassengerPosition(seatNum, "outside")
+	local worldPos = SORTVARS.boat:getWorldPos(outside:getOffset(), SORTVARS.pos)
+	return SORTVARS.playerObj:DistTo(worldPos:x(), worldPos:y())
+end
+
+function getClosestSeat(playerObj, boat, seats)
+	if #seats == 0 then
+		return nil
+	end
+	-- Sort by distance from the player to the 'outside' position.
+	SORTVARS.playerObj = playerObj
+	SORTVARS.boat = boat
+	table.sort(seats, function(a,b)
+		local distA = distanceToPassengerPosition(a)
+		local distB = distanceToPassengerPosition(b)
+		return distA < distB
+	end)
+	return seats[1]
+end
+
 local function starts_with(str, start)
    return str:sub(1, #start) == start
 end
@@ -35,7 +63,7 @@ function ISBoatMenu.onKeyStartPressed(key)
 		getCore():addKeyBinding("StartVehicleEngine", playerObj:getModData()["blockStartVehicleEngine"])
 		playerObj:getModData()["StartVehicleEngine"] = nil
 	elseif AquaConfig.isBoat(boat) and 
-			AquaConfig.Boats[boat:getScript():getName()].manualStarter and  -- TODO: заменить на проверку шаблона в скрипте
+			AquaConfig.Boat(boat).manualStarter and  -- TODO: заменить на проверку шаблона в скрипте
 			(key == getCore():getKey("Forward") or 
 			key == getCore():getKey("StartVehicleEngine") or 
 			key == getCore():getKey("Backward")) and not boat:isEngineRunning() then
@@ -47,7 +75,7 @@ function ISBoatMenu.onKeyStartPressed(key)
 		getCore():addKeyBinding("StartVehicleEngine", nil)
 		-- print("38 ", playerObj:getModData()["blockForward"])
 	elseif AquaConfig.isBoat(boat) and 
-			AquaConfig.Boats[boat:getScript():getName()].manualStarter and 
+			AquaConfig.Boat(boat).manualStarter and 
 			(key == playerObj:getModData()["blockForward"] or 
 			key == playerObj:getModData()["blockBackward"] or 
 			key == playerObj:getModData()["blockStartVehicleEngine"]) and 
@@ -63,12 +91,17 @@ function ISBoatMenu.onKeyStartPressed(key)
 		if boat == nil then
 			boat = ISBoatMenu.getBoatToInteractWith(playerObj)
 			if boat then
-				print("OnEnterBoat")
-				ISBoatMenu.onEnter(playerObj, boat)
+				-- print("OnEnterBoat")
+				if playerObj:getSquare():Is(IsoFlagType.water) then
+					ISBoatMenu.onEnter(playerObj, boat)
+				else
+					ISBoatMenu.onEnterFromGround(playerObj, boat)
+				end
 				-- ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, 0))
 			end
 		elseif AquaConfig.isBoat(boat) then
-			ISBoatMenu.onExit(playerObj, 0)
+			-- print("ISBoatMenu.onExit")
+			ISBoatMenu.onExit(playerObj)
 		end	
 	elseif key == getCore():getKey("VehicleRadialMenu") and playerObj then
 		-- 'V' can be 'Toggle UI' when outside a vehicle
@@ -225,20 +258,20 @@ function ISBoatMenu.getBoatToInteractWith(playerObj)
 	if not boat then
 		local sqs = {}
 		local dir = playerObj:getDir()
-		if (dir == IsoDirections.N) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 0,-3)
+		if (dir == IsoDirections.N) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 0,-2)
 		elseif (dir == IsoDirections.NE) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 2,-2)
-		elseif (dir == IsoDirections.E) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 3,0)
+		elseif (dir == IsoDirections.E) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 2,0)
 		elseif (dir == IsoDirections.SE) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 2,2)
-		elseif (dir == IsoDirections.S) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 0,3)
+		elseif (dir == IsoDirections.S) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, 0,2)
 		elseif (dir == IsoDirections.SW) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, -2,2)
-		elseif (dir == IsoDirections.W) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, -3,0)
+		elseif (dir == IsoDirections.W) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, -2,0)
 		elseif (dir == IsoDirections.NW) then sqs = ISBoatMenu.getSquaresFromDir(playerObj, -2,-2)
 		end
 		
 		for _,sq in ipairs(sqs) do
 			local boat2 = sq:getVehicleContainer()
 			if boat2 then
-				if starts_with(string.lower(boat2:getScript():getName()), "boat") then
+				if AquaConfig.Boat(boat2) then
 					boat = boat2
 					break
 				end
@@ -248,38 +281,39 @@ function ISBoatMenu.getBoatToInteractWith(playerObj)
 	return boat
 end
 
-function ISBoatMenu.getNearLandForExit(boat)
-	local square = boat:getSquare()
-	if square == nil then return nil end
-	local vec = Vector3f.new()
+
+-- function ISBoatMenu.getNearLandForExit(boat)
+	-- local square = boat:getSquare()
+	-- if square == nil then return nil end
+	-- local vec = Vector3f.new()
 	
-	local max_distance = 3
-	local minDist = 9999999
-	local nearestSq = nil
+	-- local max_distance = 3
+	-- local minDist = 9999999
+	-- local nearestSq = nil
 
-	for y=-max_distance, max_distance do
-		for x=-max_distance, max_distance do
-			local square2 = getCell():getGridSquare(square:getX() + x, square:getY() + y, 0)
-			if square2 then
-				if not ISBoatMenu.isWater(square2) and square2:isNotBlocked(true) then
-					if nearestSq == nil then
-						nearestSq = square2
-						minDist = vec:set(square2:getX(), square2:getY(), 0):add(-square:getX(), -square:getY(), 0):length()
-					else
-						if vec:set(square2:getX(), square2:getY(), 0):add(-square:getX(), -square:getY(), 0):length() < minDist then
-							nearestSq = square2
-							minDist = vec:set(square2:getX(), square2:getY(), 0):add(-square:getX(), -square:getY(), 0):length()
-						end
-					end			
-				end
-			end
-		end
-	end
+	-- for y=-max_distance, max_distance do
+		-- for x=-max_distance, max_distance do
+			-- local square2 = getCell():getGridSquare(square:getX() + x, square:getY() + y, 0)
+			-- if square2 then
+				-- if not ISBoatMenu.isWater(square2) and square2:isNotBlocked(true) then
+					-- if nearestSq == nil then
+						-- nearestSq = square2
+						-- minDist = vec:set(square2:getX(), square2:getY(), 0):add(-square:getX(), -square:getY(), 0):length()
+					-- else
+						-- if vec:set(square2:getX(), square2:getY(), 0):add(-square:getX(), -square:getY(), 0):length() < minDist then
+							-- nearestSq = square2
+							-- minDist = vec:set(square2:getX(), square2:getY(), 0):add(-square:getX(), -square:getY(), 0):length()
+						-- end
+					-- end			
+				-- end
+			-- end
+		-- end
+	-- end
 
-	if nearestSq == nil then return nil end
+	-- if nearestSq == nil then return nil end
 
-	return Vector3f.new(nearestSq:getX(), nearestSq:getY(), 0)
-end
+	-- return Vector3f.new(nearestSq:getX(), nearestSq:getY(), 0)
+-- end
 
 
 
@@ -309,7 +343,32 @@ end
 	-- return getClosestSeat(playerObj, boat, seats)
 -- end
 
+
+function ISBoatMenu.getNearSquare(object, x_max, y_max, z)
+	local squares = {}
+	for y=-y_max, y_max do
+		for x=-x_max, x_max do
+			local square = getCell():getGridSquare(object:getX() + x, object:getY() + y, object:getZ())
+			table.insert(squares, square)
+		end
+	end
+	return squares
+end
+
+function ISBoatMenu.onEnterFromGround(playerObj, boat)
+	local seat = ISBoatMenu.getBestSeatEnter(playerObj, boat, true)
+	if seat then
+		ISBoatMenu.onEnterAux2(playerObj, boat, seat)
+	-- else
+		-- playerObj:Say(getText("IGUI_PlayerText_NeedSwim")) -- Проход заблокирован.
+	end
+end
+
 function ISBoatMenu.onEnter(playerObj, boat)
+	-- Получить координаты зон для посадки
+	-- Проверить можно ли до них дойти
+	-- Дойти и сесть
+
 	local seat = ISBoatMenu.getBestSeatEnter(playerObj, boat)
 	if seat then
 		ISBoatMenu.onEnterAux(playerObj, boat, seat)
@@ -318,31 +377,99 @@ function ISBoatMenu.onEnter(playerObj, boat)
 	end
 end
 
-function ISBoatMenu.getBestSeatEnter(playerObj, boat)
+function ISBoatMenu.getBestSeatEnter(playerObj, boat, ground)
+	local seats = {}
+	for seat=0, boat:getMaxPassengers()-1 do
+		local outside = boat:getPassengerPosition(seat, "outside")
+		if outside and
+				not boat:getCharacter(seat) then
+			if ground then
+				local worldPos = boat:getWorldPos(outside:getOffset(), SORTVARS.pos)
+				local squares = ISBoatMenu.getNearSquare(getCell():getGridSquare(SORTVARS.pos:x(), SORTVARS.pos:y(), 0), 1, 1)
+				for i, square in pairs(squares) do
+					if square and not ISBoatMenu.isWater(square) and square:isNotBlocked(true) then
+						table.insert(seats, seat)
+						break
+					end
+				end
+			else
+				table.insert(seats, seat)
+			end
+		end
+	end
+	return getClosestSeat(playerObj, boat, seats)
+end
+
+function ISBoatMenu.getBestSeatExit(playerObj, boat, ground)
+	local seat = boat:getSeat(playerObj) -- print(getPlayer():getVehicle():getSeat(getPlayer()))
+	local outside = boat:getPassengerPosition(seat, "outside")
+	if outside then
+		boat:getWorldPos(outside:getOffset(), SORTVARS.pos)
+		local squares = ISBoatMenu.getNearSquare(getCell():getGridSquare(SORTVARS.pos:x(), SORTVARS.pos:y(), 0), 1, 1)
+		-- print("ISBoatMenu.isWater(square) ", ISBoatMenu.isWater(square) )
+		if ground then
+			for i, square in pairs(squares) do
+				if square and not ISBoatMenu.isWater(square) and square:isNotBlocked(true) then
+					-- print("ground: ", square:getX(), square:getY())
+					SORTVARS.pos:set(square:getX(), square:getY(), 0)
+					return SORTVARS.pos
+				end
+			end
+		elseif ground == false then
+			return SORTVARS.pos
+		end
+	end
+	for seat2=0, boat:getMaxPassengers()-1 do
+		outside = boat:getPassengerPosition(seat2, "outside")
+		if outside then
+			-- print("outside seat2", seat2)
+			boat:getWorldPos(outside:getOffset(), SORTVARS.pos)
+			squares = ISBoatMenu.getNearSquare(getCell():getGridSquare(SORTVARS.pos:x(), SORTVARS.pos:y(), 0), 1, 1)
+			if ground then
+				for i, square in pairs(squares) do
+					if square and not ISBoatMenu.isWater(square) and square:isNotBlocked(true) then
+						-- print("ground: ", square:getX(), square:getY())
+						SORTVARS.pos:set(square:getX(), square:getY(), 0)
+						return SORTVARS.pos
+					end
+				end
+			elseif ground == false then
+				return SORTVARS.pos
+			end
+		end
+	end
+	return nil
+end
+
+function ISBoatMenu.getBestSeatsEnter(playerObj, boat)
+	local seats = {}
 	for seat=0, boat:getMaxPassengers()-1 do
 		if boat:getPassengerPosition(seat, "outside") and
 				not boat:getCharacter(seat) then
-			-- print("getBestSeatEnter: ", seat)
-			return seat
+			table.insert(seats, seat)
 		end
 	end
+	return getClosestSeat(playerObj, boat, seats)
 end
 
 function ISBoatMenu.onEnterAux(playerObj, boat, seat)
-	if seat then
-		ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, seat))
-	end
+	ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, seat))
 end
 
-function ISBoatMenu.onExit(playerObj, seatFrom)
+function ISBoatMenu.onEnterAux2(playerObj, boat, seat)
+	ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, seat))
+end
+
+function ISBoatMenu.onExit(playerObj)
     local boat = playerObj:getVehicle()
 	if not boat then return end
     boat:updateHasExtendOffsetForExit(playerObj)
 	if AquaConfig.isBoat(boat) then
 		if math.abs(boat:getCurrentSpeedKmHour()) < 4 then 
-			exitPoint = ISBoatMenu.getNearLandForExit(boat)
+			-- exitPoint = ISBoatMenu.getNearLandForExit(boat)
+			exitPoint = ISBoatMenu.getBestSeatExit(playerObj, boat, true)
 			if exitPoint then
-				print("land near")
+				-- print("land near")
 				local emi = boat:getEmitter()
 				SoundControl.stopWeatherSound(emi)
 				ISTimedActionQueue.add(ISExitBoat:new(playerObj, exitPoint))
@@ -409,7 +536,7 @@ end
 -- end
 
 function ISBoatMenu.showRadialMenu(playerObj)
-	print("showRadialMenu ISBoatMenu")
+	-- print("showRadialMenu ISBoatMenu")
 	local isPaused = UIManager.getSpeedControls() and UIManager.getSpeedControls():getCurrentGameSpeed() == 0
 	if isPaused then return end
 
@@ -513,7 +640,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 
 	-- Swim
 	boat:updateHasExtendOffsetForExit(playerObj)
-	if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 and not ISBoatMenu.getNearLandForExit(boat) then
+	if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 then -- and not ISBoatMenu.getNearLandForExit(boat)
 		menu:addSlice(getText("ContextMenu_SwimToLand"), getTexture("media/ui/boats/ICON_boat_swim.png"), ISBoatMenu.showSwimMenu, playerObj)
 	end
 
@@ -654,7 +781,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		end
 	end
 	
-	if boat:getCurrentSpeedKmHour() < 5 and boat:getCurrentSpeedKmHour() > -5 and ISBoatMenu.getNearLandForExit(boat) then
+	if boat:getCurrentSpeedKmHour() < 5 and boat:getCurrentSpeedKmHour() > -5 then -- and ISBoatMenu.getNearLandForExit(boat)
 		menu:addSlice(getText("IGUI_ExitBoat"), getTexture("media/ui/boats/boat_exit.png"), ISBoatMenu.onExit, playerObj)
 	end
 	
@@ -1489,29 +1616,6 @@ end
 	-- ISTimedActionQueue.add(ISWashVehicle:new(playerObj, boat, area.id, area.area))
 -- end
 
--- local SORTVARS = {
-	-- pos = Vector3f.new()
--- }
--- local function distanceToPassengerPosition(seatNum)
-	-- local script = SORTVARS.boat:getScript()
-	-- local outside = SORTVARS.boat:getPassengerPosition(seatNum, "outside")
-	-- local worldPos = SORTVARS.boat:getWorldPos(outside:getOffset(), SORTVARS.pos)
-	-- return SORTVARS.playerObj:DistTo(worldPos:x(), worldPos:y())
--- end
--- local function getClosestSeat(playerObj, boat, seats)
-	-- if #seats == 0 then
-		-- return nil
-	-- end
-	-- -- Sort by distance from the player to the 'outside' position.
-	-- SORTVARS.playerObj = playerObj
-	-- SORTVARS.boat = boat
-	-- table.sort(seats, function(a,b)
-		-- local distA = distanceToPassengerPosition(a)
-		-- local distB = distanceToPassengerPosition(b)
-		-- return distA < distB
-	-- end)
-	-- return seats[1]
--- end
 
 -- -- BaseVehicle.isEnterBlocked() returns true for passengers with no "outside"
 -- -- position, which is the case for VanSeats' rear seats that are not accessible
@@ -1779,10 +1883,13 @@ function ISBoatMenu.onEnterVehicle(playerObj)
 	if instanceof(playerObj, 'IsoPlayer') and playerObj:isLocalPlayer() then
 		local boat = playerObj:getVehicle()
 		if AquaConfig.isBoat(boat) then
-			emi = boat:getEmitter()
-			if not emi:isPlaying("BoatSailing") then
-				local songID = emi:playSoundLooped("BoatSailing")
-				emi:setVolume(songID, 0.3)
+			local squareUnderVehicle = getCell():getGridSquare(boat:getX(), boat:getY(), 0)
+			if squareUnderVehicle ~= nil and ISBoatMenu.isWater(squareUnderVehicle) then
+				emi = boat:getEmitter()
+				if not emi:isPlaying("BoatSailing") then
+					local songID = emi:playSoundLooped("BoatSailing")
+					emi:setVolume(songID, 0.3)
+				end
 			end
 		end
 	end
