@@ -29,13 +29,21 @@ function SoundControl.stopWeatherSound(emi)
 	SoundTable.Wind = {}
 end
 
-function SoundControl.isWater(paramIsoObject)
-	if not instanceof(paramIsoObject, "IsoObject") then return false end
-	local tileName = paramIsoObject:getTile()
-	if not tileName then
-		return false
-	elseif string.match(string.lower(tileName), "blends_natural_02") then
-		return true
+-- function SoundControl.isWater(paramIsoObject)
+	-- if not instanceof(paramIsoObject, "IsoObject") then return false end
+	-- local tileName = paramIsoObject:getTile()
+	-- if not tileName then
+		-- return false
+	-- elseif string.match(string.lower(tileName), "blends_natural_02") then
+		-- return true
+	-- else
+		-- return false
+	-- end
+-- end
+
+function SoundControl.isWater(square)
+	if square then
+		return square:getProperties():Is(IsoFlagType.water)
 	else
 		return false
 	end
@@ -43,6 +51,7 @@ end
 
 function SoundControl.checkWaterBuild(paramIsoObject)
 	-- print(paramIsoObject)
+	-- print("checkWaterBuild ")
 	if SoundControl.isWater(paramIsoObject) then
 		local floorTile = paramIsoObject:getTile()
 		local sq = paramIsoObject:getSquare()

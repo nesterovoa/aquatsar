@@ -1,5 +1,11 @@
 debugScenarios = {}
 
+local function getCountItem(playerObj, item, count)
+	for i = 1, count do 
+		playerObj:getInventory():AddItem(item);
+	end
+end
+
 debugScenarios.iBrRusScenario_AquatsarYachts = {
 	name = "Aquatsar Yachts Debug",
 	isCustom = true,
@@ -85,7 +91,7 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		
 		TDEBUG = true
 		
-		-- playerObj:setGhostMode(true);
+		playerObj:setGhostMode(true);
 		-- playerObj:setGodMod(true)
 		
 		-- Visual
@@ -120,12 +126,26 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		playerObj:getKnownRecipes():add("Intermediate Mechanics");
 		playerObj:getKnownRecipes():add("Advanced Mechanics");
 		playerObj:getKnownRecipes():add("Powerboats Mechanics");
+
 		
 		-- Items
+		
+		------------------ Понтон
+		playerObj:getInventory():AddItem("Base.Hammer");
+		getCountItem(playerObj, "Base.Log", 16)
+		getCountItem(playerObj, "Base.Plank", 20)
+		getCountItem(playerObj, "Base.Nails", 40)
+		getCountItem(playerObj, "Aquatsar.TireTube", 4)
+		for i=1, 5 do
+			playerObj:LevelPerk(Perks.Woodwork);
+		end
+		------------------
+		
+		
 		--playerObj:getInventory():AddItem("Base.EmptyPetrolCan");
 		--playerObj:getInventory():AddItem("Base.PetrolCan");
 		playerObj:getInventory():AddItem("Base.Wrench");
-
+		
 		playerObj:getInventory():AddItem("Base.Needle");
 		playerObj:getInventory():AddItem("Base.Thread");
 		playerObj:getInventory():AddItems("Base.RippedSheets", 10);

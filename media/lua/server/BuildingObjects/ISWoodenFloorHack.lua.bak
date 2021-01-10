@@ -1,0 +1,22 @@
+require "BuildingObjects/ISWoodenFloor"
+
+function ISWoodenFloor:isValid(square)
+	if not self:haveMaterial(square) then return false end
+	-- NEW \/
+	if square:getFloor():getSprite():getProperties():Is(IsoFlagType.water) then return false end
+	-- NEW /\
+	if square:getZ() > 0 then
+		local below = getCell():getGridSquare(square:getX(), square:getY(), square:getZ() - 1)
+		if below and below:HasStairs() then
+			return false
+		end
+	end
+	for i = 0, square:getObjects():size() - 1 do
+		local item = square:getObjects():get(i);
+		if (item:getTextureName() and luautils.stringStarts(item:getTextureName(), "vegetation_farming")) or
+				(item:getSpriteName() and luautils.stringStarts(item:getSpriteName(), "vegetation_farming")) then
+			return false;
+		end
+	end
+	return square:connectedWithFloor();
+end

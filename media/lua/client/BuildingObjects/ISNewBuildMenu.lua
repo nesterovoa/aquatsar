@@ -41,13 +41,16 @@ ISBuildMenu.newCanBuild = function(logNb, plankNb, nailsNb, tireTubeNb, carpentr
 	option.toolTip = tooltip;
 	local result = true;
 	tooltip.description = "<LINE> <LINE>" .. getText("Tooltip_craft_Needs") .. ": <LINE>";
+	ISBuildMenu.log = ISBuildMenu.countMaterial(player, "Base.Log")
+	ISBuildMenu.tireTube = ISBuildMenu.countMaterial(player, "Aquatsar.TireTube")
+	
 	-- now we gonna test all the needed material, if we don't have it, they'll be in red into our toolip
 	
-	if ISBuildMenu.hinge < logNb then
-		tooltip.description = tooltip.description .. " <RGB:1,0,0>" .. getItemNameFromFullType("Base.Log") .. " " .. ISBuildMenu.hinge .. "/" .. logNb .. " <LINE>";
+	if ISBuildMenu.log < logNb then
+		tooltip.description = tooltip.description .. " <RGB:1,0,0>" .. getItemNameFromFullType("Base.Log") .. " " .. ISBuildMenu.log .. "/" .. logNb .. " <LINE>";
 		result = false;
 	elseif logNb > 0 then
-		tooltip.description = tooltip.description .. " <RGB:1,1,1>" .. getItemNameFromFullType("Base.Log") .. " " .. ISBuildMenu.hinge .. "/" .. logNb .. " <LINE>";
+		tooltip.description = tooltip.description .. " <RGB:1,1,1>" .. getItemNameFromFullType("Base.Log") .. " " .. ISBuildMenu.log .. "/" .. logNb .. " <LINE>";
 	end
 
 	if ISBuildMenu.planks < plankNb then
@@ -64,11 +67,11 @@ ISBuildMenu.newCanBuild = function(logNb, plankNb, nailsNb, tireTubeNb, carpentr
 		tooltip.description = tooltip.description .. " <RGB:1,1,1>" .. getItemNameFromFullType("Base.Nails") .. " " .. ISBuildMenu.nails .. "/" .. nailsNb .. " <LINE>";
 	end
 	
-	if ISBuildMenu.doorknob < tireTubeNb then
-		tooltip.description = tooltip.description .. " <RGB:1,0,0>" .. getItemNameFromFullType("Aquatsar.TireTube") .. " " .. ISBuildMenu.doorknob .. "/" .. tireTubeNb .. " <LINE>";
+	if ISBuildMenu.tireTube < tireTubeNb then
+		tooltip.description = tooltip.description .. " <RGB:1,0,0>" .. getItemNameFromFullType("Aquatsar.TireTube") .. " " .. ISBuildMenu.tireTube .. "/" .. tireTubeNb .. " <LINE>";
 		result = false;
 	elseif tireTubeNb > 0 then
-		tooltip.description = tooltip.description .. " <RGB:1,1,1>" .. getItemNameFromFullType("Aquatsar.TireTube") .. " " .. ISBuildMenu.doorknob .. "/" .. tireTubeNb .. " <LINE>";
+		tooltip.description = tooltip.description .. " <RGB:1,1,1>" .. getItemNameFromFullType("Aquatsar.TireTube") .. " " .. ISBuildMenu.tireTube .. "/" .. tireTubeNb .. " <LINE>";
 	end
 	
 	if getSpecificPlayer(player):getPerkLevel(Perks.Woodwork) < carpentrySkill then

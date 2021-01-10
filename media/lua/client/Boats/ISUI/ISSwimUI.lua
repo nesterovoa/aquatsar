@@ -6,7 +6,7 @@ local FONT_HGT_SMALL = getTextManager():getFontHeight(UIFont.Small)
 local FONT_HGT_MEDIUM = getTextManager():getFontHeight(UIFont.Medium)
 
 local function isWater(square)
-	return square ~= nil and square:Is(IsoFlagType.water)
+	return square ~= nil and square:getProperties():Is(IsoFlagType.water)
 end
 
 
