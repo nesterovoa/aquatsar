@@ -118,7 +118,7 @@ function SoundControl.main()
 				AUD.insp("Wind", "volume:", volume)
 			end
 
-			if AquaConfig.Boat(boat).manualStarter then
+			if boat:getPartById("ManualStarter") then
 				if emi:isPlaying("VehicleStarted") then
 					emi:stopSoundByName("VehicleStarted")
 					emi:playSound("SuccessStartEngineManualy", boat)

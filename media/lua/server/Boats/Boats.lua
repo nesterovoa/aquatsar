@@ -2,6 +2,8 @@
 --**              THE INDIE STONE / edited iBrRus          **
 --***********************************************************
 
+
+
 Boats = {}
 Boats.CheckEngine = {}
 Boats.CheckOperate = {}
@@ -15,6 +17,14 @@ Boats.UninstallTest = {}
 Boats.Update = {}
 Boats.Use = {}
 
+
+
+--***********************************************************
+--**                                                       **
+--**                       Propeller                       **
+--**                                                       **
+--***********************************************************
+
 function Boats.Create.Propeller(boat, part)
 	print("Boats.Create.Propeller")
 	print(part:getInventoryItem())
@@ -25,65 +35,16 @@ function Boats.Create.Propeller(boat, part)
 	end
 end
 
-
---***********************************************************
---**                                                       **
---**                       Propeller                       **
---**                                                       **
---***********************************************************
-function Boats.InstallTest.Propeller(vehicle, part, playerObj)
+function Boats.InstallTest.Propeller(boat, part, playerObj)
 	if ISVehicleMechanics.cheat then return true; end
-	local keyvalues = part:getTable("install")
-	if not keyvalues then return false end
-	if part:getInventoryItem() then return false end
-	if not part:getItemType() or part:getItemType():isEmpty() then return false end
-	if vehicle:isEngineRunning() then return false end
-	if vehicle:getPartById("InCabin" .. seatNameTable[vehicle:getSeat(playerObj)+1]) then return false end
-	local typeToItem = VehicleUtils.getItems(playerObj:getPlayerNum())
-	if keyvalues.requireInstalled then
-		local split = keyvalues.requireInstalled:split(";");
-		for i,v in ipairs(split) do
-			if not vehicle:getPartById(v) or not vehicle:getPartById(v):getInventoryItem() then return false; end
-		end
-	end
-	if not VehicleUtils.testProfession(playerObj, keyvalues.professions) then return false end
-	-- allow all perk, but calculate success/failure risk
-	if not VehicleUtils.testRecipes(playerObj, keyvalues.recipes) then return false end
-	if not VehicleUtils.testTraits(playerObj, keyvalues.traits) then return false end
-	if not VehicleUtils.testItems(playerObj, keyvalues.items, typeToItem) then return false end
-	if VehicleUtils.RequiredKeyNotFound(part, playerObj) then
-		return false;
-	end
-	return true
+	if boat:isEngineRunning() then return false end
+	return CommonTemplates.InstallTest.PartNotInCabin(boat, part, playerObj)
 end
 
-function Boats.UninstallTest.Propeller(vehicle, part, playerObj)
+function Boats.UninstallTest.Propeller(boat, part, playerObj)
 	if ISVehicleMechanics.cheat then return true; end
-	local keyvalues = part:getTable("uninstall")
-	if not keyvalues then return false end
-	if not part:getInventoryItem() then return false end
-	if not part:getItemType() or part:getItemType():isEmpty() then return false end
-	if vehicle:isEngineRunning() then return false end
-	if vehicle:getPartById("InCabin" .. seatNameTable[vehicle:getSeat(playerObj)+1]) then return false end
-	local typeToItem = VehicleUtils.getItems(playerObj:getPlayerNum())
-	if keyvalues.requireUninstalled and (vehicle:getPartById(keyvalues.requireUninstalled) and vehicle:getPartById(keyvalues.requireUninstalled):getInventoryItem()) then
-		return false;
-	end
-	if not VehicleUtils.testProfession(playerObj, keyvalues.professions) then return false end
-	-- allow all perk, but calculate success/failure risk
---	if not VehicleUtils.testPerks(playerObj, keyvalues.skills) then return false end
-	if not VehicleUtils.testRecipes(playerObj, keyvalues.recipes) then return false end
-	if not VehicleUtils.testTraits(playerObj, keyvalues.traits) then return false end
-	if not VehicleUtils.testItems(playerObj, keyvalues.items, typeToItem) then return false end
-	if keyvalues.requireEmpty and round(part:getContainerContentAmount(), 3) > 0 then return false end
-	local seatNumber = part:getContainerSeatNumber()
-	local seatOccupied = (seatNumber ~= -1) and vehicle:isSeatOccupied(seatNumber)
-	if keyvalues.requireEmpty and seatOccupied then return false end
-	-- if doing mechanics on this part require key but player doesn't have it, we'll check that door or windows aren't unlocked also
-	if VehicleUtils.RequiredKeyNotFound(part, playerObj) then
-		return false
-	end
-	return true
+	if boat:isEngineRunning() then return false end
+	return CommonTemplates.UninstallTest.PartNotInCabin(boat, part, playerObj)
 end
 
 function Boats.InstallComplete.Propeller(boat, part, item)
@@ -118,14 +79,66 @@ function Boats.UninstallComplete.Propeller(boat, part, item)
 	--part:setModelVisible("InflatedTirePlusWheel", false)
 end
 
+--***********************************************************
+--**                                                       **
+--**                         Sails                         **
+--**                                                       **
+--***********************************************************
 function Boats.Create.Sails(boat, part)
+	print("Boats.Create.Sails")
 	local item = BoatUtils.createPartInventoryItem(part)
+	CommonTemplates.createActivePart(part)
 end
 
-function Boats.Update.Sails(boat, part)
-	print("DUCK")
+function Boats.Init.SailsSet(boat, part)
+	print("Boats.Init.Sails")
+	local item = BoatUtils.createPartInventoryItem(part)
+	CommonTemplates.createActivePart(part)
+	part:setLightActive(true)
+	boat:getModData()["setsails"] = true
 end
 
+function Boats.Init.SailsRemoved(boat, part)
+	print("Boats.Init.SailsRemoved")
+	local item = BoatUtils.createPartInventoryItem(part)
+	CommonTemplates.createActivePart(part)
+	part:setLightActive(false)
+	boat:getModData()["setsails"] = false
+end
+
+function Boats.Update.SailsSet(boat, part, elapsedMinutes)
+	local windSpeed = getClimateManager():getWindspeedKph()
+	-- AUD.insp("Wind", "windSpeed (MPH):", windSpeed/1.60934)
+	if part:getInventoryItem() and windSpeed > AquaConfig.windVeryStrong then
+		local partCondition = part:getCondition()
+		if partCondition == 1 then
+			part:setCondition(0)
+			boat:getEmitter():playSound("boat_sails_torned2")
+		elseif partCondition > 0 then
+			part:setCondition(part:getCondition() - 1)
+			boat:getEmitter():playSound("boat_sails_torn" .. ZombRand(8)+1)
+		else
+			part:setLightActive(false)
+		end
+	end
+end
+
+function Boats.InstallTest.Sails(boat, part, playerObj)
+	if boat:getModData()["setsails"] then return false end
+	return CommonTemplates.InstallTest.PartNotInCabin(boat, part, playerObj)
+end
+
+function Boats.UninstallTest.Sails(boat, part, playerObj)
+	if boat:getModData()["setsails"] then return false end
+	return CommonTemplates.UninstallTest.PartNotInCabin(boat, part, playerObj)
+end
+
+
+--***********************************************************
+--**                                                       **
+--**                     ManualStarter                     **
+--**                                                       **
+--***********************************************************
 function Boats.Create.ManualStarter(boat, part)
 	local item = BoatUtils.createPartInventoryItem(part)
 end
@@ -140,6 +153,11 @@ function Boats.UninstallComplete.ManualStarter(boat, part, item)
 	print(boat:isHotwired())
 end
 
+--***********************************************************
+--**                                                       **
+--**                        GasTank                        **
+--**                                                       **
+--***********************************************************
 function Boats.Update.GasTank(boat, part, elapsedMinutes)
 	-- print("Boats.Update.GasTank")
 	local invItem = part:getInventoryItem();

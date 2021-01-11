@@ -52,6 +52,136 @@ module Aquatsar
 		}
 	}
 	
+	sound boat_sails_torn1
+	{
+		category = Boat,
+		loop = false,
+		is3D = true,
+		clip
+		{
+			file = media/sound/boats/boat_sails_torn1.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound boat_sails_torn2
+	{
+		category = Boat,
+		loop = false,
+		is3D = true,
+		clip
+		{
+			file = media/sound/boats/boat_sails_torn2.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound boat_sails_torn3
+	{
+		category = Boat,
+		loop = false,
+		is3D = true,
+		clip
+		{
+			file = media/sound/boats/boat_sails_torn3.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound boat_sails_torn4
+	{
+		category = Boat,
+		loop = false,
+		is3D = true,
+		clip
+		{
+			file = media/sound/boats/boat_sails_torn4.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound boat_sails_torn5
+	{
+		category = Boat,
+		loop = false,
+		is3D = true,
+		clip
+		{
+			file = media/sound/boats/boat_sails_torn5.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound boat_sails_torn6
+	{
+		category = Boat,
+		loop = false,
+		is3D = true,
+		clip
+		{
+			file = media/sound/boats/boat_sails_torn6.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound boat_sails_torn7
+	{
+		category = Boat,
+		loop = false,
+		is3D = true,
+		clip
+		{
+			file = media/sound/boats/boat_sails_torn7.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound boat_sails_torn8
+	{
+		category = Boat,
+		loop = false,
+		is3D = true,
+		clip
+		{
+			file = media/sound/boats/boat_sails_torn8.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound boat_sails_torn9
+	{
+		category = Boat,
+		loop = false,
+		is3D = true,
+		clip
+		{
+			file = media/sound/boats/boat_sails_torn9.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound boat_sails_torned2
+	{
+		category = Boat,
+		loop = false,
+		is3D = true,
+		clip
+		{
+			file = media/sound/boats/boat_sails_torned2.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
 	sound boat_launching
 	{
 		category = Boat,

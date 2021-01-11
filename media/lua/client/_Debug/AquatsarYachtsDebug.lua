@@ -126,7 +126,7 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		playerObj:getKnownRecipes():add("Intermediate Mechanics");
 		playerObj:getKnownRecipes():add("Advanced Mechanics");
 		playerObj:getKnownRecipes():add("Powerboats Mechanics");
-
+		playerObj:getKnownRecipes():add("Sailboats Mechanics");
 		
 		-- Items
 		

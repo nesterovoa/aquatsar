@@ -28,7 +28,7 @@ function ISSetSailAction:update()
 end
 
 function ISSetSailAction:start()
-    if not AquaConfig.Boat(self.boat).sails then
+    if not self.boat:getPartById("Sails"):getLight():getActive() then
 		self.boat:getEmitter():playSound("boat_sails_set")
 		if self.character:getModData()["isFirstSail"] == nil then
 			self.character:getModData()["isFirstSail"] = false

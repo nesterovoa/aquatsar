@@ -128,7 +128,6 @@ module Base
 	}
 	template vehicle BoatSailingYachtTemplate
 	{
-	
 		template = Seat/part/SeatFrontLeft,
 		template = Seat/part/SeatFrontRight,
 		template = Seat/part/SeatMiddleLeft,
@@ -153,6 +152,14 @@ module Base
 		{
 			category = MechanicalSystem,
 			mechanicRequireKey = false,
+			table install
+			{
+				test = CommonTemplates.InstallTest.PartNotInCabin,
+			}
+			table uninstall
+			{
+				test = CommonTemplates.UninstallTest.PartNotInCabin,
+			}
 			lua
 			{
 				create = Vehicles.Create.GasTank,
@@ -185,6 +192,7 @@ module Base
 
 		template = ApiBoatAirbag,
 		template = Propeller,
+		template = Sails,
 		template = ManualStarter,
 		template = Window/part/WindowFrontLeft,
 		template = Window/part/WindowFrontRight,
@@ -324,7 +332,7 @@ module Base
 		extents = 0.4000 0.3200 1.2875,
 		mass = 1,
 		physicsChassisShape = 0.4000 0.3200 1.2875,
-		centerOfMassOffset = 0.0000 0.4850 -0.0575,
+		centerOfMassOffset = 0.0012 0.4850 -0.0575,
 
 		wheel FrontLeft
 		{
@@ -381,6 +389,16 @@ module Base
 		seats = 6,
 		template = BoatSailingYachtTemplate,
 		template = BoatSailingYachtPassengerTemplate,
+
+		part Sails
+		{
+			lua
+			{
+				create = Boats.Create.Sails,
+				init = Boats.Init.SailsSet,
+				update = Boats.Update.SailsSet,
+			}
+		}
 
 		attachment checkFront
 		{
@@ -489,7 +507,17 @@ module Base
 		seats = 6,
 		template = BoatSailingYachtTemplate,
 		template = BoatSailingYachtPassengerTemplate,
-
+		
+		part Sails 
+		{
+			lua
+			{
+				create = Boats.Create.Sails,
+				init = Boats.Init.SailsSet,
+				update = Boats.Update.SailsSet,
+			}
+		}
+		
 		attachment checkFront
 		{
 			offset = 0.0000 0.0000 0.8525,
@@ -597,7 +625,16 @@ module Base
 		seats = 6,
 		template = BoatSailingYachtTemplate,
 		template = BoatSailingYachtPassengerTemplate,
-
+		
+		part Sails 
+		{
+			lua
+			{
+				create = Boats.Create.Sails,
+				init = Boats.Init.SailsRemoved,
+			}
+		}
+		
 		attachment checkFront
 		{
 			offset = 0.0000 0.0000 0.8938,

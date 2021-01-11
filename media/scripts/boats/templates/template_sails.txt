@@ -10,23 +10,66 @@ module Base
 			specificItem = false,
 			table install
 			{
+				items
+				{
+					1
+					{
+						type = Base.Screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
 				time = 3000,
 				skills = Mechanics:5,
 				recipes = Sailboats Mechanics,
-				test = CommonTemplates.InstallTest.PartNotInCabin,
+				test = Boats.InstallTest.Sails,
 			}
 			table uninstall
 			{
+				items
+				{
+					1
+					{
+						type = Base.Screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
 				time = 3000,
 				skills = Mechanics:3,
 				recipes = Sailboats Mechanics,
-				test = CommonTemplates.UninstallTest.PartNotInCabin,
+				test = Boats.UninstallTest.Sails,
 			}
 			lua
 			{
 				create = Boats.Create.Sails,
 			}
 		}
+		
+		/* For boat with set sails
+		part Sails 
+		{
+			lua
+			{
+				create = Boats.Create.Sails,
+				init = Boats.Init.SailsSet,
+				update = Boats.Update.SailsSet,
+			}
+		}
+		*/
+		
+		/* For boat with removed sails
+		part Sails 
+		{
+			lua
+			{
+				create = Boats.Create.Sails,
+				init = Boats.Init.SailsRemoved,
+			}
+		}
+		*/
 	}
 }
 

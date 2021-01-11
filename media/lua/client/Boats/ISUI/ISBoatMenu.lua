@@ -63,7 +63,7 @@ function ISBoatMenu.onKeyStartPressed(key)
 		getCore():addKeyBinding("StartVehicleEngine", playerObj:getModData()["blockStartVehicleEngine"])
 		playerObj:getModData()["StartVehicleEngine"] = nil
 	elseif AquaConfig.isBoat(boat) and 
-			AquaConfig.Boat(boat).manualStarter and  -- TODO: заменить на проверку шаблона в скрипте
+			boat:getPartById("ManualStarter") and  -- TODO: заменить на проверку шаблона в скрипте
 			(key == getCore():getKey("Forward") or 
 			key == getCore():getKey("StartVehicleEngine") or 
 			key == getCore():getKey("Backward")) and not boat:isEngineRunning() then
@@ -75,7 +75,7 @@ function ISBoatMenu.onKeyStartPressed(key)
 		getCore():addKeyBinding("StartVehicleEngine", nil)
 		-- print("38 ", playerObj:getModData()["blockForward"])
 	elseif AquaConfig.isBoat(boat) and 
-			AquaConfig.Boat(boat).manualStarter and 
+			boat:getPartById("ManualStarter") and 
 			(key == playerObj:getModData()["blockForward"] or 
 			key == playerObj:getModData()["blockBackward"] or 
 			key == playerObj:getModData()["blockStartVehicleEngine"]) and 
@@ -568,8 +568,8 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	
 	menu:addSlice(getText("IGUI_SwitchPlace"), getTexture("media/ui/boats/RadialMenu_ChangePlace.png"), ISBoatMenu.onShowSeatUI, playerObj, boat )
 	
-	local lightswitch = boat:getPartById("InCabin" .. seat)
-	if lightswitch then
+	local inCabin = boat:getPartById("InCabin" .. seat)
+	if inCabin then
 		if boat:getPartById("HeadlightRearRight") and 
 				not boat:getPartById("HeadlightRearRight"):getInventoryItem() then
 			if (timeHours > 22 or timeHours < 7) then
@@ -615,18 +615,15 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		end
 	end
 	
-	if boat:getPartById("Heater") and lightIsOn then
-		if AquaConfig.Boat(boat).driverBehind and seatNum > 1 or 
-		not AquaConfig.Boat(boat).driverBehind and seatNum <= 1 then
-			local tex = getTexture("media/ui/vehicles/vehicle_temperatureHOT.png")
-			if (boat:getPartById("Heater"):getModData().temperature or 0) < 0 then
-				tex = getTexture("media/ui/vehicles/vehicle_temperatureCOLD.png")
-			end
-			if boat:getPartById("Heater"):getModData().active then
-				menu:addSlice(getText("ContextMenu_VehicleHeaterOff"), tex, ISBoatMenu.onToggleHeater, playerObj )
-			else
-				menu:addSlice(getText("ContextMenu_VehicleHeaterOn"), tex, ISBoatMenu.onToggleHeater, playerObj )
-			end
+	if boat:getPartById("Heater") and lightIsOn and inCabin then
+		local tex = getTexture("media/ui/vehicles/vehicle_temperatureHOT.png")
+		if (boat:getPartById("Heater"):getModData().temperature or 0) < 0 then
+			tex = getTexture("media/ui/vehicles/vehicle_temperatureCOLD.png")
+		end
+		if boat:getPartById("Heater"):getModData().active then
+			menu:addSlice(getText("ContextMenu_VehicleHeaterOff"), tex, ISBoatMenu.onToggleHeater, playerObj )
+		else
+			menu:addSlice(getText("ContextMenu_VehicleHeaterOn"), tex, ISBoatMenu.onToggleHeater, playerObj )
 		end
 	end
 	
@@ -692,14 +689,11 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		menu:addSlice(getText("ContextMenu_Close_Cabin"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
 	end
 
-	if lightIsOn then
-		if AquaConfig.Boat(boat).driverBehind and seatNum > 1 or 
-		not AquaConfig.Boat(boat).driverBehind and seatNum <= 1 then
-			for partIndex=1,boat:getPartCount() do
-				local part = boat:getPartByIndex(partIndex-1)
-				if part:getDeviceData() and part:getInventoryItem() then
-					menu:addSlice(getText("IGUI_DeviceOptions"), getTexture("media/ui/vehicles/vehicle_speakersON.png"), ISBoatMenu.onSignalDevice, playerObj, part)
-				end
+	if inCabin and lightIsOn then
+		for partIndex=1,boat:getPartCount() do
+			local part = boat:getPartByIndex(partIndex-1)
+			if part:getDeviceData() and part:getInventoryItem() then
+				menu:addSlice(getText("IGUI_DeviceOptions"), getTexture("media/ui/vehicles/vehicle_speakersON.png"), ISBoatMenu.onSignalDevice, playerObj, part)
 			end
 		end
 	end
@@ -747,37 +741,34 @@ function ISBoatMenu.showRadialMenu(playerObj)
 			-- end
 		--end
 	-- end
-	if (not isClient() or getServerOptions():getBoolean("SleepAllowed")) then
-		if AquaConfig.Boat(boat).driverBehind and seatNum > 1 or 
-		not AquaConfig.Boat(boat).driverBehind then
-			local doSleep = true;
-			if playerObj:getStats():getFatigue() <= 0.3 then
-				menu:addSlice(getText("IGUI_Sleep_NotTiredEnough"), getTexture("media/ui/vehicles/vehicle_sleep.png"), nil, playerObj, boat)
-				doSleep = false;
-			elseif boat:getCurrentSpeedKmHour() > 5 or boat:getCurrentSpeedKmHour() < -5 then
-				menu:addSlice(getText("IGUI_PlayerText_CanNotSleepInMovingBoat"), getTexture("media/ui/vehicles/vehicle_sleep.png"), nil, playerObj, boat)
-				doSleep = false;
-			else
-				-- Sleeping pills counter those sleeping problems
-				if playerObj:getSleepingTabletEffect() < 2000 then
-					-- In pain, can still sleep if really tired
-					if playerObj:getMoodles():getMoodleLevel(MoodleType.Pain) >= 2 and playerObj:getStats():getFatigue() <= 0.85 then
-						menu:addSlice(getText("ContextMenu_PainNoSleep"), getTexture("media/ui/vehicles/vehicle_sleep.png"), nil, playerObj, boat)
-						doSleep = false;
-						-- In panic
-					elseif playerObj:getMoodles():getMoodleLevel(MoodleType.Panic) >= 1 then
-						menu:addSlice(getText("ContextMenu_PanicNoSleep"), getTexture("media/ui/vehicles/vehicle_sleep.png"), nil, playerObj, boat)
-						doSleep = false;
-						-- tried to sleep not so long ago
-					elseif (playerObj:getHoursSurvived() - playerObj:getLastHourSleeped()) <= 1 then
-						menu:addSlice(getText("ContextMenu_NoSleepTooEarly"), getTexture("media/ui/vehicles/vehicle_sleep.png"), nil, playerObj, boat)
-						doSleep = false;
-					end
+	if (not isClient() or getServerOptions():getBoolean("SleepAllowed")) and inCabin then
+		local doSleep = true;
+		if playerObj:getStats():getFatigue() <= 0.3 then
+			menu:addSlice(getText("IGUI_Sleep_NotTiredEnough"), getTexture("media/ui/vehicles/vehicle_sleep.png"), nil, playerObj, boat)
+			doSleep = false;
+		elseif boat:getCurrentSpeedKmHour() > 5 or boat:getCurrentSpeedKmHour() < -5 then
+			menu:addSlice(getText("IGUI_PlayerText_CanNotSleepInMovingBoat"), getTexture("media/ui/vehicles/vehicle_sleep.png"), nil, playerObj, boat)
+			doSleep = false;
+		else
+			-- Sleeping pills counter those sleeping problems
+			if playerObj:getSleepingTabletEffect() < 2000 then
+				-- In pain, can still sleep if really tired
+				if playerObj:getMoodles():getMoodleLevel(MoodleType.Pain) >= 2 and playerObj:getStats():getFatigue() <= 0.85 then
+					menu:addSlice(getText("ContextMenu_PainNoSleep"), getTexture("media/ui/vehicles/vehicle_sleep.png"), nil, playerObj, boat)
+					doSleep = false;
+					-- In panic
+				elseif playerObj:getMoodles():getMoodleLevel(MoodleType.Panic) >= 1 then
+					menu:addSlice(getText("ContextMenu_PanicNoSleep"), getTexture("media/ui/vehicles/vehicle_sleep.png"), nil, playerObj, boat)
+					doSleep = false;
+					-- tried to sleep not so long ago
+				elseif (playerObj:getHoursSurvived() - playerObj:getLastHourSleeped()) <= 1 then
+					menu:addSlice(getText("ContextMenu_NoSleepTooEarly"), getTexture("media/ui/vehicles/vehicle_sleep.png"), nil, playerObj, boat)
+					doSleep = false;
 				end
 			end
-			if doSleep then
-				menu:addSlice(getText("ContextMenu_Sleep"), getTexture("media/ui/vehicles/vehicle_sleep.png"), ISBoatMenu.onSleep, playerObj, boat);
-			end
+		end
+		if doSleep then
+			menu:addSlice(getText("ContextMenu_Sleep"), getTexture("media/ui/vehicles/vehicle_sleep.png"), ISBoatMenu.onSleep, playerObj, boat);
 		end
 	end
 	

@@ -8,6 +8,7 @@ module Base
 			area = SeatFrontLeft,
 			itemType = Aquatsar.ManualStarter,
 			specificItem = false,
+			mechanicRequireKey = false,
 			table install
 			{
 				items
