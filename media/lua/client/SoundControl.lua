@@ -132,22 +132,24 @@ function SoundControl.main()
 	
 		local emiPl = player:getEmitter()
 		
-		if boat and emiPl:isPlaying("Swim") then
-			emiPl:stopSoundByName("Swim")
-		end
-
-		if not player:getVehicle() and player:getSquare() then
+		if boat then
+			if emiPl:isPlaying("Swim") then
+				emiPl:stopSoundByName("Swim")
+				getSoundManager():PlaySound("LeaveWater", true, 0.0)
+				player:getSprite():getProperties():UnSet(IsoFlagType.invisible)
+			end
+		elseif player:getSquare() then
 			if player:getSquare():Is(IsoFlagType.water) then
 				if not player:getSprite():getProperties():Is(IsoFlagType.invisible) then
-					getSoundManager():PlaySound("Dive", true, 0.0)
+					print("DIVE")
+					emiPl:playSound("Dive")
 					player:getSprite():getProperties():Set(IsoFlagType.invisible)
-				end
-				if not emiPl:isPlaying("Swim") then
+				elseif not emiPl:isPlaying("Swim") then
 					player:playSound("Swim")
 				end
 			else
 				if player:getSprite():getProperties():Is(IsoFlagType.invisible) then
-					getSoundManager():PlaySound("LeaveWater", true, 0.0)
+					emiPl:playSound("LeaveWater")
 					player:getSprite():getProperties():UnSet(IsoFlagType.invisible)
 				end
 				if emiPl:isPlaying("Swim") then

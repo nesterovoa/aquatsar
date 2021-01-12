@@ -45,7 +45,7 @@ module Base
 			itemType = Base.TransportMedicine,
 			container
 			{
-				capacity = 20,
+				capacity = 10,
 				test = CommonTemplates.ContainerAccess.Container,
 			}
 			table install

@@ -46,7 +46,7 @@ module Base
 			itemType = Base.TransportOven,
 			container
 			{
-				capacity = 20,
+				capacity = 10,
 				test = CommonTemplates.ContainerAccess.Container,
 			}
 			table install

@@ -15,12 +15,12 @@ function ISSwimAction:update()
     self.character:setX( self.x + self.dx*self:getJobDelta())
     self.character:setY( self.y + self.dy*self:getJobDelta())
 
-    local sq = self.character:getSquare()
-    if sq and sq:Is(IsoFlagType.water) then
-        self.character:getSprite():getProperties():Set(IsoFlagType.invisible)
-    else
-        self.character:getSprite():getProperties():UnSet(IsoFlagType.invisible)
-    end
+    -- local sq = self.character:getSquare()
+    -- if sq and sq:Is(IsoFlagType.water) then
+        -- self.character:getSprite():getProperties():Set(IsoFlagType.invisible)
+    -- else
+        -- self.character:getSprite():getProperties():UnSet(IsoFlagType.invisible)
+    -- end
 
     if self.enduranceFirst - self:getJobDelta()*self.enduranceValue < 0 then
         self:stop()

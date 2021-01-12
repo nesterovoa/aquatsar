@@ -45,7 +45,7 @@ module Base
 			itemType = Base.TransportFreezer,
 			container
 			{
-				capacity = 20,
+				capacity = 15,
 				test = CommonTemplates.ContainerAccess.Container,
 			}
 			table install
@@ -85,7 +85,7 @@ module Base
 			lua
 			{
 				create = CommonTemplates.Create.Freezer,
-				init = CommonTemplates.Init.Fridge,
+				init = CommonTemplates.Init.Freezer,
 				update = CommonTemplates.Update.Fridge,
 			}
 		}

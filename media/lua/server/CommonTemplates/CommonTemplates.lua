@@ -89,6 +89,18 @@ function CommonTemplates.Create.Fridge(vehicle, part)
 	CommonTemplates.createActivePart(part)
 end
 
+function CommonTemplates.Init.Freezer(vehicle, part)
+	--print("CommonTemplates.Init.Fridge")
+	part:setModelVisible("test", true)
+	if part:getInventoryItem() and part:getItemContainer() then
+		if part:getItemContainer():isActive() and vehicle:getBatteryCharge() > 0.00010 then
+			part:getItemContainer():setCustomTemperature(0.0)
+		else		
+			part:getItemContainer():setCustomTemperature(1.0)
+		end
+	end
+end
+
 function CommonTemplates.Init.Fridge(vehicle, part)
 	--print("CommonTemplates.Init.Fridge")
 	part:setModelVisible("test", true)

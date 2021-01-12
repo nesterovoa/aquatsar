@@ -344,7 +344,12 @@ module Base
 		template = InCabin/part/InCabinMiddleRight,
 		template = InCabin/part/InCabinFrontLeft,
 		template = InCabin/part/InCabinFrontRight,
-
+		
+		template = Cupboards/part/CupboardMiddleLeft,
+		template = Counters/part/CounterMiddleLeft,
+		
+		template = Medicines/part/MedicineMiddleRight,
+		
 		attachment exitLeft
 		{
 			offset = 3.2200 0.0000 -3.1700,

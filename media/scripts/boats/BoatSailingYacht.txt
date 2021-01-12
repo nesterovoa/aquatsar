@@ -291,13 +291,17 @@ module Base
 		}
 		template = Cupboards/part/CupboardMiddleLeft,
 		template = Counters/part/CounterMiddleLeft,
-		template = Medicines/part/MedicineMiddleLeft,
+		
 		template = Counters/part/CounterMiddleRight,
 		template = Drawers/part/DrawerMiddleRight,
+		template = Medicines/part/MedicineMiddleRight,
+		
 		template = Counters/part/CounterRearLeft,
-		template = Freezers/part/FreezerRearLeft,
+		template = Drawers/part/DrawerRearLeft,
+		
 		template = Shelves/part/ShelveRearRight,
 		template = Fridges/part/FridgeRearRight,
+		template = Freezers/part/FreezerRearRight,
 		template = Ovens/part/OvenRearRight,
 		template = Microwaves/part/MicrowaveRearRight,
 
