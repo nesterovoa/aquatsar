@@ -651,6 +651,16 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		menu:addSlice(getText("ContextMenu_SetRightSail"), getTexture("media/ui/boats/ICON_set_right_sails.png"), ISBoatMenu.SetRightSails, playerObj, boat)
 	end
 
+	-- Anchor
+	if not boat:getModData()["aqua_anchor_on"] then
+		boat:getModData()["aqua_anchor_on"] = false
+		local funcAnchor = function(boat) ISTimedActionQueue.add(ISAnchorAction:new(playerObj, boat, true)) end
+		menu:addSlice(getText("ContextMenu_set_anchor_on"), getTexture("media/ui/boats/boat_exit.png"), funcAnchor, boat)
+	else
+		local funcAnchor = function(boat)  ISTimedActionQueue.add(ISAnchorAction:new(playerObj, boat, false)) end
+		menu:addSlice(getText("ContextMenu_set_anchor_off"), getTexture("media/ui/boats/boat_exit.png"), funcAnchor, boat)
+	end
+
 	-- Cabin
 	if not boat:getPartById("InCabin" .. seatNameTable[seatNum+1]) and not boat:getModData()["AquaCabin_isUnlocked"] then		
 		if playerObj:getInventory():haveThisKeyId(boat:getKeyId()) then

@@ -438,6 +438,20 @@ function AquaPhysics.changeSailAngle(boat)
 end
 
 
+function AquaPhysics.stopByAnchor(vehicle, force)   
+	local linearVel = vehicle:getLinearVelocity(tempVec1)
+	tempVec2:set(linearVel:x(), linearVel:z(), linearVel:y())   
+
+	tempVec1:set(tempVec2:x(), 0, tempVec2:y())
+	if tempVec1:length() > 1 then 
+		tempVec1:normalize()
+	end
+
+	tempVec1:mul(-force)
+	tempVec2:set(0, 0, 0)
+	vehicle:addImpulse(tempVec1, tempVec2) 
+ end
+
 
 function AquaPhysics.updateVehicles()
 	local vehicles = getCell():getVehicles()
@@ -454,7 +468,7 @@ function AquaPhysics.updateVehicles()
 			end
 
 			if boat:getPartById("Sails") then
-				if boat:getPartById("Sails"):getLight():getActive() then
+				if boat:getPartById("Sails"):getLight():getActive() and not boat:getModData()["aqua_anchor_on"] then
 					-- print(collisionWithGround)
 					AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 				end
@@ -463,6 +477,10 @@ function AquaPhysics.updateVehicles()
 
 			if math.abs(boat:getCurrentSpeedKmHour()) < 4 then
 				AquaPhysics.waterFlowRotation(boat)
+			end
+
+			if boat:getModData()["aqua_anchor_on"] then 
+				AquaPhysics.stopByAnchor(boat, 5000) 
 			end
         end
     end
