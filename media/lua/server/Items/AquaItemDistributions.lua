@@ -74,9 +74,9 @@ table.insert(SuburbsDistributions["garagestorage"]["other"].items, "Aquatsar.Boa
 table.insert(SuburbsDistributions["garagestorage"]["other"].items, 0.4);
 
 table.insert(SuburbsDistributions["shed"]["other"].items, "Aquatsar.ManualStarter");
-table.insert(SuburbsDistributions["shed"]["other"].items, 0.4);
+table.insert(SuburbsDistributions["shed"]["other"].items, 0.6);
 table.insert(SuburbsDistributions["garagestorage"]["other"].items, "Aquatsar.ManualStarter");
-table.insert(SuburbsDistributions["garagestorage"]["other"].items, 0.4);
+table.insert(SuburbsDistributions["garagestorage"]["other"].items, 0.6);
 
 table.insert(SuburbsDistributions["shed"]["other"].items, "Aquatsar.Sails");
 table.insert(SuburbsDistributions["shed"]["other"].items, 0.4);
