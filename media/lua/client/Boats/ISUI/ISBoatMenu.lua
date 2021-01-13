@@ -1194,51 +1194,15 @@ function ISBoatMenu.FillMenuInsideBoat(playerObj, context, boat, test)
 		if not inCabin then
 		-- SOURCE: ISWorldObjectContextMenu.doFillWaterMenu
 			old_option_update.notAvailable = false
-			old_option_update.subOption = nil
-			local playerInv = playerObj:getInventory()
-			local containerList = {}
-			local pourInto = playerInv:getAllEvalRecurse(function(item)
-				if item:canStoreWater() and not item:isWaterSource() and not item:isBroken() then
-					return true
-				end
-				if item:canStoreWater() and item:isWaterSource() and not item:isBroken() and instanceof(item, "DrainableComboItem") and item:getUsedDelta() < 1 then
-					return true
-				end
-				return false
-			end)
-			
-			for i=0, pourInto:size() - 1 do
-				local container = pourInto:get(i)
-				table.insert(containerList, container)
-			end
-
-			local subMenu = context:getNew(context)
-			local suboption
-			context:addSubMenu(old_option_update, subMenu)
-			if pourInto:size() > 1 then
-				suboption = subMenu:addOption(getText("ContextMenu_FillAll"), worldobjects, ISBoatMenu.onTakeWater, storeWater, containerList, nil, playerObj);
-			end
-			for i=1,pourInto:size() do
-				local item = pourInto:get(i-1)
-				suboption = subMenu:addOption(item:getName(), worldobjects, ISBoatMenu.onTakeWater, storeWater, nil, item, playerObj);
-				if not storeWater:getSquare() then
-					suboption.notAvailable = true;
-				end
-				if item:IsDrainable() then
-					local tooltip = ISWorldObjectContextMenu.addToolTip()
-					local tx = getTextManager():MeasureStringX(tooltip.font, getText("ContextMenu_WaterName") .. ":") + 20
-					tooltip.description = string.format("%s: <SETX:%d> %d / %d",
-						getText("ContextMenu_WaterName"), tx, item:getDrainableUsesInt(), 1.0 / item:getUseDelta() + 0.0001)
-					if item:isTaintedWater() then
-						tooltip.description = tooltip.description .. " <BR> <RGB:1,0.5,0.5> " .. getText("Tooltip_item_TaintedWater")
-					end
-					suboption.toolTip = tooltip
-				end
+			local old_subMenu = context:getSubMenu(old_option_update.subOption)
+			for i, subOption in pairs(old_subMenu.options) do 
+				context:updateSubOption(old_subMenu, subOption.id, subOption.name, subOption.target, ISBoatMenu.onTakeWater, subOption.param1, subOption.param2, subOption.param3, subOption.param4, subOption.param5)
 			end
 		else
 			context:removeOption(context:getOptionFromName(getText("ContextMenu_Fill")))
 		end
 	end
+	
 	old_option_update = context:getOptionFromName(getText("ContextMenu_Wash"))
 	if old_option_update then
 		if not inCabin then
@@ -1275,7 +1239,8 @@ function ISBoatMenu.onDrink (worldobjects, waterObject, playerObj)
 	ISTimedActionQueue.add(ISTakeWaterActionFromBoat:new(playerObj, nil, waterConsumed, waterObject, (waterConsumed * 10) + 15, nil));
 end
 
-function ISBoatMenu.onTakeWater (worldobjects, waterObject, waterContainerList, waterContainer, playerObj)
+function ISBoatMenu.onTakeWater (worldobjects, waterObject, waterContainerList, waterContainer, player)
+	local playerObj = getSpecificPlayer(player)
 	local playerInv = playerObj:getInventory()
 	local waterAvailable = waterObject:getWaterAmount()
 	if not waterContainerList then
