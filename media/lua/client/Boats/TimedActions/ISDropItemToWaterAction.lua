@@ -19,7 +19,7 @@ function ISDropItemToWaterAction:stop()
 end
 
 function ISDropItemToWaterAction:perform()
-	self.character:getEmitter():playSound("DropWater")
+	self.character:getEmitter():playSound("ThrowInWater")
 	if self.item:getContainer() ~= nil then
 		self.item:getContainer():Remove(self.item)
 	end

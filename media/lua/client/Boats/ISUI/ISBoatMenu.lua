@@ -1,12 +1,9 @@
 -- --***********************************************************
--- --**                   	   iBrRus                         **
+-- --**                   iBrRus n Aiteron                    **
 -- --***********************************************************
 
 require 'Boats/Init'
-
--- --***********************************************************
--- --**                   	    LOCAL                         **
--- --***********************************************************
+require "ISUI/CommonISContextMenu" 
 
 local SORTVARS = {
 	pos = Vector3f.new()
@@ -499,41 +496,45 @@ function ISBoatMenu.onExitAux(playerObj, seatNum)
 	end
 end
 
--- function ISBoatMenu.OnFillWorldObjectContextMenu(player, context, worldobjects, test)
-	-- local playerObj = getSpecificPlayer(player)
-	-- local boat = playerObj:getVehicle()
-	-- if not boat then
-		-- if JoypadState.players[player+1] then
-			-- local px = playerObj:getX()
-			-- local py = playerObj:getY()
-			-- local pz = playerObj:getZ()
-			-- local sqs = {}
-			-- sqs[1] = getCell():getGridSquare(px, py, pz)
-			-- local dir = playerObj:getDir()
-			-- if (dir == IsoDirections.N) then        sqs[2] = getCell():getGridSquare(px-1, py-1, pz); sqs[3] = getCell():getGridSquare(px, py-1, pz);   sqs[4] = getCell():getGridSquare(px+1, py-1, pz);
-			-- elseif (dir == IsoDirections.NE) then   sqs[2] = getCell():getGridSquare(px, py-1, pz);   sqs[3] = getCell():getGridSquare(px+1, py-1, pz); sqs[4] = getCell():getGridSquare(px+1, py, pz);
-			-- elseif (dir == IsoDirections.E) then    sqs[2] = getCell():getGridSquare(px+1, py-1, pz); sqs[3] = getCell():getGridSquare(px+1, py, pz);   sqs[4] = getCell():getGridSquare(px+1, py+1, pz);
-			-- elseif (dir == IsoDirections.SE) then   sqs[2] = getCell():getGridSquare(px+1, py, pz);   sqs[3] = getCell():getGridSquare(px+1, py+1, pz); sqs[4] = getCell():getGridSquare(px, py+1, pz);
-			-- elseif (dir == IsoDirections.S) then    sqs[2] = getCell():getGridSquare(px+1, py+1, pz); sqs[3] = getCell():getGridSquare(px, py+1, pz);   sqs[4] = getCell():getGridSquare(px-1, py+1, pz);
-			-- elseif (dir == IsoDirections.SW) then   sqs[2] = getCell():getGridSquare(px, py+1, pz);   sqs[3] = getCell():getGridSquare(px-1, py+1, pz); sqs[4] = getCell():getGridSquare(px-1, py, pz);
-			-- elseif (dir == IsoDirections.W) then    sqs[2] = getCell():getGridSquare(px-1, py+1, pz); sqs[3] = getCell():getGridSquare(px-1, py, pz);   sqs[4] = getCell():getGridSquare(px-1, py-1, pz);
-			-- elseif (dir == IsoDirections.NW) then   sqs[2] = getCell():getGridSquare(px-1, py, pz);   sqs[3] = getCell():getGridSquare(px-1, py-1, pz); sqs[4] = getCell():getGridSquare(px, py-1, pz);
-			-- end
-			-- for _,sq in ipairs(sqs) do
-				-- boat = sq:getVehicleContainer()
-				-- if boat then
-					-- return ISBoatMenu.FillMenuOutsideVehicle(player, context, boat, test)
-				-- end
-			-- end
-			-- return
-		-- end
-		-- boat = IsoObjectPicker.Instance:PickVehicle(getMouseXScaled(), getMouseYScaled())
-		-- if boat then
-			-- return ISBoatMenu.FillMenuOutsideVehicle(player, context, boat, test)
-		-- end
-		-- return
-	-- end
--- end
+function ISBoatMenu.OnFillWorldObjectContextMenu(player, context, worldobjects, test)
+	local playerObj = getSpecificPlayer(player)
+	local boat = playerObj:getVehicle()
+	if not boat then
+		if JoypadState.players[player+1] then
+			local px = playerObj:getX()
+			local py = playerObj:getY()
+			local pz = playerObj:getZ()
+			local sqs = {}
+			sqs[1] = getCell():getGridSquare(px, py, pz)
+			local dir = playerObj:getDir()
+			if (dir == IsoDirections.N) then        sqs[2] = getCell():getGridSquare(px-1, py-1, pz); sqs[3] = getCell():getGridSquare(px, py-1, pz);   sqs[4] = getCell():getGridSquare(px+1, py-1, pz);
+			elseif (dir == IsoDirections.NE) then   sqs[2] = getCell():getGridSquare(px, py-1, pz);   sqs[3] = getCell():getGridSquare(px+1, py-1, pz); sqs[4] = getCell():getGridSquare(px+1, py, pz);
+			elseif (dir == IsoDirections.E) then    sqs[2] = getCell():getGridSquare(px+1, py-1, pz); sqs[3] = getCell():getGridSquare(px+1, py, pz);   sqs[4] = getCell():getGridSquare(px+1, py+1, pz);
+			elseif (dir == IsoDirections.SE) then   sqs[2] = getCell():getGridSquare(px+1, py, pz);   sqs[3] = getCell():getGridSquare(px+1, py+1, pz); sqs[4] = getCell():getGridSquare(px, py+1, pz);
+			elseif (dir == IsoDirections.S) then    sqs[2] = getCell():getGridSquare(px+1, py+1, pz); sqs[3] = getCell():getGridSquare(px, py+1, pz);   sqs[4] = getCell():getGridSquare(px-1, py+1, pz);
+			elseif (dir == IsoDirections.SW) then   sqs[2] = getCell():getGridSquare(px, py+1, pz);   sqs[3] = getCell():getGridSquare(px-1, py+1, pz); sqs[4] = getCell():getGridSquare(px-1, py, pz);
+			elseif (dir == IsoDirections.W) then    sqs[2] = getCell():getGridSquare(px-1, py+1, pz); sqs[3] = getCell():getGridSquare(px-1, py, pz);   sqs[4] = getCell():getGridSquare(px-1, py-1, pz);
+			elseif (dir == IsoDirections.NW) then   sqs[2] = getCell():getGridSquare(px-1, py, pz);   sqs[3] = getCell():getGridSquare(px-1, py-1, pz); sqs[4] = getCell():getGridSquare(px, py-1, pz);
+			end
+			for _,sq in ipairs(sqs) do
+				boat = sq:getVehicleContainer()
+				if AquaConfig.Boat(boat) then
+					return ISBoatMenu.FillMenuOutsideBoat(playerObj, context, boat, test)
+				end
+			end
+			return
+		end
+		boat = IsoObjectPicker.Instance:PickVehicle(getMouseXScaled(), getMouseYScaled())
+		if AquaConfig.Boat(boat) then
+			return ISBoatMenu.FillMenuOutsideBoat(playerObj, context, boat, test)
+		end
+		return
+	else
+		if AquaConfig.Boat(boat) then
+			return ISBoatMenu.FillMenuInsideBoat(playerObj, context, boat, test)
+		end
+	end
+end
 
 function ISBoatMenu.showRadialMenu(playerObj)
 	-- print("showRadialMenu ISBoatMenu")
@@ -691,7 +692,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 				menu:addSlice(getText("ContextMenu_Open_Cabin_Force_Need_Crowbar"), getTexture("media/ui/boats/RadialMenu_Door.png"))
 			end
 		end
-	elseif not boat:getPartById("InCabin" .. seatNameTable[seatNum+1]) and boat:getModData()["AquaCabin_isUnlocked"] and not boat:getModData()["AquaCabin_isLockRuined"] then
+	elseif not inCabin and boat:getModData()["AquaCabin_isUnlocked"] and not boat:getModData()["AquaCabin_isLockRuined"] then
 		local func = function(arg_boat, arg_pl) 
 			arg_boat:getModData()["AquaCabin_isUnlocked"] = false
 			arg_pl:getEmitter():playSound("LockDoor")
@@ -1168,104 +1169,199 @@ end
 	-- end
 -- end
 
--- function ISBoatMenu.FillMenuOutsideVehicle(player, context, boat, test)
-	-- local playerObj = getSpecificPlayer(player)
--- --[[
-	-- local subOption = context:addOption("boat")
-	-- local vehicleMenu = ISContextMenu:getNew(context)
-	-- context:addSubMenu(subOption, vehicleMenu)
-	-- vehicleMenu:addOption("Info", playerObj, ISBoatMenu.onInfo, boat)
--- --]]
--- --	context:addOption("boat Info", playerObj, ISBoatMenu.onInfo, boat)
-	-- ISBoatMenu.FillPartMenu(player, context, nil, boat);
-	
-	-- context:addOption(getText("ContextMenu_VehicleMechanics"), playerObj, ISBoatMenu.onMechanic, boat);
-	
-	-- local part = boat:getClosestWindow(playerObj);
-	-- if part then
-		-- local window = part:getWindow()
-		-- if not window:isDestroyed() and not window:isOpen() then
-			-- context:addOption(getText("ContextMenu_Vehicle_Smashwindow", getText("IGUI_VehiclePart" .. part:getId())), playerObj, ISVehiclePartMenu.onSmashWindow, part)
-		-- end
-	-- end
-	
-	-- -- remove burnt vehicles
-	-- if string.match(boat:getScript():getName(), "Burnt") then
-		-- local option = context:addOption(getText("ContextMenu_RemoveBurntVehicle"), playerObj, ISBoatMenu.onRemoveBurntVehicle, boat);
-		-- local toolTip = ISToolTip:new();
-		-- toolTip:initialise();
-		-- toolTip:setVisible(false);
-		-- option.toolTip = toolTip;
-		-- toolTip:setName(getText("ContextMenu_RemoveBurntVehicle"));
-		-- toolTip.description = getText("Tooltip_removeBurntVehicle") .. " <LINE> <LINE> ";
-		
-		-- if playerObj:getInventory():containsTypeRecurse("WeldingMask") then
-			-- toolTip.description = toolTip.description .. " <LINE> <RGB:1,1,1> " .. getItemNameFromFullType("Base.WeldingMask") .. " 1/1";
-		-- else
-			-- toolTip.description = toolTip.description .. " <LINE> <RGB:1,0,0> " .. getItemNameFromFullType("Base.WeldingMask") .. " 0/1";
-			-- option.notAvailable = true;
-		-- end
-		
-		-- local blowTorch = ISBlacksmithMenu.getBlowTorchWithMostUses(playerObj:getInventory());
-		-- if blowTorch then
-			-- local blowTorchUseLeft = blowTorch:getDrainableUsesInt();
-			-- if blowTorchUseLeft >= 20 then
-				-- toolTip.description = toolTip.description .. " <LINE> <RGB:1,1,1> " .. getItemNameFromFullType("Base.BlowTorch") .. getText("ContextMenu_Uses") .. " " .. blowTorchUseLeft .. "/" .. 20;
-			-- else
-				-- toolTip.description = toolTip.description .. " <LINE> <RGB:1,0,0> " .. getItemNameFromFullType("Base.BlowTorch") .. getText("ContextMenu_Uses") .. " " .. blowTorchUseLeft .. "/" .. 20;
-				-- option.notAvailable = true;
-			-- end
-		-- else
-			-- toolTip.description = toolTip.description .. " <LINE> <RGB:1,0,0> " .. getItemNameFromFullType("Base.BlowTorch") .. " 0/5";
-			-- option.notAvailable = true;
-		-- end
-	-- end
+function ISBoatMenu.FillMenuOutsideBoat(playerObj, context, boat, test)
+	context:removeOption(context:getOptionFromName(getText("ContextMenu_VehicleMechanics")))
+	context:removeOption(context:getOptionFromName(getText("ContextMenu_Vehicle_Smashwindow")))
+	context:removeOption(context:getOptionFromName(getText("ContextMenu_RemoveBurntVehicle")))	
+	context:removeOption(context:getOptionFromName(getText("ContextMenu_Vehicle_Wash")))
+end
 
-	-- if ISWashVehicle.hasBlood(boat) then
-		-- local option = context:addOption(getText("ContextMenu_Vehicle_Wash"), playerObj, ISBoatMenu.onWash, boat);
-		-- local toolTip = ISToolTip:new();
-		-- toolTip:initialise();
-		-- toolTip:setVisible(false);
-		-- toolTip:setName(getText("Tooltip_Vehicle_WashTitle"));
-		-- toolTip.description = getText("Tooltip_Vehicle_WashWaterRequired1", 100 / ISWashVehicle.BLOOD_PER_WATER);
-		-- local waterAvailable = ISWashVehicle.getWaterAmountForPlayer(playerObj);
-		-- option.notAvailable = waterAvailable <= 0
-		-- if waterAvailable == 1 then
-			-- toolTip.description = toolTip.description .. " <BR> " .. getText("Tooltip_Vehicle_WashWaterRequired2");
-		-- else
-			-- toolTip.description = toolTip.description .. " <BR> " .. getText("Tooltip_Vehicle_WashWaterRequired3", waterAvailable);
-		-- end
-		-- option.toolTip = toolTip;
-	-- end
+function ISBoatMenu.FillMenuInsideBoat(playerObj, context, boat, test)
+	local old_option_update = context:getOptionFromName(getText("ContextMenu_Drink"))
+	local inCabin = boat:getPartById("InCabin" .. seatNameTable[boat:getSeat(playerObj)+1])
+	-- local storeWater = nil
+	if old_option_update then
+		if not inCabin then
+			-- storeWater = old_option_update.param1
+			context:updateOption(old_option_update.id, old_option_update.name, old_option_update.target, ISBoatMenu.onDrink, old_option_update.param1, playerObj)
+		else
+			context:removeOption(context:getOptionFromName(getText("ContextMenu_Drink")))
+		end
+	end
+	
+	old_option_update = context:getOptionFromName(getText("ContextMenu_Fill"))
+	if old_option_update then
+		if not inCabin then
+		-- SOURCE: ISWorldObjectContextMenu.doFillWaterMenu
+			old_option_update.notAvailable = false
+			old_option_update.subOption = nil
+			local playerInv = playerObj:getInventory()
+			local containerList = {}
+			local pourInto = playerInv:getAllEvalRecurse(function(item)
+				if item:canStoreWater() and not item:isWaterSource() and not item:isBroken() then
+					return true
+				end
+				if item:canStoreWater() and item:isWaterSource() and not item:isBroken() and instanceof(item, "DrainableComboItem") and item:getUsedDelta() < 1 then
+					return true
+				end
+				return false
+			end)
+			
+			for i=0, pourInto:size() - 1 do
+				local container = pourInto:get(i)
+				table.insert(containerList, container)
+			end
 
-	-- local vehicleMenu = nil
-	-- if getCore():getDebug() or ISVehicleMechanics.cheat or (isClient() and isAdmin()) then
-		-- local subOption = context:addOption("[DEBUG] boat")
-		-- vehicleMenu = ISContextMenu:getNew(context)
-		-- context:addSubMenu(subOption, vehicleMenu)
-	-- end
+			local subMenu = context:getNew(context)
+			local suboption
+			context:addSubMenu(old_option_update, subMenu)
+			if pourInto:size() > 1 then
+				suboption = subMenu:addOption(getText("ContextMenu_FillAll"), worldobjects, ISBoatMenu.onTakeWater, storeWater, containerList, nil, playerObj);
+			end
+			for i=1,pourInto:size() do
+				local item = pourInto:get(i-1)
+				suboption = subMenu:addOption(item:getName(), worldobjects, ISBoatMenu.onTakeWater, storeWater, nil, item, playerObj);
+				if not storeWater:getSquare() then
+					suboption.notAvailable = true;
+				end
+				if item:IsDrainable() then
+					local tooltip = ISWorldObjectContextMenu.addToolTip()
+					local tx = getTextManager():MeasureStringX(tooltip.font, getText("ContextMenu_WaterName") .. ":") + 20
+					tooltip.description = string.format("%s: <SETX:%d> %d / %d",
+						getText("ContextMenu_WaterName"), tx, item:getDrainableUsesInt(), 1.0 / item:getUseDelta() + 0.0001)
+					if item:isTaintedWater() then
+						tooltip.description = tooltip.description .. " <BR> <RGB:1,0.5,0.5> " .. getText("Tooltip_item_TaintedWater")
+					end
+					suboption.toolTip = tooltip
+				end
+			end
+		else
+			context:removeOption(context:getOptionFromName(getText("ContextMenu_Fill")))
+		end
+	end
+	old_option_update = context:getOptionFromName(getText("ContextMenu_Wash"))
+	if old_option_update then
+		if not inCabin then
+		-- SOURCE: ISWorldObjectContextMenu.doWashClothingMenu
+			local old_subMenu = context:getSubMenu(old_option_update.subOption)
+			for i, subOption in pairs(old_subMenu.options) do 
+				if subOption.name == getText("ContextMenu_Yourself") then
+					context:updateSubOption(old_subMenu, subOption.id, subOption.name, subOption.target, ISBoatMenu.onWashYourself, subOption.param1, subOption.param2, subOption.param3, subOption.param4, subOption.param5)
+				else
+					context:updateSubOption(old_subMenu, subOption.id, subOption.name, subOption.target, ISBoatMenu.onWashClothing, subOption.param1, subOption.param2, subOption.param3, subOption.param4, subOption.param5)
+				end
+			end
+		else
+			context:removeOption(context:getOptionFromName(getText("ContextMenu_Wash")))
+		end
+	end
 	
-	-- if getCore():getDebug() then
-		-- vehicleMenu:addOption("Reload boat Textures", boat:getScript():getName(), reloadVehicleTextures)
-		-- if ISVehicleMechanics.cheat then
-			-- vehicleMenu:addOption("ISVehicleMechanics.cheat=false", playerObj, ISVehicleMechanics.onCheatToggle)
-		-- else
-			-- vehicleMenu:addOption("ISVehicleMechanics.cheat=true", playerObj, ISVehicleMechanics.onCheatToggle)
-		-- end
-		-- vehicleMenu:addOption("Roadtrip UI", playerObj, ISBoatMenu.onRoadtrip);
-		-- vehicleMenu:addOption("boat Angles UI", playerObj, ISBoatMenu.onDebugAngles, boat);
-		-- vehicleMenu:addOption("boat HSV UI", playerObj, ISBoatMenu.onDebugColor, boat);
-		-- vehicleMenu:addOption("boat Blood UI", playerObj, ISBoatMenu.onDebugBlood, boat);
-		-- vehicleMenu:addOption("boat Editor", playerObj, ISBoatMenu.onDebugEditor, boat);
-		-- if not isClient() then
-			-- ISBoatMenu.addSetScriptMenu(vehicleMenu, playerObj, boat)
-		-- end
-	-- end
-	
-	-- if getCore():getDebug() or ISVehicleMechanics.cheat or (isClient() and isAdmin()) then
-		-- vehicleMenu:addOption("Remove boat", playerObj, ISVehicleMechanics.onCheatRemove, boat);
-	-- end
--- end
+	old_option_update = context:getOptionFromName(getText("ContextMenu_Fishing"))
+	if old_option_update then
+		if inCabin then
+			context:removeOption(context:getOptionFromName(getText("ContextMenu_Fishing")))
+		end
+	end
+end
+
+function ISBoatMenu.onDrink (worldobjects, waterObject, playerObj)
+	if not waterObject:getSquare() then
+		return
+	end
+	local waterAvailable = waterObject:getWaterAmount()
+	local thirst = playerObj:getStats():getThirst()
+	local waterNeeded = math.floor((thirst + 0.005) / 0.1)
+	local waterConsumed = math.min(waterNeeded, waterAvailable)
+	ISTimedActionQueue.add(ISTakeWaterActionFromBoat:new(playerObj, nil, waterConsumed, waterObject, (waterConsumed * 10) + 15, nil));
+end
+
+function ISBoatMenu.onTakeWater (worldobjects, waterObject, waterContainerList, waterContainer, playerObj)
+	local playerInv = playerObj:getInventory()
+	local waterAvailable = waterObject:getWaterAmount()
+	if not waterContainerList then
+		waterContainerList = {};
+		table.insert(waterContainerList, waterContainer);
+	end
+
+	for i,item in ipairs(waterContainerList) do
+		-- first case, fill an empty bottle
+		if item:canStoreWater() and not item:isWaterSource() then
+			if not waterObject:getSquare() then
+				return
+			end
+			local newItemType = item:getReplaceOnUseOn();
+			newItemType = string.sub(newItemType,13);
+			newItemType = item:getModule() .. "." .. newItemType;
+			local newItem = InventoryItemFactory.CreateItem(newItemType,0);
+			newItem:setCondition(item:getCondition());
+			newItem:setFavorite(item:isFavorite());
+			local returnToContainer = item:getContainer():isInCharacterInventory(playerObj) and item:getContainer()
+			ISWorldObjectContextMenu.transferIfNeeded(playerObj, item)
+			local destCapacity = 1 / newItem:getUseDelta()
+			local waterConsumed = math.min(math.floor(destCapacity + 0.001), waterAvailable)
+			ISTimedActionQueue.add(ISTakeWaterActionFromBoat:new(playerObj, newItem, waterConsumed, waterObject, waterConsumed * 10, item));
+			if returnToContainer and (returnToContainer ~= playerInv) then
+				ISTimedActionQueue.add(ISInventoryTransferAction:new(playerObj, item, playerInv, returnToContainer))
+			end
+		elseif item:canStoreWater() and item:isWaterSource() then -- second case, a bottle contain some water, we just fill it
+			if not waterObject:getSquare() then
+				return
+			end
+			local returnToContainer = item:getContainer():isInCharacterInventory(playerObj) and item:getContainer()
+			if playerObj:getPrimaryHandItem() ~= item and playerObj:getSecondaryHandItem() ~= item then
+			end
+			ISWorldObjectContextMenu.transferIfNeeded(playerObj, item)
+			local destCapacity = (1 - item:getUsedDelta()) / item:getUseDelta()
+			local waterConsumed = math.min(math.floor(destCapacity + 0.001), waterAvailable)
+			ISTimedActionQueue.add(ISTakeWaterActionFromBoat:new(playerObj, item, waterConsumed, waterObject, waterConsumed * 10, nil));
+			if returnToContainer then
+				ISTimedActionQueue.add(ISInventoryTransferAction:new(playerObj, item, playerInv, returnToContainer))
+			end
+		end
+	end
+end
+
+
+function ISBoatMenu.onWashYourself(playerObj, sink, soapList)
+	print("ISBoatMenu.onWashYourself")
+	if not sink:getSquare() then
+		return
+	end
+	ISTimedActionQueue.add(ISWashYourself:new(playerObj, sink, soapList));
+end
+
+function ISBoatMenu.onWashClothing(playerObj, sink, soapList, washList, singleClothing, noSoap)
+	print("ISBoatMenu.onWashClothing")
+	if not sink:getSquare() then
+		return
+	end
+
+	if not washList then
+		washList = {};
+		table.insert(washList, singleClothing);
+	end
+    
+	for i,item in ipairs(washList) do
+		local bloodAmount = 0
+		local dirtAmount = 0
+		if instanceof(item, "Clothing") then
+			if BloodClothingType.getCoveredParts(item:getBloodClothingType()) then
+				local coveredParts = BloodClothingType.getCoveredParts(item:getBloodClothingType())
+				for j=0, coveredParts:size()-1 do
+					local thisPart = coveredParts:get(j)
+					bloodAmount = bloodAmount + item:getBlood(thisPart)
+				end
+			end
+			if item:getDirtyness() > 0 then
+				dirtAmount = dirtAmount + item:getDirtyness()
+			end
+		else
+			bloodAmount = bloodAmount + item:getBloodLevel()
+		end
+		ISTimedActionQueue.add(ISWashClothing:new(playerObj, sink, soapList, item, bloodAmount, dirtAmount, noSoap))
+	end
+end
+
 
 -- function ISBoatMenu.getVehicleDisplayName(boat)
 	-- local name = getText("IGUI_VehicleName" .. boat:getScript():getName())
@@ -1905,7 +2001,7 @@ end
 		-- end
 	-- end
 -- end
-
+Events.OnFillWorldObjectContextMenu.Add(ISBoatMenu.OnFillWorldObjectContextMenu)
 Events.OnKeyPressed.Add(ISBoatMenu.onKeyPressed);
 Events.OnKeyStartPressed.Add(ISBoatMenu.onKeyStartPressed);
 Events.OnEnterVehicle.Add(ISBoatMenu.onEnterVehicle)
