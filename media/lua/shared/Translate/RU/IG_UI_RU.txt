@@ -13,6 +13,7 @@ IGUI_RU = {
 	IGUI_VehiclePartLightFloodlightRight = "Прожектор правый",
 	IGUI_VehiclePartLightCabin = "Лампочка в кабине",	
 	IGUI_VehiclePartManualStarter = "Ручной стартер",
+	IGUI_VehiclePartSails = "Паруса",
 	
 	IGUI_VehiclePartshelves = "Полки",
 	IGUI_VehiclePartstove = "Плита",

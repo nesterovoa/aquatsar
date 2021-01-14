@@ -15,6 +15,7 @@ IG_UI_EN = {
 	IGUI_VehiclePartNewHeadlightFloodlightLeft = "Spotlights left",
 	IGUI_VehiclePartNewHeadlightFloodlightRight = "Spotlights right",
 	IGUI_VehiclePartNewHeadlightCabin = "Cockpit light",	
+	IGUI_VehiclePartSails = "Sails",
 	
 	IGUI_VehiclePartshelves = "Shelves",
 	IGUI_VehiclePartstove = "Stove",
