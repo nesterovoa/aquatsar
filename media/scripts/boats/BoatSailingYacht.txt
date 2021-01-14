@@ -31,6 +31,7 @@ module Base
 	template vehicle BoatSailingYachtPassengerTemplate
 	{
 		template = PassengerSeat6,
+		template = PassengerCompartment,
 
 		passenger FrontLeft
 		{
@@ -139,136 +140,27 @@ module Base
 		{
 			itemType = Aquatsar.NotRemovableBoatSeat,
 			category = nodisplay,
-
 			container
 			{
 				test = Boats.ContainerAccess.BlockSeat,
 			}
 		}
 
-		template = GasTank,
-
-		part GasTank
-		{
-			category = MechanicalSystem,
-			mechanicRequireKey = false,
-			table install
-			{
-				test = CommonTemplates.InstallTest.PartNotInCabin,
-			}
-			table uninstall
-			{
-				test = CommonTemplates.UninstallTest.PartNotInCabin,
-			}
-			lua
-			{
-				create = Vehicles.Create.GasTank,
-				update = Boats.Update.GasTank,
-				checkEngine = Vehicles.CheckEngine.GasTank,
-			}
-		}
-
-		template = Battery,
-
-		part Battery
-		{
-			category = ElecticalSystem,
-			table install
-			{
-				test = CommonTemplates.InstallTest.PartInCabin,
-			}
-			table uninstall
-			{
-				test = CommonTemplates.UninstallTest.PartInCabin,
-			}
-		}
-
-		template = Engine,
-
-		part Engine
-		{
-			category = MechanicalSystem,
-		}
+		template = BoatStandartParts/part/GasTank,
+		template = BoatStandartParts/part/Battery,
+		template = BoatStandartParts/part/Engine,
 
 		template = ApiBoatAirbag,
 		template = Propeller,
 		template = Sails,
 		template = ManualStarter,
-		template = Window/part/WindowFrontLeft,
-		template = Window/part/WindowFrontRight,
-		template = Window/part/WindowRearLeft,
-		template = Window/part/WindowRearRight,
-		template = Windshield/part/Windshield,
+		template = BoatStandartParts/part/WindowFrontLeft,
+		template = BoatStandartParts/part/WindowFrontRight,
+		template = BoatStandartParts/part/WindowRearLeft,
+		template = BoatStandartParts/part/WindowRearRight,
+		template = BoatStandartParts/part/Windshield,
 
-		part Windshield
-		{
-			category = BoatBody,
-			table install
-			{
-				test = CommonTemplates.InstallTest.PartInCabin,
-			}
-			table uninstall
-			{
-				test = CommonTemplates.UninstallTest.PartInCabin,
-			}
-		}
-		
-		part Window*
-		{
-			category = BoatBody,
-			mechanicRequireKey = false,
-			window
-			{
-				openable = false,
-			}
-			table install
-			{
-				requireInstalled =,
-				test = CommonTemplates.InstallTest.PartInCabin,
-			}
-			table uninstall
-			{
-				requireInstalled =,
-				test = CommonTemplates.UninstallTest.PartInCabin,
-			}
-		}
-
-		template = Radio,
-
-		part Radio
-		{
-			category = ElecticalSystem,
-			table install
-			{
-				items
-				{
-					1
-					{
-						type = Base.Screwdriver,
-						count = 1,
-						keep = true,
-						equip = primary,
-					}
-				}
-				time = 100,
-				test = CommonTemplates.InstallTest.PartInCabin,
-			}
-			table uninstall
-			{
-				items
-				{
-					1
-					{
-						type = Base.Screwdriver,
-						count = 1,
-						keep = true,
-						equip = primary,
-					}
-				}
-				time = 100,
-				test = CommonTemplates.UninstallTest.PartInCabin,
-			}
-		}
+		template = BoatStandartParts/part/Radio,
 
 		template = LightApi,
 		template = Light/part/LightFloodlightLeft,
@@ -391,6 +283,7 @@ module Base
 		frontEndHealth = 150,
 		rearEndHealth = 150,
 		seats = 6,
+		
 		template = BoatSailingYachtTemplate,
 		template = BoatSailingYachtPassengerTemplate,
 
