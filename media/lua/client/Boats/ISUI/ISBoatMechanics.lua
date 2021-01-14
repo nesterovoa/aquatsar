@@ -283,9 +283,9 @@ function ISBoatMechanics:doPartContextMenu(part, x,y)
 				option = self.context:addOption(getText("ContextMenu_Open_window"), playerObj, ISBoatPartMenu.onOpenCloseWindow, part, true)
 			end
 		end
-		if not window:isDestroyed() then
-			option = self.context:addOption(getText("ContextMenu_Smash_window"), playerObj, ISBoatPartMenu.onSmashWindow, part)
-		end
+		-- if not window:isDestroyed() then
+			-- option = self.context:addOption(getText("ContextMenu_Smash_window"), playerObj, ISBoatPartMenu.onSmashWindow, part)
+		-- end
 	end
 	
 	if part:isContainer() and part:getContainerContentType() == "Air" and part:getInventoryItem() then
@@ -1061,13 +1061,13 @@ function ISBoatMechanics:render()
 	if getCore():getDebug() then
 		debugLine = " (" .. self.vehicle:getScript():getName() .. " )";
 	end
-	local name = getText("IGUI_BoatName" .. self.vehicle:getScript():getName());
+	local name = getText("IGUI_VehicleName" .. self.vehicle:getScript():getName());
 	if string.match(self.vehicle:getScript():getName(), "Burnt") then
 		local unburnt = string.gsub(self.vehicle:getScript():getName(), "Burnt", "")
-		if getTextOrNull("IGUI_BoatName" .. unburnt) then
-			name = getText("IGUI_BoatName" .. unburnt)
+		if getTextOrNull("IGUI_VehicleName" .. unburnt) then
+			name = getText("IGUI_VehicleName" .. unburnt)
 		end
-		name = getText("IGUI_BoatNameBurnt", name);
+		name = getText("IGUI_VehicleNameBurnt", name);
 	end
 	self:drawTextCentre(name .. debugLine, x + (rectWidth / 2), y, self.partCatRGB.r, self.partCatRGB.g, self.partCatRGB.b, self.partCatRGB.a, UIFont.Medium);
 	y = y + FONT_HGT_MEDIUM;

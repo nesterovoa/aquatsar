@@ -138,11 +138,11 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 			windForceByDirection = 7 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 		end
 	elseif windSpeed < AquaConfig.windMedium then
-		if windOnBoat > 25 and windOnBoat < 335 then
+		if windOnBoat > 20 and windOnBoat < 340 then
 			windForceByDirection = 10 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 		end
 	elseif windSpeed < AquaConfig.windStrong then
-		if windOnBoat > 25 and windOnBoat < 335 then
+		if windOnBoat > 20 and windOnBoat < 340 then
 			windForceByDirection = 12 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 		end
 	elseif windSpeed < AquaConfig.windVeryStrong then
@@ -356,7 +356,7 @@ end
 function AquaPhysics.heightFix(boat)
 	local squareUnderVehicle = getCell():getGridSquare(boat:getX(), boat:getY(), 0)
 	if squareUnderVehicle ~= nil and isWater(squareUnderVehicle) then
-		if boat:getDebugZ() < -0.2 then 
+		if boat:getDebugZ() < -0.2 and boat:getCurrentSpeedKmHour() < 2 then 
 			boat:setPhysicsActive(true)
 			tempVec1:set(0, 5000, 0)
 			tempVec2:set(0, 0, 0)
@@ -424,6 +424,10 @@ end
 
 function AquaPhysics.changeSailAngle(boat)
 	local sailAngle = boat:getModData()["sailAngle"]
+	if sailAngle == nil then
+		sailAngle = 0
+		boat:getModData()["sailAngle"] = 0
+	end
 	if isKeyDown(Keyboard.KEY_LEFT) then
 		if sailAngle < 90 then
 			sailAngle = sailAngle + 0.5

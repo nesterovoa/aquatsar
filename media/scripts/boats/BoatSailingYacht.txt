@@ -225,41 +225,41 @@ module Base
 			horn = BoatHorn,
 		}
 
-		extents = 0.4000 0.3200 1.2875,
+		extents = 0.4525 0.3200 1.2875,
 		mass = 1,
-		physicsChassisShape = 0.4000 0.3200 1.2875,
-		centerOfMassOffset = 0.0012 0.4850 -0.0575,
+		physicsChassisShape = 0.4525 0.3200 1.2875,
+		centerOfMassOffset = 0.0000 0.5725 -0.0575,
 
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 0.1550 0.3750 0.3063,
-			radius = 0.2f,
-			width = 0.5f,
+			offset = 0.2587 0.3750 0.3063,
+			radius = 0.15f,
+			width = 0.2f,
 		}
 
 		wheel FrontRight
 		{
 			front = true,
-			offset = -0.1550 0.3750 0.3063,
-			radius = 0.2f,
-			width = 0.5f,
+			offset = -0.2587 0.3750 0.3063,
+			radius = 0.15f,
+			width = 0.2f,
 		}
 
 		wheel RearLeft
 		{
 			front = false,
-			offset = 0.1550 0.3750 -0.4212,
-			radius = 0.2f,
-			width = 0.5f,
+			offset = 0.2587 0.3750 -0.4212,
+			radius = 0.15f,
+			width = 0.2f,
 		}
 
 		wheel RearRight
 		{
 			front = false,
-			offset = -0.1550 0.3750 -0.4212,
-			radius = 0.2f,
-			width = 0.5f,
+			offset = -0.2587 0.3750 -0.4212,
+			radius = 0.15f,
+			width = 0.2f,
 		}
 
 		engineForce = 2500,
@@ -276,14 +276,13 @@ module Base
 		steeringClamp = 0.3,
 		suspensionStiffness = 50,
 		suspensionCompression = 2,
-		suspensionDamping = 100,
+		suspensionDamping = 1,
 		maxSuspensionTravelCm = 1.1,
-		suspensionRestLength = 0.1,
+		suspensionRestLength = 0.3,
 		wheelFriction = 5.6f,
 		frontEndHealth = 150,
 		rearEndHealth = 150,
 		seats = 6,
-		
 		template = BoatSailingYachtTemplate,
 		template = BoatSailingYachtPassengerTemplate,
 
@@ -352,7 +351,7 @@ module Base
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 0.1550 0.3550 0.3063,
+			offset = 0.2587 0.3750 0.3063,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -360,7 +359,7 @@ module Base
 		wheel FrontRight
 		{
 			front = true,
-			offset = -0.1550 0.3550 0.3063,
+			offset = -0.2587 0.3750 0.3063,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -368,7 +367,7 @@ module Base
 		wheel RearLeft
 		{
 			front = false,
-			offset = 0.1787 0.3550 -0.4212,
+			offset = 0.2587 0.3750 -0.4212,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -376,7 +375,7 @@ module Base
 		wheel RearRight
 		{
 			front = false,
-			offset = -0.1787 0.3550 -0.4212,
+			offset = -0.2587 0.3750 -0.4212,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -395,9 +394,9 @@ module Base
 		steeringClamp = 0.3,
 		suspensionStiffness = 50,
 		suspensionCompression = 2,
-		suspensionDamping = 100,
+		suspensionDamping = 1,
 		maxSuspensionTravelCm = 1.1,
-		suspensionRestLength = 0.1,
+		suspensionRestLength = 0.3,
 		wheelFriction = 5.6f,
 		frontEndHealth = 150,
 		rearEndHealth = 150,
@@ -470,7 +469,7 @@ module Base
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 0.1550 0.3550 0.3063,
+			offset = 0.2587 0.3750 0.3063,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -478,7 +477,7 @@ module Base
 		wheel FrontRight
 		{
 			front = true,
-			offset = -0.1550 0.3550 0.3063,
+			offset = -0.2587 0.3750 0.3063,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -486,7 +485,7 @@ module Base
 		wheel RearLeft
 		{
 			front = false,
-			offset = 0.1787 0.3550 -0.4212,
+			offset = 0.2587 0.3750 -0.4212,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -494,7 +493,7 @@ module Base
 		wheel RearRight
 		{
 			front = false,
-			offset = -0.1787 0.3550 -0.4212,
+			offset = -0.2587 0.3750 -0.4212,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -513,9 +512,9 @@ module Base
 		steeringClamp = 0.3,
 		suspensionStiffness = 50,
 		suspensionCompression = 2,
-		suspensionDamping = 100,
+		suspensionDamping = 1,
 		maxSuspensionTravelCm = 1.1,
-		suspensionRestLength = 0.1,
+		suspensionRestLength = 0.3,
 		wheelFriction = 5.6f,
 		frontEndHealth = 150,
 		rearEndHealth = 150,

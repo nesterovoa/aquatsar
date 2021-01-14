@@ -1,8 +1,9 @@
 IGUI_RU = {
-	IGUI_BoatNameBoatSailingYacht = "яхта 'La Brigandine'",
-	IGUI_BoatNameBoatSailingYachtWithSailsLeft = "яхта 'La Brigandine'",
-	IGUI_BoatNameBoatSailingYachtWithSailsRight = "яхта 'La Brigandine'",
-	IGUI_BoatNameBoatMotor = "ћоторна€ лодка 'M/Y Orianna'",
+	IGUI_VehicleNameBoatSailingYacht = "яхта 'La Brigandine'",
+	IGUI_VehicleNameBoatSailingYachtWithSailsLeft = "яхта 'La Brigandine'",
+	IGUI_VehicleNameBoatSailingYachtWithSailsRight = "яхта 'La Brigandine'",
+	IGUI_VehicleNameBoatMotor = "ћоторна€ лодка 'M/Y Orianna'",
+	
 
 	IGUI_VehiclePartPropeller = "Ћодочный пропеллер",
 	IGUI_VehiclePartCatHouseholdSystem = "Ѕытова€ система",

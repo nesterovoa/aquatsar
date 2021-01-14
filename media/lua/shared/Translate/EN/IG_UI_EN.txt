@@ -1,8 +1,8 @@
 IG_UI_EN = {
-	IGUI_BoatNameBoatSailingYacht = "Yacht 'La Brigandine'",
-	IGUI_BoatNameBoatSailingYachtWithSailsLeft = "Yacht 'La Brigandine'",
-	IGUI_BoatNameBoatSailingYachtWithSailsRight = "Yacht 'La Brigandine'",
-	IGUI_BoatNameBoatMotor = "Powerboat 'M/Y Orianna'",
+	IGUI_VehicleNameBoatSailingYacht = "Yacht 'La Brigandine'",
+	IGUI_VehicleNameBoatSailingYachtWithSailsLeft = "Yacht 'La Brigandine'",
+	IGUI_VehicleNameBoatSailingYachtWithSailsRight = "Yacht 'La Brigandine'",
+	IGUI_VehicleNameBoatMotor = "Powerboat 'M/Y Orianna'",
 
 	IGUI_VehicleNameTrailerWithBoatSailingYacht = "Autotsar BT-13M",
 	IGUI_VehicleNameTrailerForBoat = "Autotsar BT-13M",

@@ -461,6 +461,12 @@ VehicleDistributions.Medicine = {
 	}
 }
 
+VehicleDistributions.Null = {
+	rolls = 1,
+	items = {
+	}
+}
+
 VehicleDistributions.CommonTemplatesDist = {
 	stove = VehicleDistributions.Stove,
 	portablemicrowave = VehicleDistributions.Microwave,
@@ -472,6 +478,70 @@ VehicleDistributions.CommonTemplatesDist = {
 	sidetable = VehicleDistributions.Sidetable,
 	medicine = VehicleDistributions.Medicine,
 	GloveBox = VehicleDistributions.GloveBox,
+	
+	
+	CupboardFrontLeft = VehicleDistributions.Null,
+	CupboardFrontRight = VehicleDistributions.Null,
+	CupboardMiddleLeft = VehicleDistributions.Null,
+	CupboardMiddleRight = VehicleDistributions.Null,
+	CupboardRearLeft = VehicleDistributions.Null,
+	CupboardRearRight = VehicleDistributions.Null,
+	
+	CounterFrontLeft = VehicleDistributions.Null,
+	CounterFrontRight = VehicleDistributions.Null,
+	CounterMiddleLeft = VehicleDistributions.Null,
+	CounterMiddleRight = VehicleDistributions.Null,
+	CounterRearLeft = VehicleDistributions.Null,
+	CounterRearRight = VehicleDistributions.Null,
+	
+	DrawerFrontLeft = VehicleDistributions.Null,
+	DrawerFrontRight = VehicleDistributions.Null,
+	DrawerMiddleLeft = VehicleDistributions.Null,
+	DrawerMiddleRight = VehicleDistributions.Null,
+	DrawerRearLeft = VehicleDistributions.Null,
+	DrawerRearRight = VehicleDistributions.Null,
+	
+	MedicineFrontLeft = VehicleDistributions.Null,
+	MedicineFrontRight = VehicleDistributions.Null,
+	MedicineMiddleLeft = VehicleDistributions.Null,
+	MedicineMiddleRight = VehicleDistributions.Null,
+	MedicineRearLeft = VehicleDistributions.Null,
+	MedicineRearRight = VehicleDistributions.Null,
+
+	ShelveFrontLeft = VehicleDistributions.Null,
+	ShelveFrontRight = VehicleDistributions.Null,
+	ShelveMiddleLeft = VehicleDistributions.Null,
+	ShelveMiddleRight = VehicleDistributions.Null,
+	ShelveRearLeft = VehicleDistributions.Null,
+	ShelveRearRight = VehicleDistributions.Null,
+
+	FridgeFrontLeft = VehicleDistributions.Null,
+	FridgeFrontRight = VehicleDistributions.Null,
+	FridgeMiddleLeft = VehicleDistributions.Null,
+	FridgeMiddleRight = VehicleDistributions.Null,
+	FridgeRearLeft = VehicleDistributions.Null,
+	FridgeRearRight = VehicleDistributions.Null,
+	
+	FreezerFrontLeft = VehicleDistributions.Null,
+	FreezerFrontRight = VehicleDistributions.Null,
+	FreezerMiddleLeft = VehicleDistributions.Null,
+	FreezerMiddleRight = VehicleDistributions.Null,
+	FreezerRearLeft = VehicleDistributions.Null,
+	FreezerRearRight = VehicleDistributions.Null,
+
+	OvenFrontLeft = VehicleDistributions.Null,
+	OvenFrontRight = VehicleDistributions.Null,
+	OvenMiddleLeft = VehicleDistributions.Null,
+	OvenMiddleRight = VehicleDistributions.Null,
+	OvenRearLeft = VehicleDistributions.Null,
+	OvenRearRight = VehicleDistributions.Null,
+
+	MicrowaveFrontLeft = VehicleDistributions.Null,
+	MicrowaveFrontRight = VehicleDistributions.Null,
+	MicrowaveMiddleLeft = VehicleDistributions.Null,
+	MicrowaveMiddleRight = VehicleDistributions.Null,
+	MicrowaveRearLeft = VehicleDistributions.Null,
+	MicrowaveRearRight = VehicleDistributions.Null,
 }
 
 local distributionTable = {

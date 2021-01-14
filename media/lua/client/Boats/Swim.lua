@@ -177,7 +177,7 @@ local function swimToPoint(player, context, worldobjects, test)
     
     if boat and pointSquare and pointSquare ~= playerSquare and isWaterLine(playerObj:getX(), playerObj:getY(), pointSquare:getX(), pointSquare:getY()) then
         local chance = AquatsarYachts.Swim.swimChanceSuccess(playerObj, boat:getSquare())
-        local name = getText("IGUI_BoatName" .. boat:getScript():getName())
+        local name = getText("IGUI_VehicleName" .. boat:getScript():getName())
         context:addOption(getText("IGUI_SwimTo", name).. " (" .. getText("IGUI_chance") .. ": " .. chance .. "%)", playerObj, swimToBoatPerform, boat, chance)
     
     elseif pointSquare and pointSquare ~= playerSquare and isWaterLine(playerObj:getX(), playerObj:getY(), pointSquare:getX(), pointSquare:getY()) then
