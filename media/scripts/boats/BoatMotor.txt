@@ -155,6 +155,10 @@ module Base
 		template = Cupboards/part/CupboardMiddleLeft,
 		template = Counters/part/CounterMiddleLeft,
 		template = Medicines/part/MedicineMiddleRight,
+		
+		template = SeatBoxWooden/part/SeatBoxWoodenRearLeft,
+		template = SeatBoxWooden/part/SeatBoxWoodenRearRight,
+		
 	}
 	vehicle BoatMotor
 	{

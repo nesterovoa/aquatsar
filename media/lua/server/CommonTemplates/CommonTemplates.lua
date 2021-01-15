@@ -399,4 +399,11 @@ function CommonTemplates.Create.Medicine(vehicle, part)
 	end
 end
 
+function CommonTemplates.Create.SeatBoxWooden(vehicle, part)
+	local invItem = VehicleUtils.createPartInventoryItem(part);
+	if part:getInventoryItem() and part:getItemContainer() then
+		part:getItemContainer():setType("seatboxwooden")
+	end
+end
+
 

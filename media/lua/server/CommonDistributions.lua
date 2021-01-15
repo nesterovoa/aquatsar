@@ -477,6 +477,7 @@ VehicleDistributions.CommonTemplatesDist = {
 	shelves = VehicleDistributions.Shelves,
 	sidetable = VehicleDistributions.Sidetable,
 	medicine = VehicleDistributions.Medicine,
+	seatboxwooden = VehicleDistributions.FishermanTruckBed,
 	GloveBox = VehicleDistributions.GloveBox,
 	
 	

@@ -26,7 +26,9 @@ IGUI_RU = {
 	IGUI_VehiclePartwardrobe = "Шкаф",
 	IGUI_VehiclePartmedicine = "Шкафчик",
 	IGUI_VehiclePartsidetable = "Выдвижной ящик",
+	IGUI_VehiclePartseatboxwooden = "Встроенный ящик",
 	
+	IGUI_SwitchPlace = "Перейти..",
 	IGUI_UseStove = "Использовать плиту",
 	IGUI_UseMicrowave = "Использовать микроволновку",
 	IGUI_Turn_Fridge_On = "Включить холодильник",

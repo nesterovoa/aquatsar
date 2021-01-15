@@ -16,6 +16,11 @@ ContextMenu_RU = {
 	ContextMenu_LoadBoatOntoTrailer = "Загрузить лодку<br>на прицеп",
 	
 	ContextMenu_VehicleStartEngineManual = "Запустить двигатель вручную",
+	ContextMenu_VehicleManualStarterDamage = "Ручной стартер не установлен<br>или поврежден",
+	ContextMenu_set_anchor_on = "Бросить якорь",
+	ContextMenu_set_anchor_off = "Поднять якорь",
+	ContextMenu_bind_boat = "Привязать лодку",
+	ContextMenu_unbind_boat = "Отвязать лодку",
 	
 	ContextMenu_Wooden_Pantone = "Деревянный понтон",
 	

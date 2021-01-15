@@ -16,10 +16,16 @@ ContextMenu_EN = {
 	ContextMenu_LoadBoatOntoTrailer = "Load boat onto trailer",
 	
 	ContextMenu_VehicleStartEngineManual = "Start engine manually",
+	ContextMenu_VehicleManualStarterDamage = "Recoil starter not installed<br>or damaged",
+	
+	ContextMenu_set_anchor_on = "Drop anchor",
+	ContextMenu_set_anchor_off = "Raise anchor",
+	ContextMenu_bind_boat = "Bind boat",
+	ContextMenu_unbind_boat = "Unbind boat",
+	
 	ContextMenu_Wooden_Pantone = "Wooden pantone",
 
 	ContextMenu_Open_Cabin = "Unlock cabin<br>(with key)",
 	ContextMenu_Open_Cabin_Force = "Unlock cabin<br>(with crowbar)",
 	ContextMenu_Open_Cabin_Force_Need_Crowbar = "Unlock cabin<br>(need crowbar or key)"
-
 }

@@ -60,7 +60,7 @@ function ISBoatMenu.onKeyStartPressed(key)
 		getCore():addKeyBinding("StartVehicleEngine", playerObj:getModData()["blockStartVehicleEngine"])
 		playerObj:getModData()["StartVehicleEngine"] = nil
 	elseif AquaConfig.isBoat(boat) and 
-			boat:getPartById("ManualStarter") and  -- TODO: заменить на проверку шаблона в скрипте
+			boat:getPartById("ManualStarter") and
 			(key == getCore():getKey("Forward") or 
 			key == getCore():getKey("StartVehicleEngine") or 
 			key == getCore():getKey("Backward")) and not boat:isEngineRunning() then
@@ -586,9 +586,12 @@ function ISBoatMenu.showRadialMenu(playerObj)
 			if boat:isEngineStarted() then
 --				menu:addSlice("Ignition", getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
 			else
-				if boat:getPartById("ManualStarter") then 
-					if boat:getPartById("ManualStarter"):getInventoryItem() then
-						menu:addSlice(getText("ContextMenu_VehicleStartEngineManual"), getTexture("media/ui/boats/RadialMenu_ManualStarter.png"), ISBoatMenu.onStartEngineManualy, playerObj)
+				local manualStarter = boat:getPartById("ManualStarter")
+				if manualStarter then 
+					if manualStarter:getInventoryItem() and manualStarter:getCondition() > 0 then
+						menu:addSlice(getText("ContextMenu_VehicleStartEngineManual"), getTexture("media/ui/boats/RadialMenu_ManualStarter.png"), ISBoatMenu.onStartEngineManualy, playerObj, manualStarter)
+					else
+						menu:addSlice(getText("ContextMenu_VehicleManualStarterDamage"), getTexture("media/ui/boats/RadialMenu_ManualStarterDamage.png"), nil)
 					end
 				elseif (SandboxVars.VehicleEasyUse) then
 					menu:addSlice(getText("ContextMenu_VehicleStartEngine"), getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
@@ -772,13 +775,9 @@ function ISBoatMenu.showRadialMenu(playerObj)
 			menu:addSlice(getText("ContextMenu_Sleep"), getTexture("media/ui/vehicles/vehicle_sleep.png"), ISBoatMenu.onSleep, playerObj, boat);
 		end
 	end
-	
-	-- Anchor
-	
-	
-	
+		
 	if boat:getCurrentSpeedKmHour() < 5 and boat:getCurrentSpeedKmHour() > -5 then
-		if ISBoatMenu.getBestSeatExit(playerObj, boat, true) then -- and ISBoatMenu.getNearLandForExit(boat)
+		if ISBoatMenu.getBestSeatExit(playerObj, boat, true) then
 			menu:addSlice(getText("IGUI_ExitBoat"), getTexture("media/ui/boats/RadialMenu_ExitOnGround.png"), ISBoatMenu.onExit, playerObj)
 			if not boat:getModData()["aqua_anchor_on"] then
 				boat:getModData()["aqua_anchor_on"] = false
@@ -1607,11 +1606,12 @@ function ISBoatMenu.onStartEngine(playerObj)
 	ISTimedActionQueue.add(ISStartVehicleEngine:new(playerObj))
 end
 
-function ISBoatMenu.onStartEngineManualy(playerObj)
+function ISBoatMenu.onStartEngineManualy(playerObj, manualStarter)
 --	local boat = playerObj:getVehicle()
 --	if not boat then return end
 --	if not boat:isEngineWorking() then return end
 --	if not boat:isDriver(playerObj) then return end
+	manualStarter:setCondition(manualStarter:getCondition() - 1)
 	ISTimedActionQueue.add(ISStartBoatEngineManualy:new(playerObj))
 end
 
