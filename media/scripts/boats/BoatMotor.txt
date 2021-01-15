@@ -5,7 +5,7 @@ module Base
         mesh = boats/BoatMotor,
         shader = vehicle_multiuv,
         invertX = FALSE,
-        scale = 0.0016,
+        scale = 0.0017,
     }
 	template vehicle BoatMotorPassengerTemplate
 	{
@@ -183,9 +183,9 @@ module Base
 			horn = BoatHorn,
 		}
 
-		extents = 0.2971 0.3200 1.0886,
+		extents = 0.3800 0.3200 1.2371,
 		mass = 100,
-		physicsChassisShape = 0.2971 0.3200 1.0314,
+		physicsChassisShape = 0.2886 0.3200 1.2371,
 		centerOfMassOffset = 0.0000 0.5771 -0.0586,
 
 		wheel FrontLeft
@@ -232,13 +232,11 @@ module Base
 		rollInfluence = 0.1f,
 		steeringIncrement = 0.03,
 		steeringClamp = 0.3,
-		
 		suspensionStiffness = 50,
 		suspensionCompression = 20,
 		suspensionDamping = 1000,
 		maxSuspensionTravelCm = 1.1,
 		suspensionRestLength = 1.1,
-		
 		wheelFriction = 5.6f,
 		frontEndHealth = 150,
 		rearEndHealth = 150,

@@ -13,6 +13,45 @@ module Aquatsar
 		}
 	}
 	
+	sound AnchorFromWater
+	{
+		category = Boat,
+		loop = false,
+		is3D = false,
+		clip
+		{
+			file = media/sound/boats/boat_anchorFromWater.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound AnchorInWater
+	{
+		category = Boat,
+		loop = false,
+		is3D = false,
+		clip
+		{
+			file = media/sound/boats/boat_anchorInWater.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
+	sound BindRoap
+	{
+		category = Boat,
+		loop = false,
+		is3D = false,
+		clip
+		{
+			file = media/sound/boats/boat_bindRoap.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
+	
 	sound boat_sails_set
 	{
 		category = Boat,
