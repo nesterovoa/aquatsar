@@ -544,23 +544,3 @@ VehicleDistributions.CommonTemplatesDist = {
 	MicrowaveRearLeft = VehicleDistributions.Null,
 	MicrowaveRearRight = VehicleDistributions.Null,
 }
-
-local distributionTable = {
-	BoatSailingYacht = {
-		Normal = VehicleDistributions.CommonTemplatesDist,
-	}, 
-	BoatSailingYachtWithSailsLeft = {
-		Normal = VehicleDistributions.CommonTemplatesDist,
-	}, 
-	BoatSailingYachtWithSailsRight = {
-		Normal = VehicleDistributions.CommonTemplatesDist,
-	}, 
-	BoatMotor = {
-		Normal = VehicleDistributions.CommonTemplatesDist,
-	}, 
-	TrailerWithBoatSailingYacht = {
-		Normal = VehicleDistributions.CommonTemplatesDist,
-	}, 
-}
-
-table.insert(VehicleDistributions, 1, distributionTable);

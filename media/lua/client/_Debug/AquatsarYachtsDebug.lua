@@ -186,6 +186,12 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		vehicle:repair();
 		inv:AddItem(vehicle:createVehicleKey());
 		inv:AddItem(vehicle:createVehicleKey());
+		
+		local trailer = addVehicleDebug("Base.TrailerWithBoatMotor", IsoDirections.S, nil, getCell():getGridSquare(11850, 6600, 0));
+		local vehicle = addVehicleDebug("Base.CarStationWagon", IsoDirections.S, nil, getCell():getGridSquare(11850, 6606, 0));
+		vehicle:repair();
+		inv:AddItem(vehicle:createVehicleKey());
+		inv:AddItem(vehicle:createVehicleKey());
 
 	end
 }

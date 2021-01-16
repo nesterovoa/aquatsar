@@ -4,6 +4,9 @@ IGUI_RU = {
 	IGUI_VehicleNameBoatSailingYachtWithSailsRight = "Яхта 'La Brigandine'",
 	IGUI_VehicleNameBoatMotor = "Моторная лодка 'M/Y Orianna'",
 	
+	IGUI_VehicleNameTrailerWithBoatSailingYacht = "Autotsar BT-13M",
+	IGUI_VehicleNameTrailerWithBoatMotor = "Autotsar BT-13M",
+	IGUI_VehicleNameTrailerForBoat = "Autotsar BT-13M",
 
 	IGUI_VehiclePartPropeller = "Лодочный пропеллер",
 	IGUI_VehiclePartCatHouseholdSystem = "Бытовая система",

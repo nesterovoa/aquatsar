@@ -186,6 +186,7 @@ trailer.trailerWithBoatTable = {}
 trailer.trailerWithBoatTable["BoatSailingYacht"] = "TrailerWithBoatSailingYacht"
 trailer.trailerWithBoatTable["BoatSailingYachtWithSailsLeft"] = "TrailerWithBoatSailingYacht"
 trailer.trailerWithBoatTable["BoatSailingYachtWithSailsRight"] = "TrailerWithBoatSailingYacht"
+trailer.trailerWithBoatTable["BoatMotor"] = "TrailerWithBoatMotor"
 
 AquaConfig.Trailers["TrailerWithBoatSailingYacht"] = {}
 local trailer = AquaConfig.Trailers["TrailerWithBoatSailingYacht"]
@@ -193,6 +194,11 @@ trailer.isWithBoat = true
 trailer.boat = "BoatSailingYacht"
 trailer.emptyTrailer = "TrailerForBoat"
 
+AquaConfig.Trailers["TrailerWithBoatMotor"] = {}
+local trailer = AquaConfig.Trailers["TrailerWithBoatMotor"]
+trailer.isWithBoat = true
+trailer.boat = "BoatMotor"
+trailer.emptyTrailer = "TrailerForBoat"
 
 
 
