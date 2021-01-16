@@ -33,8 +33,29 @@ function AquatsarYachts.Swim.swimChanceSuccess(playerObj, square)
 
     local haveDivingMask = playerObj:getInventory():getItemFromType("DivingMask")
     if haveDivingMask and haveDivingMask:isEquipped() then 
+        chance = chance * 1.15
+    end
+
+    local haveSwimGlasses = playerObj:getInventory():getItemFromType("Glasses_SwimmingGoggles")
+    if haveSwimGlasses and haveSwimGlasses:isEquipped() then 
         chance = chance * 1.1
     end
+
+    ------
+    local haveSwimTrunks_Y = playerObj:getInventory():getItemFromType("SwimTrunks_Yellow")
+    local haveSwimTrunks_R = playerObj:getInventory():getItemFromType("SwimTrunks_Red")
+    local haveSwimTrunks_B = playerObj:getInventory():getItemFromType("SwimTrunks_Blue")
+    local haveSwimTrunks_G = playerObj:getInventory():getItemFromType("SwimTrunks_Green")
+    local haveSwimSuit = playerObj:getInventory():getItemFromType("Swimsuit_TINT")
+    if haveSwimTrunks_Y and haveSwimTrunks_Y:isEquipped() 
+        or haveSwimTrunks_R and haveSwimTrunks_R:isEquipped() 
+        or haveSwimTrunks_B and haveSwimTrunks_B:isEquipped() 
+        or haveSwimTrunks_G and haveSwimTrunks_G:isEquipped() 
+        or haveSwimSuit and haveSwimSuit:isEquipped() then 
+        chance = chance * 1.1
+    end
+
+    -----
 
     local equipWeight = round(playerObj:getInventory():getCapacityWeight(), 2)    
     chance = chance * (1 - (equipWeight/40))
