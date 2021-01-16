@@ -144,7 +144,7 @@ function SoundControl.main()
 					print("DIVE")
 					emiPl:playSound("Dive")
 					player:getSprite():getProperties():Set(IsoFlagType.invisible)
-				elseif not emiPl:isPlaying("Swim") then
+				elseif not emiPl:isPlaying("Swim") and not player:isDead() then
 					player:playSound("Swim")
 				end
 			else
@@ -162,3 +162,10 @@ end
 
 Events.OnTileRemoved.Add(SoundControl.checkWaterBuild)
 Events.OnTick.Add(SoundControl.main)
+
+
+local function onPlayerDeathStopSwimSound()
+	getPlayer():getEmitter():stopSoundByName("Swim")
+end
+
+Events.OnPlayerDeath.Add(onPlayerDeathStopSwimSound)

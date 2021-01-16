@@ -990,6 +990,7 @@ function ISBoatMenu.showRadialMenuOutside(playerObj)
 		setJoypadFocus(playerObj:getPlayerNum(), menu)
 		playerObj:setJoypadIgnoreAimUntilCentered(true)
 	end
+	ISUIHandler.toggleUI()
 end
 
 -- function ISBoatMenu.doTowingMenu(playerObj, boat, menu)
