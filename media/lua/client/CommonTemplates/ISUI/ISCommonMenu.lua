@@ -12,7 +12,6 @@ function ISCommonMenu.onKeyStartPressed(key)
 end
 
 function ISCommonMenu.showRadialMenu(playerObj, vehicle)
-	print("showRadialMenu ISCommonMenu")
 	local isPaused = UIManager.getSpeedControls() and UIManager.getSpeedControls():getCurrentGameSpeed() == 0
 	if isPaused then return end
 	local menu = getPlayerRadialMenu(playerObj:getPlayerNum())
@@ -22,11 +21,29 @@ function ISCommonMenu.showRadialMenu(playerObj, vehicle)
 	local fridge = vehicle:getPartById("Fridge" .. seatNameTable[seatNum+1])
 	local freezer = vehicle:getPartById("Freezer" .. seatNameTable[seatNum+1])
 	local microwave = vehicle:getPartById("Microwave" .. seatNameTable[seatNum+1])
-	local lightswitch = vehicle:getPartById("InCabin" .. seatNameTable[seatNum+1])
+	local inCabin = vehicle:getPartById("InCabin" .. seatNameTable[seatNum+1])
 	local lightIsOn = true
 	local timeHours = getGameTime():getHour()
 	
-	if lightswitch then
+	if boat:getPartById("Heater") and lightIsOn and inCabin then
+		local tex = getTexture("media/ui/commonlibrary/UI_temperatureHC.png")
+		if (boat:getPartById("Heater"):getModData().temperature or 0) < 0 then
+			tex = getTexture("media/ui/vehicles/vehicle_temperatureCOLD.png")
+		elseif (boat:getPartById("Heater"):getModData().temperature or 0) > 0 then
+			tex = getTexture("media/ui/vehicles/vehicle_temperatureHOT.png")
+		end
+		-- if (boat:getPartById("Heater"):getModData().temperature or 0) < 0 then
+			-- tex = getTexture("media/ui/vehicles/vehicle_temperatureCOLD.png")
+		-- end
+		
+		if boat:getPartById("Heater"):getModData().active then
+			menu:addSlice(getText("ContextMenu_AirCondOff"), tex, ISBoatMenu.onToggleHeater, playerObj )
+		else
+			menu:addSlice(getText("ContextMenu_AirCondOn"), tex, ISBoatMenu.onToggleHeater, playerObj )
+		end
+	end
+	
+	if inCabin then
 		if vehicle:getPartById("HeadlightRearRight") and vehicle:getPartById("HeadlightRearRight"):getInventoryItem() then
 			menu:addSlice(getText("ContextMenu_BoatCabinelightsOff"), getTexture("media/ui/boats/boat_switch_off.png"), ISCommonMenu.offToggleCabinlights, playerObj)
 		else
@@ -40,7 +57,7 @@ function ISCommonMenu.showRadialMenu(playerObj, vehicle)
 	end
 	
 	if oven and lightIsOn then
-		menu:addSlice(getText("IGUI_UseStove"), getTexture("media/ui/Container_Oven"), ISCommonMenu.onStoveSetting, playerObj, vehicle, oven, seatNum)
+		menu:addSlice(getText("IGUI_UseStove"), getTexture("media/ui/Container_Oven"), ISCommonMenu.onStoveSetting, playerObj, vehicle, oven)
 		-- if oven:getItemContainer():isActive() then
 			-- menu:addSlice(getText("IGUI_Turn_Oven_Off"), getTexture("media/ui/Container_Oven"), ISCommonMenu.ToggleDevice, playerObj, vehicle, oven)
 		-- else
@@ -49,7 +66,7 @@ function ISCommonMenu.showRadialMenu(playerObj, vehicle)
 	end
 	
 	if microwave and lightIsOn then
-		menu:addSlice(getText("IGUI_UseMicrowave"), getTexture("media/ui/Container_Microwave"), ISCommonMenu.onMicrowaveSetting, playerObj, vehicle, microwave, seatNum)
+		menu:addSlice(getText("IGUI_UseMicrowave"), getTexture("media/ui/Container_Microwave"), ISCommonMenu.onMicrowaveSetting, playerObj, vehicle, microwave)
 		-- if microwave:getItemContainer():isActive() then
 			-- menu:addSlice(getText("IGUI_Turn_Oven_Off"), getTexture("media/ui/Container_Microwave"), ISCommonMenu.ToggleMicrowave, playerObj, vehicle, microwave, false)
 		-- else
@@ -82,14 +99,14 @@ function ISCommonMenu.ToggleMicrowave(playerObj, vehicle, part, on)
 	CommonTemplates.Use.Microwave(vehicle, part, playerObj, on)
 end
 
-function ISCommonMenu.onStoveSetting(playerObj, vehicle, part, seatNum)
-	ui = ISPortableOvenUI:new(0,0,430,310, playerObj, vehicle, part, seatNum)
+function ISCommonMenu.onStoveSetting(playerObj, vehicle, part)
+	ui = ISPortableOvenUI:new(0,0,430,310, playerObj, vehicle, part)
 	ui:initialise()
 	ui:addToUIManager()
 end
 
-function ISCommonMenu.onMicrowaveSetting(playerObj, vehicle, part, seatNum)
-	ui = ISPortableMicrowaveUI:new(0,0,430,310, playerObj, vehicle, part, seatNum)
+function ISCommonMenu.onMicrowaveSetting(playerObj, vehicle, part)
+	ui = ISPortableMicrowaveUI:new(0,0,430,310, playerObj, vehicle, part)
 	ui:initialise()
 	ui:addToUIManager()
 end

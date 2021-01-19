@@ -149,6 +149,8 @@ module Base
 		template = BoatStandartParts/part/GasTank,
 		template = BoatStandartParts/part/Battery,
 		template = BoatStandartParts/part/Engine,
+		template = BoatStandartParts/part/Radio,
+		template = BatteryHeater/part/Heater,
 
 		template = ApiBoatAirbag,
 		template = Propeller,
@@ -160,8 +162,6 @@ module Base
 		template = BoatStandartParts/part/WindowRearRight,
 		template = BoatStandartParts/part/Windshield,
 
-		template = BoatStandartParts/part/Radio,
-
 		template = LightApi,
 		template = Light/part/LightFloodlightLeft,
 		template = Light/part/LightFloodlightRight,
@@ -171,12 +171,6 @@ module Base
 		template = InCabin/part/InCabinRearLeft,
 		template = InCabin/part/InCabinRearRight,
 		
-		template = Heater,
-		part Heater
-		{
-			category = nodisplay,
-		}
-
 		template = Cupboards/part/CupboardMiddleLeft,
 		template = Counters/part/CounterMiddleLeft,
 		

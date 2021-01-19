@@ -4,7 +4,7 @@ module Base
     {
 		part TV
 		{
-		    area = TruckBed,,
+		    area = TruckBed,
 		    itemType = Radio.TvWideScreen;Radio.TvBlack,
 		    specificItem = false,
 		    table install
@@ -43,7 +43,7 @@ module Base
             }
 			lua
 			{
-				create = Vehicles.Create.Radio,
+				create = CommonTemplates.Create.TV,
 				update = Vehicles.Update.Radio,
 			}
 		}

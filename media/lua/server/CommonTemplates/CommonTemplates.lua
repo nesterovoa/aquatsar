@@ -67,6 +67,18 @@ function CommonTemplates.UninstallTest.PartNotInCabin(vehicle, part, playerObj)
 	return Vehicles.UninstallTest.Default(vehicle, part, playerObj)
 end
 
+function CommonTemplates.ContainerAccess.ContainerByArea(transport, part, playerObj)
+	if not part:getInventoryItem() then return false; end
+	if playerObj:getVehicle() == transport then
+		local script = transport:getScript()
+		local seat = transport:getSeat(playerObj)
+		local seatname = 'Seat'..script:getPassenger(seat):getId()
+		return part:getArea() == seatname
+	else
+		return false
+	end
+end
+
 --***********************************************************
 --**                                                       **
 --**                    Fridge n Freezer                   **
@@ -332,12 +344,12 @@ function CommonTemplates.Init.Light(boat, part)
 end
 
 function CommonTemplates.InstallComplete.Light(boat, part)
-	print("CommonTemplates.InstallComplete.Light")
+	-- print("CommonTemplates.InstallComplete.Light")
 	
 end
 
 function CommonTemplates.UninstallComplete.Light(boat, part)
-	print("CommonTemplates.UninstallComplete.Light")
+	-- print("CommonTemplates.UninstallComplete.Light")
 	if part:getId() == "LightCabin" then
 		boat:getPartById("HeadlightRearRight"):setInventoryItem(nil)
 	elseif part:getId() == "LightFloodlightLeft" then
@@ -346,19 +358,132 @@ function CommonTemplates.UninstallComplete.Light(boat, part)
 		boat:getPartById("HeadlightRight"):setInventoryItem(nil) 
 	end
 end
+
+--***********************************************************
+--**                                                       **
+--**                    Battery Heater                     **
+--**                                                       **
+--***********************************************************
+
+function CommonTemplates.Create.BatteryHeater(vehicle, part)
+	-- print("CommonTemplates.Create.BatteryHeater")
+	CommonTemplates.createActivePart(part)
+	part:setLightActive(false)
+end
+
+function CommonTemplates.Use.BatteryHeater(vehicle, on, temp)
+	local part = vehicle:getHeater()
+	if on then
+		vehicle:getEmitter():playSound("ToggleStove")
+		part:setLightActive(true)
+		part:getModData().active = on;
+		part:getModData().temperature = temp;
+		vehicle:transmitPartModData(part)
+	else
+		vehicle:getEmitter():playSound("ToggleStove")
+		part:setLightActive(false)
+		part:getModData().active = on;
+		part:getModData().temperature = temp;
+		vehicle:transmitPartModData(part)
+	end
+end
+
+function CommonTemplates.Update.BatteryHeater(vehicle, part, elapsedMinutes)
+	-- print("CommonTemplates.Update.BatteryHeater")
+	if not Vehicles.elaspedMinutesForHeater[vehicle:getId()] then
+		Vehicles.elaspedMinutesForHeater[vehicle:getId()] = 0;
+	end
+	local pc = vehicle:getPartById("PassengerCompartment")
+	local battery = vehicle:getPartById("Battery")
+	if not pc or not battery then return end
+	if not battery:getInventoryItem() or battery:getInventoryItem():getUsedDelta() < 0.01 then
+		part:getModData().active = false;
+		vehicle:transmitPartModData(part);
+		part:setLightActive(false)
+		return
+	end
+	local pcData = pc:getModData()
+	if not tonumber(pcData.temperature) then
+		pcData.temperature = 0.0
+	end
+	local partData = part:getModData()
+	if not tonumber(partData.temperature) then
+		partData.temperature = 0
+	end
+--	print(elapsedMinutes)
+	local tempInc = 0.5
+	local previousTemp = pcData.temperature;
+--		print("heater temp " .. partData.temperature .. " - " .. pcData.temperature .. " - " .. tempInc)
+	if partData.active and ((partData.temperature > 0 and pcData.temperature <= partData.temperature) or (partData.temperature < 0 and pcData.temperature >= partData.temperature)) then
+		if partData.temperature > 0 then
+			pcData.temperature = math.min(pcData.temperature + tempInc * elapsedMinutes, partData.temperature)
+		else
+			pcData.temperature = math.max(pcData.temperature - tempInc * elapsedMinutes, partData.temperature)
+		end
+		if partData.temperature > 0 and pcData.temperature > partData.temperature then
+			pcData.temperature = partData.temperature
+		end
+		if partData.temperature < 0 and pcData.temperature < partData.temperature then
+			pcData.temperature = partData.temperature
+		end
+	else
+		if pcData.temperature > 0 then
+			pcData.temperature = math.max(pcData.temperature - 0.1 * elapsedMinutes, 0)
+		else
+			pcData.temperature = math.min(pcData.temperature + 0.1 * elapsedMinutes, 0)
+		end
+	end
+	if partData.active then
+		VehicleUtils.chargeBattery(vehicle, -0.000035 * elapsedMinutes)
+	end
+	Vehicles.elaspedMinutesForHeater[vehicle:getId()] = Vehicles.elaspedMinutesForHeater[vehicle:getId()] + elapsedMinutes;
+	if isServer() and VehicleUtils.compareFloats(previousTemp, pcData.temperature, 2) and Vehicles.elaspedMinutesForHeater[vehicle:getId()] > 2 then
+		Vehicles.elaspedMinutesForHeater[vehicle:getId()] = 0;
+		vehicle:transmitPartModData(pc);
+	end
+end
+
+--***********************************************************
+--**                                                       **
+--**                           TV                          **
+--**                                                       **
+--***********************************************************
+function CommonTemplates.Create.TV(vehicle, part)
+	local deviceData = part:createSignalDevice()
+	local invItem = VehicleUtils.createPartInventoryItem(part);
+
+	local text2 = invItem:getType()
+
+	deviceData:setIsTwoWay( invItem:getDeviceData():getIsTwoWay() )
+	deviceData:setTransmitRange( invItem:getDeviceData():getTransmitRange() )
+	deviceData:setMicRange( invItem:getDeviceData():getMicRange() )
+	deviceData:setBaseVolumeRange( invItem:getDeviceData():getBaseVolumeRange() )
+	deviceData:setIsPortable(false)
+	deviceData:setIsTelevision( invItem:getDeviceData():getIsTelevision() )
+	deviceData:setMinChannelRange( invItem:getDeviceData():getMinChannelRange() )
+	deviceData:setMaxChannelRange( invItem:getDeviceData():getMaxChannelRange() )
+	deviceData:setIsBatteryPowered(false)
+	deviceData:setIsHighTier(false)
+	deviceData:setUseDelta(0.007)
+	deviceData:generatePresets()
+	deviceData:setRandomChannel()
+end
+
+
+
 --***********************************************************
 --**                                                       **
 --**                        Another                        **
 --**                                                       **
 --***********************************************************
 
-function CommonTemplates.ContainerAccess.Container(transport, part, playerObj)
+function CommonTemplates.ContainerAccess.ContainerByName(transport, part, playerObj)
 	if not part:getInventoryItem() then return false; end
 	if playerObj:getVehicle() == transport then
 		local script = transport:getScript()
 		local seat = transport:getSeat(playerObj)
-		local seatname = 'Seat'..script:getPassenger(seat):getId()
-		return part:getArea() == seatname
+		local seatname = script:getPassenger(seat):getId()
+		if string.match(part:getId(), seatname) then return true end
 	else
 		return false
 	end

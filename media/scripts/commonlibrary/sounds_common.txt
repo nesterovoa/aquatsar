@@ -23,7 +23,7 @@ module CommonLib
 		is3D = false,
 		clip
 		{
-			file = media/sound/common/bulb_smash.ogg,
+			file = media/sound/commonlibrary/bulb_smash.ogg,
 			distanceMin = 10,
 			distanceMax = 300,
 		}
@@ -36,7 +36,7 @@ module CommonLib
 		is3D = false,
 		clip
 		{
-			file = media/sound/common/switch_lamp.ogg,
+			file = media/sound/commonlibrary/switch_lamp.ogg,
 			distanceMin = 10,
 			distanceMax = 300,
 		}
@@ -50,7 +50,7 @@ module CommonLib
 		
 		clip
 		{
-			file = media/sound/common/switch_lamp_fail.ogg,
+			file = media/sound/commonlibrary/switch_lamp_fail.ogg,
 			distanceMin = 10,
 			distanceMax = 300,
 			volume = 2.0,

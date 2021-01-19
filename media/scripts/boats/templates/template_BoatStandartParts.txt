@@ -379,11 +379,15 @@ module Base
 				update = Vehicles.Update.Radio,
 			}
 		}
-		
-		
-		
-		
-		
+
+		part Heater
+		{
+			category = ElecticalSystem,
+			lua
+			{
+				update = Vehicles.Update.Heater,
+			}
+		}
 	}
 }
 

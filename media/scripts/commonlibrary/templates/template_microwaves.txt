@@ -2,51 +2,84 @@ module Base
 {
 	item TransportMicrowave
     {
-        Weight	=	10.0,
+        Weight	=	5.0,
         Type	=	Normal,
-        DisplayName	=	Counter,
+        DisplayName	= Compact Microwave,
+		Tooltip = Tooltip_Compact_Microwave,
         Icon	=	media/ui/Container_Microwave,
-        MaxCapacity = 15,
+        MaxCapacity = 10,
 		ConditionMax = 100,
         MechanicsItem = TRUE,
     }
-
+	
+	item MovWhiteMicrowave
+	{
+		Type			= Moveable,
+		Icon			= default,
+		DisplayName		= Moveable,
+		WorldObjectSprite	= appliances_cooking_01_25,
+		MaxCapacity = 10,
+		ConditionMax = 100,
+		MechanicsItem = TRUE,
+	}
+	
+	item MovChromeMicrowave
+	{
+		Type			= Moveable,
+		Icon			= default,
+		DisplayName		= Moveable,
+		WorldObjectSprite	= appliances_cooking_01_28,
+		MaxCapacity = 10,
+		ConditionMax = 100,
+		MechanicsItem = TRUE,
+	}
+	
+	recipe Make a compact microwave
+    {
+        MovWhiteMicrowave/MovChromeMicrowave,
+        keep Screwdriver,
+		Result:TransportMicrowave,
+		Time:500.0,
+		Category:Electrical,
+		SkillRequired:Electricity=2,
+		OnGiveXP:Recipe.OnGiveXP.DismantleElectronics,
+    }
+	
 	template vehicle Microwaves
 	{
 		part MicrowaveFrontLeft
 		{
-			area = SeatFrontLeft,
+			area = Common,
 		}
 		part MicrowaveFrontRight
 		{
-			area = SeatFrontRight,
+			area = Common,
 		}
 		part MicrowaveMiddleLeft
 		{
-			area = SeatMiddleLeft,
+			area = Common,
 		}
 		part MicrowaveMiddleRight
 		{
-			area = SeatMiddleRight,
+			area = Common,
 		}
 		part MicrowaveRearLeft
 		{
-			area = SeatRearLeft,
+			area = Common,
 		}
 		part MicrowaveRearRight
 		{
-			area = SeatRearRight,
+			area = Common,
 		}
 		
 		part Microwave*
 		{
-			category = nodisplay,
 			specificItem = false,
 			itemType = Base.TransportMicrowave,
 			container
 			{
 				capacity = 10,
-				test = CommonTemplates.ContainerAccess.Container,
+				test = CommonTemplates.ContainerAccess.ContainerByName,
 			}
 			table install
 			{
@@ -62,7 +95,7 @@ module Base
 				}
 				time = 300,
 				skills = Mechanics:1,
-				recipes = Basic Mechanics,
+				recipes =,
 				test = Vehicles.InstallTest.Default,
 			}
 			table uninstall
@@ -79,8 +112,9 @@ module Base
 				}
 				time = 300,
 				skills = Mechanics:1,
-				recipes = Basic Mechanics,
+				recipes =,
 				test = Vehicles.UninstallTest.Default,
+				requireEmpty = true,
 			}
 			lua
 			{

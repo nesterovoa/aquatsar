@@ -4,7 +4,7 @@ module Base
 	{
 		Weight	=	20.0,
 		Type	=	Normal,
-		DisplayName	= Compact Oven,
+		DisplayName	= Compact Stove,
 		Tooltip = Tooltip_Compact_Oven,
 		Icon	=	media/ui/Container_Oven,
 		MaxCapacity = 10,
@@ -12,42 +12,104 @@ module Base
 		MechanicsItem = TRUE,
 	}
 	
+	item MovGreenOven
+	{
+		Type			= Moveable,
+		Icon			= default,
+		Weight          	= 40,
+		DisplayName		= Moveable,
+		WorldObjectSprite	= appliances_cooking_01_1,
+	}
+	
+	item MovGreyOven
+	{
+		Type			= Moveable,
+		Icon			= default,
+		Weight          	= 40,
+		DisplayName		= Moveable,
+		WorldObjectSprite	= appliances_cooking_01_5,
+	}
+	
+	item MovRedOven
+	{
+		Type			= Moveable,
+		Icon			= default,
+		Weight          	= 40,
+		DisplayName		= Moveable,
+		WorldObjectSprite	= appliances_cooking_01_9,
+	}
+	
+	item MovModernOven
+	{
+		Type			= Moveable,
+		Icon			= default,
+		Weight          	= 40,
+		DisplayName		= Moveable,
+		WorldObjectSprite	= appliances_cooking_01_13,
+	}
+	
+	item MovIndustrialOven
+	{
+		Type			= Moveable,
+		Icon			= default,
+		Weight          	= 40,
+		DisplayName		= Moveable,
+		WorldObjectSprite	= appliances_cooking_01_21,
+	}
+	
+	recipe Make a compact stove
+    {
+        MovGreenOven/MovGreyOven/MovRedOven/MovModernOven/MovIndustrialOven,
+		BlowTorch=5,
+		WeldingRods=5,
+        keep WeldingMask,
+		keep Hammer,
+		keep Saw,
+				
+		Result:TransportOven,
+		Time:1000.0,
+		Sound:BlowTorch,
+		Category:Welding,
+		SkillRequired:MetalWelding=3;Electricity=2,
+        OnGiveXP:Recipe.OnGiveXP.MetalWelding25,
+		OnGiveXP:Recipe.OnGiveXP.DismantleElectronics,
+    }
+	
 	template vehicle Ovens
 	{
 		part OvenFrontLeft
 		{
-			area = SeatFrontLeft,
+			area = Common,
 		}
 		part OvenFrontRight
 		{
-			area = SeatFrontRight,
+			area = Common,
 		}
 		part OvenMiddleLeft
 		{
-			area = SeatMiddleLeft,
+			area = Common,
 		}
 		part OvenMiddleRight
 		{
-			area = SeatMiddleRight,
+			area = Common,
 		}
 		part OvenRearLeft
 		{
-			area = SeatRearLeft,
+			area = Common,
 		}
 		part OvenRearRight
 		{
-			area = SeatRearRight,
+			area = Common,
 		}
 		
 		part Oven*
 		{
-			category = nodisplay,
 			specificItem = false,
 			itemType = Base.TransportOven,
 			container
 			{
 				capacity = 10,
-				test = CommonTemplates.ContainerAccess.Container,
+				test = CommonTemplates.ContainerAccess.ContainerByName,
 			}
 			table install
 			{
@@ -82,6 +144,7 @@ module Base
 				skills = Mechanics:1,
 				recipes = Basic Mechanics,
 				test = Vehicles.UninstallTest.Default,
+				requireEmpty = true,
 			}
 			lua
 			{

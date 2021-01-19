@@ -4,7 +4,7 @@ module Base
     {
         Weight	=	10.0,
         Type	=	Normal,
-        DisplayName	=	Counter,
+        DisplayName	=	Medicine,
         Icon	=	media/ui/Container_Medicine,
         MaxCapacity = 15,
 		ConditionMax = 100,
@@ -15,27 +15,27 @@ module Base
 	{
 		part MedicineFrontLeft
 		{
-			area = SeatFrontLeft,
+			area = Common,
 		}
 		part MedicineFrontRight
 		{
-			area = SeatFrontRight,
+			area = Common,
 		}
 		part MedicineMiddleLeft
 		{
-			area = SeatMiddleLeft,
+			area = Common,
 		}
 		part MedicineMiddleRight
 		{
-			area = SeatMiddleRight,
+			area = Common,
 		}
 		part MedicineRearLeft
 		{
-			area = SeatRearLeft,
+			area = Common,
 		}
 		part MedicineRearRight
 		{
-			area = SeatRearRight,
+			area = Common,
 		}
 		
 		part Medicine*
@@ -46,7 +46,7 @@ module Base
 			container
 			{
 				capacity = 10,
-				test = CommonTemplates.ContainerAccess.Container,
+				test = CommonTemplates.ContainerAccess.ContainerByName,
 			}
 			table install
 			{

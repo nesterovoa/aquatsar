@@ -46,7 +46,7 @@ module Base
 			container
 			{
 				capacity = 15,
-				test = CommonTemplates.ContainerAccess.Container,
+				test = CommonTemplates.ContainerAccess.ContainerByName,
 			}
 			table install
 			{

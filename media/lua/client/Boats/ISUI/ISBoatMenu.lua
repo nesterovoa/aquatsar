@@ -619,18 +619,6 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		end
 	end
 	
-	if boat:getPartById("Heater") and lightIsOn and inCabin then
-		local tex = getTexture("media/ui/vehicles/vehicle_temperatureHOT.png")
-		if (boat:getPartById("Heater"):getModData().temperature or 0) < 0 then
-			tex = getTexture("media/ui/vehicles/vehicle_temperatureCOLD.png")
-		end
-		if boat:getPartById("Heater"):getModData().active then
-			menu:addSlice(getText("ContextMenu_VehicleHeaterOff"), tex, ISBoatMenu.onToggleHeater, playerObj )
-		else
-			menu:addSlice(getText("ContextMenu_VehicleHeaterOn"), tex, ISBoatMenu.onToggleHeater, playerObj )
-		end
-	end
-	
 	if boat:isDriver(playerObj) and boat:hasHorn() then
 		menu:addSlice(getText("ContextMenu_VehicleHorn"), getTexture("media/ui/vehicles/vehicle_horn.png"), ISBoatMenu.onHorn, playerObj)
 	end
@@ -1575,7 +1563,7 @@ function ISBoatMenu.onToggleHeater(playerObj)
 	end
 	local ui = ISBoatMenu.acui[playerNum]
 	if not ui or ui.character ~= playerObj then
-		ui = ISVehicleACUI:new(0,0,playerObj)
+		ui = ISBatteryACUI:new(0,0,playerObj)
 		ui:initialise()
 		ui:instantiate()
 		ISBoatMenu.acui[playerNum] = ui

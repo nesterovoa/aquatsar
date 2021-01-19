@@ -198,8 +198,7 @@ end
 --** ISPortableOvenUI:new
 --**
 --************************************************************************--
-function ISPortableOvenUI:new(x, y, width, height, character, vehicle, part, seat)
-	print(oven)
+function ISPortableOvenUI:new(x, y, width, height, character, vehicle, part)
     local o = {}
     o = ISPanelJoypad:new(x, y, width, height);
     setmetatable(o, self)
@@ -219,7 +218,7 @@ function ISPortableOvenUI:new(x, y, width, height, character, vehicle, part, sea
 	
     o.character = character;
 	o.vehicle = vehicle
-	o.seat = seat
+	o.seat = vehicle:getSeat(character)
     o.oven = part;
 	
     o.moveWithMouse = true;

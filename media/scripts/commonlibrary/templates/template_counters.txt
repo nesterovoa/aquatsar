@@ -47,7 +47,7 @@ module Base
 			{
 				type = counter,
 				capacity = 20,
-				test = CommonTemplates.ContainerAccess.Container,
+				test = CommonTemplates.ContainerAccess.ContainerByName,
 			}
 			table install
 			{

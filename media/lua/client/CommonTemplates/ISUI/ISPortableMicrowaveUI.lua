@@ -168,7 +168,7 @@ end
 --** ISPortableMicrowaveUI:new
 --**
 --************************************************************************--
-function ISPortableMicrowaveUI:new(x, y, width, height, character, vehicle, part, seat)
+function ISPortableMicrowaveUI:new(x, y, width, height, character, vehicle, part)
     local o = {}
     o = ISPanelJoypad:new(x, y, width, height);
     setmetatable(o, self)
@@ -188,7 +188,7 @@ function ISPortableMicrowaveUI:new(x, y, width, height, character, vehicle, part
     
 	o.character = character;
 	o.vehicle = vehicle
-	o.seat = seat
+	o.seat = vehicle:getSeat(character)
     o.oven = part;
 	
     o.moveWithMouse = true;
