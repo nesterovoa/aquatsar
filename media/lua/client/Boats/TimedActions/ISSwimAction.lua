@@ -26,6 +26,7 @@ function ISSwimAction:update()
         self:stop()
     end
     self.character:getStats():setEndurance(self.enduranceFirst - self:getJobDelta()*self.enduranceValue)
+    self.character:getXp():AddXP(Perks.Fitness, 0.05)
 
     if self.character:getStats():getEndurance() < 0.3 and self.isFail then
         if self.damageCount < 6 and ZombRand(100) < 15 then
