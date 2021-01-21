@@ -302,7 +302,7 @@ module Base
 
 		attachment trailerfront
 		{
-			offset = 0.0025 0.0000 0.6250,
+			offset = 0.0000 0.0000 0.6250,
 			rotate = 0.0000 0.0000 0.0000,
 			zoffset = 1.0000,
 		}
@@ -512,8 +512,8 @@ module Base
 		seats = 6,
 		template = BoatSailingYachtTemplate,
 		template = BoatSailingYachtPassengerTemplate,
-		
-		part Sails 
+
+		part Sails
 		{
 			lua
 			{
@@ -521,7 +521,7 @@ module Base
 				init = Boats.Init.SailsRemoved,
 			}
 		}
-		
+
 		attachment checkFront
 		{
 			offset = 0.0000 0.0000 0.8938,

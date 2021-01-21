@@ -629,7 +629,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 
 	-- Swim
 	boat:updateHasExtendOffsetForExit(playerObj)
-	if boat:getCurrentSpeedKmHour() < 1 and boat:getCurrentSpeedKmHour() > -1 then -- and not ISBoatMenu.getNearLandForExit(boat)
+	if boat:getCurrentSpeedKmHour() < 5 and boat:getCurrentSpeedKmHour() > -5 then -- and not ISBoatMenu.getNearLandForExit(boat)
 		menu:addSlice(getText("ContextMenu_SwimToLand"), getTexture("media/ui/boats/ICON_boat_swim.png"), ISBoatMenu.showSwimMenu, playerObj)
 	end
 
@@ -1556,32 +1556,6 @@ end
 	-- if not boat then return end
 	-- sendClientCommand(playerObj, 'vehicle', 'setTrunkLocked', { locked = not boat:isTrunkLocked() });
 -- end
-
-function ISBoatMenu.onToggleHeater(playerObj)
-	local playerNum = playerObj:getPlayerNum()
-	if not ISBoatMenu.acui then
-		ISBoatMenu.acui = {}
-	end
-	local ui = ISBoatMenu.acui[playerNum]
-	if not ui or ui.character ~= playerObj then
-		ui = ISBatteryACUI:new(0,0,playerObj)
-		ui:initialise()
-		ui:instantiate()
-		ISBoatMenu.acui[playerNum] = ui
-	end
-	if ui:isReallyVisible() then
-		ui:removeFromUIManager()
-		if JoypadState.players[playerNum+1] then
-			setJoypadFocus(playerNum, nil)
-		end
-	else
-		ui:setVehicle(playerObj:getVehicle())
-		ui:addToUIManager()
-		if JoypadState.players[playerNum+1] then
-			JoypadState.players[playerNum+1].focus = ui
-		end
-	end
-end
 
 function ISBoatMenu.onSignalDevice(playerObj, part)
 	ISRadioWindow.activate(playerObj, part)

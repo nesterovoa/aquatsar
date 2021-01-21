@@ -25,21 +25,17 @@ function ISCommonMenu.showRadialMenu(playerObj, vehicle)
 	local lightIsOn = true
 	local timeHours = getGameTime():getHour()
 	
-	if boat:getPartById("Heater") and lightIsOn and inCabin then
+	if vehicle:getPartById("Heater") and lightIsOn and inCabin then
 		local tex = getTexture("media/ui/commonlibrary/UI_temperatureHC.png")
-		if (boat:getPartById("Heater"):getModData().temperature or 0) < 0 then
+		if (vehicle:getPartById("Heater"):getModData().temperature or 0) < 0 then
 			tex = getTexture("media/ui/vehicles/vehicle_temperatureCOLD.png")
-		elseif (boat:getPartById("Heater"):getModData().temperature or 0) > 0 then
+		elseif (vehicle:getPartById("Heater"):getModData().temperature or 0) > 0 then
 			tex = getTexture("media/ui/vehicles/vehicle_temperatureHOT.png")
-		end
-		-- if (boat:getPartById("Heater"):getModData().temperature or 0) < 0 then
-			-- tex = getTexture("media/ui/vehicles/vehicle_temperatureCOLD.png")
-		-- end
-		
-		if boat:getPartById("Heater"):getModData().active then
-			menu:addSlice(getText("ContextMenu_AirCondOff"), tex, ISBoatMenu.onToggleHeater, playerObj )
+		end		
+		if vehicle:getPartById("Heater"):getModData().active then
+			menu:addSlice(getText("ContextMenu_AirCondOff"), tex, ISCommonMenu.onToggleHeater, playerObj )
 		else
-			menu:addSlice(getText("ContextMenu_AirCondOn"), tex, ISBoatMenu.onToggleHeater, playerObj )
+			menu:addSlice(getText("ContextMenu_AirCondOn"), tex, ISCommonMenu.onToggleHeater, playerObj )
 		end
 	end
 	
@@ -90,6 +86,32 @@ function ISCommonMenu.showRadialMenu(playerObj, vehicle)
 		end
 	end
 end
+
+function ISCommonMenu.onToggleHeater(playerObj)
+	local playerNum = playerObj:getPlayerNum()
+	if not ISBoatMenu.acui then
+		ISBoatMenu.acui = {}
+	end
+	local ui = ISBoatMenu.acui[playerNum]
+	if not ui or ui.character ~= playerObj then
+		ui = ISBatteryACUI:new(0,0,playerObj)
+		ui:initialise()
+		ui:instantiate()
+		ISBoatMenu.acui[playerNum] = ui
+	end
+	if ui:isReallyVisible() then
+		ui:removeFromUIManager()
+		if JoypadState.players[playerNum+1] then
+			setJoypadFocus(playerNum, nil)
+		end
+	else
+		ui:setVehicle(playerObj:getVehicle())
+		ui:addToUIManager()
+		if JoypadState.players[playerNum+1] then
+			JoypadState.players[playerNum+1].focus = ui
+		end
+	end
+end	
 	
 function ISCommonMenu.ToggleDevice(playerObj, vehicle, part)
 	CommonTemplates.Use.DefaultDevice(vehicle, part, playerObj)
