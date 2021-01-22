@@ -79,11 +79,12 @@ IGUI_RU = {
 
 
 	IGUI_SwimWord_Damage1 = "Фуух...",
-	IGUI_SwimWord_Damage2 = "Эх...",
+	IGUI_SwimWord_Damage2 = "Нужно следить за своим самочувствием..",
 	IGUI_SwimWord_Damage3 = "Всё болит...",
 	IGUI_SwimWord_Damage4 = "Тону...",
 	IGUI_SwimWord_Damage5 = "Скорее бы доплыть",
 	IGUI_SwimWord_Damage6 = "Лишь бы доплыть...",
+	
 
 	IGUI_SwimWord_LostItems1 = "Ах, потерял вещи",
 	IGUI_SwimWord_LostItems1 = "Как жаль, вещи пошли ко дну",

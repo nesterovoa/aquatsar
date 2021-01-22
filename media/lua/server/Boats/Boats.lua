@@ -35,6 +35,10 @@ function Boats.Create.Propeller(boat, part)
 	end
 end
 
+function Boats.Update.Propeller(boat, part, elapsedMinutes)
+	BoatUtils.LowerEngineCondition(boat, part, elapsedMinutes);
+end
+
 function Boats.InstallTest.Propeller(boat, part, playerObj)
 	if ISVehicleMechanics.cheat then return true; end
 	if boat:isEngineRunning() then return false end
@@ -107,6 +111,7 @@ function Boats.Init.SailsRemoved(boat, part)
 end
 
 function Boats.Update.SailsSet(boat, part, elapsedMinutes)
+	BoatUtils.LowerCondition(boat, part, elapsedMinutes);
 	local windSpeed = getClimateManager():getWindspeedKph()
 	-- AUD.insp("Wind", "windSpeed (MPH):", windSpeed/1.60934)
 	if part:getInventoryItem() and windSpeed > AquaConfig.windVeryStrong then
@@ -214,6 +219,32 @@ end
 
 
 BoatUtils = {}
+
+function BoatUtils.LowerCondition(vehicle, part, elapsedMinutes)
+	if part:getInventoryItem() then
+		local chance = vehicle:getEngineSpeed()/ 1000
+		if part:getCondition() > 0 and ZombRandFloat(0, 100) < chance then
+			part:setCondition(part:getCondition() - 1);
+			vehicle:transmitPartCondition(part);
+			vehicle:updatePartStats();
+		end
+		return chance;
+	end
+	return 0;
+end
+
+function BoatUtils.LowerEngineCondition(vehicle, part, elapsedMinutes)
+	if vehicle:isEngineRunning() and part:getInventoryItem() then
+		local chance = vehicle:getEngineSpeed()/ 1000
+		if part:getCondition() > 0 and ZombRandFloat(0, 100) < chance then
+			part:setCondition(part:getCondition() - 1);
+			vehicle:transmitPartCondition(part);
+			vehicle:updatePartStats();
+		end
+		return chance;
+	end
+	return 0;
+end
 
 function BoatUtils.getContainers(playerNum)
 	local containers = {}

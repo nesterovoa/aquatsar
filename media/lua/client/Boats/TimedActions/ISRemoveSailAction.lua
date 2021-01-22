@@ -18,7 +18,7 @@ function ISRemoveSailAction:update()
 
 	local timeLeftNow =  (1 - self:getJobDelta()) * self.maxTime
 
-	if self.isFadeOut == false and timeLeftNow < 200 * speedCoeff[uispeed] then
+	if self.isFadeOut == false and timeLeftNow < 150 * speedCoeff[uispeed] then
 		UIManager.FadeOut(self.character:getPlayerNum(), 1)
         self.isFadeOut = true
 	end
@@ -40,7 +40,7 @@ end
 function ISRemoveSailAction:perform()
 	local nameOfBoat = AquaConfig.Boat(self.boat).removeSailsScript
 	ISBoatMenu.replaceBoat(self.boat, nameOfBoat)
-
+	self.character:getStats():setEndurance(self.character:getStats():getEndurance() - 0.23)
     local playerNum = self.character:getPlayerNum()
 	UIManager.FadeIn(playerNum, 1)
 	UIManager.setFadeBeforeUI(playerNum, false)

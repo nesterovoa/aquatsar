@@ -70,7 +70,7 @@ function ISSetSailAction:perform()
             print("AQUATSAR: script for SetRightSails (" .. self.boat:getScript():getName() .. ") didn't find.")
         end
     end
-
+	self.character:getStats():setEndurance(self.character:getStats():getEndurance() - 0.23)
 	UIManager.FadeIn(self.playerNum, 1)
 	UIManager.setFadeBeforeUI(self.playerNum, false)
 

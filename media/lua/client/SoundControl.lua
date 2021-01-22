@@ -140,6 +140,7 @@ function SoundControl.main()
 			end
 		elseif player:getSquare() then
 			if player:getSquare():Is(IsoFlagType.water) then
+				player:getBodyDamage():setWetness(100)
 				if not player:getSprite():getProperties():Is(IsoFlagType.invisible) then
 					print("DIVE")
 					emiPl:playSound("Dive")

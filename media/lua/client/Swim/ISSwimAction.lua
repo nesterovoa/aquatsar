@@ -79,11 +79,11 @@ function ISSwimAction:perform()
         self.func(self.arg1, self.arg2)
     end
 
-    if self.isFail then
-        AquatsarYachts.Swim.Say("fail", 30)
-    else
-        AquatsarYachts.Swim.Say("success", 20)
-    end
+    -- if self.isFail then
+        -- AquatsarYachts.Swim.Say("fail", 30)
+    -- else
+        -- AquatsarYachts.Swim.Say("success", 20)
+    -- end
 
     if self.isLostItems then
         AquatsarYachts.Swim.Say("lostItems", 100)

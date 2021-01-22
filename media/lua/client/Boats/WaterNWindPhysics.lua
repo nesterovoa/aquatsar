@@ -154,6 +154,7 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 			windForceByDirection = 15 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 		end
 	end
+	
 	AUD.insp("Boat", "windSpeed (MPH):", windSpeed / 1.60934)
 	AUD.insp("Boat", "windForceByDirection154:", windForceByDirection)
 	local coefficientSailAngle = 0
@@ -273,29 +274,29 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 		-- AUD.insp("Boat", "forceVectorZ:", boatDirVector:y())
 		-- AUD.insp("Boat", "forceVectorY:", boatDirVector:z())
 	end
-	if boat:getDriver() then -- TODO исправить для онлайна
-		if isKeyDown(getCore():getKey("Left")) then
-			-- print("Left")
-			-- boat:update()
-			forceVector = boat:getWorldPos(-1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
-			forceVector:mul(4000)
-			forceVector:set(forceVector:x(), 0, forceVector:y())
+	-- if boat:getDriver() then -- TODO исправить для онлайна
+		-- if isKeyDown(getCore():getKey("Left")) then
+			-- -- print("Left")
+			-- -- boat:update()
+			-- forceVector = boat:getWorldPos(-1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			-- forceVector:mul(4000)
+			-- forceVector:set(forceVector:x(), 0, forceVector:y())
 			
-			boat:getWorldPos(0, 0, -3, tempVec2):add(-boat:getX(), -boat:getY(), -boat:getZ())
-			tempVec2:set(tempVec2:x(), tempVec2:z(), tempVec2:y())
-			boat:addImpulse(forceVector, tempVec2)   
-		elseif isKeyDown(getCore():getKey("Right")) then
-			-- boat:update()
-			-- print("Right")
-			forceVector = boat:getWorldPos(1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
-			forceVector:mul(4000)
-			forceVector:set(forceVector:x(), 0, forceVector:y())
+			-- boat:getWorldPos(0, 0, -3, tempVec2):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			-- tempVec2:set(tempVec2:x(), tempVec2:z(), tempVec2:y())
+			-- boat:addImpulse(forceVector, tempVec2)   
+		-- elseif isKeyDown(getCore():getKey("Right")) then
+			-- -- boat:update()
+			-- -- print("Right")
+			-- forceVector = boat:getWorldPos(1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			-- forceVector:mul(4000)
+			-- forceVector:set(forceVector:x(), 0, forceVector:y())
 			
-			boat:getWorldPos(0, 0, -3, tempVec2):add(-boat:getX(), -boat:getY(), -boat:getZ())
-			tempVec2:set(tempVec2:x(), tempVec2:z(), tempVec2:y())
-			boat:addImpulse(forceVector, tempVec2)
-		end
-	end
+			-- boat:getWorldPos(0, 0, -3, tempVec2):add(-boat:getX(), -boat:getY(), -boat:getZ())
+			-- tempVec2:set(tempVec2:x(), tempVec2:z(), tempVec2:y())
+			-- boat:addImpulse(forceVector, tempVec2)
+		-- end
+	-- end
 end
 
 
@@ -357,7 +358,7 @@ function AquaPhysics.heightFix(boat)
 	local squareUnderVehicle = getCell():getGridSquare(boat:getX(), boat:getY(), 0)
 	if squareUnderVehicle ~= nil and isWater(squareUnderVehicle) then
 		AUD.insp("Boat", "getDebugZ:", boat:getDebugZ())
-		if boat:getDebugZ() < 0.6 and boat:getCurrentSpeedKmHour() < 2 then 
+		if boat:getDebugZ() < 0.65 and boat:getCurrentSpeedKmHour() < 2 then 
 			-- boat:setPhysicsActive(true)
 			tempVec1:set(0, 5000, 0)
 			tempVec2:set(0, 0, 0)
@@ -455,6 +456,8 @@ end
 -------------------------------------
 
 function AquaPhysics.changeSailAngle(boat)
+	local playerObj = getPlayer()
+	if not playerObj or not (boat:getDriver() == playerObj) then return end
 	local sailAngle = boat:getModData()["sailAngle"]
 	if sailAngle == nil then
 		sailAngle = 0
@@ -465,11 +468,13 @@ function AquaPhysics.changeSailAngle(boat)
 			sailAngle = sailAngle + 0.5
 		end
 		boat:getModData()["sailAngle"] = sailAngle
+		playerObj:getStats():setEndurance(playerObj:getStats():getEndurance() - 0.0005)
 	elseif isKeyDown(Keyboard.KEY_RIGHT) then
 		if sailAngle > -90 then
 			sailAngle = sailAngle - 0.5
 		end
 		boat:getModData()["sailAngle"] = sailAngle
+		playerObj:getStats():setEndurance(playerObj:getStats():getEndurance() - 0.0005)
 	end
 end
 
@@ -530,9 +535,9 @@ function AquaPhysics.updateVehicles()
 				AquaPhysics.changeSailAngle(boat)
 			end
 			
-			if math.abs(boat:getCurrentSpeedKmHour()) < 4 then
+			-- if math.abs(boat:getCurrentSpeedKmHour()) < 4 then
 				AquaPhysics.waterFlowRotation(boat, 400)
-			end
+			-- end
 			
 			if boat:getModData()["aqua_anchor_on"] then 
 				AquaPhysics.stopByAnchor(boat, 5000) 

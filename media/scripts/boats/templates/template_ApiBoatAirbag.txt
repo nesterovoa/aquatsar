@@ -48,8 +48,6 @@ module Base
 			{
 				create = Vehicles.Create.Tire,
 				init = Vehicles.Init.Tire,
-				checkOperate = Vehicles.CheckOperate.Tire,
-				update = Vehicles.Update.Tire,
 			}
 			model InflatedTirePlusWheel
 			{

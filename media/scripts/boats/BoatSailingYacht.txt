@@ -195,10 +195,10 @@ module Base
 		{
 			file = BoatSailingYachtWithSailsLeftBody,
 			scale = 8.0000,
-			offset = 0.0000 -0.4525 0.0000,
+			offset = 0.0000 -0.2250 0.0000,
 		}
 
-		spawnOffsetY = 0.2,
+		spawnOffsetY = 0.15,
 
 		skin
 		{
@@ -218,15 +218,10 @@ module Base
 			horn = BoatHorn,
 		}
 
-		extents = 0.4000 0.3200 1.2875,
-		mass = 150,
-		physicsChassisShape = 0.4000 0.3200 1.2875,
-		centerOfMassOffset = 0.0000 0.2350 -0.0575,
-
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 0.2587 0.3750 0.3063,
+			offset = 0.1800 0.3750 0.3125,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -234,7 +229,7 @@ module Base
 		wheel FrontRight
 		{
 			front = true,
-			offset = -0.2587 0.3750 0.3063,
+			offset = -0.1800 0.3750 0.3125,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -242,7 +237,7 @@ module Base
 		wheel RearLeft
 		{
 			front = false,
-			offset = 0.2587 0.3750 -0.4212,
+			offset = 0.1800 0.3750 -0.4375,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -250,11 +245,15 @@ module Base
 		wheel RearRight
 		{
 			front = false,
-			offset = -0.2587 0.3750 -0.4212,
+			offset = -0.1800 0.3750 -0.4375,
 			radius = 0.15f,
 			width = 0.2f,
 		}
-		
+
+		extents = 0.4000 0.3200 1.2875,
+		mass = 150,
+		physicsChassisShape = 0.4000 0.3200 1.2875,
+		centerOfMassOffset = 0.0000 0.3225 -0.0625,
 		engineForce = 2500,
 		maxSpeed = 0.01f,
 		engineLoudness = 90,
@@ -318,7 +317,7 @@ module Base
 			offset = 0.0000 -0.2250 0.0000,
 		}
 
-		spawnOffsetY = 0.2,
+		spawnOffsetY = 0.15,
 
 		skin
 		{
@@ -338,15 +337,10 @@ module Base
 			horn = BoatHorn,
 		}
 
-		extents = 0.4000 0.3200 1.2875,
-		mass = 150,
-		physicsChassisShape = 0.4000 0.3200 1.2875,
-		centerOfMassOffset = 0.0000 0.2350 -0.0575,
-
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 0.2587 0.3750 0.3063,
+			offset = 0.1800 0.3750 0.3125,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -354,7 +348,7 @@ module Base
 		wheel FrontRight
 		{
 			front = true,
-			offset = -0.2587 0.3750 0.3063,
+			offset = -0.1800 0.3750 0.3125,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -362,7 +356,7 @@ module Base
 		wheel RearLeft
 		{
 			front = false,
-			offset = 0.2587 0.3750 -0.4212,
+			offset = 0.1800 0.3750 -0.4375,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -370,11 +364,16 @@ module Base
 		wheel RearRight
 		{
 			front = false,
-			offset = -0.2587 0.3750 -0.4212,
+			offset = -0.1800 0.3750 -0.4375,
 			radius = 0.15f,
 			width = 0.2f,
 		}
 
+		extents = 0.4000 0.3200 1.2875,
+		mass = 150,
+		physicsChassisShape = 0.4000 0.3200 1.2875,
+		centerOfMassOffset = 0.0000 0.3225 -0.0625,
+		
 		engineForce = 2500,
 		maxSpeed = 0.01f,
 		engineLoudness = 90,
@@ -435,7 +434,7 @@ module Base
 		{
 			file = BoatSailingYachtBody,
 			scale = 8.0000,
-			offset = 0.0000 -0.2275 0.0000,
+			offset = 0.0000 -0.2250 0.0000,
 		}
 
 		skin
@@ -456,15 +455,10 @@ module Base
 			horn = BoatHorn,
 		}
 
-		extents = 0.4000 0.3200 1.2875,
-		mass = 150,
-		physicsChassisShape = 0.4000 0.3200 1.2875,
-		centerOfMassOffset = 0.0000 0.2350 -0.0575,
-
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 0.2587 0.3750 0.3063,
+			offset = 0.1800 0.3750 0.3125,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -472,7 +466,7 @@ module Base
 		wheel FrontRight
 		{
 			front = true,
-			offset = -0.2587 0.3750 0.3063,
+			offset = -0.1800 0.3750 0.3125,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -480,7 +474,7 @@ module Base
 		wheel RearLeft
 		{
 			front = false,
-			offset = 0.2587 0.3750 -0.4212,
+			offset = 0.1800 0.3750 -0.4375,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -488,11 +482,16 @@ module Base
 		wheel RearRight
 		{
 			front = false,
-			offset = -0.2587 0.3750 -0.4212,
+			offset = -0.1800 0.3750 -0.4375,
 			radius = 0.15f,
 			width = 0.2f,
 		}
 
+		extents = 0.4000 0.3200 1.2875,
+		mass = 150,
+		physicsChassisShape = 0.4000 0.3200 1.2875,
+		centerOfMassOffset = 0.0000 0.3225 -0.0625,
+		
 		engineForce = 2500,
 		maxSpeed = 0.01f,
 		engineLoudness = 90,

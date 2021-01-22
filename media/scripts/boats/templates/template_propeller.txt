@@ -61,6 +61,7 @@ module Base
 			lua
 			{
 				create = Boats.Create.Propeller,
+				update = Boats.Update.Propeller,
 			}
 		}
 	}
