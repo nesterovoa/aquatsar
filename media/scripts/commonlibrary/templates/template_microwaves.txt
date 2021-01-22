@@ -76,6 +76,7 @@ module Base
 		{
 			specificItem = false,
 			itemType = Base.TransportMicrowave,
+			category = nodisplay,
 			container
 			{
 				capacity = 10,

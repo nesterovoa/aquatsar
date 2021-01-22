@@ -233,6 +233,19 @@ module Aquatsar
 			distanceMax = 300,
 		}
 	}
+
+	sound boat_on_trailer
+	{
+		category = Boat,
+		loop = false,
+		is3D = true,
+		clip
+		{
+			file = media/sound/boats/boat_on_trailer.ogg,
+			distanceMin = 10,
+			distanceMax = 300,
+		}
+	}
 	
 	sound motoryacht_engine_start
 	{

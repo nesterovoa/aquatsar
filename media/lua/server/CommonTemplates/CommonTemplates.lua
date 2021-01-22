@@ -50,19 +50,22 @@ function CommonTemplates.InstallTest.PartInCabin(vehicle, part, playerObj)
 end
 
 function CommonTemplates.UninstallTest.PartInCabin(vehicle, part, playerObj)
-	if ISVehicleMechanics.cheat then return true; end
+	if ISVehicleMechanics.cheat then return true end
+	if vehicle:getSeat(playerObj) == -1 then return false end
 	if not vehicle:getPartById("InCabin" .. seatNameTable[vehicle:getSeat(playerObj)+1]) then return false end
 	return Vehicles.UninstallTest.Default(vehicle, part, playerObj)
 end
 
 function CommonTemplates.InstallTest.PartNotInCabin(vehicle, part, playerObj)
 	if ISVehicleMechanics.cheat then return true; end
+	if vehicle:getSeat(playerObj) == -1 then return false end
 	if vehicle:getPartById("InCabin" .. seatNameTable[vehicle:getSeat(playerObj)+1]) then return false end
 	return Vehicles.InstallTest.Default(vehicle, part, playerObj)
 end
 
 function CommonTemplates.UninstallTest.PartNotInCabin(vehicle, part, playerObj)
 	if ISVehicleMechanics.cheat then return true; end
+	if vehicle:getSeat(playerObj) == -1 then return false end
 	if vehicle:getPartById("InCabin" .. seatNameTable[vehicle:getSeat(playerObj)+1]) then return false end
 	return Vehicles.UninstallTest.Default(vehicle, part, playerObj)
 end

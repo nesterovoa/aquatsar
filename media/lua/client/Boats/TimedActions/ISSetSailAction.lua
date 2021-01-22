@@ -21,7 +21,7 @@ function ISSetSailAction:update()
 
 	local timeLeftNow =  (1 - self:getJobDelta()) * self.maxTime
 
-	if self.isFadeOut == false and timeLeftNow < 100 * speedCoeff[uispeed] then
+	if self.isFadeOut == false and timeLeftNow < 200 * speedCoeff[uispeed] then
 		UIManager.FadeOut(self.playerNum, 1)
         self.isFadeOut = true
 	end

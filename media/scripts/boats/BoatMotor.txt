@@ -3,14 +3,14 @@ module Base
 	model BoatMotorBody
     {
         mesh = boats/BoatMotor,
-        shader = vehicle,
+        shader = vehicle_norandom_multiuv,
         invertX = FALSE,
         scale = 0.0016,
     }
 	model TrailerBoatMotorBody
     {
         mesh = trailers/TrailerWithBoatMotor,
-        shader = vehicle,
+        shader = vehicle_norandom_multiuv,
         invertX = FALSE,
         scale = 0.0050,
     }

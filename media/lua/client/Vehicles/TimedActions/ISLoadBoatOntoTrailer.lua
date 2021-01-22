@@ -20,7 +20,7 @@ function ISLoadBoatOntoTrailer:update()
 
 	local timeLeftNow =  (1 - self:getJobDelta()) * self.maxTime
 
-	if self.isFadeOut == false and timeLeftNow < 115 * speedCoeff[uispeed] then
+	if self.isFadeOut == false and timeLeftNow < 250 * speedCoeff[uispeed] then
 		UIManager.FadeOut(self.character:getPlayerNum(), 1)
 		self.isFadeOut = true
 	end
@@ -30,6 +30,7 @@ end
 
 function ISLoadBoatOntoTrailer:start()
 	self:setActionAnim("Loot")
+	self.trailer:getEmitter():playSound("boat_on_trailer")
 end
 
 function ISLoadBoatOntoTrailer:stop()
@@ -37,7 +38,7 @@ function ISLoadBoatOntoTrailer:stop()
 		UIManager.FadeIn(self.character:getPlayerNum(), 1)
 		UIManager.setFadeBeforeUI(self.character:getPlayerNum(), false)
 	end
-
+	self.trailer:getEmitter():stopSoundByName("boat_on_trailer")
 	ISBaseTimedAction.stop(self)
 end
 
@@ -64,7 +65,7 @@ function ISLoadBoatOntoTrailer:new(character, trailer, boat)
     o.boat = boat
 
 	o.isFadeOut = false
-    o.maxTime = 100;  -- TODO исправить на 1000
+    o.maxTime = 500;  -- TODO исправить на 1000
     
 	if character:isTimedActionInstant() then o.maxTime = 10 end
 	return o

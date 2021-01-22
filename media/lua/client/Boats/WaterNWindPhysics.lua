@@ -356,12 +356,13 @@ end
 function AquaPhysics.heightFix(boat)
 	local squareUnderVehicle = getCell():getGridSquare(boat:getX(), boat:getY(), 0)
 	if squareUnderVehicle ~= nil and isWater(squareUnderVehicle) then
-		if boat:getDebugZ() < -0.3 and boat:getCurrentSpeedKmHour() < 2 then 
-			boat:setPhysicsActive(true)
+		AUD.insp("Boat", "getDebugZ:", boat:getDebugZ())
+		if boat:getDebugZ() < 0.6 and boat:getCurrentSpeedKmHour() < 2 then 
+			-- boat:setPhysicsActive(true)
 			tempVec1:set(0, 5000, 0)
 			tempVec2:set(0, 0, 0)
 			boat:addImpulse(tempVec1, tempVec2)
-			boat:update()
+			-- boat:update()
 		end
 	elseif boat:getDebugZ() < 0 then
 		boat:setZ(0 - boat:getDebugZ())
@@ -398,10 +399,9 @@ function AquaPhysics.addImpulseXY(boat, force)
 end
 
 
-function AquaPhysics.waterFlowRotation(boat)
+function AquaPhysics.waterFlowRotation(boat, force)
 	if boat:getDriver() then
 		local lenHalf = boat:getScript():getPhysicsChassisShape():z()/2
-		local force = 500
 		if isKeyDown(getCore():getKey("Right")) then
 			-- boat:setPhysicsActive(true)
 			-- AquaPhysics.addImpulseGetWorldPos(boat, force)
@@ -530,9 +530,9 @@ function AquaPhysics.updateVehicles()
 				AquaPhysics.changeSailAngle(boat)
 			end
 			
-			-- if math.abs(boat:getCurrentSpeedKmHour()) < 4 then
-				-- AquaPhysics.waterFlowRotation(boat)
-			-- end
+			if math.abs(boat:getCurrentSpeedKmHour()) < 4 then
+				AquaPhysics.waterFlowRotation(boat, 700)
+			end
 			
 			if boat:getModData()["aqua_anchor_on"] then 
 				AquaPhysics.stopByAnchor(boat, 5000) 
