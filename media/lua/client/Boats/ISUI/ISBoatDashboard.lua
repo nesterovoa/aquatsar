@@ -508,16 +508,16 @@ end
 	-- ISVehicleMenu.onToggleHeater(self.character)
 -- end
 
--- function ISBoatDashboard:onClickKeys()
-	-- if getGameSpeed() == 0 then return; end
-	-- if getGameSpeed() > 1 then setGameSpeed(1); end
-	-- if not self.boat then return end
-	-- if self.boat:isEngineRunning() then
-		-- ISVehicleMenu.onShutOff(self.character)
-	-- elseif not self.boat:isEngineStarted() then
-		-- self.boat:setKeysInIgnition(not self.boat:isKeysInIgnition());
-	-- end
--- end
+function ISBoatDashboard:onClickKeys()
+	if getGameSpeed() == 0 then return; end
+	if getGameSpeed() > 1 then setGameSpeed(1); end
+	if not self.boat then return end
+	if self.boat:isEngineRunning() then
+		ISVehicleMenu.onShutOff(self.character)
+	elseif not self.boat:isEngineStarted() then
+		self.boat:setKeysInIgnition(not self.boat:isKeysInIgnition());
+	end
+end
 
 function ISBoatDashboard:new(playerNum, chr)
 	local o = ISPanel:new(0, 0, 200, 200)

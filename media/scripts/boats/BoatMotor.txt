@@ -172,7 +172,7 @@ module Base
 		{
 			file = BoatMotorBody,
 			scale = 7.0000,
-			offset = 0.0000 0.0043 0.0000,
+			offset = 0.0000 -0.2829 0.0000,
 		}
 
 		skin
@@ -196,7 +196,7 @@ module Base
 		extents = 0.3800 0.3200 1.2371,
 		mass = 100,
 		physicsChassisShape = 0.2886 0.3200 1.2371,
-		centerOfMassOffset = 0.0000 0.5771 -0.0586,
+		centerOfMassOffset = 0.0000 0.2886 -0.0586,
 
 		wheel FrontLeft
 		{

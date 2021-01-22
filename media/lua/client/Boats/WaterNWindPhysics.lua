@@ -531,7 +531,7 @@ function AquaPhysics.updateVehicles()
 			end
 			
 			if math.abs(boat:getCurrentSpeedKmHour()) < 4 then
-				AquaPhysics.waterFlowRotation(boat, 700)
+				AquaPhysics.waterFlowRotation(boat, 400)
 			end
 			
 			if boat:getModData()["aqua_anchor_on"] then 
