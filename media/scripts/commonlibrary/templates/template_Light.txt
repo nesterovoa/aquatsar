@@ -126,7 +126,6 @@ module Base
 			{
 				create = CommonTemplates.Create.Light,
 				init = CommonTemplates.Init.Light,
-				update = Vehicles.Update.Headlight,
 			}
 		}
 	}

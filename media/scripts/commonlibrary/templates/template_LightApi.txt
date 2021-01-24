@@ -60,6 +60,7 @@ module Base
 			{
 				create = CommonTemplates.Create.LightApi,
 				init = Vehicles.Init.Headlight,
+				update = CommonTemplates.Update.LightApi,
 			}
 		}
 	}

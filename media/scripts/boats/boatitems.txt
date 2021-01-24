@@ -27,7 +27,7 @@ module Aquatsar
         DisplayName	=	Manual Starter,
         Icon	=	ManualStarter,
         VehicleType =   1,
-        ChanceToSpawnDamaged = 0,
+        ChanceToSpawnDamaged = 50,
         ConditionMax = 100,
         MechanicsItem = TRUE,
     }

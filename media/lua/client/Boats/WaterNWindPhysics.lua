@@ -358,7 +358,7 @@ function AquaPhysics.heightFix(boat)
 	local squareUnderVehicle = getCell():getGridSquare(boat:getX(), boat:getY(), 0)
 	if squareUnderVehicle ~= nil and isWater(squareUnderVehicle) then
 		AUD.insp("Boat", "getDebugZ:", boat:getDebugZ())
-		if boat:getDebugZ() < 0.65 and boat:getCurrentSpeedKmHour() < 2 then 
+		if boat:getDebugZ() < 0.62 and boat:getCurrentSpeedKmHour() < 2 then 
 			-- boat:setPhysicsActive(true)
 			tempVec1:set(0, 5000, 0)
 			tempVec2:set(0, 0, 0)
@@ -535,9 +535,9 @@ function AquaPhysics.updateVehicles()
 				AquaPhysics.changeSailAngle(boat)
 			end
 			
-			-- if math.abs(boat:getCurrentSpeedKmHour()) < 4 then
+			if math.abs(boat:getCurrentSpeedKmHour()) < 4 then
 				AquaPhysics.waterFlowRotation(boat, 400)
-			-- end
+			end
 			
 			if boat:getModData()["aqua_anchor_on"] then 
 				AquaPhysics.stopByAnchor(boat, 5000) 
