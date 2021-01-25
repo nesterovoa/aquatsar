@@ -580,13 +580,18 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	end
 	
 	if boat:isDriver(playerObj) then -- and boat:isEngineWorking()
+		local manualStarter = boat:getPartById("ManualStarter")
 		if boat:isEngineRunning() then
-			menu:addSlice(getText("ContextMenu_VehicleShutOff"), getTexture("media/ui/boats/RadialMenu_StopEngine.png"), ISBoatMenu.onShutOff, playerObj)
+			if manualStarter then
+				menu:addSlice(getText("ContextMenu_VehicleShutOff"), getTexture("media/ui/boats/RadialMenu_StopEngine.png"), ISBoatMenu.onShutOff, playerObj)
+			else
+				menu:addSlice(getText("ContextMenu_VehicleShutOff"), getTexture("media/ui/vehicles/vehicle_ignitionOFF.png"), ISBoatMenu.onShutOff, playerObj)
+			end
 		else
 			if boat:isEngineStarted() then
 --				menu:addSlice("Ignition", getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
 			else
-				local manualStarter = boat:getPartById("ManualStarter")
+				
 				if manualStarter then 
 					if manualStarter:getInventoryItem() and manualStarter:getCondition() > 0 then
 						menu:addSlice(getText("ContextMenu_VehicleStartEngineManual"), getTexture("media/ui/boats/RadialMenu_ManualStarter.png"), ISBoatMenu.onStartEngineManualy, playerObj, manualStarter)

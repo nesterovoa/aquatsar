@@ -122,15 +122,29 @@ function ISCommonMenu.ToggleMicrowave(playerObj, vehicle, part, on)
 end
 
 function ISCommonMenu.onStoveSetting(playerObj, vehicle, part)
-	ui = ISPortableOvenUI:new(0,0,430,310, playerObj, vehicle, part)
-	ui:initialise()
-	ui:addToUIManager()
+	local data = getPlayerData(playerObj:getPlayerNum())
+	if not data.portableOvenUI or not data.portableOvenUI:getIsVisible() then
+		data.portableOvenUI = ISPortableOvenUI:new(0,0,430,310, playerObj, vehicle, part)
+		data.portableOvenUI:initialise()
+		data.portableOvenUI:addToUIManager()
+	else
+		data.portableOvenUI:setVisible(false);
+        data.portableOvenUI:removeFromUIManager();
+		data.portableOvenUI = nil
+	end
 end
 
 function ISCommonMenu.onMicrowaveSetting(playerObj, vehicle, part)
-	ui = ISPortableMicrowaveUI:new(0,0,430,310, playerObj, vehicle, part)
-	ui:initialise()
-	ui:addToUIManager()
+	local data = getPlayerData(playerObj:getPlayerNum())
+	if not data.portableOvenUI or not data.portableOvenUI:getIsVisible() then
+		data.portableOvenUI = ISPortableMicrowaveUI:new(0,0,430,310, playerObj, vehicle, part)
+		data.portableOvenUI:initialise()
+		data.portableOvenUI:addToUIManager()
+	else
+		data.portableOvenUI:setVisible(false);
+        data.portableOvenUI:removeFromUIManager();
+		data.portableOvenUI = nil
+	end
 end
 
 function ISCommonMenu.onToggleCabinlights(playerObj)

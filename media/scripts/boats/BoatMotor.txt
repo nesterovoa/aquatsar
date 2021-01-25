@@ -5,7 +5,7 @@ module Base
         mesh = boats/BoatMotor,
         shader = vehicle_norandom_multiuv,
         invertX = FALSE,
-        scale = 0.0016,
+        scale = 0.0015,
     }
 	model TrailerBoatMotorBody
     {
@@ -193,15 +193,15 @@ module Base
 			horn = BoatHorn,
 		}
 
-		extents = 0.3800 0.3200 1.2371,
+		extents = 0.4286 0.3200 1.0286,
 		mass = 100,
-		physicsChassisShape = 0.2886 0.3200 1.2371,
+		physicsChassisShape = 0.2886 0.3200 1.0286,
 		centerOfMassOffset = 0.0000 0.2886 -0.0586,
 
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 0.1814 0.4000 0.3686,
+			offset = 0.1714 0.4000 0.3686,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -209,7 +209,7 @@ module Base
 		wheel FrontRight
 		{
 			front = true,
-			offset = -0.1814 0.4000 0.3657,
+			offset = -0.1714 0.4000 0.3657,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -217,7 +217,7 @@ module Base
 		wheel RearLeft
 		{
 			front = false,
-			offset = 0.1814 0.4000 -0.3971,
+			offset = 0.1714 0.4000 -0.3971,
 			radius = 0.15f,
 			width = 0.2f,
 		}
@@ -225,7 +225,7 @@ module Base
 		wheel RearRight
 		{
 			front = false,
-			offset = -0.1814 0.4000 -0.3986,
+			offset = -0.1714 0.4000 -0.3986,
 			radius = 0.15f,
 			width = 0.2f,
 		}

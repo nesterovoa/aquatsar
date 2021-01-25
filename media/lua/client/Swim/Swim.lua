@@ -216,7 +216,6 @@ local function swimToPoint(player, context, worldobjects, test)
     end
 end
 
-Events.OnFillWorldObjectContextMenu.Add(swimToPoint)
 
 
 
@@ -285,9 +284,6 @@ local function fastSwim(key)
     end
 end
 
-Events.OnKeyStartPressed.Add(fastSwim)
-
-
 ------
 --- Say when swim
 
@@ -315,9 +311,6 @@ SwimSayWords.fail["IGUI_SwimWord_Fail1"] = 33
 SwimSayWords.fail["IGUI_SwimWord_Fail2"] = 33
 SwimSayWords.fail["IGUI_SwimWord_Fail3"] = 34
 
-
-
-
 function AquatsarYachts.Swim.Say(situation, chaceToSay)
     if ZombRand(100) <= chaceToSay then
         local currentChance = ZombRand(100)
@@ -332,3 +325,5 @@ function AquatsarYachts.Swim.Say(situation, chaceToSay)
     end
 end
 
+Events.OnKeyStartPressed.Add(fastSwim)
+Events.OnFillWorldObjectContextMenu.Add(swimToPoint)

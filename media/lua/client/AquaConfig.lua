@@ -34,6 +34,7 @@ boat = AquaConfig.Boats["BoatMotor"]
 boat.dashboard = "ISBoatDashboard"
 -- boat.driverBehind = false
 -- boat.sails = false
+boat.limitReverseSpeed = 6
 boat.boatSeatUI_Image = "BoatMotorYacht_seat"
 boat.boatSeatUI_Scale = 1
 boat.windInfluence = 1.1
