@@ -29,18 +29,6 @@ function SoundControl.stopWeatherSound(emi)
 	SoundTable.Wind = {}
 end
 
--- function SoundControl.isWater(paramIsoObject)
-	-- if not instanceof(paramIsoObject, "IsoObject") then return false end
-	-- local tileName = paramIsoObject:getTile()
-	-- if not tileName then
-		-- return false
-	-- elseif string.match(string.lower(tileName), "blends_natural_02") then
-		-- return true
-	-- else
-		-- return false
-	-- end
--- end
-
 function SoundControl.isWater(square)
 	if square then
 		return square:getProperties():Is(IsoFlagType.water)
@@ -49,34 +37,8 @@ function SoundControl.isWater(square)
 	end
 end
 
-function SoundControl.checkWaterBuild(paramIsoObject)
-	-- print(paramIsoObject)
-	-- print("checkWaterBuild ")
-	if SoundControl.isWater(paramIsoObject) then
-		local floorTile = paramIsoObject:getTile()
-		local sq = paramIsoObject:getSquare()
-		if not SoundTable.waterConstruction then SoundTable.waterConstruction  = {} end
-		SoundTable.waterConstruction[sq] = floorTile
-	end
-end
-
 function SoundControl.main()
 	local player = getPlayer()
-	if SoundTable.waterConstruction then 
-		print("SoundTable.waterConstruction")
-		for sq, floorTile in pairs(SoundTable.waterConstruction) do 
-			if not floorTile then return end
-			local old_tile = sq:getFloor():getTile()
-			sq:addFloor(floorTile)
-			sq:RecalcProperties()
-			if string.match(old_tile, "carpentry_02") then
-				sq:AddWorldInventoryItem("Base.Plank", ZombRandFloat(0,0.9), ZombRandFloat(0,0.9), 0)
-			end
-			getSoundManager():PlaySound("ThrowInWater", true, 0.0)
-			player:Say(getText("IGUI_PlayerText_PontoonNeeded"))
-		end
-		SoundTable.waterConstruction = nil
-	end
 	
 	if player then
 		local boat = player:getVehicle()
@@ -144,6 +106,7 @@ function SoundControl.main()
 				if not player:getSprite():getProperties():Is(IsoFlagType.invisible) then
 					emiPl:playSound("Dive")
 					player:getSprite():getProperties():Set(IsoFlagType.invisible)
+					player:setNoClip(true)
 				elseif not emiPl:isPlaying("Swim") and not player:isDead() then
 					player:playSound("Swim")
 				end
@@ -151,6 +114,7 @@ function SoundControl.main()
 				if player:getSprite():getProperties():Is(IsoFlagType.invisible) then
 					emiPl:playSound("LeaveWater")
 					player:getSprite():getProperties():UnSet(IsoFlagType.invisible)
+					player:setNoClip(false)
 				end
 				if emiPl:isPlaying("Swim") then
 					emiPl:stopSoundByName("Swim")
@@ -164,6 +128,6 @@ local function onPlayerDeathStopSwimSound()
 	getPlayer():getEmitter():stopSoundByName("Swim")
 end
 
-Events.OnTileRemoved.Add(SoundControl.checkWaterBuild)
+
 Events.OnTick.Add(SoundControl.main)
 Events.OnPlayerDeath.Add(onPlayerDeathStopSwimSound)
