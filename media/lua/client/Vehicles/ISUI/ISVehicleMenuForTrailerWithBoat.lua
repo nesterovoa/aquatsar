@@ -157,19 +157,6 @@ function ISVehicleMenuForTrailerWithBoat.replaceTrailer(trailer, newTrailerName)
 	return trailer
 end
 
---[[
-
-	Должна быть вода в нужных точках
-	спавн лодки на воду
-
-	Обратно аналогичноv
-	должна быть лодка в нужных точках
-
-	Надо сохранять состояние всех контейнеров и топлива и аккумулятора в мод дата
-
-]]
-
-
 
 
 

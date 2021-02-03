@@ -63,7 +63,7 @@ local function sayWindInfo(playerObj)
 	end
 end
 
-local function sayWindInfoContext( player, context, items)
+local function aquaItemContextMenu( player, context, items)
     local playerObj = getSpecificPlayer(player)
 
     items = ISInventoryPane.getActualItems(items)
@@ -84,4 +84,4 @@ end
 
 
 
-Events.OnFillInventoryObjectContextMenu.Add(sayWindInfoContext);
+Events.OnFillInventoryObjectContextMenu.Add(aquaItemContextMenu);
