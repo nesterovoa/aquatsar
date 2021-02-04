@@ -1,34 +1,17 @@
 require("Boats/Init")
 AquatsarYachts.Swim = {}
 
-function AquatsarYachts.Swim.swimChanceSuccess(playerObj, square)
-    local x = playerObj:getX() - square:getX()
-    local y = playerObj:getY() - square:getY()    
-    local dist = math.sqrt(x*x + y*y)
+function AquatsarYachts.Swim.swimChanceSuccess(playerObj)
     local canSwim = playerObj:isRecipeKnown("Swimming")
     
     local item = playerObj:getInventory():getItemFromType("Lifebuoy")
     local haveLifebouy = item and item:isEquipped()
 
     local chance
-    if dist < 10 then
-        if canSwim or haveLifebouy then 
-            chance = 100
-        else
-            chance = 80
-        end
-    elseif dist < 30 then
-        if canSwim or haveLifebouy then 
-            chance = 95
-        else
-            chance = 60
-        end
+    if canSwim or haveLifebouy then 
+        chance = 95
     else
-        if canSwim or haveLifebouy then 
-            chance = 80
-        else
-            chance = 20
-        end
+        chance = 60
     end
 
     local haveDivingMask = playerObj:getInventory():getItemFromType("DivingMask")
@@ -106,117 +89,6 @@ function AquatsarYachts.Swim.swimChanceSuccess(playerObj, square)
 
     return math.floor(chance)
 end
-
-
-local function swimToBoatPerform(playerObj, boat, chance)
-    -- local func = function(pl, vehicle)
-        -- vehicle:enter(0, pl)
-        -- vehicle:setCharacterPosition(pl, 0, "inside")
-        -- vehicle:transmitCharacterPosition(0, "inside")
-        -- vehicle:playPassengerAnim(0, "idle")
-        -- triggerEvent("OnEnterVehicle", pl)
-    -- end
-	
-	local seat = ISBoatMenu.getBestSeatEnter(playerObj, boat)
-    local areaVec = boat:getAreaCenter(boat:getPassengerArea(seat))
-
-    ISTimedActionQueue.clear(playerObj)
-    ISTimedActionQueue.add(ISSwimAction:new(playerObj, chance, areaVec:getX(), areaVec:getY(), ISBoatMenu.onEnter, playerObj, boat));
-end
-
-local function swimToPointPerform(playerObj, square, chance)
-    ISTimedActionQueue.clear(playerObj)
-    ISTimedActionQueue.add(ISSwimAction:new(playerObj, chance, square:getX(), square:getY()));
-end
-
-local function swimToLandPerform(playerObj, square, chance)
-    local func = function(pl) 
-        pl:getSprite():getProperties():UnSet(IsoFlagType.invisible)
-    end
-
-    ISTimedActionQueue.clear(playerObj)
-    ISTimedActionQueue.add(ISSwimAction:new(playerObj, chance, square:getX(), square:getY(), func, playerObj ));
-end
-
-local function isWaterLine(x, y, x2, y2)
-    local tmpX = x2 - x
-    local tmpY = y2 - y    
-    local len = math.abs(math.sqrt(tmpX*tmpX + tmpY*tmpY))
-    local dx = tmpX / len
-    local dy = tmpY / len
-
-    if len < 2 then return false end
-
-    local cell = getCell()
-    for i=2, math.floor(len) do
-        local sq = cell:getGridSquare(x + dx*i, y + dy*i, 0)
-        if not sq or not sq:getFloor():getSprite():getProperties():Is(IsoFlagType.water) then 
-            return false
-        end    
-    end
-    return true
-end
-
-local function getLineNearestLand(x, y, x2, y2)  
-    local tmpX = x2 - x
-    local tmpY = y2 - y    
-    local len = math.sqrt(tmpX*tmpX + tmpY*tmpY)
-    local dx = tmpX / len
-    local dy = tmpY / len
-
-    local cell = getCell()
-    for i=1, math.floor(len) do
-        local sq = cell:getGridSquare(x + dx*i, y + dy*i, 0)
-        if not sq or not sq:Is(IsoFlagType.water) then 
-            return sq
-        end    
-    end
-end
-
-local function swimToPoint(player, context, worldobjects, test)
-    local playerObj = getSpecificPlayer(player)
-    local playerSquare = playerObj:getSquare()
-    local pointSquare
-    local boat
-    
-    if playerObj:getVehicle() then return end
-
-	for i,v in ipairs(worldobjects) do
-		local square = v:getSquare();
-        -- if square:Is(IsoFlagType.water) then
-            -- print("ISWATER")
-        -- end
-        if square then
-            pointSquare = square
-
-            local vehicle = square:getVehicleContainer()
-            if vehicle and AquaConfig.isBoat(vehicle) then
-                boat = vehicle
-            end
-        end
-    end
-    
-    if boat and pointSquare and pointSquare ~= playerSquare and isWaterLine(playerObj:getX(), playerObj:getY(), pointSquare:getX(), pointSquare:getY()) then
-        local chance = AquatsarYachts.Swim.swimChanceSuccess(playerObj, boat:getSquare())
-        local name = getText("IGUI_VehicleName" .. boat:getScript():getName())
-        context:addOption(getText("IGUI_SwimTo", name).. " (" .. getText("IGUI_chance") .. ": " .. chance .. "%)", playerObj, swimToBoatPerform, boat, chance)
-    
-    elseif pointSquare and pointSquare ~= playerSquare and isWaterLine(playerObj:getX(), playerObj:getY(), pointSquare:getX(), pointSquare:getY()) then
-        local chance = AquatsarYachts.Swim.swimChanceSuccess(playerObj, pointSquare)
-        context:addOption(getText("IGUI_SwimToPoint").. " (" .. getText("IGUI_chance") .. ": " .. chance .. "%)", playerObj, swimToPointPerform, pointSquare, chance)
-
-    elseif pointSquare and playerSquare and playerSquare:Is(IsoFlagType.water) then
-        if not pointSquare:Is(IsoFlagType.water) then
-            local sq = getLineNearestLand(playerObj:getX(), playerObj:getY(), pointSquare:getX(), pointSquare:getY())
-            if sq then 
-                local chance = AquatsarYachts.Swim.swimChanceSuccess(playerObj, sq)
-                context:addOption(getText("IGUI_SwimToLand").. " (" .. getText("IGUI_chance") .. ": " .. chance .. "%)", playerObj, swimToLandPerform, sq, chance)
-            end
-        end        
-    end
-end
-
-
 
 
 local function compare(a,b)
@@ -327,3 +199,54 @@ end
 
 Events.OnKeyStartPressed.Add(fastSwim)
 Events.OnFillWorldObjectContextMenu.Add(swimToPoint)
+
+
+
+function AquatsarYachts.Swim.onTick()
+    local playerObj = getPlayer()
+    if playerObj == nil then return end
+
+    if playerObj:getSquare():Is(IsoFlagType.water) then
+
+        local chanceCoeff = (100 - AquatsarYachts.Swim.swimChanceSuccess(playerObj))/50 + 0.4
+        
+
+        playerObj:getStats():setEndurance(playerObj:getStats():getEndurance() - (0.0025 - playerObj:getPerkLevel(Perks.Fitness)/10000)*chanceCoeff)
+        playerObj:getXp():AddXP(Perks.Fitness, 0.05)
+
+        local eqWeight = round(playerObj:getInventory():getCapacityWeight(), 2)
+        if eqWeight > 20 and ZombRand(1000) < 5 then
+            AquatsarYachts.Swim.dropItems(playerObj)
+        elseif eqWeight > 10 and ZombRand(1000) < 5 then
+            AquatsarYachts.Swim.dropItems(playerObj)
+        end
+
+        if playerObj:getStats():getEndurance() < 0.5 then
+            if ZombRand(1000) < 5 then
+                local part = ZombRand(6)
+                if part == 0 then
+                    playerObj:getBodyDamage():getBodyPart(BodyPartType.Torso_Upper):AddDamage(ZombRand(30))
+                    AquatsarYachts.Swim.Say("damage", 15)
+                elseif part == 1 then
+                    playerObj:getBodyDamage():getBodyPart(BodyPartType.Torso_Lower):AddDamage(ZombRand(30))
+                    AquatsarYachts.Swim.Say("damage", 15)
+                elseif part == 2 then
+                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperLeg_L):AddDamage(ZombRand(30))
+                    AquatsarYachts.Swim.Say("damage", 15)
+                elseif part == 3 then
+                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperLeg_R):AddDamage(ZombRand(30))
+                    AquatsarYachts.Swim.Say("damage", 15)
+                elseif part == 4 then
+                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperArm_L):AddDamage(ZombRand(30))
+                    AquatsarYachts.Swim.Say("damage", 15)
+                elseif part == 5 then
+                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperArm_R):AddDamage(ZombRand(30))    
+                    AquatsarYachts.Swim.Say("damage", 15)
+                end
+            end
+        end
+    end
+end
+
+
+Events.OnTick.Add(AquatsarYachts.Swim.onTick)

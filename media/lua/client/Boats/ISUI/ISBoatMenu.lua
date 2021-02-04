@@ -472,7 +472,7 @@ function ISBoatMenu.onExit(playerObj)
 				ISTimedActionQueue.add(ISExitBoat:new(playerObj, exitPoint))
 				return
 			else	
-				ISBoatMenu.showSwimMenu(playerObj)
+				ISBoatMenu.exitBoatOnWater(playerObj)
 			end
 		end
 	end
@@ -635,7 +635,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	-- Swim
 	boat:updateHasExtendOffsetForExit(playerObj)
 	if boat:getCurrentSpeedKmHour() < 5 and boat:getCurrentSpeedKmHour() > -5 then -- and not ISBoatMenu.getNearLandForExit(boat)
-		menu:addSlice(getText("ContextMenu_SwimToLand"), getTexture("media/ui/boats/ICON_boat_swim.png"), ISBoatMenu.showSwimMenu, playerObj)
+		menu:addSlice(getText("ContextMenu_SwimToLand"), getTexture("media/ui/boats/ICON_boat_swim.png"), ISBoatMenu.exitBoatOnWater, playerObj)
 	end
 
 	if seatNum < 2 and AquaConfig.Boat(boat).removeSailsScript then
@@ -853,18 +853,12 @@ function ISBoatMenu.offToggleHeadlights(playerObj)
 	end
 end
 
-function ISBoatMenu.showSwimMenu(playerObj)
-	if ISSwimUI.windows[playerObj:getPlayerNum()+1] then
-        ISSwimUI.windows[playerObj:getPlayerNum()+1]:removeFromUIManager();
-    end
-	
-	local modal = ISSwimUI:new(0,0, 230, 230, playerObj:getPlayerNum(), playerObj:getVehicle():getSquare());
-    ISSwimUI.windows[playerObj:getPlayerNum()+1] = modal;
-    modal:initialise()
-    modal:addToUIManager()
-    if JoypadState.players[playerObj:getPlayerNum()+1] then
-        setJoypadFocus(playerObj:getPlayerNum(), modal)
-    end
+function ISBoatMenu.exitBoatOnWater(playerObj)
+	local vehicle = playerObj:getVehicle()
+	vehicle:exit(playerObj)
+	playerObj:PlayAnim("Idle")
+	triggerEvent("OnExitVehicle", playerObj)
+	vehicle:updateHasExtendOffsetForExitEnd(playerObj)
 end
 
 function ISBoatMenu.replaceBoat(boat, newSriptName)
