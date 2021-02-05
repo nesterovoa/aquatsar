@@ -1,27 +1,26 @@
 require("Boats/Init")
 AquatsarYachts.Swim = {}
 
-function AquatsarYachts.Swim.swimChanceSuccess(playerObj)
+function AquatsarYachts.Swim.swimDifficultCoeff(playerObj)
     local canSwim = playerObj:isRecipeKnown("Swimming")
     
     local item = playerObj:getInventory():getItemFromType("Lifebuoy")
     local haveLifebouy = item and item:isEquipped()
 
-    local chance
-    if canSwim or haveLifebouy then 
-        chance = 95
-    else
-        chance = 60
+    local coeff = 5
+
+    if canSwim or haveLifebouy then
+        coeff = 1.0
     end
 
     local haveDivingMask = playerObj:getInventory():getItemFromType("DivingMask")
     if haveDivingMask and haveDivingMask:isEquipped() then 
-        chance = chance * 1.15
+        coeff = coeff * 0.9
     end
 
     local haveSwimGlasses = playerObj:getInventory():getItemFromType("Glasses_SwimmingGoggles")
     if haveSwimGlasses and haveSwimGlasses:isEquipped() then 
-        chance = chance * 1.1
+        coeff = coeff * 0.9
     end
 
     ------
@@ -35,59 +34,55 @@ function AquatsarYachts.Swim.swimChanceSuccess(playerObj)
         or haveSwimTrunks_B and haveSwimTrunks_B:isEquipped() 
         or haveSwimTrunks_G and haveSwimTrunks_G:isEquipped() 
         or haveSwimSuit and haveSwimSuit:isEquipped() then 
-        chance = chance * 1.1
+            coeff = coeff * 0.9
     end
 
     -----
 
-    local equipWeight = round(playerObj:getInventory():getCapacityWeight(), 2)    
-    chance = chance * (1 - (equipWeight/40))
+    local equipWeight = round(playerObj:getInventory():getCapacityWeight(), 2)
+    if equipWeight > 10 then
+        coeff = coeff * (equipWeight/10)
+    end
     
     local Unlucky = playerObj:HasTrait("Unlucky")
     if Unlucky then 
-        chance = chance * 0.8
+        coeff = coeff * 1.2
     end
 
     local Lucky = playerObj:HasTrait("Lucky")
     if Lucky then 
-        chance = chance * 1.2
+        coeff = coeff * 0.8
     end
     
     local Overweight = playerObj:HasTrait("Overweight")
     if Overweight then 
-        chance = chance * 0.9
+        coeff = coeff * 1.1
     end
     
     local Obese = playerObj:HasTrait("Obese")
     if Obese then 
-        chance = chance * 0.8
+        coeff = coeff * 1.2
     end
     
     local panic = playerObj:getMoodles():getMoodleLevel(MoodleType.Panic)
-    chance = chance * (1 - panic/20)
+    coeff = coeff + panic*0.2
 
     local drunk = playerObj:getMoodles():getMoodleLevel(MoodleType.Drunk)
-    chance = chance * (1 - drunk/20)
+    coeff = coeff + drunk*0.2
 
     local endurance = playerObj:getMoodles():getMoodleLevel(MoodleType.Endurance)
-    chance = chance * (1 - endurance/20)
+    coeff = coeff + endurance*0.2
 
     local tired = playerObj:getMoodles():getMoodleLevel(MoodleType.Tired)
-    chance = chance * (1 - tired/20)
+    coeff = coeff + tired*0.2
 
     local pain = playerObj:getMoodles():getMoodleLevel(MoodleType.Pain)
-    chance = chance * (1 - pain/20)
+    coeff = coeff + pain*0.2
 
     local Fitness = playerObj:getPerkLevel(Perks.Fitness)
-    chance = chance * (Fitness/10 + 0.5)
+    coeff = coeff * (1.5 - Fitness/10)
 
-    if chance > 100 then 
-        chance = 100
-    elseif chance < 0 then
-        chance = 0
-    end
-
-    return math.floor(chance)
+    return coeff
 end
 
 
@@ -104,7 +99,7 @@ function AquatsarYachts.Swim.dropItems(playerObj)
         table.insert(items, item)
     end
 
-    local dropNum = ZombRand(#items * 0.6)
+    local dropNum = ZombRand(#items * 0.4)
     table.sort(items, compare)
 
     for i=1, dropNum do
@@ -208,21 +203,21 @@ function AquatsarYachts.Swim.onTick()
 
     if playerObj:getSquare():Is(IsoFlagType.water) then
 
-        local chanceCoeff = (100 - AquatsarYachts.Swim.swimChanceSuccess(playerObj))/50 + 0.4
-        
+        local coeff = AquatsarYachts.Swim.swimDifficultCoeff(playerObj)
+        print(coeff)
 
-        playerObj:getStats():setEndurance(playerObj:getStats():getEndurance() - (0.0025 - playerObj:getPerkLevel(Perks.Fitness)/10000)*chanceCoeff)
+        playerObj:getStats():setEndurance(playerObj:getStats():getEndurance() - 0.0025*coeff)
         playerObj:getXp():AddXP(Perks.Fitness, 0.05)
 
         local eqWeight = round(playerObj:getInventory():getCapacityWeight(), 2)
-        if eqWeight > 20 and ZombRand(1000) < 5 then
+        if eqWeight > 20 and ZombRand(100) < 20 and playerObj:getStats():getEndurance() < 0.4 then
             AquatsarYachts.Swim.dropItems(playerObj)
-        elseif eqWeight > 10 and ZombRand(1000) < 5 then
+        elseif eqWeight > 10 and ZombRand(100) < 5 and playerObj:getStats():getEndurance() < 0.4 then
             AquatsarYachts.Swim.dropItems(playerObj)
         end
 
-        if playerObj:getStats():getEndurance() < 0.5 then
-            if ZombRand(1000) < 5 then
+        if playerObj:getStats():getEndurance() < 0.1 then
+            if ZombRand(100) < 5 then
                 local part = ZombRand(6)
                 if part == 0 then
                     playerObj:getBodyDamage():getBodyPart(BodyPartType.Torso_Upper):AddDamage(ZombRand(30))
