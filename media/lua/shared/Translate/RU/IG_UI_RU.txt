@@ -82,10 +82,12 @@ IGUI_RU = {
 	IGUI_SwimWord_Endurance2 = "Хорошо бы передохнуть.",
 	IGUI_SwimWord_Endurance3 = "Лучше плыть к берегу.",
 	IGUI_SwimWord_Endurance4 = "Я сэкономлю свои силы, если буду плыть медленнее.",
+	IGUI_SwimWord_Endurance5 = "...",
 	
 	IGUI_SwimWord_Damage1 = "Если я не отдохну, я могу не доплыть.",
 	IGUI_SwimWord_Damage2 = "У меня сводит ногу, мне нужно на берег!",
 	IGUI_SwimWord_Damage3 = "Руку свело, срочно нужно на берег!",
+	IGUI_SwimWord_Damage4 = "...",
 
 	IGUI_SwimWord_LostItems1 = "Эх, потерял часть вещей",
 	IGUI_SwimWord_LostItems1 = "Пришлось избавиться от лишнего груза",

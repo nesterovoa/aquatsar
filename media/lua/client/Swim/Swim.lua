@@ -136,19 +136,23 @@ end
 -- Fast swim
 
 local function fastSwim(key)
-    if key == Keyboard.KEY_SPACE and (isShiftKeyDown() or isKeyDown(Keyboard.KEY_LMENU))then
-        local pl = getPlayer()
-        local dir = pl:getForwardDirection()
-        local x = pl:getX() + dir:getX()
-        local y = pl:getY() + dir:getY()
-
-        local sq = getCell():getGridSquare(x, y, pl:getZ())
-
-        if sq and sq:Is(IsoFlagType.water) then 
-            pl:setX(x)
-            pl:setY(y)
-            pl:getBodyDamage():setWetness(100);
-            AquatsarYachts.Swim.wetItems(pl)
+    if key == Keyboard.KEY_SPACE and (isShiftKeyDown() or isKeyDown(Keyboard.KEY_LMENU)) then
+        local player = getPlayer()
+        local dir = player:getForwardDirection()
+        local x = player:getX() + dir:getX()
+        local y = player:getY() + dir:getY()
+		
+		local sq = player:getSquare()
+        local sqDir = getCell():getGridSquare(x, y, player:getZ())
+		
+        if sqDir and 
+		sqDir:Is(IsoFlagType.water) and 
+		not sq:Is(IsoFlagType.water) and 
+		not sq:isWallTo(sqDir) and 
+		not sq:isWindowTo(sqDir) then 
+            player:setX(x)
+            player:setY(y)
+            AquatsarYachts.Swim.wetItems(player)
         end 
     end
 end
@@ -181,10 +185,10 @@ SwimSayWords.fail["IGUI_SwimWord_Fail2"] = 33
 SwimSayWords.fail["IGUI_SwimWord_Fail3"] = 34
 
 SwimSayWords.endurance = {}
-SwimSayWords.endurance["IGUI_SwimWord_Endurance1"] = 33
-SwimSayWords.endurance["IGUI_SwimWord_Endurance2"] = 33
-SwimSayWords.endurance["IGUI_SwimWord_Endurance3"] = 33
-SwimSayWords.endurance["IGUI_SwimWord_Endurance4"] = 33
+SwimSayWords.endurance["IGUI_SwimWord_Endurance1"] = 10
+SwimSayWords.endurance["IGUI_SwimWord_Endurance2"] = 10
+SwimSayWords.endurance["IGUI_SwimWord_Endurance3"] = 10
+SwimSayWords.endurance["IGUI_SwimWord_Endurance4"] = 10
 
 SwimSayWords.Damage = {"IGUI_SwimWord_Damage1", "IGUI_SwimWord_Damage2", "IGUI_SwimWord_Damage3"}
 SwimSayWords.Endurance = {"IGUI_SwimWord_Endurance1", "IGUI_SwimWord_Endurance2", "IGUI_SwimWord_Endurance3", "IGUI_SwimWord_Endurance4"}
@@ -203,15 +207,19 @@ function AquatsarYachts.Swim.Say(situation, chaceToSay)
 	end
 end
 
-function AquatsarYachts.Swim.newSay(situation)
-	local currentNum = ZombRand(#SwimSayWords[situation]-1)+1
-	getPlayer():Say(getText(SwimSayWords.Endurance[currentNum]))
+function AquatsarYachts.Swim.newSay(situation, chanceToSay)
+	local maxCount = ZombRand(10000)
+	local updateChance = maxCount*chanceToSay/1000
+	local check = ZombRand(maxCount)
+	-- print(check)
+	-- print(updateChance)
+	-- print("---")
+	if check <= updateChance then
+		local currentNum = ZombRand(#SwimSayWords[situation])+1
+		-- print(currentNum)
+		getPlayer():Say(getText(SwimSayWords[situation][currentNum]))
+	end
 end
-
-Events.OnKeyStartPressed.Add(fastSwim)
-Events.OnFillWorldObjectContextMenu.Add(swimToPoint)
-
-
 
 function AquatsarYachts.Swim.onTick()
     local playerObj = getPlayer()
@@ -221,9 +229,9 @@ function AquatsarYachts.Swim.onTick()
         local coeff = AquatsarYachts.Swim.swimDifficultCoeff(playerObj)
         -- print(coeff)
 		if playerObj:isAiming() then
-			playerObj:getStats():setEndurance(playerObj:getStats():getEndurance() - 0.00004*coeff)
+			playerObj:getStats():setEndurance(playerObj:getStats():getEndurance() - 0.00001*coeff)
 		else
-			playerObj:getStats():setEndurance(playerObj:getStats():getEndurance() - 0.0002*coeff)
+			playerObj:getStats():setEndurance(playerObj:getStats():getEndurance() - 0.00015*coeff)
 		end
         playerObj:getXp():AddXP(Perks.Fitness, 0.05)
 		
@@ -251,13 +259,17 @@ function AquatsarYachts.Swim.onTick()
                 elseif part == 5 then
                     playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperArm_R):AddDamage(1)
                 end
-				AquatsarYachts.Swim.Say("damage", 5)
+				AquatsarYachts.Swim.newSay("Damage", 45)
             end
 		elseif newEndurance < 0.5 then 
-			AquatsarYachts.Swim.Say("endurance", 1)
+			AquatsarYachts.Swim.newSay("Endurance", 1)
         end
     end
 end
 
 -- Events.OnTick.Add(AquatsarYachts.Swim.onTick)
 Events.OnPlayerMove.Add(AquatsarYachts.Swim.onTick)
+
+
+Events.OnKeyStartPressed.Add(fastSwim)
+-- Events.OnFillWorldObjectContextMenu.Add(swimToPoint)

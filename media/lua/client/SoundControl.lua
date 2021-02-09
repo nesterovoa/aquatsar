@@ -100,15 +100,65 @@ function SoundControl.main()
 				getSoundManager():PlaySound("LeaveWater", true, 0.0)
 				player:getSprite():getProperties():UnSet(IsoFlagType.invisible)
 			end
-		elseif player:getSquare() then
+		elseif player:getSquare() then			
 			if player:getSquare():Is(IsoFlagType.water) then
 				player:getBodyDamage():setWetness(100)
 				if not player:getSprite():getProperties():Is(IsoFlagType.invisible) then
 					emiPl:playSound("Dive")
 					player:getSprite():getProperties():Set(IsoFlagType.invisible)
-					-- player:setMoveSpeed(0.1)
 					player:setNoClip(true)
-				elseif not emiPl:isPlaying("Swim") and not player:isDead() then
+				else
+					local moveDir = player:getPlayerMoveDir()
+					local x = player:getX() + moveDir:getX()
+					local y = player:getY() + moveDir:getY()
+					local sq = player:getSquare()
+					local sqDir = getCell():getGridSquare(player:getX() + moveDir:getX(), 
+														  player:getY() + moveDir:getY(), 
+														  player:getZ())
+					if sq:DistTo(sqDir) >= 1 then
+						if sq:isWallTo(sqDir) or sq:isWindowTo(sqDir) then
+							player:setNoClip(false)
+						elseif not player:isNoClip() then
+							-- moveDir:normalize()
+							
+							moveDir:rotate(3.14)
+							local rearSqr = getCell():getGridSquare(player:getX() + moveDir:getX()*2, 
+													  player:getY() + moveDir:getY()*2, 
+													  player:getZ())
+
+							moveDir = player:getForwardDirection()
+							moveDir:rotate(1.57)
+							local sideSqr1 = getCell():getGridSquare(player:getX() + moveDir:getY(), 
+														  player:getY() + moveDir:getX(), 
+														  player:getZ())
+							moveDir:rotate(3.14)							  
+							local sideSqr2 = getCell():getGridSquare(player:getX() + moveDir:getX(), 
+														  player:getY() + moveDir:getY(), 
+														  player:getZ())
+							
+							if sqDir:Is(IsoFlagType.water) and 
+									not sq:isWallTo(sideSqr1) and 
+									not sq:isWindowTo(sideSqr1) and 
+									not sq:isWallTo(sideSqr2) and
+									not sq:isWindowTo(sideSqr2) and
+									sq:isWallTo(rearSqr) then
+								player:setNoClip(true)
+								print("NOCLIP")
+								-- print("sq ", sq:getX(), " ", sq:getY())
+								-- print("sqDir ", sqDir:getX(), " ", sqDir:getY())
+								-- print("sideSqr1 ", sideSqr1:getX(), " ", sideSqr1:getY())
+								-- print(sq:isWallTo(sideSqr1))
+								-- print(sq:isWindowTo(sideSqr1))
+								-- print("sideSqr2 ", sideSqr2:getX(), " ", sideSqr2:getY())
+								-- print(sq:isWallTo(sideSqr2))
+								-- print(sq:isWindowTo(sideSqr2))
+								
+							end
+						end
+					end
+				end
+				
+				if not emiPl:isPlaying("Swim") and not player:isDead() then
 					player:playSound("Swim")
 				end
 			else
