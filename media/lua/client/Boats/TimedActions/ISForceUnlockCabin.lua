@@ -49,7 +49,7 @@ function ISForceUnlockCabin:perform()
     end
 
     self.character:getStats():setEndurance(self.character:getStats():getEndurance() - 0.7)
-    self.character:getStats():setBoredom(self.character:getStats():getBoredom() + 40)
+    self.character:getBodyDamage():setBoredomLevel(self.character:getBodyDamage():getBoredomLevel() + 30)
     self.character:getBodyDamage():setUnhappynessLevel(self.character:getBodyDamage():getUnhappynessLevel() + 30)
 
 	UIManager.FadeIn(self.playerNum, 1)

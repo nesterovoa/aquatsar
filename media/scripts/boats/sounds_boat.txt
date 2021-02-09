@@ -8,8 +8,7 @@ module Aquatsar
 		clip
 		{
 			file = media/sound/boats/aquatsar_main_theme.wav,
-			distanceMin = 10,
-			distanceMax = 300,
+			volume = 2.0,
 		}
 	}
 	

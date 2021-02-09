@@ -658,7 +658,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 			menu:addSlice(getText("ContextMenu_Open_Cabin"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
 		else
 			if playerObj:getInventory():containsTypeRecurse("Crowbar") then
-				local bored = playerObj:getStats():getBoredom() > 25
+				local bored = playerObj:getBodyDamage():getBoredomLevel() > 25
 				local tired = playerObj:getStats():getEndurance() < 0.7
 				local unhappy = playerObj:getBodyDamage():getUnhappynessLevel() > 20
 
@@ -1174,6 +1174,7 @@ function ISBoatMenu.FillMenuOutsideBoat(playerObj, context, boat, test)
 	context:removeOption(context:getOptionFromName(getText("ContextMenu_Vehicle_Smashwindow")))
 	context:removeOption(context:getOptionFromName(getText("ContextMenu_RemoveBurntVehicle")))	
 	context:removeOption(context:getOptionFromName(getText("ContextMenu_Vehicle_Wash")))
+	context:removeOption(context:getOptionFromName(getText("UI_Text_PushByHands")))
 end
 
 function ISBoatMenu.FillMenuInsideBoat(playerObj, context, boat, test)
@@ -1900,21 +1901,6 @@ end
 -- function ISBoatMenu.onLightbar(playerObj)
 	-- ISTimedActionQueue.add(ISLightbarUITimedAction:new(playerObj))
 -- end
-
--- function ISBoatMenu.onAttachTrailer(playerObj, boat, attachmentA, attachmentB)
-	-- local square = boat:getCurrentSquare()
-	-- local vehicleB = ISVehicleTrailerUtils.getTowableVehicleNear(square, boat, attachmentA, attachmentB)
-	-- if not vehicleB then return end
-	-- local nextAction = ISAttachTrailerToVehicle:new(playerObj, boat, vehicleB, attachmentA, attachmentB)
-	-- if not ISVehicleTrailerUtils.walkToTrailer(playerObj, boat, attachmentA, nextAction) then return end
--- end
-
--- function ISBoatMenu.onDetachTrailer(playerObj, boat, attachmentA)
-	-- local nextAction = ISDetachTrailerFromVehicle:new(playerObj, boat, attachmentA)
-	-- if not ISVehicleTrailerUtils.walkToTrailer(playerObj, boat, attachmentA, nextAction) then return end
--- end
-
--- Events.OnFillWorldObjectContextMenu.Add(ISBoatMenu.OnFillWorldObjectContextMenu)
 
 function ISBoatMenu.onEnterVehicle(playerObj)
 	if instanceof(playerObj, 'IsoPlayer') and playerObj:isLocalPlayer() then
