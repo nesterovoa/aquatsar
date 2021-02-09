@@ -14,8 +14,6 @@ module Aquatsar
 		clip
 		{
 			file = media/sound/water/swim.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -27,8 +25,6 @@ module Aquatsar
 		clip
 		{
 			file = media/sound/water/WashСlothes.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -40,8 +36,6 @@ module Aquatsar
 		clip
 		{
 			file = media/sound/water/ScoopUpWater.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -53,8 +47,6 @@ module Aquatsar
 		clip
 		{
 			file = media/sound/water/dive.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -66,21 +58,6 @@ module Aquatsar
 		clip
 		{
 			file = media/sound/water/leave_water.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
-		}
-	}
-	
-	sound LeaveWater
-	{
-		category = Water,
-		loop = false,
-		is3D = false,
-		clip
-		{
-			file = media/sound/water/leave_water.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -92,8 +69,6 @@ module Aquatsar
 		clip
 		{
 			file = media/sound/water/throw_in_water.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -105,8 +80,6 @@ module Aquatsar
 		clip
 		{
 			file = media/sound/water/drop_water.wav,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -116,9 +89,18 @@ module Aquatsar
 		category = Item,
 		clip
 		{
-			file = media/sound/items/tire_tube_inflating.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
+			file = media/sound/water/tire_tube_inflating.ogg,
+			volume = 2.0,
+		}
+	}
+	
+	sound TireTubeFlattenSound
+	{
+		category = Item,
+		clip
+		{
+			file = media/sound/water/tire_tube_flatten.ogg,
+			volume = 0.3,
 		}
 	}
 	
@@ -127,9 +109,7 @@ module Aquatsar
 		category = Item,
 		clip
 		{
-			file = media/sound/items/hand_pump.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
+			file = media/sound/water/hand_pump.ogg,
 		}
 	}
 	
@@ -138,9 +118,7 @@ module Aquatsar
 		category = Item,
 		clip
 		{
-			file = media/sound/items/extract_tire_tube.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
+			file = media/sound/water/extract_tire_tube.ogg,
 		}
 	}
 	

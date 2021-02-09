@@ -16,9 +16,6 @@ module Aquatsar
 		CanHaveHoles = false,
 		ChanceToFall = 10,
         BloodLocation = Head,
-        Insulation = 0.75,
-        WindResistance = 0.75,
-        WaterResistance = 0.75,
         MechanicsItem = TRUE,
     }
 
@@ -26,15 +23,9 @@ module Aquatsar
     {
 		Type = Clothing,
 		DisplayName = Lifebuoy,
-		ClothingItem = WeddingJacket,
 		BodyLocation = Jacket,
 		Icon = Lifebuoy,
-		CanHaveHoles = false,
-		ChanceToFall = 10,
         BloodLocation = Jacket,
-        Insulation = 0.75,
-        WindResistance = 0.75,
-        WaterResistance = 0.75
     }
 
 	item TaintedLiterature
@@ -66,15 +57,9 @@ module Aquatsar
 		Weight	=	1,
 		Type = Clothing,
 		DisplayName = Tire Tube,
-		ClothingItem = WeddingJacket,
 		BodyLocation = Jacket,
 		Icon = TireTube,
-		CanHaveHoles = false,
 		ChanceToFall = 10,
-        BloodLocation = Jacket,
-        Insulation = 0.75,
-        WindResistance = 0.75,
-        WaterResistance = 0.75
 	}
 	
 	recipe Extract Tire Tube
@@ -91,8 +76,17 @@ module Aquatsar
     {
         DeflatedTireTube,
         Result:TireTube,
-        Time:500.0,
-		Sound:Aquatsar.TireTubeInflatingSound,
+        Time:300.0,
+		Sound:TireTubeInflatingSound,
+        Category:Survivalist,
+    }
+	
+	recipe Flatten Tire Tube
+    {
+        TireTube,
+        Result:DeflatedTireTube,
+        Time:50.0,
+		Sound:TireTubeFlattenSound,
         Category:Survivalist,
     }
 	
@@ -101,7 +95,7 @@ module Aquatsar
         DeflatedTireTube,
 		keep TirePump,
         Result:TireTube,
-        Time:50.0,
+        Time:80.0,
 		Sound:Aquatsar.HandPumpSound,
         Category:Survivalist,
     }

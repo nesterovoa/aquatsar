@@ -4,13 +4,15 @@ AquatsarYachts.Swim = {}
 function AquatsarYachts.Swim.swimDifficultCoeff(playerObj)
     local canSwim = playerObj:isRecipeKnown("Swimming")
     
-    local item = playerObj:getInventory():getItemFromType("Lifebuoy")
-    local haveLifebouy = item and item:isEquipped()
+    local item1 = playerObj:getInventory():getItemFromType("Lifebuoy")
+	local item2 = playerObj:getInventory():getItemFromType("TireTube")
+    local haveLifebouy = (item1 and item1:isEquipped()) or (item2 and item2:isEquipped())
 
     local coeff = 5
 
     if canSwim or haveLifebouy then
-        coeff = 1.0
+		-- print("MASTER SWIM!")
+        coeff = 2.0
     end
 
     local haveDivingMask = playerObj:getInventory():getItemFromType("DivingMask")
@@ -156,12 +158,12 @@ end
 
 local SwimSayWords = {}
 SwimSayWords.damage = {}
-SwimSayWords.damage["IGUI_SwimWord_Damage1"] = 20
-SwimSayWords.damage["IGUI_SwimWord_Damage2"] = 20
-SwimSayWords.damage["IGUI_SwimWord_Damage3"] = 15
-SwimSayWords.damage["IGUI_SwimWord_Damage4"] = 15
-SwimSayWords.damage["IGUI_SwimWord_Damage5"] = 15
-SwimSayWords.damage["IGUI_SwimWord_Damage6"] = 15
+SwimSayWords.damage["IGUI_SwimWord_Damage1"] = 30
+SwimSayWords.damage["IGUI_SwimWord_Damage2"] = 30
+SwimSayWords.damage["IGUI_SwimWord_Damage3"] = 30
+-- SwimSayWords.damage["IGUI_SwimWord_Damage4"] = 15
+-- SwimSayWords.damage["IGUI_SwimWord_Damage5"] = 15
+-- SwimSayWords.damage["IGUI_SwimWord_Damage6"] = 15
 
 SwimSayWords.lostItems = {}
 SwimSayWords.lostItems["IGUI_SwimWord_LostItems1"] = 33
@@ -178,8 +180,17 @@ SwimSayWords.fail["IGUI_SwimWord_Fail1"] = 33
 SwimSayWords.fail["IGUI_SwimWord_Fail2"] = 33
 SwimSayWords.fail["IGUI_SwimWord_Fail3"] = 34
 
+SwimSayWords.endurance = {}
+SwimSayWords.endurance["IGUI_SwimWord_Endurance1"] = 33
+SwimSayWords.endurance["IGUI_SwimWord_Endurance2"] = 33
+SwimSayWords.endurance["IGUI_SwimWord_Endurance3"] = 33
+SwimSayWords.endurance["IGUI_SwimWord_Endurance4"] = 33
+
+SwimSayWords.Damage = {"IGUI_SwimWord_Damage1", "IGUI_SwimWord_Damage2", "IGUI_SwimWord_Damage3"}
+SwimSayWords.Endurance = {"IGUI_SwimWord_Endurance1", "IGUI_SwimWord_Endurance2", "IGUI_SwimWord_Endurance3", "IGUI_SwimWord_Endurance4"}
+
 function AquatsarYachts.Swim.Say(situation, chaceToSay)
-    if ZombRand(100) <= chaceToSay then
+    if ZombRand(374) <= chaceToSay then
         local currentChance = ZombRand(100)
         local count = 0
         for word, chance in pairs(SwimSayWords[situation]) do
@@ -189,7 +200,12 @@ function AquatsarYachts.Swim.Say(situation, chaceToSay)
             end
             count = count + chance
         end
-    end
+	end
+end
+
+function AquatsarYachts.Swim.newSay(situation)
+	local currentNum = ZombRand(#SwimSayWords[situation]-1)+1
+	getPlayer():Say(getText(SwimSayWords.Endurance[currentNum]))
 end
 
 Events.OnKeyStartPressed.Add(fastSwim)
@@ -200,48 +216,48 @@ Events.OnFillWorldObjectContextMenu.Add(swimToPoint)
 function AquatsarYachts.Swim.onTick()
     local playerObj = getPlayer()
     if playerObj == nil then return end
-
-    if playerObj:getSquare():Is(IsoFlagType.water) then
-
+	-- print(playerObj:isMoving())
+    if not playerObj:getVehicle() and playerObj:getSquare():Is(IsoFlagType.water) then
         local coeff = AquatsarYachts.Swim.swimDifficultCoeff(playerObj)
-        print(coeff)
-
-        playerObj:getStats():setEndurance(playerObj:getStats():getEndurance() - 0.0025*coeff)
+        -- print(coeff)
+		if playerObj:isAiming() then
+			playerObj:getStats():setEndurance(playerObj:getStats():getEndurance() - 0.00004*coeff)
+		else
+			playerObj:getStats():setEndurance(playerObj:getStats():getEndurance() - 0.0002*coeff)
+		end
         playerObj:getXp():AddXP(Perks.Fitness, 0.05)
-
+		
+		local newEndurance = playerObj:getStats():getEndurance()
+		
         local eqWeight = round(playerObj:getInventory():getCapacityWeight(), 2)
-        if eqWeight > 20 and ZombRand(100) < 20 and playerObj:getStats():getEndurance() < 0.4 then
+        if eqWeight > 20 and ZombRand(100) < 20 and newEndurance < 0.4 then
             AquatsarYachts.Swim.dropItems(playerObj)
-        elseif eqWeight > 10 and ZombRand(100) < 5 and playerObj:getStats():getEndurance() < 0.4 then
+        elseif eqWeight > 10 and ZombRand(100) < 5 and newEndurance < 0.4 then
             AquatsarYachts.Swim.dropItems(playerObj)
         end
-
-        if playerObj:getStats():getEndurance() < 0.1 then
+        if newEndurance < 0.05 then
             if ZombRand(100) < 5 then
                 local part = ZombRand(6)
                 if part == 0 then
-                    playerObj:getBodyDamage():getBodyPart(BodyPartType.Torso_Upper):AddDamage(ZombRand(30))
-                    AquatsarYachts.Swim.Say("damage", 15)
+                    playerObj:getBodyDamage():getBodyPart(BodyPartType.Torso_Upper):AddDamage(1)
                 elseif part == 1 then
-                    playerObj:getBodyDamage():getBodyPart(BodyPartType.Torso_Lower):AddDamage(ZombRand(30))
-                    AquatsarYachts.Swim.Say("damage", 15)
+                    playerObj:getBodyDamage():getBodyPart(BodyPartType.Torso_Lower):AddDamage(1)
                 elseif part == 2 then
-                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperLeg_L):AddDamage(ZombRand(30))
-                    AquatsarYachts.Swim.Say("damage", 15)
+                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperLeg_L):AddDamage(1)
                 elseif part == 3 then
-                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperLeg_R):AddDamage(ZombRand(30))
-                    AquatsarYachts.Swim.Say("damage", 15)
+                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperLeg_R):AddDamage(1)
                 elseif part == 4 then
-                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperArm_L):AddDamage(ZombRand(30))
-                    AquatsarYachts.Swim.Say("damage", 15)
+                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperArm_L):AddDamage(1)
                 elseif part == 5 then
-                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperArm_R):AddDamage(ZombRand(30))    
-                    AquatsarYachts.Swim.Say("damage", 15)
+                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperArm_R):AddDamage(1)
                 end
+				AquatsarYachts.Swim.Say("damage", 5)
             end
+		elseif newEndurance < 0.5 then 
+			AquatsarYachts.Swim.Say("endurance", 1)
         end
     end
 end
 
-
-Events.OnTick.Add(AquatsarYachts.Swim.onTick)
+-- Events.OnTick.Add(AquatsarYachts.Swim.onTick)
+Events.OnPlayerMove.Add(AquatsarYachts.Swim.onTick)

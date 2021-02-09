@@ -169,7 +169,7 @@ function ISBoatDashboard:getAlphaFlick(default)
 end
 
 function ISBoatDashboard:setVehicle(boat)
-print("ISBoatDashboard:setBoat")
+-- print("ISBoatDashboard:setBoat")
 	self.boat = boat
 	for _,gauge in ipairs(self.gauges) do
 		gauge:setVisible(false)
@@ -197,7 +197,7 @@ print("ISBoatDashboard:setBoat")
 	
 	part = boat:getPartById("Battery")
 	if part then
-		print("BatteryPart: ", part)
+		-- print("BatteryPart: ", part)
 		self.battery = part
 		if self.boat:isEngineRunning() then
 			--self.initialBattery = part:getInventoryItem():getUsedDelta()
@@ -582,7 +582,7 @@ end
 function ISBoatDashboard.onExitVehicle(character)
 	if instanceof(character, 'IsoPlayer') and character:isLocalPlayer() then
 		if getPlayerVehicleDashboard(character:getPlayerNum()) then
-			print(getPlayerVehicleDashboard(character:getPlayerNum()).dashboardBG:getName())
+			-- print(getPlayerVehicleDashboard(character:getPlayerNum()).dashboardBG:getName())
 			if string.match(getPlayerVehicleDashboard(character:getPlayerNum()).dashboardBG:getName(), "boat_dashboard") then
 				getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(nil)
 				local data = getPlayerData(character:getPlayerNum())

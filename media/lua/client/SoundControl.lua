@@ -106,6 +106,7 @@ function SoundControl.main()
 				if not player:getSprite():getProperties():Is(IsoFlagType.invisible) then
 					emiPl:playSound("Dive")
 					player:getSprite():getProperties():Set(IsoFlagType.invisible)
+					-- player:setMoveSpeed(0.1)
 					player:setNoClip(true)
 				elseif not emiPl:isPlaying("Swim") and not player:isDead() then
 					player:playSound("Swim")
@@ -114,6 +115,7 @@ function SoundControl.main()
 				if player:getSprite():getProperties():Is(IsoFlagType.invisible) then
 					emiPl:playSound("LeaveWater")
 					player:getSprite():getProperties():UnSet(IsoFlagType.invisible)
+					-- player:setMoveSpeed(1)
 					player:setNoClip(false)
 				end
 				if emiPl:isPlaying("Swim") then

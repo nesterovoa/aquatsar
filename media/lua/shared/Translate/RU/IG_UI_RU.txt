@@ -77,18 +77,19 @@ IGUI_RU = {
 	IGUI_SwimToLand = "Плыть на берег",
 	IGUI_Exit_Boat = "Выйти в воду",
 
-
-	IGUI_SwimWord_Damage1 = "Фуух...",
-	IGUI_SwimWord_Damage2 = "Нужно следить за своим самочувствием..",
-	IGUI_SwimWord_Damage3 = "Всё болит...",
-	IGUI_SwimWord_Damage4 = "Тону...",
-	IGUI_SwimWord_Damage5 = "Скорее бы доплыть",
-	IGUI_SwimWord_Damage6 = "Лишь бы доплыть...",
 	
+	IGUI_SwimWord_Endurance1 = "Я устал, мне нужен отдых.",
+	IGUI_SwimWord_Endurance2 = "Хорошо бы передохнуть.",
+	IGUI_SwimWord_Endurance3 = "Лучше плыть к берегу.",
+	IGUI_SwimWord_Endurance4 = "Я сэкономлю свои силы, если буду плыть медленнее.",
+	
+	IGUI_SwimWord_Damage1 = "Если я не отдохну, я могу не доплыть.",
+	IGUI_SwimWord_Damage2 = "У меня сводит ногу, мне нужно на берег!",
+	IGUI_SwimWord_Damage3 = "Руку свело, срочно нужно на берег!",
 
-	IGUI_SwimWord_LostItems1 = "Ах, потерял вещи",
-	IGUI_SwimWord_LostItems1 = "Как жаль, вещи пошли ко дну",
-	IGUI_SwimWord_LostItems1 = "Ну вот и нет части вещей",
+	IGUI_SwimWord_LostItems1 = "Эх, потерял часть вещей",
+	IGUI_SwimWord_LostItems1 = "Пришлось избавиться от лишнего груза",
+	IGUI_SwimWord_LostItems1 = "Часть вещей пошла ко дну",
 
 	IGUI_SwimWord_Success1 = "Отлично поплавал",
 	IGUI_SwimWord_Success2 = "Классный заплыв",
