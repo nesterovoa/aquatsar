@@ -1,3 +1,5 @@
 Recipe_EN = {
-
+	Recipe_Extract_Tire_Tube = "Extract Tire Tube",
+	Recipe_Flatten_Tire_Tube = "Flatten Tire Tube",
+	Recipe_Inflate_Tire_Tube = "Inflate Tire Tube",
 }

@@ -1,0 +1,6 @@
+Recipe_RU = {
+	-- 
+	Recipe_Extract_Tire_Tube = "Извлечь камеру из шины",
+	Recipe_Flatten_Tire_Tube = "Сдуть камеру",
+	Recipe_Inflate_Tire_Tube = "Надуть камеру",
+}

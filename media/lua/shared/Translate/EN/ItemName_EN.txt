@@ -1,0 +1,13 @@
+ItemName_EN = {
+	ItemName_Aquatsar.BoatPropeller = "Boat Propeller",
+	ItemName_Aquatsar.ManualStarter = "Manual Starter",
+	ItemName_Aquatsar.Sails = "Sails",
+	ItemName_Aquatsar.BoatMag = "Repair Your Boats Magazine",
+	ItemName_Aquatsar.SwimMag = "Swimming Times Magazine",
+	ItemName_Aquatsar.Lifebuoy = "Lifebuoy",
+	ItemName_Aquatsar.DivingMask = "Diving Mask",
+	ItemName_Aquatsar.TaintedLiterature = "Tainted literature",
+	ItemName_Aquatsar.Compass = "Compass",
+	ItemName_Aquatsar.DeflatedTireTube = "Deflated Tire Tube",
+	ItemName_Aquatsar.TireTube = "Tire Tube",
+}

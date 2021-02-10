@@ -1,35 +1,35 @@
-SoundControl = {}
-SoundTable = {}
-SoundTable.Wind = {}
-SoundTable.Swim = {}
-SoundTable.waterConstruction = nil
+TickControl = {}
+TickTable = {}
+TickTable.Wind = {}
+TickTable.Swim = {}
+TickTable.waterConstruction = nil
 
-function SoundControl.switchTheWind(emi, nameOfWind, volume)
+function TickControl.switchTheWind(emi, nameOfWind, volume)
 	if emi:isPlaying(nameOfWind) then 
-		-- AUD.insp("Boat", "SoundTable.Wind[nameOfWind]:", SoundTable.Wind[nameOfWind])
-		emi:setVolume(SoundTable.Wind[nameOfWind], volume)
+		-- AUD.insp("Boat", "TickTable.Wind[nameOfWind]:", TickTable.Wind[nameOfWind])
+		emi:setVolume(TickTable.Wind[nameOfWind], volume)
 		return 
 	end
-	for i, j in pairs(SoundTable.Wind) do 
+	for i, j in pairs(TickTable.Wind) do 
 		emi:stopSoundByName(i)
 	end
-	local songId = emi:playSoundLooped(nameOfWind)
-	SoundTable.Wind = {}
-	SoundTable.Wind[nameOfWind] = songId
-	emi:setVolume(SoundTable.Wind[nameOfWind], volume)
+	local songId = emi:playAmbientLoopedImpl(nameOfWind)
+	TickTable.Wind = {}
+	TickTable.Wind[nameOfWind] = songId
+	emi:setVolume(TickTable.Wind[nameOfWind], volume)
 end
 
-function SoundControl.stopWeatherSound(emi)
+function TickControl.stopWeatherSound(emi)
 	emi:stopSoundByName("BoatSailing")
 	print("Stop BoatSailing")
 	-- emi:stopSoundByName("BoatSailingByWind")
-	for i, j in pairs(SoundTable.Wind) do 
+	for i, j in pairs(TickTable.Wind) do 
 		emi:stopSoundByName(i)
 	end
-	SoundTable.Wind = {}
+	TickTable.Wind = {}
 end
 
-function SoundControl.isWater(square)
+function TickControl.isWater(square)
 	if square then
 		return square:getProperties():Is(IsoFlagType.water)
 	else
@@ -37,9 +37,34 @@ function SoundControl.isWater(square)
 	end
 end
 
-function SoundControl.main()
+function TickControl.checkWaterBuild(paramIsoObject)
+	-- print(paramIsoObject)
+	-- print("checkWaterBuild ")
+	if TickControl.isWater(paramIsoObject) then
+		local floorTile = paramIsoObject:getTile()
+		local sq = paramIsoObject:getSquare()
+		if not TickTable.waterConstruction then TickTable.waterConstruction  = {} end
+		TickTable.waterConstruction[sq] = floorTile
+	end
+end
+
+function TickControl.main()
 	local player = getPlayer()
-	
+	if TickTable.waterConstruction then 
+		-- print("TickTable.waterConstruction")
+		for sq, floorTile in pairs(TickTable.waterConstruction) do 
+			if not floorTile then return end
+			local old_tile = sq:getFloor():getTile()
+			sq:addFloor(floorTile)
+			sq:RecalcProperties()
+			if string.match(old_tile, "carpentry_02") then
+				sq:AddWorldInventoryItem("Base.Plank", ZombRandFloat(0,0.9), ZombRandFloat(0,0.9), 0)
+			end
+			getSoundManager():PlaySound("ThrowInWater", true, 0.0)
+			player:Say(getText("IGUI_PlayerText_PontoonNeeded"))
+		end
+		TickTable.waterConstruction = nil
+	end
 	if player then
 		local boat = player:getVehicle()
 		if boat ~= nil and AquaConfig.isBoat(boat) then
@@ -55,27 +80,27 @@ function SoundControl.main()
 				if windSpeed < AquaConfig.windVeryLight then
 					AUD.insp("Wind", "windControlSpeed:", "windVeryLight")
 					volume = 1
-					SoundControl.switchTheWind(emi, "WindLight", volume)
+					TickControl.switchTheWind(emi, "WindLight", volume)
 				elseif windSpeed < AquaConfig.windLight then
 					AUD.insp("Wind", "windControlSpeed:", "windLight")
 					volume = windSpeed/AquaConfig.windLight
-					SoundControl.switchTheWind(emi, "WindLight", volume)
+					TickControl.switchTheWind(emi, "WindLight", volume)
 				elseif windSpeed < AquaConfig.windMedium then
 					AUD.insp("Wind", "windControlSpeed:", "windMedium")
 					volume = windSpeed/AquaConfig.windMedium
-					SoundControl.switchTheWind(emi, "WindMedium", volume)
+					TickControl.switchTheWind(emi, "WindMedium", volume)
 				elseif windSpeed < AquaConfig.windStrong then
 					AUD.insp("Wind", "windControlSpeed:", "windStrong")
 					volume = (windSpeed - 20 * 1.60934)/(AquaConfig.windStrong - 20 * 1.60934)
-					SoundControl.switchTheWind(emi, "WindStrong", volume)
+					TickControl.switchTheWind(emi, "WindStrong", volume)
 				elseif windSpeed < AquaConfig.windVeryStrong then
 					AUD.insp("Wind", "windControlSpeed:", "windVeryStrong")
 					volume = (windSpeed - 18 * 1.60934)/(AquaConfig.windVeryStrong - 18 * 1.60934)
-					SoundControl.switchTheWind(emi, "WindVeryStrong", volume)
+					TickControl.switchTheWind(emi, "WindVeryStrong", volume)
 				else
 					AUD.insp("Wind", "windControlSpeed:", "windStorm")
 					volume = (windSpeed - 18 * 1.60934)/(AquaConfig.windVeryStrong - 18 * 1.60934)
-					SoundControl.switchTheWind(emi, "WindStorm", 1)
+					TickControl.switchTheWind(emi, "WindStorm", 1)
 				end
 				AUD.insp("Wind", "volume:", volume)
 			end
@@ -180,6 +205,6 @@ local function onPlayerDeathStopSwimSound()
 	getPlayer():getEmitter():stopSoundByName("Swim")
 end
 
-
-Events.OnTick.Add(SoundControl.main)
+Events.OnTileRemoved.Add(TickControl.checkWaterBuild)
+Events.OnTick.Add(TickControl.main)
 Events.OnPlayerDeath.Add(onPlayerDeathStopSwimSound)

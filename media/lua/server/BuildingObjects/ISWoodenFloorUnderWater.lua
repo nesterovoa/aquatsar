@@ -28,7 +28,7 @@ function ISWoodenFloorUnderWater:create(x, y, z, north, sprite)
     self.sq:disableErosion();
     local args = { x = self.sq:getX(), y = self.sq:getY(), z = self.sq:getZ() }
     sendClientCommand(nil, 'erosion', 'disableForSquare', args)
-	SoundTable.waterConstruction[self.sq] = nil
+	TickTable.waterConstruction[self.sq] = nil
 end
 
 function ISWoodenFloorUnderWater:new(sprite, northSprite)

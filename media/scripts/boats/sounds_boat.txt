@@ -4,7 +4,7 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = true,
+		master = Music,
 		clip
 		{
 			file = media/sound/boats/aquatsar_main_theme.wav,
@@ -16,12 +16,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = false,
 		clip
 		{
 			file = media/sound/boats/boat_anchorFromWater.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -29,12 +26,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = false,
 		clip
 		{
 			file = media/sound/boats/boat_anchorInWater.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -42,12 +36,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = false,
 		clip
 		{
 			file = media/sound/boats/boat_bindRoap.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -55,12 +46,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_sails_set.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -68,12 +56,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_sails_remove.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -81,12 +66,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_sails_change_direction.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -94,12 +76,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_sails_torn1.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -107,12 +86,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_sails_torn2.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -120,12 +96,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_sails_torn3.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -133,12 +106,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_sails_torn4.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -146,12 +116,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_sails_torn5.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -159,12 +126,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_sails_torn6.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -172,12 +136,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_sails_torn7.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -185,12 +146,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_sails_torn8.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -198,12 +156,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_sails_torn9.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -211,12 +166,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_sails_torned2.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -224,12 +176,10 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_launching.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
+			volume = 0.5,
 		}
 	}
 
@@ -237,12 +187,10 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = true,
 		clip
 		{
 			file = media/sound/boats/boat_on_trailer.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
+			volume = 0.5,
 		}
 	}
 	
@@ -250,12 +198,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = false,
 		clip
 		{
 			file = media/sound/boats/motoryacht_engine_start.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -263,12 +208,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = false,
 		clip
 		{
 			file = media/sound/boats/motoryacht_engine_stop.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -276,12 +218,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = false,
 		clip
 		{
 			file = media/sound/boats/sail_yacht_engine_start.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -289,12 +228,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		is3D = false,
 		clip
 		{
 			file = media/sound/boats/sail_yacht_engine_stop.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -303,13 +239,10 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = true,
-		volume = 0.2,
-		is3D = false,
 		clip
 		{
 			file = media/sound/boats/boat_sailing.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
+			volume = 0.2,
 		}
 	}
 	
@@ -317,13 +250,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = true,
-		volume = 0.3,
-		is3D = false,
 		clip
 		{
 			file = media/sound/boats/boat_sailing_wind.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -334,8 +263,6 @@ module Aquatsar
 		clip
 		{
 			file = media/sound/boats/boat_horn.wav,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -343,13 +270,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		volume = 1.5,
-		is3D = false,
 		clip
 		{
 			file = media/sound/boats/tryStartEngineManualy.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -357,13 +280,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		volume = 1.5,
-		is3D = false,
 		clip
 		{
 			file = media/sound/boats/successStartEngineManualy.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -371,13 +290,9 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
-		volume = 1.5,
-		is3D = false,
 		clip
 		{
 			file = media/sound/boats/failStartEngineManualy.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 	
@@ -388,8 +303,6 @@ module Aquatsar
 		clip
 		{
 			file = media/sound/boats/Truman_Sets_Sail.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 		}
 	}
 
@@ -398,15 +311,11 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = true,
-		is3D = false,
+		master = Ambient,
 		clip
 		{
 			file = media/sound/boats/wind_VERY_LIGHT.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 			volume = 1,
-			reverbMaxRange = 0,
-			reverbFactor = 0,
 		}
 	}
 	
@@ -414,15 +323,11 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = true,
-		is3D = false,
+		master = Ambient,
 		clip
 		{
 			file = media/sound/boats/wind_LIGHT.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 			volume = 1,
-			reverbMaxRange = 0,
-			reverbFactor = 0,
 		}
 	}
 	
@@ -430,15 +335,11 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = true,
-		is3D = false,
+		master = Ambient,
 		clip
 		{
 			file = media/sound/boats/wind_MEDIUM.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 			volume = 1,
-			reverbMaxRange = 0,
-			reverbFactor = 0,
 		}
 	}
 	
@@ -446,15 +347,11 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = true,
-		is3D = false,
+		master = Ambient,
 		clip
 		{
 			file = media/sound/boats/wind_STRONG.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 			volume = 1,
-			reverbMaxRange = 0,
-			reverbFactor = 0,
 		}
 	}
 	
@@ -462,15 +359,11 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = true,
-		is3D = false,
+		master = Ambient,
 		clip
 		{
 			file = media/sound/boats/wind_VERY_STRONG.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 			volume = 1,
-			reverbMaxRange = 0,
-			reverbFactor = 0,
 		}
 	}
 	
@@ -478,15 +371,11 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = true,
-		is3D = false,
+		master = Ambient,
 		clip
 		{
 			file = media/sound/boats/wind_STORM.ogg,
-			distanceMin = 10,
-			distanceMax = 300,
 			volume = 1,
-			reverbMaxRange = 0,
-			reverbFactor = 0,
 		}
 	}
 }

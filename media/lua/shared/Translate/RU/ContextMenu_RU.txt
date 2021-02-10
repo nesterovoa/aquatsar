@@ -27,6 +27,10 @@ ContextMenu_RU = {
 	ContextMenu_Open_Cabin = "Открыть каюту<br>(с помощью ключа)",
 	ContextMenu_Open_Cabin_Force = "Открыть каюту<br>(с помощью монтировки)",
 	ContextMenu_Open_Cabin_Force_Need_Crowbar = "Открыть каюту<br>(нужна монтировка или ключ)",
+	ContextMenu_Close_Cabin = "Закрыть каюту",
+	ContextMenu_cabinForceUnlock_tooTired = "Я слишком стал,<br>чтобы вскрывать каюту",
+	ContextMenu_cabinForceUnlock_tooBored = "Не хочу сейчас<br>этим заниматься",
+	ContextMenu_cabinForceUnlock_tooUnhappy = "Я не в настроении<br>этим заниматься",
 	
 	ContextMenu_AirCondOff = "Выключить кондиционер",
 	ContextMenu_AirCondOn = "Включить кондиционер",

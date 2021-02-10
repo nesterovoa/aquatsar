@@ -142,7 +142,7 @@ module Aquatsar
     {
         Weight	=	0.1,
         Type	=	Literature,
-        DisplayName	=	Tsar Boat Manual,
+        DisplayName	=	Repair Your Boats Magazine,
         Icon	=	MagazineBoatMechanics,
         TeachedRecipes  =   Powerboats Mechanics; Sailboats Mechanics; Performance Boat Mechanics,
         ReplaceOnUse    =   BoatMag,
@@ -154,7 +154,7 @@ module Aquatsar
     {
         Weight	=	0.1,
         Type	=	Literature,
-        DisplayName	=	Swimming tutorial,
+        DisplayName	=	Swimming Times Magazine,
         Icon	=	MagazineFish,
         TeachedRecipes  =   Swimming,
         ReplaceOnUse    =   SwimMag,

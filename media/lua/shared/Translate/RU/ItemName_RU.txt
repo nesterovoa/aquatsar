@@ -1,5 +1,13 @@
 ItemName_RU = {
-	ItemName_Base.223Bullets = "Патрон .223",
-	ItemName_Aqua.DivingMask = "Маска для ныряния",
-	ItemName_Aqua.Lifebuoy = "Спасательный круг",	
+	ItemName_Aquatsar.BoatPropeller = "Лодочный пропеллер",
+	ItemName_Aquatsar.ManualStarter = "Ручной стартер",
+	ItemName_Aquatsar.Sails = "Паруса",
+	ItemName_Aquatsar.BoatMag = "Журнал «Ремонт и обслуживание лодок»",
+	ItemName_Aquatsar.SwimMag = "Журнал «Время поплавать»",
+	ItemName_Aquatsar.Lifebuoy = "Спасательный круг",
+	ItemName_Aquatsar.DivingMask = "Маска для ныряния",
+	ItemName_Aquatsar.TaintedLiterature = "Испорченная литература",
+	ItemName_Aquatsar.Compass = "Компас",
+	ItemName_Aquatsar.DeflatedTireTube = "Сдутая камера для шин",
+	ItemName_Aquatsar.TireTube = "Камера для шины",
 }

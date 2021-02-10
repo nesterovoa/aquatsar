@@ -467,13 +467,13 @@ function ISBoatMenu.onExit(playerObj)
 			exitPoint = ISBoatMenu.getBestSeatExit(playerObj, boat, true)
 			if exitPoint then
 				-- print("land near")
-				local emi = boat:getEmitter()
-				SoundControl.stopWeatherSound(emi)
 				ISTimedActionQueue.add(ISExitBoat:new(playerObj, exitPoint))
 				return
 			else	
 				ISBoatMenu.exitBoatOnWater(playerObj)
 			end
+			local emi = boat:getEmitter()
+			TickControl.stopWeatherSound(emi)
 		end
 	end
 end
