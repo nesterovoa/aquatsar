@@ -164,7 +164,7 @@ function ISCommonMenu.onToggleCabinlights(playerObj)
 			apipart:setInventoryItem(newItem, 10)
 			partCondition = partCondition - 1
 			part:setCondition(partCondition)
-			-- print(part:getInventoryItem():getCondition())
+
 			vehicle:getEmitter():playSound("SwitchLamp")
 			sendClientCommand(playerObj, 'vehicle', 'setHeadlightsOn', { on = true })
 		end

@@ -57,7 +57,6 @@ function ISAddGasolineToBoat:perform()
 	if self.item:getUsedDelta() <= 0 then
 		self.item:Use()
 	end
---	print('add gasoline level=' .. self.part:getContainerContentAmount())
 	-- needed to remove from queue / start next.
 	ISBaseTimedAction.perform(self)
 end

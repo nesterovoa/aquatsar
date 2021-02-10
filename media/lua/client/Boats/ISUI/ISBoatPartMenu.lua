@@ -78,7 +78,6 @@ function ISBoatPartMenu.transferRequiredItems(playerObj, part, tbl)
 	if tbl and tbl.items then
 		local typeToItem = VehicleUtils.getItems(playerObj:getPlayerNum())
 		for _,item in pairs(tbl.items) do
-			print("ISBoatPartMenu.transferRequiredItems: ", _, item) 
 			-- FIXME: handle drainables
 			for i=1,tonumber(item.count) do
 				ISBoatPartMenu.toPlayerInventory(playerObj, typeToItem[item.type][i])
@@ -144,7 +143,6 @@ function ISBoatPartMenu.onUninstallPart(playerObj, part)
 		-- end
 		local tbl = part:getTable("uninstall")
 		ISBoatPartMenu.transferRequiredItems(playerObj, part, tbl)
-		print("ISBoatPartMenu.onUninstallPart - transferRequiredItems")
 		local area = tbl.area or part:getArea()
 		-- ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, part:getVehicle(), area))
 		ISBoatPartMenu.equipRequiredItems(playerObj, part, tbl)

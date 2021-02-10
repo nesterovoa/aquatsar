@@ -26,10 +26,7 @@ Boats.Use = {}
 --***********************************************************
 
 function Boats.Create.Propeller(boat, part)
-	print("Boats.Create.Propeller")
-	print(part:getInventoryItem())
 	local item = BoatUtils.createPartInventoryItem(part)
-	print(part:getInventoryItem())
 	if (part:getInventoryItem()== nil) then
 		part:setInventoryItem(InventoryItemFactory.CreateItem("Aquatsar.BoatPropeller"), 10)
 	end
@@ -89,13 +86,11 @@ end
 --**                                                       **
 --***********************************************************
 function Boats.Create.Sails(boat, part)
-	print("Boats.Create.Sails")
 	local item = BoatUtils.createPartInventoryItem(part)
 	CommonTemplates.createActivePart(part)
 end
 
 function Boats.Init.SailsSet(boat, part)
-	print("Boats.Init.Sails")
 	local item = BoatUtils.createPartInventoryItem(part)
 	CommonTemplates.createActivePart(part)
 	part:setLightActive(true)
@@ -103,7 +98,6 @@ function Boats.Init.SailsSet(boat, part)
 end
 
 function Boats.Init.SailsRemoved(boat, part)
-	print("Boats.Init.SailsRemoved")
 	local item = BoatUtils.createPartInventoryItem(part)
 	CommonTemplates.createActivePart(part)
 	part:setLightActive(false)
@@ -113,7 +107,6 @@ end
 function Boats.Update.SailsSet(boat, part, elapsedMinutes)
 	BoatUtils.LowerCondition(boat, part, elapsedMinutes);
 	local windSpeed = getClimateManager():getWindspeedKph()
-	-- AUD.insp("Wind", "windSpeed (MPH):", windSpeed/1.60934)
 	if part:getInventoryItem() and windSpeed > AquaConfig.windVeryStrong then
 		local partCondition = part:getCondition()
 		if partCondition == 1 then
@@ -150,12 +143,10 @@ end
 
 function Boats.InstallComplete.ManualStarter(boat, part, item)
 	boat:cheatHotwire(true, false)
-	print(boat:isHotwired())
 end
 
 function Boats.UninstallComplete.ManualStarter(boat, part, item)
 	boat:cheatHotwire(false, false)
-	print(boat:isHotwired())
 end
 
 --***********************************************************
@@ -164,7 +155,6 @@ end
 --**                                                       **
 --***********************************************************
 function Boats.Update.GasTank(boat, part, elapsedMinutes)
-	-- print("Boats.Update.GasTank")
 	local invItem = part:getInventoryItem();
 	if not invItem then return; end
 	local amount = part:getContainerContentAmount()
@@ -178,7 +168,6 @@ function Boats.Update.GasTank(boat, part, elapsedMinutes)
 		local qualityMultiplier = ((100 - boat:getEngineQuality()) / 200) + 1;
 		local massMultiplier =  ((math.abs(1000 - boat:getScript():getMass())) / 300) + 1;
 		-- if boat is stopped, we half the value of gas consummed
-		-- print(boat:getCurrentSpeedKmHour())
 		if math.floor(math.abs(boat:getCurrentSpeedKmHour())) > 0 then
 			gasMultiplier = gasMultiplier / qualityMultiplier / massMultiplier/4;
 			speedMultiplier = 800;
@@ -190,7 +179,6 @@ function Boats.Update.GasTank(boat, part, elapsedMinutes)
 		local newAmount = (speedMultiplier / gasMultiplier)  * SandboxVars.CarGasConsumption;
 		newAmount =  newAmount * (boat:getEngineSpeed()/2500.0);
 		amount = amount - elapsedMinutes * newAmount;
-		-- print(elapsedMinutes * newAmount)
 		-- if your gas tank is in bad condition, you can simply lose fuel
 		if part:getCondition() < 70 then
 			if ZombRand(part:getCondition() * 2) == 0 then

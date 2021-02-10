@@ -94,9 +94,6 @@ end
 
 
 function ISVehicleMenuForTrailerWithBoat.loadOntoTrailer(playerObj, vehicle, boat)
-	print(playerObj)
-	print(vehicle)
-	print(boat)
 	if luautils.walkAdj(playerObj, vehicle:getSquare()) then
 		ISTimedActionQueue.add(ISLoadBoatOntoTrailer:new(playerObj, vehicle, boat));
 	end

@@ -155,8 +155,8 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 		end
 	end
 	
-	AUD.insp("Boat", "windSpeed (MPH):", windSpeed / 1.60934)
-	AUD.insp("Boat", "windForceByDirection154:", windForceByDirection)
+	-- AUD.insp("Boat", "windSpeed (MPH):", windSpeed / 1.60934)
+	-- AUD.insp("Boat", "windForceByDirection154:", windForceByDirection)
 	local coefficientSailAngle = 0
 	local requiredSailAngle = 0
 	if windOnBoat >= 150 and windOnBoat <= 210 then
@@ -227,12 +227,11 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 	-- AUD.insp("Boat", "Boat Speed: ", boatSpeed)
 	-- AUD.insp("Boat", "Mass: ", boat:getMass())
 	-- AUD.insp("Boat", " ", " ")		
-	
-	AUD.insp("Boat", "windOnBoat:", windOnBoat)
+	-- AUD.insp("Boat", "windOnBoat:", windOnBoat)
 	-- AUD.insp("Boat", "SailAngle:", sailAngle)
 	-- AUD.insp("Boat", "RequiredSailAngle (absolute value):", requiredSailAngle)
 	-- AUD.insp("Boat", "coefficientSailAngle:", coefficientSailAngle)
-	AUD.insp("Boat", "windForceByDirection:", windForceByDirection)
+	-- AUD.insp("Boat", "windForceByDirection:", windForceByDirection)
 	
 	boat:getAttachmentWorldPos("checkFront", frontVector)
 	
@@ -252,7 +251,7 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 	end
 	
 	boat:getModData()["windForceByDirection"] = savedWindForce
-	AUD.insp("Boat", "savedWindForce:", savedWindForce)
+	-- AUD.insp("Boat", "savedWindForce:", savedWindForce)
 
 	local squareFrontVehicle = getCell():getGridSquare(frontVector:x(), frontVector:y(), 0)
 	if squareFrontVehicle ~= nil and isWater(squareFrontVehicle) then
@@ -276,7 +275,6 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 	end
 	-- if boat:getDriver() then -- TODO исправить для онлайна
 		-- if isKeyDown(getCore():getKey("Left")) then
-			-- -- print("Left")
 			-- -- boat:update()
 			-- forceVector = boat:getWorldPos(-1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
 			-- forceVector:mul(4000)
@@ -287,7 +285,6 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 			-- boat:addImpulse(forceVector, tempVec2)   
 		-- elseif isKeyDown(getCore():getKey("Right")) then
 			-- -- boat:update()
-			-- -- print("Right")
 			-- forceVector = boat:getWorldPos(1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
 			-- forceVector:mul(4000)
 			-- forceVector:set(forceVector:x(), 0, forceVector:y())
@@ -357,7 +354,7 @@ end
 function AquaPhysics.heightFix(boat)
 	local squareUnderVehicle = getCell():getGridSquare(boat:getX(), boat:getY(), 0)
 	if squareUnderVehicle ~= nil and isWater(squareUnderVehicle) then
-		AUD.insp("Boat", "getDebugZ:", boat:getDebugZ())
+		-- AUD.insp("Boat", "getDebugZ:", boat:getDebugZ())
 		if boat:getDebugZ() < 0.62 and boat:getCurrentSpeedKmHour() < 2 then 
 			-- boat:setPhysicsActive(true)
 			tempVec1:set(0, 5000, 0)
@@ -374,9 +371,9 @@ function AquaPhysics.addImpulseGetWorldPos(boat, force)
 	tempVec1:set(0, 0, 0)
 	local forceVector = boat:getWorldPos(0, 0, 1, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
 	
-	AUD.insp("Boat", "addImpulseGetWorldPos:", forceVector:x(),   forceVector:y())
+	-- AUD.insp("Boat", "addImpulseGetWorldPos:", forceVector:x(),   forceVector:y())
 	forceVector:mul(force)
-	AUD.insp("Boat", "addImpulseGetWorldPosforce:", forceVector:x(), forceVector:y())
+	-- AUD.insp("Boat", "addImpulseGetWorldPosforce:", forceVector:x(), forceVector:y())
 	forceVector:set(forceVector:x(), 0, forceVector:y())
 	tempVec2:set(0, 0, 0)
 	boat:addImpulse(forceVector, tempVec2)
@@ -391,9 +388,9 @@ function AquaPhysics.addImpulseXY(boat, force)
 	local y = frontVector:y() - rearVector:y()
 	local forceVector = boatDirVector
 	
-	AUD.insp("Boat", "addImpulseXY:", forceVector:x(),   forceVector:y())
+	-- AUD.insp("Boat", "addImpulseXY:", forceVector:x(),   forceVector:y())
 	forceVector:mul(force)
-	AUD.insp("Boat", "addImpulseXYforce:", forceVector:x(), forceVector:y())
+	-- AUD.insp("Boat", "addImpulseXYforce:", forceVector:x(), forceVector:y())
 	forceVector:set(forceVector:x(), 0, forceVector:y())
 	tempVec2:set(0, 0, 0)
 	boat:addImpulse(forceVector, tempVec2)
@@ -498,18 +495,18 @@ local function dirTest (boat)
 	boat:getAttachmentWorldPos("trailer", rearVector)
 	local x = frontVector:x() - rearVector:x()
 	local y = frontVector:y() - rearVector:y()
-	AUD.insp("Boat", "frontVector:", frontVector:x(), frontVector:y())
-	AUD.insp("Boat", "rearVector:", rearVector:x(), rearVector:y())
+	-- AUD.insp("Boat", "frontVector:", frontVector:x(), frontVector:y())
+	-- AUD.insp("Boat", "rearVector:", rearVector:x(), rearVector:y())
 	local boatDirection = math.atan2(x,y) * 57.2958 + 180
-	AUD.insp("Boat", "boatDirection:", boatDirection)
+	-- AUD.insp("Boat", "boatDirection:", boatDirection)
 	boatDirVector:set(x, 0, y):normalize()
-	AUD.insp("Boat", "boatDirVector:", boatDirVector:x(),   boatDirVector:z())
+	-- AUD.insp("Boat", "boatDirVector:", boatDirVector:x(),   boatDirVector:z())
 	boatDirVector = boat:getWorldPos(0, 0, 1, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ()):normalize()
-	AUD.insp("Boat", "getWorldPos:", boatDirVector:x(),  boatDirVector:y())
+	-- AUD.insp("Boat", "getWorldPos:", boatDirVector:x(),  boatDirVector:y())
 	boatDirVector = boat:getLocalPos(boatDirVector, tempVec2):normalize()
-	AUD.insp("Boat", "getLocalPos:", boatDirVector:x(), boatDirVector:y(), boatDirVector:z())
+	-- AUD.insp("Boat", "getLocalPos:", boatDirVector:x(), boatDirVector:y(), boatDirVector:z())
 	boatDirVector = boat:getLinearVelocity(tempVec2):normalize()
-	AUD.insp("Boat", "getLinearVelocity:", boatDirVector:x(), boatDirVector:z())
+	-- AUD.insp("Boat", "getLinearVelocity:", boatDirVector:x(), boatDirVector:z())
 	
 end
 
@@ -529,7 +526,6 @@ function AquaPhysics.updateVehicles()
 			end
 			if boat:getPartById("Sails") then
 				if boat:getPartById("Sails"):getLight():getActive() and not boat:getModData()["aqua_anchor_on"] then
-					-- print(collisionWithGround)
 					AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 				end
 				AquaPhysics.changeSailAngle(boat)

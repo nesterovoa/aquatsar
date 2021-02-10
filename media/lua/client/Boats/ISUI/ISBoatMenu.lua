@@ -70,7 +70,6 @@ function ISBoatMenu.onKeyStartPressed(key)
 		getCore():addKeyBinding("Forward", nil)
 		getCore():addKeyBinding("Backward", nil)
 		getCore():addKeyBinding("StartVehicleEngine", nil)
-		-- print("38 ", playerObj:getModData()["blockForward"])
 	elseif AquaConfig.isBoat(boat) and 
 			boat:getPartById("ManualStarter") and 
 			(key == playerObj:getModData()["blockForward"] or 
@@ -78,17 +77,13 @@ function ISBoatMenu.onKeyStartPressed(key)
 			key == playerObj:getModData()["blockStartVehicleEngine"]) and 
 			boat:isEngineRunning() then
 		getCore():addKeyBinding("Forward", playerObj:getModData()["blockForward"])
-		-- playerObj:getModData()["blockForward"] = nil
 		getCore():addKeyBinding("Backward", playerObj:getModData()["blockBackward"])
-		-- playerObj:getModData()["blockBackward"] = nil
 		getCore():addKeyBinding("StartVehicleEngine", playerObj:getModData()["blockStartVehicleEngine"])
-		-- playerObj:getModData()["blockStartVehicleEngine"] = nil
 	elseif key == getCore():getKey("Interact") then
 		local boat = playerObj:getVehicle()
 		if boat == nil then
 			boat = ISBoatMenu.getBoatToInteractWith(playerObj)
 			if boat then
-				-- print("OnEnterBoat")
 				if playerObj:getSquare():Is(IsoFlagType.water) then
 					ISBoatMenu.onEnter(playerObj, boat)
 				else
@@ -97,7 +92,6 @@ function ISBoatMenu.onKeyStartPressed(key)
 				-- ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, 0))
 			end
 		elseif AquaConfig.isBoat(boat) then
-			-- print("ISBoatMenu.onExit")
 			ISBoatMenu.onExit(playerObj)
 		end	
 	elseif key == getCore():getKey("VehicleRadialMenu") and playerObj then
@@ -227,7 +221,6 @@ function ISBoatMenu.getSquaresFromDir(playerObj, lastx, lasty)
 		for x = 0,lastx,dx do 
 			for y = ymin,ymax,1 do
 				table.insert(sqs, getCell():getGridSquare(px+x, py+y, 0))
-				--print("getSquaresFromDir: ", x, " ", y, " ", index)  
 			end
 			ymin = ymin + dy
 			ymax = ymax + dy
@@ -236,14 +229,12 @@ function ISBoatMenu.getSquaresFromDir(playerObj, lastx, lasty)
 		for y = 0, lasty, dy do
 			for x = -1,1 do
 				table.insert(sqs, getCell():getGridSquare(px+x, py+y, 0))
-				--print("getSquaresFromDir: ", x, y)
 			end
 		end
 	elseif lasty == 0 then
 		for x = 0, lastx, dx do
 			for y = -1,1 do
 				table.insert(sqs, getCell():getGridSquare(px+x, py+y, 0))
-				--print("getSquaresFromDir: ", x, y)
 			end
 		end
 	end
@@ -403,11 +394,9 @@ function ISBoatMenu.getBestSeatExit(playerObj, boat, ground)
 	if outside then
 		boat:getWorldPos(outside:getOffset(), SORTVARS.pos)
 		local squares = ISBoatMenu.getNearSquare(getCell():getGridSquare(SORTVARS.pos:x(), SORTVARS.pos:y(), 0), 1, 1)
-		-- print("ISBoatMenu.isWater(square) ", ISBoatMenu.isWater(square) )
 		if ground then
 			for i, square in pairs(squares) do
 				if square and not ISBoatMenu.isWater(square) and square:isNotBlocked(true) then
-					-- print("ground: ", square:getX(), square:getY())
 					SORTVARS.pos:set(square:getX(), square:getY(), 0)
 					return SORTVARS.pos
 				end
@@ -419,13 +408,11 @@ function ISBoatMenu.getBestSeatExit(playerObj, boat, ground)
 	for seat2=0, boat:getMaxPassengers()-1 do
 		outside = boat:getPassengerPosition(seat2, "outside")
 		if outside then
-			-- print("outside seat2", seat2)
 			boat:getWorldPos(outside:getOffset(), SORTVARS.pos)
 			squares = ISBoatMenu.getNearSquare(getCell():getGridSquare(SORTVARS.pos:x(), SORTVARS.pos:y(), 0), 1, 1)
 			if ground then
 				for i, square in pairs(squares) do
 					if square and not ISBoatMenu.isWater(square) and square:isNotBlocked(true) then
-						-- print("ground: ", square:getX(), square:getY())
 						SORTVARS.pos:set(square:getX(), square:getY(), 0)
 						return SORTVARS.pos
 					end
@@ -466,7 +453,6 @@ function ISBoatMenu.onExit(playerObj)
 			-- exitPoint = ISBoatMenu.getNearLandForExit(boat)
 			exitPoint = ISBoatMenu.getBestSeatExit(playerObj, boat, true)
 			if exitPoint then
-				-- print("land near")
 				ISTimedActionQueue.add(ISExitBoat:new(playerObj, exitPoint))
 				return
 			else	
@@ -537,7 +523,6 @@ function ISBoatMenu.OnFillWorldObjectContextMenu(player, context, worldobjects, 
 end
 
 function ISBoatMenu.showRadialMenu(playerObj)
-	-- print("showRadialMenu ISBoatMenu")
 	local isPaused = UIManager.getSpeedControls() and UIManager.getSpeedControls():getCurrentGameSpeed() == 0
 	if isPaused then return end
 
@@ -900,7 +885,6 @@ function ISBoatMenu.SetLeftSails(playerObj, boat)
 end
 
 function ISBoatMenu.showRadialMenuOutside(playerObj)
-	print("showRadialMenuOutside ISBoatMenu")
 	if playerObj:getVehicle() then return end
 	
 	local playerIndex = playerObj:getPlayerNum()
@@ -1289,7 +1273,6 @@ end
 
 
 function ISBoatMenu.onWashYourself(playerObj, sink, soapList)
-	print("ISBoatMenu.onWashYourself")
 	if not sink:getSquare() then
 		return
 	end
@@ -1297,7 +1280,6 @@ function ISBoatMenu.onWashYourself(playerObj, sink, soapList)
 end
 
 function ISBoatMenu.onWashClothing(playerObj, sink, soapList, washList, singleClothing, noSoap)
-	print("ISBoatMenu.onWashClothing")
 	if not sink:getSquare() then
 		return
 	end

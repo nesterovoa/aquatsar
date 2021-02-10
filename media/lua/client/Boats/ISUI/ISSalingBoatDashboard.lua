@@ -66,7 +66,6 @@ function ISSalingBoatDashboard:getAlphaFlick(default)
 end
 
 function ISSalingBoatDashboard:setVehicle(boat)
-print("ISSalingBoatDashboard:setBoat")
 	self.boat = boat
 	for _,gauge in ipairs(self.gauges) do
 		gauge:setVisible(false)

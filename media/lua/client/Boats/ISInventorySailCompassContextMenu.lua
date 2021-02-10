@@ -10,11 +10,12 @@ local function showRepairSailMenu(playerObj, sail, context)
     local fabric1 = playerObj:getInventory():getItemFromType("RippedSheets", true, true);
     local fabric2 = playerObj:getInventory():getItemFromType("DenimStrips", true, true);
     local fabric3 = playerObj:getInventory():getItemFromType("LeatherStrips", true, true);
-    if not thread or not needle or (not fabric1 and not fabric2 and not fabric3) then
+	local tailoringLevel = playerObj:getPerkLevel(Perks.Tailoring)
+    if not thread or not needle or (not fabric1 and not fabric2 and not fabric3) or tailoringLevel < 4 then
         local patchOption = context:addOption(getText("IGUI_RepairSail"));
         patchOption.notAvailable = true;
         local tooltip = ISInventoryPaneContextMenu.addToolTip();
-        tooltip.description = getText("ContextMenu_CantRepair");
+        tooltip.description = getText("IGUI_CantRepairSils");
         patchOption.toolTip = tooltip;
         return;
     end
@@ -24,24 +25,21 @@ local function showRepairSailMenu(playerObj, sail, context)
     context:addSubMenu(repairOption, subRepairMenu)
     
     if fabric1 ~= nil then
-        subRepairMenu:addOption(getItemNameFromFullType(fabric1:getFullType()) .. " (3%)", playerObj, repairSailPerform, sail, fabric1, thread, needle, 3)
+        subRepairMenu:addOption(getItemNameFromFullType(fabric1:getFullType()) .. " (2%)", playerObj, repairSailPerform, sail, fabric1, thread, needle, 2)
     end
 
     if fabric2 ~= nil then
-        subRepairMenu:addOption(getItemNameFromFullType(fabric2:getFullType()) .. " (7%)", playerObj, repairSailPerform, sail, fabric2, thread, needle, 7)
+        subRepairMenu:addOption(getItemNameFromFullType(fabric2:getFullType()) .. " (5%)", playerObj, repairSailPerform, sail, fabric2, thread, needle, 5)
     end
 
     if fabric3 ~= nil then
-        subRepairMenu:addOption(getItemNameFromFullType(fabric3:getFullType()) .. " (12%)", playerObj, repairSailPerform, sail, fabric3, thread, needle, 12)
+        subRepairMenu:addOption(getItemNameFromFullType(fabric3:getFullType()) .. " (9%)", playerObj, repairSailPerform, sail, fabric3, thread, needle, 8)
     end
 end
-
 
 local function sayWindInfo(playerObj)
     local speed = AquaPhysics.Wind.getWindSpeed()
     local force = ""
-
-	print(speed)
     if speed <= 1 then 
         force = getText("IGUI_Wind_NoWind")
 		playerObj:Say(force)
@@ -81,7 +79,5 @@ local function aquaItemContextMenu( player, context, items)
         end
 	end
 end
-
-
 
 Events.OnFillInventoryObjectContextMenu.Add(aquaItemContextMenu);

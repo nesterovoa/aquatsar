@@ -67,7 +67,6 @@ function ISTakeGasolineFromBoat:perform()
 	self.item:setUsedDelta(self.itemTarget)
 	local args = { vehicle = self.vehicle:getId(), part = self.part:getId(), amount = self.tankTarget }
 	sendClientCommand(self.character, 'vehicle', 'setContainerContentAmount', args)
-	print('take fluid level=' .. self.part:getContainerContentAmount() .. ' usedDelta=' .. self.item:getUsedDelta())
 	-- needed to remove from queue / start next.
 	ISBaseTimedAction.perform(self)
 end

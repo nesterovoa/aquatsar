@@ -27,7 +27,7 @@ end
 function ISRepairSailAction:perform()
     self.character:getInventory():Remove(self.item);
     self.thread:Use();
-    self.character:getXp():AddXP(Perks.Tailoring, ZombRand(1, 3))
+    self.character:getXp():AddXP(Perks.Tailoring, ZombRand(3, 6))
 
     self.sail:setCondition(self.sail:getCondition()+self.addCondition)
 

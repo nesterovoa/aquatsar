@@ -16,7 +16,6 @@ function ISStartBoatEngineManualy:isValid()
 end
 
 function ISStartBoatEngineManualy:start()
-	--print("ISStartBoatEngineManualy:start()")
 	self.soundId = self.character:getEmitter():playSound("TryStartEngineManualy")
 end
 

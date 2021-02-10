@@ -22,13 +22,11 @@ function ISHornBoat:start()
 end
 
 function ISHornBoat:stop()
-	--print "stop"
 	ISVehicleMenu.onHornStop(self.character)
     ISBaseTimedAction.stop(self)
 end
 
 function ISHornBoat:perform()
-	--print "perform"
 	ISVehicleMenu.onHornStop(self.character)
 	ISBaseTimedAction.perform(self)
 end

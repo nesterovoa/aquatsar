@@ -415,10 +415,10 @@ function CommonTemplates.Update.BatteryHeater(vehicle, part, elapsedMinutes)
 	if not tonumber(partData.temperature) then
 		partData.temperature = 0
 	end
---	print(elapsedMinutes)
+
 	local tempInc = 0.5
 	local previousTemp = pcData.temperature;
---		print("heater temp " .. partData.temperature .. " - " .. pcData.temperature .. " - " .. tempInc)
+
 	if partData.active and ((partData.temperature > 0 and pcData.temperature <= partData.temperature) or (partData.temperature < 0 and pcData.temperature >= partData.temperature)) then
 		if partData.temperature > 0 then
 			pcData.temperature = math.min(pcData.temperature + tempInc * elapsedMinutes, partData.temperature)

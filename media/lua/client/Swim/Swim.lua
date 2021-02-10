@@ -11,7 +11,6 @@ function AquatsarYachts.Swim.swimDifficultCoeff(playerObj)
     local coeff = 5
 
     if canSwim or haveLifebouy then
-		-- print("MASTER SWIM!")
         coeff = 2.0
     end
 
@@ -211,12 +210,8 @@ function AquatsarYachts.Swim.newSay(situation, chanceToSay)
 	local maxCount = ZombRand(10000)
 	local updateChance = maxCount*chanceToSay/1000
 	local check = ZombRand(maxCount)
-	-- print(check)
-	-- print(updateChance)
-	-- print("---")
 	if check <= updateChance then
 		local currentNum = ZombRand(#SwimSayWords[situation])+1
-		-- print(currentNum)
 		getPlayer():Say(getText(SwimSayWords[situation][currentNum]))
 	end
 end
@@ -224,10 +219,8 @@ end
 function AquatsarYachts.Swim.onTick()
     local playerObj = getPlayer()
     if playerObj == nil then return end
-	-- print(playerObj:isMoving())
     if not playerObj:getVehicle() and playerObj:getSquare():Is(IsoFlagType.water) then
         local coeff = AquatsarYachts.Swim.swimDifficultCoeff(playerObj)
-        -- print(coeff)
 		if playerObj:isAiming() then
 			playerObj:getStats():setEndurance(playerObj:getStats():getEndurance() - 0.00001*coeff)
 		else

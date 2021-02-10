@@ -22,7 +22,6 @@ local FONT_HGT_SMALL = getTextManager():getFontHeight(UIFont.Small)
 local FONT_HGT_MEDIUM = getTextManager():getFontHeight(UIFont.Medium)
 
 function ISBoatMechanics:initialise()
-	print("ISBoatMechanics:initialise()")
 	ISCollapsableWindow.initialise(self);
 end
 
@@ -50,7 +49,6 @@ function ISBoatMechanics:updateLayout()
 end
 
 function ISBoatMechanics:initParts()
-print("ISBoatMechanics:initParts()")
 	if not self.vehicle then return; end
 	self.listbox:clear();
 	self.bodyworklist:clear();
@@ -90,7 +88,6 @@ print("ISBoatMechanics:initParts()")
 		cat.name = v.name;
 		cat.cat = true;
 		local list = self.listbox;
-		print("i: ", i)
 		if i == "BoatBody" or i == "Other" or i == "other" or i == "HouseholdSystem" or i == "householdsystem" then list = self.bodyworklist;  end
 		list:addItem(cat.name, cat);
 		for j,k in ipairs(v.parts) do
@@ -149,7 +146,6 @@ function ISBoatMechanics:checkEngineFull()
 end
 
 function ISBoatMechanics:createChildren()
-print("ISBoatMechanics:createChildren()")
 	ISCollapsableWindow.createChildren(self);
 	if self.resizeWidget then self.resizeWidget.yonly = true end
 	self:setInfo(getText("IGUI_InfoPanel_Mechanics"))	;
@@ -801,7 +797,6 @@ end
 -- tick
 -- render the car overlay on the left based on ISBoatMechanicsOverlay
 function ISBoatMechanics:renderCarOverlay()
-	--	print(self.vehicle:getScriptName(), ISBoatMechanicsOverlay.BoatList[self.vehicle:getScriptName()]);
 	local scale = 1;
 	if ISBoatMechanics.alphaOverlayInc then
 		ISBoatMechanics.alphaOverlay = ISBoatMechanics.alphaOverlay + 0.08 * (UIManager.getMillisSinceLastRender() / 33.3);
@@ -858,7 +853,6 @@ function ISBoatMechanics:renderCarOverlay()
 end
 
 function ISBoatMechanics:selectPart(part)
-print("ISBoatMechanics:selectPart()")
 	if not part then return end
 	for i=1,self.listbox:size() do
 		local item = self.listbox.items[i]
@@ -970,7 +964,6 @@ end
 -- render the tooltip over each part
 function ISBoatMechanics:renderCarOverlayTooltip(partProps, part, carType)
 	if self.context and self.context:getIsVisible() then return false; end
-	--	print(self:getMouseX(), self:getMouseY());
 	if not self.tooltip then
 		self.tooltip = ISToolTip:new();
 		self.tooltip:initialise();
@@ -1328,8 +1321,6 @@ function ISBoatMechanics:setVisible(bVisible, joypadData)
 end
 
 function ISBoatMechanics:close()
-print("ISBoatMechanics:close()")
-	
 	self:setVisible(false)
 	self:setEnabled(false);
 	self:removeFromUIManager()
@@ -1467,7 +1458,6 @@ function ISBoatMechanics:onKeyRelease(key)
 end
 
 -- ISBoatMechanics.OnMechanicActionDone = function(character, success, vehicleId, partId, itemId, installing)
--- print("ISBoatMechanics:OnMechanicActionDone()")
 	-- if success and itemId ~= -1 then
 		-- local vehicle = getVehicleById(vehicleId);
 		-- if not vehicle then noise('no such vehicle ' .. vehicleId); return; end

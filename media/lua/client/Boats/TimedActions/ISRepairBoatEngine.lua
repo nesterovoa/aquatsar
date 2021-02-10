@@ -56,7 +56,6 @@ function ISRepairBoatEngine:perform()
 		sendClientCommand(self.character, 'vehicle', 'repairEngine', args)
 	end
 	if not self.character:getMechanicsItem(self.part:getVehicle():getMechanicalID() .. "2") then
---		print("add exp", done/2)
 		self.character:getXp():AddXP(Perks.Mechanics, done);
 	end
 --]]

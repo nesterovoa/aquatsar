@@ -169,7 +169,6 @@ function ISBoatDashboard:getAlphaFlick(default)
 end
 
 function ISBoatDashboard:setVehicle(boat)
--- print("ISBoatDashboard:setBoat")
 	self.boat = boat
 	for _,gauge in ipairs(self.gauges) do
 		gauge:setVisible(false)
@@ -197,7 +196,6 @@ function ISBoatDashboard:setVehicle(boat)
 	
 	part = boat:getPartById("Battery")
 	if part then
-		-- print("BatteryPart: ", part)
 		self.battery = part
 		if self.boat:isEngineRunning() then
 			--self.initialBattery = part:getInventoryItem():getUsedDelta()

@@ -77,7 +77,6 @@ end
 
 -- function test2(paramIsoObject)
 	-- if isWater(paramIsoObject) and a == 0 then
-		-- print("OnTileRemoved: ", paramIsoObject:getTile())
 		-- local sq = paramIsoObject:getSquare()
         -- if sq then
 			-- for i=0, sq:getObjects():size()-1 do

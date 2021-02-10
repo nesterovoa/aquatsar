@@ -21,7 +21,6 @@ end
 
 function TickControl.stopWeatherSound(emi)
 	emi:stopSoundByName("BoatSailing")
-	print("Stop BoatSailing")
 	-- emi:stopSoundByName("BoatSailingByWind")
 	for i, j in pairs(TickTable.Wind) do 
 		emi:stopSoundByName(i)
@@ -38,8 +37,6 @@ function TickControl.isWater(square)
 end
 
 function TickControl.checkWaterBuild(paramIsoObject)
-	-- print(paramIsoObject)
-	-- print("checkWaterBuild ")
 	if TickControl.isWater(paramIsoObject) then
 		local floorTile = paramIsoObject:getTile()
 		local sq = paramIsoObject:getSquare()
@@ -51,7 +48,6 @@ end
 function TickControl.main()
 	local player = getPlayer()
 	if TickTable.waterConstruction then 
-		-- print("TickTable.waterConstruction")
 		for sq, floorTile in pairs(TickTable.waterConstruction) do 
 			if not floorTile then return end
 			local old_tile = sq:getFloor():getTile()
@@ -75,34 +71,34 @@ function TickControl.main()
 			end
 			if emi:isPlaying("BoatSailing") then 
 				local windSpeed = getClimateManager():getWindspeedKph()
-				AUD.insp("Wind", "windSpeed (MPH):", windSpeed/1.60934)
+				-- AUD.insp("Wind", "windSpeed (MPH):", windSpeed/1.60934)
 				local volume = 0
 				if windSpeed < AquaConfig.windVeryLight then
-					AUD.insp("Wind", "windControlSpeed:", "windVeryLight")
+					-- AUD.insp("Wind", "windControlSpeed:", "windVeryLight")
 					volume = 1
 					TickControl.switchTheWind(emi, "WindLight", volume)
 				elseif windSpeed < AquaConfig.windLight then
-					AUD.insp("Wind", "windControlSpeed:", "windLight")
+					-- AUD.insp("Wind", "windControlSpeed:", "windLight")
 					volume = windSpeed/AquaConfig.windLight
 					TickControl.switchTheWind(emi, "WindLight", volume)
 				elseif windSpeed < AquaConfig.windMedium then
-					AUD.insp("Wind", "windControlSpeed:", "windMedium")
+					-- AUD.insp("Wind", "windControlSpeed:", "windMedium")
 					volume = windSpeed/AquaConfig.windMedium
 					TickControl.switchTheWind(emi, "WindMedium", volume)
 				elseif windSpeed < AquaConfig.windStrong then
-					AUD.insp("Wind", "windControlSpeed:", "windStrong")
+					-- AUD.insp("Wind", "windControlSpeed:", "windStrong")
 					volume = (windSpeed - 20 * 1.60934)/(AquaConfig.windStrong - 20 * 1.60934)
 					TickControl.switchTheWind(emi, "WindStrong", volume)
 				elseif windSpeed < AquaConfig.windVeryStrong then
-					AUD.insp("Wind", "windControlSpeed:", "windVeryStrong")
+					-- AUD.insp("Wind", "windControlSpeed:", "windVeryStrong")
 					volume = (windSpeed - 18 * 1.60934)/(AquaConfig.windVeryStrong - 18 * 1.60934)
 					TickControl.switchTheWind(emi, "WindVeryStrong", volume)
 				else
-					AUD.insp("Wind", "windControlSpeed:", "windStorm")
+					-- AUD.insp("Wind", "windControlSpeed:", "windStorm")
 					volume = (windSpeed - 18 * 1.60934)/(AquaConfig.windVeryStrong - 18 * 1.60934)
 					TickControl.switchTheWind(emi, "WindStorm", 1)
 				end
-				AUD.insp("Wind", "volume:", volume)
+				-- AUD.insp("Wind", "volume:", volume)
 			end
 
 			if boat:getPartById("ManualStarter") then
@@ -168,7 +164,7 @@ function TickControl.main()
 									not sq:isWindowTo(sideSqr2) and
 									sq:isWallTo(rearSqr) then
 								player:setNoClip(true)
-								print("NOCLIP")
+								-- print("NOCLIP")
 								-- print("sq ", sq:getX(), " ", sq:getY())
 								-- print("sqDir ", sqDir:getX(), " ", sqDir:getY())
 								-- print("sideSqr1 ", sideSqr1:getX(), " ", sideSqr1:getY())
@@ -190,7 +186,6 @@ function TickControl.main()
 				if player:getSprite():getProperties():Is(IsoFlagType.invisible) then
 					emiPl:playSound("LeaveWater")
 					player:getSprite():getProperties():UnSet(IsoFlagType.invisible)
-					-- player:setMoveSpeed(1)
 					player:setNoClip(false)
 				end
 				if emiPl:isPlaying("Swim") then

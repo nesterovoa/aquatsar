@@ -9,8 +9,6 @@ ISWaterFloor = ISBuildingObject:derive("ISWaterFloor");
 --**
 --************************************************************************--
 function ISWaterFloor:create(x, y, z, north, sprite)
-	print(north)
-	print(sprite)
 	self.sq = getWorld():getCell():getGridSquare(x, y, z);
 	self.javaObject = self.sq:addFloor(sprite);
 	buildUtil.consumeMaterial(self);
