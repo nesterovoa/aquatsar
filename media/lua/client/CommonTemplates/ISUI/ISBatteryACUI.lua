@@ -66,7 +66,7 @@ function ISBatteryACUI:updateButtons()
 		self.ok:setTooltip(nil);
 	else
 		self.ok:setEnable(false);
-		self.ok:setTooltip(getText("UI_Boat_LowBattery"));
+		self.ok:setTooltip(getText("Tooltip_Boat_LowBattery"));
 	end
 	if self.heater:getModData().active then
 		self.ok:setTitle(getText("ContextMenu_Turn_Off"))

@@ -28,7 +28,7 @@ ContextMenu_RU = {
 	ContextMenu_Open_Cabin_Force = "ќткрыть каюту<br>(с помощью монтировки)",
 	ContextMenu_Open_Cabin_Force_Need_Crowbar = "ќткрыть каюту<br>(нужна монтировка или ключ)",
 	ContextMenu_Close_Cabin = "«акрыть каюту",
-	ContextMenu_cabinForceUnlock_tooTired = "я слишком стал,<br>чтобы вскрывать каюту",
+	ContextMenu_cabinForceUnlock_tooTired = "я слишком устал,<br>чтобы вскрывать каюту",
 	ContextMenu_cabinForceUnlock_tooBored = "Ќе хочу сейчас<br>этим заниматьс€",
 	ContextMenu_cabinForceUnlock_tooUnhappy = "я не в настроении<br>этим заниматьс€",
 	

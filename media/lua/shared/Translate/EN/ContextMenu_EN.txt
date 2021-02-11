@@ -5,7 +5,7 @@ ContextMenu_EN = {
 	
 	ContextMenu_BoatHeadlightsOff = "Turn off the spotlights",
 	ContextMenu_BoatHeadlightsOn = "Turn on the spotlights",
-	ContextMenu_BoatHotwireSkill = "--",
+	ContextMenu_BoatHotwireSkill = "You need keys or<br>Electrical level 1 and<br>Mechanics level 2<br>to hotwire.",
 	
 	ContextMenu_RemoveSail = "Remove sails", 
 	ContextMenu_SetLeftSail = "Set staysail<br>to the left side",
@@ -17,17 +17,21 @@ ContextMenu_EN = {
 	
 	ContextMenu_VehicleStartEngineManual = "Start engine manually",
 	ContextMenu_VehicleManualStarterDamage = "Recoil starter not installed<br>or damaged",
-	
 	ContextMenu_set_anchor_on = "Drop anchor",
 	ContextMenu_set_anchor_off = "Raise anchor",
 	ContextMenu_bind_boat = "Bind boat",
 	ContextMenu_unbind_boat = "Unbind boat",
 	
 	ContextMenu_Wooden_Pantone = "Wooden pantone",
-	ContextMenu_AirCondOn = "Heater control",
-	ContextMenu_AirCondOff = "Heater control",
-
+	
 	ContextMenu_Open_Cabin = "Unlock cabin<br>(with key)",
 	ContextMenu_Open_Cabin_Force = "Unlock cabin<br>(with crowbar)",
 	ContextMenu_Open_Cabin_Force_Need_Crowbar = "Unlock cabin<br>(need crowbar or key)"
+	ContextMenu_Close_Cabin = "Close cabin",
+	ContextMenu_cabinForceUnlock_tooTired = "I'm too tired<br>to open the cabin",
+	ContextMenu_cabinForceUnlock_tooBored = "I don't want<br>to do this now",
+	ContextMenu_cabinForceUnlock_tooUnhappy = "I'm not in the mood<br>to do this",
+	
+	ContextMenu_AirCondOn = "Heater control",
+	ContextMenu_AirCondOff = "Heater control",
 }

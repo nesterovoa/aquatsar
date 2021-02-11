@@ -728,7 +728,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		if playerObj:getStats():getFatigue() <= 0.3 then
 			menu:addSlice(getText("IGUI_Sleep_NotTiredEnough"), getTexture("media/ui/vehicles/vehicle_sleep.png"), nil, playerObj, boat)
 			doSleep = false;
-		elseif boat:getCurrentSpeedKmHour() > 5 or boat:getCurrentSpeedKmHour() < -5 then
+		elseif boat:getCurrentSpeedKmHour() > 10 or boat:getCurrentSpeedKmHour() < -10 then
 			menu:addSlice(getText("IGUI_PlayerText_CanNotSleepInMovingBoat"), getTexture("media/ui/vehicles/vehicle_sleep.png"), nil, playerObj, boat)
 			doSleep = false;
 		else

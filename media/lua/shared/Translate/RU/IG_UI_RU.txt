@@ -19,27 +19,6 @@ IGUI_RU = {
 	IGUI_VehiclePartManualStarter = "Ручной стартер",
 	IGUI_VehiclePartSails = "Паруса",
 	
-	IGUI_VehiclePartshelves = "Полки",
-	IGUI_VehiclePartstove = "Плита",
-	IGUI_VehiclePartfridge = "Холодильник",
-	IGUI_VehiclePartcounter = "Тумба",
-	IGUI_VehiclePartportablemicrowave = "Микроволновка",
-	IGUI_VehiclePartmicrowave = "Микроволновка",
-	IGUI_VehiclePartfreezer = "Холодильник",
-	IGUI_VehiclePartwardrobe = "Шкаф",
-	IGUI_VehiclePartmedicine = "Шкафчик",
-	IGUI_VehiclePartsidetable = "Выдвижной ящик",
-	IGUI_VehiclePartseatboxwooden = "Встроенный ящик",
-	
-	IGUI_SwitchPlace = "Перейти..",
-	IGUI_UseStove = "Использовать плиту",
-	IGUI_UseMicrowave = "Использовать микроволновку",
-	IGUI_Turn_Fridge_On = "Включить холодильник",
-	IGUI_Turn_Fridge_Off = "Выключить холодильник",
-	IGUI_Turn_Freezer_On = "Включить холодильник",
-	IGUI_Turn_Freezer_Off = "Выключить холодильник",
-	
-	IGUI_VehicleNameSailingBoatWithSales = "Яхта",
 	IGUI_ExitBoat = "Сойти на берег",
 	IGUI_EnterBoat = "Подняться на лодку",
 	
@@ -50,6 +29,7 @@ IGUI_RU = {
 	IGUI_PlayerText_CanNotSleepInMovingBoat = "Нужно сбавить скорость", 
 	IGUI_PlayerText_NoPower = "Отсутствует питание",
 	
+	IGUI_SwitchPlace = "Перейти..",
 	IGUI_BoatSeat_Self = "Вы уже здесь",
 	IGUI_BoatSeat_Person = "Здесь стоит человек",
 	IGUI_BoatSeat_Items = "В проходе лежат предметы",
@@ -71,12 +51,12 @@ IGUI_RU = {
 	IGUI_SwimUI_Title = "Уплыть",
 	IGUI_playerCanSwim = "Вы умеет плавать",
 	IGUI_playerCantSwim = "Вы не умеет плавать",
+	
 	IGUI_DropToWater = "Выкинуть в воду",
 	IGUI_SwimToPoint = "Плыть",
 	IGUI_SwimTo = "Плыть к %1",
 	IGUI_SwimToLand = "Плыть на берег",
 	IGUI_Exit_Boat = "Выйти в воду",
-
 	
 	IGUI_SwimWord_Endurance1 = "Я устал, мне нужен отдых.",
 	IGUI_SwimWord_Endurance2 = "Хорошо бы передохнуть.",
@@ -92,14 +72,6 @@ IGUI_RU = {
 	IGUI_SwimWord_LostItems1 = "Эх, потерял часть вещей",
 	IGUI_SwimWord_LostItems1 = "Пришлось избавиться от лишнего груза",
 	IGUI_SwimWord_LostItems1 = "Часть вещей пошла ко дну",
-
-	IGUI_SwimWord_Success1 = "Отлично поплавал",
-	IGUI_SwimWord_Success2 = "Классный заплыв",
-	IGUI_SwimWord_Success3 = "Это было легко",
-
-	IGUI_SwimWord_Fail1 = "Ужасно поплавал",
-	IGUI_SwimWord_Fail2 = "Чуть не утонул",
-	IGUI_SwimWord_Fail3 = "Еле доплыл",
 
 	IGUI_sayWindInfo = "Определить направление ветра",
 	IGUI_needBeOutside_tosayWindInfo = "Нельзя определить ветер в помещении",
@@ -125,4 +97,42 @@ IGUI_RU = {
 	
 	IGUI_RepairSail = "Зашить парус",
 	IGUI_CantRepairSils = "Для ремонта паруса необходимы иголка, нитки, тряпки и IV уровень шитья",
+	
+		/* Common Library */
+
+	IGUI_VehiclePartshelves = "Полки",
+	IGUI_VehiclePartstove = "Плита",
+	IGUI_VehiclePartfridge = "Холодильник",
+	IGUI_VehiclePartcounter = "Тумба",
+	IGUI_VehiclePartportablemicrowave = "Микроволновка",
+	IGUI_VehiclePartmicrowave = "Микроволновка",
+	IGUI_VehiclePartfreezer = "Холодильник",
+	IGUI_VehiclePartwardrobe = "Шкаф",
+	IGUI_VehiclePartmedicine = "Шкафчик",
+	IGUI_VehiclePartsidetable = "Выдвижной ящик",
+	IGUI_VehiclePartseatboxwooden = "Встроенный ящик",
+	IGUI_UseStove = "Использовать плиту",
+	IGUI_UseMicrowave = "Использовать микроволновку",
+	IGUI_Turn_Fridge_On = "Включить холодильник",
+	IGUI_Turn_Fridge_Off = "Выключить холодильник",
+	IGUI_Turn_Freezer_On = "Включить холодильник",
+	IGUI_Turn_Freezer_Off = "Выключить холодильник",
+	IGUI_VehiclePartFridgeFrontLeft = "Холодильник",
+	IGUI_VehiclePartFridgeFrontRight = "Холодильник",
+	IGUI_VehiclePartFridgeMiddleLeft = "Холодильник",
+	IGUI_VehiclePartFridgeMiddleRight = "Холодильник",
+	IGUI_VehiclePartFridgeRearLeft = "Холодильник",
+	IGUI_VehiclePartFridgeRearRight = "Холодильник",
+	IGUI_VehiclePartOvenFrontLeft = "Плита",
+	IGUI_VehiclePartOvenFrontRight = "Плита",
+	IGUI_VehiclePartOvenMiddleLeft = "Плита",
+	IGUI_VehiclePartOvenMiddleRight = "Плита",
+	IGUI_VehiclePartOvenRearLeft = "Плита",
+	IGUI_VehiclePartOvenRearRight = "Плита",
+	IGUI_VehiclePartMicrowaveFrontLeft = "Микроволновка",
+	IGUI_VehiclePartMicrowaveFrontRight = "Микроволновка",
+	IGUI_VehiclePartMicrowaveMiddleLeft = "Микроволновка",
+	IGUI_VehiclePartMicrowaveMiddleRight = "Микроволновка",
+	IGUI_VehiclePartMicrowaveRearLeft = "Микроволновка",
+	IGUI_VehiclePartMicrowaveRearRight = "Микроволновка",
 }

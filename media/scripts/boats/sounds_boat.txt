@@ -16,6 +16,7 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
+		master = Ambient,
 		clip
 		{
 			file = media/sound/boats/boat_anchorFromWater.ogg,
@@ -26,6 +27,7 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
+		master = Ambient,
 		clip
 		{
 			file = media/sound/boats/boat_anchorInWater.ogg,
@@ -36,6 +38,7 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
+		master = Ambient,
 		clip
 		{
 			file = media/sound/boats/boat_bindRoap.ogg,
@@ -46,6 +49,7 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
+		master = Ambient,
 		clip
 		{
 			file = media/sound/boats/boat_sails_set.ogg,
@@ -56,6 +60,7 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
+		master = Ambient,
 		clip
 		{
 			file = media/sound/boats/boat_sails_remove.ogg,
@@ -66,6 +71,7 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
+		master = Ambient,
 		clip
 		{
 			file = media/sound/boats/boat_sails_change_direction.ogg,
@@ -176,6 +182,7 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
+		master = Ambient,
 		clip
 		{
 			file = media/sound/boats/boat_launching.ogg,
@@ -187,6 +194,7 @@ module Aquatsar
 	{
 		category = Boat,
 		loop = false,
+		master = Ambient,
 		clip
 		{
 			file = media/sound/boats/boat_on_trailer.ogg,

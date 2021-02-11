@@ -2,4 +2,5 @@ Tooltip_RU = {
 	-- Item tooltip
 	Tooltip_item_BoatMechanic = "Тип лодки",
 	Tooltip_BoatDashboard_SpeedValueButton = "Единицы измерения",
+	Tooltip_Boat_LowBattery = "Низкий уровень аккумулятора",
 }

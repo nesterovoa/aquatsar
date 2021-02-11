@@ -1,4 +1,0 @@
-UI_EN = {
-	UI_Boat_LowBattery = "Low battery level",
-}
-

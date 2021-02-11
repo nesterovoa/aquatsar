@@ -26,8 +26,10 @@ IG_UI_EN = {
 	IGUI_PlayerText_CabinlightDoNotWork = "It looks like the light isn't working",
 	IGUI_PlayerText_FloodlightsDoNotWork = "Spotlights don't work",
 	IGUI_PlayerText_PontoonNeeded = "Pontoon is needed here",
+	IGUI_PlayerText_CanNotSleepInMovingBoat = "I need to slow down the boat", 
 	IGUI_PlayerText_NoPower = "There is no power.",
 	
+	IGUI_SwitchPlace = "Go to..",
 	IGUI_BoatSeat_Self = "You are already here",
 	IGUI_BoatSeat_Person = "There is a man standing here",
 	IGUI_BoatSeat_Items = "There are objects in the aisle",
@@ -46,37 +48,30 @@ IG_UI_EN = {
 	IGUI_SOUTH = "East",
 	IGUI_WEST = "West",
 	IGUI_NORTH = "North",
-	
 	IGUI_SwimUI_Title = "Float away",
 	IGUI_playerCanSwim = "You can swim.",
 	IGUI_playerCantSwim = "You can't swim.",
-	IGUI_almostDie = "Damn, I almost died",
-	IGUI_almostDieFail = "Damn, I couldn't and I almost died.",
-	IGUI_andDropItems = "also I lost my things...",
+
 	IGUI_DropToWater = "Throw in water",
+	IGUI_SwimToPoint = "Swim",
 	IGUI_SwimTo = "Swim to %1",
 	IGUI_SwimToLand = "Swim to the shore",
 	IGUI_Exit_Boat = "Free swimming",
-	IGUI_SwimToPoint = "Swim",
-	
-	IGUI_SwimWord_Damage1 = "Wooh...",
-	IGUI_SwimWord_Damage2 = "Eh...",
-	IGUI_SwimWord_Damage3 = "Everything hurts...",
-	IGUI_SwimWord_Damage4 = "Drowning...",
-	IGUI_SwimWord_Damage5 = "I would rather swim",
-	IGUI_SwimWord_Damage6 = "Just to swim...",
+
+	IGUI_SwimWord_Endurance1 = "I'm tired, I need rest",
+	IGUI_SwimWord_Endurance2 = "Nice to take a break",
+	IGUI_SwimWord_Endurance3 = "Better to swim towards the shore",
+	IGUI_SwimWord_Endurance4 = "I will save my strength by swimming more slowly",
+	IGUI_SwimWord_Endurance5 = "...",
+
+	IGUI_SwimWord_Damage1 = "If I don't get some rest, I might not get there",
+	IGUI_SwimWord_Damage2 = "My leg is twisting, I need to go to the shore!",
+	IGUI_SwimWord_Damage3 = "My hand is squeezed, I urgently need to go to the shore!",
+	IGUI_SwimWord_Damage4 = "...",
 
 	IGUI_SwimWord_LostItems1 = "Ah, I lost my things",
-	IGUI_SwimWord_LostItems1 = "What a pity my things have gone to the bottom",
-	IGUI_SwimWord_LostItems1 = "Well, there is no part of my things",
-
-	IGUI_SwimWord_Success1 = "Swim great",
-	IGUI_SwimWord_Success2 = "Cool swim",
-	IGUI_SwimWord_Success3 = "It was easy",
-
-	IGUI_SwimWord_Fail1 = "I almost drowned",
-	IGUI_SwimWord_Fail2 = "I almost drowned",
-	IGUI_SwimWord_Fail3 = "I almost drowned",
+	IGUI_SwimWord_LostItems1 = "I had to get rid of excess cargo",
+	IGUI_SwimWord_LostItems1 = "Some things have gone to the bottom",
 	
 	IGUI_sayWindInfo = "Detect wind direction",
 	IGUI_needBeOutside_tosayWindInfo = "Indoor wind cannot be detected",
@@ -101,7 +96,7 @@ IG_UI_EN = {
 	IGUI_Wind_NE = "northeast",
 	
 	IGUI_RepairSail = "Sew up the sail",
-	
+	IGUI_CantRepairSils = "Fabric, needle, thread and Tailoring level IV required for sailing repair.",
 	
 		/* Common Library */
 	
@@ -140,7 +135,4 @@ IG_UI_EN = {
 	IGUI_VehiclePartMicrowaveMiddleRight = "Microwave",
 	IGUI_VehiclePartMicrowaveRearLeft = "Microwave",
 	IGUI_VehiclePartMicrowaveRearRight = "Microwave",
-	
-	
 }
-

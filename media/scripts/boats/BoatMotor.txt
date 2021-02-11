@@ -193,7 +193,7 @@ module Base
 			horn = BoatHorn,
 		}
 
-		extents = 0.4286 0.3200 1.0286,
+		extents = 0.3400 0.3200 1.0286,
 		mass = 100,
 		physicsChassisShape = 0.2886 0.3200 1.0286,
 		centerOfMassOffset = 0.0000 0.2886 -0.0586,

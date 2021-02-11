@@ -15,7 +15,7 @@ local function showRepairSailMenu(playerObj, sail, context)
         local patchOption = context:addOption(getText("IGUI_RepairSail"));
         patchOption.notAvailable = true;
         local tooltip = ISInventoryPaneContextMenu.addToolTip();
-        tooltip.description = getText("IGUI_CantRepairSils");
+        tooltip.description = getText("IGUI_CantRepairSails");
         patchOption.toolTip = tooltip;
         return;
     end
