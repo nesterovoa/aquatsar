@@ -1,7 +1,7 @@
-name=Aquatsar Yacht Club
+name=Aquatsar Yacht Club TEST
 poster=poster.png
 require=tsarslib
-id=AquatsarYachtClub
+id=AquatsarYachtClubTEST
 versionMin=41.46
 description=---
 url=

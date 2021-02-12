@@ -195,3 +195,4 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 
 	end
 }
+-- debugScenarios = {}

@@ -37,11 +37,17 @@ function TickControl.isWater(square)
 end
 
 function TickControl.checkWaterBuild(paramIsoObject)
+	-- print("TickControl.checkWaterBuild")
 	if TickControl.isWater(paramIsoObject) then
-		local floorTile = paramIsoObject:getTile()
+		-- print(paramIsoObject:getSprite())
+		-- print(paramIsoObject:getTextureName())
 		local sq = paramIsoObject:getSquare()
+		local floorTile = paramIsoObject:getTextureName()
 		if not TickTable.waterConstruction then TickTable.waterConstruction  = {} end
 		TickTable.waterConstruction[sq] = floorTile
+		-- print("floorTile", floorTile)
+		-- print(TickTable.waterConstruction)
+		-- print(TickTable.waterConstruction[sq])
 	end
 end
 
