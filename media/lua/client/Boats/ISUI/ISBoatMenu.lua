@@ -576,7 +576,6 @@ function ISBoatMenu.showRadialMenu(playerObj)
 			if boat:isEngineStarted() then
 --				menu:addSlice("Ignition", getTexture("media/ui/vehicles/vehicle_ignitionON.png"), ISBoatMenu.onStartEngine, playerObj)
 			else
-				
 				if manualStarter then 
 					if manualStarter:getInventoryItem() and manualStarter:getCondition() > 0 then
 						menu:addSlice(getText("ContextMenu_VehicleStartEngineManual"), getTexture("media/ui/boats/RadialMenu_ManualStarter.png"), ISBoatMenu.onStartEngineManualy, playerObj, manualStarter)
@@ -626,10 +625,10 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	if seatNum < 2 and AquaConfig.Boat(boat).removeSailsScript then
 		menu:addSlice(getText("ContextMenu_RemoveSail"), getTexture("media/ui/boats/ICON_remove_sails.png"), ISBoatMenu.RemoveSails, playerObj, boat)
 	end
-	if seatNum < 2 and AquaConfig.Boat(boat).setLeftSailsScript then
+	if seatNum < 2 and AquaConfig.Boat(boat).setLeftSailsScript and boat:getPartById("Sails") and boat:getPartById("Sails"):getInventoryItem() then -- 
 		menu:addSlice(getText("ContextMenu_SetLeftSail"), getTexture("media/ui/boats/ICON_set_left_sails.png"), ISBoatMenu.SetLeftSails, playerObj, boat)
 	end
-	if seatNum < 2 and AquaConfig.Boat(boat).setRightSailsScript then
+	if seatNum < 2 and AquaConfig.Boat(boat).setRightSailsScript and boat:getPartById("Sails") and boat:getPartById("Sails"):getInventoryItem() then -- 
 		menu:addSlice(getText("ContextMenu_SetRightSail"), getTexture("media/ui/boats/ICON_set_right_sails.png"), ISBoatMenu.SetRightSails, playerObj, boat)
 	end
 
@@ -1307,6 +1306,7 @@ function ISBoatMenu.onWashClothing(playerObj, sink, soapList, washList, singleCl
 		else
 			bloodAmount = bloodAmount + item:getBloodLevel()
 		end
+		playerObj:getEmitter():playSound("WashClothes")
 		ISTimedActionQueue.add(ISWashClothing:new(playerObj, sink, soapList, item, bloodAmount, dirtAmount, noSoap))
 	end
 end

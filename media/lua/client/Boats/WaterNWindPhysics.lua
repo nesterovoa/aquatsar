@@ -399,7 +399,7 @@ end
 
 
 function AquaPhysics.waterFlowRotation(boat, force)
-	if boat:getDriver() then
+	if boat:getDriver() and boat:getPartById("Propeller") and boat:getPartById("Propeller"):getInventoryItem() and not boat:getModData()["aqua_anchor_on"] then
 		local lenHalf = boat:getScript():getPhysicsChassisShape():z()/2
 		if isKeyDown(getCore():getKey("Right")) then
 			-- boat:setPhysicsActive(true)

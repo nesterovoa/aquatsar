@@ -21,7 +21,7 @@ function ISRemoveSailAction:update()
 	if self.isFadeOut == false and timeLeftNow < 150 * speedCoeff[uispeed] then
 		UIManager.FadeOut(self.character:getPlayerNum(), 1)
         self.isFadeOut = true
-		-- saveGame()
+		saveGame()
 	end
 end
 

@@ -37,7 +37,7 @@ end
 
 function ISTakeWaterActionFromBoat:start()
     local waterAvailable = self.waterObject:getWaterAmount()
-
+	self.character:getEmitter():playSound("ScoopUpWater")
     if self.oldItem ~= nil then
         self.character:getInventory():AddItem(self.item);
         if self.character:isPrimaryHandItem(self.oldItem) then

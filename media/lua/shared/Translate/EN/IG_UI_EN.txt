@@ -96,5 +96,5 @@ IG_UI_EN = {
 	IGUI_Wind_NE = "northeast",
 	
 	IGUI_RepairSail = "Sew up the sail",
-	IGUI_CantRepairSils = "Fabric, needle, thread and Tailoring level IV required for sailing repair.",
+	IGUI_CantRepairSails = "Fabric, needle, thread and Tailoring level IV required for sailing repair.",
 }

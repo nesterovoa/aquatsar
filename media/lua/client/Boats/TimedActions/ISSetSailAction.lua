@@ -8,7 +8,11 @@ require "TimedActions/ISBaseTimedAction"
 ISSetSailAction = ISBaseTimedAction:derive("ISSetSailAction")
 
 function ISSetSailAction:isValid()
-	return self.character:getVehicle() ~= nil
+	if not self.boat:getPartById("Sails") or not self.boat:getPartById("Sails"):getInventoryItem() then 
+		return false
+	else
+		return self.character:getVehicle() ~= nil
+	end
 end
 
 function ISSetSailAction:update()
@@ -24,7 +28,7 @@ function ISSetSailAction:update()
 	if self.isFadeOut == false and timeLeftNow < 200 * speedCoeff[uispeed] then
 		UIManager.FadeOut(self.playerNum, 1)
         self.isFadeOut = true
-		-- saveGame()
+		saveGame()
 	end
 end
 
