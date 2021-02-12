@@ -23,7 +23,7 @@ function ISLaunchBoatOnWater:update()
 	if self.isFadeOut == false and timeLeftNow < 115 * speedCoeff[uispeed] then
 		UIManager.FadeOut(self.character:getPlayerNum(), 1)
 		self.isFadeOut = true
-		saveGame()
+		-- saveGame()
 	end
 
     self.character:setMetabolicTarget(Metabolics.HeavyWork);
@@ -47,6 +47,7 @@ function ISLaunchBoatOnWater:perform()
 	local newTrailerName = AquaConfig.Trailers[self.trailer:getScript():getName()].emptyTrailer
 	local boatName = AquaConfig.Trailers[self.trailer:getScript():getName()].boat
 	local boat = addVehicleDebug("Base."..boatName, IsoDirections.N, 0, self.square)
+	boat:setDebugZ(0.75)
 	boat:setAngles(self.trailer:getAngleX(), self.trailer:getAngleY(), self.trailer:getAngleZ())
 	ISVehicleMenuForTrailerWithBoat.replaceTrailerBoat(self.trailer, boat)
 	ISVehicleMenuForTrailerWithBoat.replaceTrailer(self.trailer, newTrailerName)

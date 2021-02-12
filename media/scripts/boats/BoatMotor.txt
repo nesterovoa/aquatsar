@@ -313,26 +313,25 @@ module Base
 		wheelFriction = 1.5f,
 		frontEndHealth = 150,
 		rearEndHealth = 150,
-		
 		template = BoatMotorTemplate,
 
 		physics box
 		{
-			offset = -0.0944 0.3111 1.4389,
+			offset = -0.0944 0.3111 1.3722,
 			extents = 0.0556 0.0556 0.6833,
 			rotate = 0.0000 17.0000 0.0000,
 		}
 
 		physics box
 		{
-			offset = 0.0833 0.3111 1.4389,
+			offset = 0.0833 0.3111 1.3722,
 			extents = 0.0556 0.0556 0.6833,
 			rotate = 0.0000 -18.0000 0.0000,
 		}
 
 		physics sphere
 		{
-			offset = -0.0056 0.3222 1.7278,
+			offset = -0.0056 0.3222 1.6833,
 			radius = 0.0421,
 		}
 
@@ -435,15 +434,11 @@ module Base
 		template = Suspension/part/SuspensionRearLeft,
 		template = Suspension/part/SuspensionRearRight,
 
-		attachment trailer
-		{
-			offset = 0.0000 -0.1556 1.0222,
-			rotate = 0.0000 0.0000 0.0000,
-		}
 		part Radio
 		{
 			category = nodisplay,
 		}
+
 		part Propeller
 		{
 			table uninstall
@@ -458,6 +453,7 @@ module Base
 						equip = secondary,
 					}
 				}
+
 				time = 2000,
 				skills = Mechanics:3,
 				recipes = Powerboats Mechanics,
@@ -465,13 +461,21 @@ module Base
 				complete = Boats.UninstallComplete.Propeller,
 			}
 		}
+
 		part Battery
 		{
 			category = nodisplay,
 		}
+
 		part LightCabin
 		{
 			category = nodisplay,
+		}
+
+		attachment trailer
+		{
+			offset = 0.0000 -0.1556 1.0222,
+			rotate = 0.0000 0.0000 0.0000,
 		}
 	}
 }

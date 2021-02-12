@@ -31,7 +31,4 @@ ContextMenu_EN = {
 	ContextMenu_cabinForceUnlock_tooTired = "I'm too tired<br>to open the cabin",
 	ContextMenu_cabinForceUnlock_tooBored = "I don't want<br>to do this now",
 	ContextMenu_cabinForceUnlock_tooUnhappy = "I'm not in the mood<br>to do this",
-	
-	ContextMenu_AirCondOn = "Heater control",
-	ContextMenu_AirCondOff = "Heater control",
 }

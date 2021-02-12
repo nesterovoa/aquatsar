@@ -869,6 +869,7 @@ function ISBoatMenu.replaceBoat(boat, newSriptName)
 			part:setItemContainer(partsTable[part:getId()]["ItemContainer"])
 		end
 	end
+	boat:setDebugZ(0.75)
 	return boat
 end
 

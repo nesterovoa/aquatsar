@@ -1,5 +1,7 @@
-name=Aquatsar Yachts
+name=Aquatsar Yacht Club
 poster=poster.png
-id=AquatsarYachts
+require=tsarslib
+id=AquatsarYachtClub
+versionMin=41.46
 description=---
 url=

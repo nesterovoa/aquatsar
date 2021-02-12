@@ -31,7 +31,4 @@ ContextMenu_RU = {
 	ContextMenu_cabinForceUnlock_tooTired = "Я слишком устал,<br>чтобы вскрывать каюту",
 	ContextMenu_cabinForceUnlock_tooBored = "Не хочу сейчас<br>этим заниматься",
 	ContextMenu_cabinForceUnlock_tooUnhappy = "Я не в настроении<br>этим заниматься",
-	
-	ContextMenu_AirCondOff = "Выключить кондиционер",
-	ContextMenu_AirCondOn = "Включить кондиционер",
 }
