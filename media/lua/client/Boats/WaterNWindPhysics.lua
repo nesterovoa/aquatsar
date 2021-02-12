@@ -357,7 +357,7 @@ function AquaPhysics.heightFix(boat)
 		-- AUD.insp("Boat", "getDebugZ:", boat:getDebugZ())
 		if boat:getDebugZ() < 0.62 and boat:getCurrentSpeedKmHour() < 2 then 
 			-- boat:setPhysicsActive(true)
-			print("AquaPhysics.heightFix")
+			-- print("AquaPhysics.heightFix")
 			tempVec1:set(0, 5000, 0)
 			tempVec2:set(0, 0, 0)
 			boat:addImpulse(tempVec1, tempVec2)
