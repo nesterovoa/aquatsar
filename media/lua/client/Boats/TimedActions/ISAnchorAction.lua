@@ -3,7 +3,9 @@ require "TimedActions/ISBaseTimedAction"
 ISAnchorAction = ISBaseTimedAction:derive("ISAnchorAction")
 
 function ISAnchorAction:isValid()
-	return true
+	local seat = seatNameTable[self.boat:getSeat(self.character)+1]
+	local inCabin = self.boat:getPartById("InCabin" .. seat)
+	if inCabin then return false else return true end
 end
 
 function ISAnchorAction:update()
@@ -19,16 +21,16 @@ end
 function ISAnchorAction:perform()
     if self.drop then
 		if self.mode == "anchor" then
-			self.character:getEmitter():playSound("AnchorInWater")
+			self.boat:getEmitter():playSound("AnchorInWater")
 		elseif self.mode == "rope" then
-			self.character:getEmitter():playSound("BindRoap")
+			self.boat:getEmitter():playSound("BindRoap")
 		end
         self.boat:getModData()["aqua_anchor_on"] = true
     else
 		if self.mode == "anchor" then
-			self.character:getEmitter():playSound("AnchorFromWater")
+			self.boat:getEmitter():playSound("AnchorFromWater")
 		elseif self.mode == "rope" then
-			self.character:getEmitter():playSound("BindRoap")
+			self.boat:getEmitter():playSound("BindRoap")
 		end
         --self.character:getEmitter():playSound("DropWater")
         self.boat:getModData()["aqua_anchor_on"] = false

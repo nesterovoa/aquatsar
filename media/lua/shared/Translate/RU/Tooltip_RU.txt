@@ -3,4 +3,5 @@ Tooltip_RU = {
 	Tooltip_item_BoatMechanic = "Тип лодки",
 	Tooltip_BoatDashboard_SpeedValueButton = "Единицы измерения",
 	Tooltip_Boat_LowBattery = "Низкий уровень аккумулятора",
+	Tooltip_item_BoatMag = "Инструкция, содержащая диаграммы и общие задачи обслуживания для популярных моделей лодок.",
 }

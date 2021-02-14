@@ -355,7 +355,7 @@ function ISBoatSeatUI:useSeat(seat)
 				if not ISVehicleMenu.moveItemsFromSeat(self.character, self.vehicle, seat, true, false) then return; end
 				ISVehicleMenu.onSwitchSeat(self.character, seat)						   
 			else
-				self.character:Say("Cabin door is locked")	
+				self.character:Say(getText("IGUI_PlayerText_CabinIsLocked"))	
 			end
 			
 		end
@@ -363,7 +363,7 @@ function ISBoatSeatUI:useSeat(seat)
 		if (not isCabin or playerHaveAccesToCabin) then
 			ISTimedActionQueue.add(ISEnterVehicle:new(self.character, self.vehicle, seat))
 		else
-			self.character:Say("Cabin door is locked")
+			self.character:Say(getText("IGUI_PlayerText_CabinIsLocked"))
 		end
 	end
 end

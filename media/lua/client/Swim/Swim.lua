@@ -110,27 +110,6 @@ function AquatsarYachts.Swim.dropItems(playerObj)
     end
 end
 
-function AquatsarYachts.Swim.wetItems(playerObj)
-    local inv = playerObj:getInventory()    
-    local items = {}
-
-    for j=1, inv:getItems():size() do
-        local item = inv:getItems():get(j-1);
-        table.insert(items, item)
-    end
-
-    for i=1, #items do
-        if items[i]:IsClothing() then
-            items[i]:setWetness(80 + ZombRand(20))
-        elseif items[i]:IsLiterature() then
-            local item = InventoryItemFactory.CreateItem("Aqua.TaintedLiterature");
-            inv:AddItem(item)
-            inv:DoRemoveItem(items[i])
-        end
-    end
-end
-
-
 ------
 -- Fast swim
 
@@ -151,7 +130,6 @@ local function fastSwim(key)
 		not sq:isWindowTo(sqDir) then 
             player:setX(x)
             player:setY(y)
-            AquatsarYachts.Swim.wetItems(player)
         end 
     end
 end

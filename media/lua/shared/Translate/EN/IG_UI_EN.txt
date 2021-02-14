@@ -28,6 +28,7 @@ IG_UI_EN = {
 	IGUI_PlayerText_PontoonNeeded = "Pontoon is needed here",
 	IGUI_PlayerText_CanNotSleepInMovingBoat = "I need to slow down the boat", 
 	IGUI_PlayerText_NoPower = "There is no power.",
+	IGUI_PlayerText_CabinIsLocked = "Cabin door is locked",
 	
 	IGUI_SwitchPlace = "Go to..",
 	IGUI_BoatSeat_Self = "You are already here",

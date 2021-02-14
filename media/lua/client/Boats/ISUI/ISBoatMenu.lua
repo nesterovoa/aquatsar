@@ -756,22 +756,26 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	if boat:getCurrentSpeedKmHour() < 5 and boat:getCurrentSpeedKmHour() > -5 then
 		if ISBoatMenu.getBestSeatExit(playerObj, boat, true) then
 			menu:addSlice(getText("IGUI_ExitBoat"), getTexture("media/ui/boats/RadialMenu_ExitOnGround.png"), ISBoatMenu.onExit, playerObj)
-			if not boat:getModData()["aqua_anchor_on"] then
-				boat:getModData()["aqua_anchor_on"] = false
-				local funcAnchor = function(boat) ISTimedActionQueue.add(ISAnchorAction:new(playerObj, boat, true, "rope")) end
-				menu:addSlice(getText("ContextMenu_bind_boat"), getTexture("media/ui/boats/RadialMenu_BoatBind.png"), funcAnchor, boat)
-			else
-				local funcAnchor = function(boat) ISTimedActionQueue.add(ISAnchorAction:new(playerObj, boat, false, "rope")) end
-				menu:addSlice(getText("ContextMenu_unbind_boat"), getTexture("media/ui/boats/RadialMenu_BoatUnbind.png"), funcAnchor, boat)
+			if not inCabin then
+				if not boat:getModData()["aqua_anchor_on"] then
+					boat:getModData()["aqua_anchor_on"] = false
+					local funcAnchor = function(boat) ISTimedActionQueue.add(ISAnchorAction:new(playerObj, boat, true, "rope")) end
+					menu:addSlice(getText("ContextMenu_bind_boat"), getTexture("media/ui/boats/RadialMenu_BoatBind.png"), funcAnchor, boat)
+				else
+					local funcAnchor = function(boat) ISTimedActionQueue.add(ISAnchorAction:new(playerObj, boat, false, "rope")) end
+					menu:addSlice(getText("ContextMenu_unbind_boat"), getTexture("media/ui/boats/RadialMenu_BoatUnbind.png"), funcAnchor, boat)
+				end
 			end
 		else
-			if not boat:getModData()["aqua_anchor_on"] then
-				boat:getModData()["aqua_anchor_on"] = false
-				local funcAnchor = function(boat) ISTimedActionQueue.add(ISAnchorAction:new(playerObj, boat, true, "anchor")) end
-				menu:addSlice(getText("ContextMenu_set_anchor_on"), getTexture("media/ui/boats/RadialMenu_AnchorDown.png"), funcAnchor, boat)
-			else
-				local funcAnchor = function(boat) ISTimedActionQueue.add(ISAnchorAction:new(playerObj, boat, false, "anchor")) end
-				menu:addSlice(getText("ContextMenu_set_anchor_off"), getTexture("media/ui/boats/RadialMenu_AnchorUp.png"), funcAnchor, boat)
+			if not inCabin then
+				if not boat:getModData()["aqua_anchor_on"] then
+					boat:getModData()["aqua_anchor_on"] = false
+					local funcAnchor = function(boat) ISTimedActionQueue.add(ISAnchorAction:new(playerObj, boat, true, "anchor")) end
+					menu:addSlice(getText("ContextMenu_set_anchor_on"), getTexture("media/ui/boats/RadialMenu_AnchorDown.png"), funcAnchor, boat)
+				else
+					local funcAnchor = function(boat) ISTimedActionQueue.add(ISAnchorAction:new(playerObj, boat, false, "anchor")) end
+					menu:addSlice(getText("ContextMenu_set_anchor_off"), getTexture("media/ui/boats/RadialMenu_AnchorUp.png"), funcAnchor, boat)
+				end
 			end
 		end
 	end
@@ -1211,6 +1215,8 @@ function ISBoatMenu.FillMenuInsideBoat(playerObj, context, boat, test)
 			context:removeOption(context:getOptionFromName(getText("ContextMenu_Fishing")))
 		end
 	end
+	
+	context:removeOption(context:getOptionFromName(getText("ContextMenu_SleepOnGround")))
 end
 
 function ISBoatMenu.onDrink (worldobjects, waterObject, playerObj)

@@ -158,8 +158,8 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		playerObj:getInventory():AddItem("Aquatsar.Sails");
 
 
-		playerObj:getInventory():AddItem("Aqua.BoatMag");
-		playerObj:getInventory():AddItem("Aqua.SwimMag");
+		playerObj:getInventory():AddItem("Aquatsar.BoatMag");
+		playerObj:getInventory():AddItem("Aquatsar.SwimMag");
 		playerObj:getInventory():AddItem("Base.SoupBowl");
 		playerObj:getInventory():AddItem("Base.SoupBowl");
 		playerObj:getInventory():AddItem("Base.Screwdriver");

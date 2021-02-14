@@ -595,21 +595,23 @@ end
 function ISBoatDashboard.onSwitchVehicleSeat(character)
 	if instanceof(character, 'IsoPlayer') and character:isLocalPlayer() then
 		local boat = character:getVehicle()
-		if AquaConfig.isBoat(boat) and not string.match(getPlayerVehicleDashboard(character:getPlayerNum()).dashboardBG:getName(), "boat_dashboard") then
-			getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(nil)
+		if boat:isDriver(character) and AquaConfig.isBoat(boat) then
 			local data = getPlayerData(character:getPlayerNum())
-			if AquaConfig.Boat(boat).dashboard == "ISSalingBoatDashboard" then
-				data.vehicleDashboard = ISSalingBoatDashboard:new(character:getPlayerNum(), character)
-			elseif AquaConfig.Boats[boat:getScript():getName()].dashboard == "ISNewSalingBoatDashboard" then
-				data.vehicleDashboard = ISNewSalingBoatDashboard:new(character:getPlayerNum(), character)
-			else
-				data.vehicleDashboard = ISBoatDashboard:new(character:getPlayerNum(), character)
+			if not string.match(getPlayerVehicleDashboard(character:getPlayerNum()).dashboardBG:getName(), "boat_dashboard") then
+				getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(nil)
+				if AquaConfig.Boat(boat).dashboard == "ISSalingBoatDashboard" then
+					data.vehicleDashboard = ISSalingBoatDashboard:new(character:getPlayerNum(), character)
+				elseif AquaConfig.Boats[boat:getScript():getName()].dashboard == "ISNewSalingBoatDashboard" then
+					data.vehicleDashboard = ISNewSalingBoatDashboard:new(character:getPlayerNum(), character)
+				else
+					data.vehicleDashboard = ISBoatDashboard:new(character:getPlayerNum(), character)
+				end
+				data.vehicleDashboard:initialise()
+				data.vehicleDashboard:instantiate()
 			end
-			data.vehicleDashboard:initialise()
-			data.vehicleDashboard:instantiate()
 			data.vehicleDashboard:setVehicle(boat)
-		-- else
-			-- getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(nil)
+		else
+			getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(nil)
 		end
 	end
 end

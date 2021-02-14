@@ -28,6 +28,7 @@ IGUI_RU = {
 	IGUI_PlayerText_PontoonNeeded = "Сперва нужно построить понтон",
 	IGUI_PlayerText_CanNotSleepInMovingBoat = "Нужно сбавить скорость", 
 	IGUI_PlayerText_NoPower = "Отсутствует питание",
+	IGUI_PlayerText_CabinIsLocked = "Дверь в кабину заперта",
 	
 	IGUI_SwitchPlace = "Перейти..",
 	IGUI_BoatSeat_Self = "Вы уже здесь",

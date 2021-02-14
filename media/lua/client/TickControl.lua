@@ -51,8 +51,31 @@ function TickControl.checkWaterBuild(paramIsoObject)
 	end
 end
 
+
+function TickControl.wetItems(playerObj)
+    local inv = playerObj:getInventory() -- inv = getPlayer():getInventory()    
+    local items = {}
+
+    for j=1, inv:getItems():size() do
+        local item = inv:getItems():get(j-1);
+        table.insert(items, item)
+    end
+
+    for i=1, #items do
+        if items[i]:IsClothing() then
+            items[i]:setWetness(100)
+        elseif items[i]:IsLiterature() then
+            local item = InventoryItemFactory.CreateItem("Aquatsar.TaintedLiterature");
+            inv:AddItem(item)
+            inv:DoRemoveItem(items[i])
+        end
+    end
+end
+
+
+
 function TickControl.main()
-	local player = getPlayer()
+	local playerObj = getPlayer()
 	if TickTable.waterConstruction then 
 		for sq, floorTile in pairs(TickTable.waterConstruction) do 
 			if not floorTile then return end
@@ -63,12 +86,12 @@ function TickControl.main()
 				sq:AddWorldInventoryItem("Base.Plank", ZombRandFloat(0,0.9), ZombRandFloat(0,0.9), 0)
 			end
 			getSoundManager():PlaySound("ThrowInWater", true, 0.0)
-			player:Say(getText("IGUI_PlayerText_PontoonNeeded"))
+			playerObj:Say(getText("IGUI_PlayerText_PontoonNeeded"))
 		end
 		TickTable.waterConstruction = nil
 	end
-	if player then
-		local boat = player:getVehicle()
+	if playerObj then
+		local boat = playerObj:getVehicle()
 		if boat ~= nil and AquaConfig.isBoat(boat) then
 			local boatSpeed = boat:getCurrentSpeedKmHour()
 			local emi = boat:getEmitter()
@@ -114,54 +137,55 @@ function TickControl.main()
 				end
 				if emi:isPlaying("VehicleFailingToStart") then
 					emi:stopSoundByName("VehicleFailingToStart")
-					emi:playSound("FailStartEngineManualy", player)
+					emi:playSound("FailStartEngineManualy", playerObj)
 				end
 			end
 		end
 	
-		local emiPl = player:getEmitter()
+		local emiPl = playerObj:getEmitter()
 		
 		if boat then
 			if emiPl:isPlaying("Swim") then
 				emiPl:stopSoundByName("Swim")
 				getSoundManager():PlaySound("LeaveWater", true, 0.0)
-				player:getSprite():getProperties():UnSet(IsoFlagType.invisible)
+				playerObj:getSprite():getProperties():UnSet(IsoFlagType.invisible)
 			end
-		elseif player:getSquare() then			
-			if player:getSquare():Is(IsoFlagType.water) then
-				player:getBodyDamage():setWetness(100)
-				if not player:getSprite():getProperties():Is(IsoFlagType.invisible) then
+		elseif playerObj:getSquare() then			
+			if playerObj:getSquare():Is(IsoFlagType.water) then
+				playerObj:getBodyDamage():setWetness(100)
+				if not playerObj:getSprite():getProperties():Is(IsoFlagType.invisible) then
 					emiPl:playSound("Dive")
-					player:getSprite():getProperties():Set(IsoFlagType.invisible)
-					player:setNoClip(true)
+					TickControl.wetItems(playerObj)
+					playerObj:getSprite():getProperties():Set(IsoFlagType.invisible)
+					playerObj:setNoClip(true)
 				else
-					local moveDir = player:getPlayerMoveDir()
-					local x = player:getX() + moveDir:getX()
-					local y = player:getY() + moveDir:getY()
-					local sq = player:getSquare()
-					local sqDir = getCell():getGridSquare(player:getX() + moveDir:getX(), 
-														  player:getY() + moveDir:getY(), 
-														  player:getZ())
+					local moveDir = playerObj:getPlayerMoveDir()
+					local x = playerObj:getX() + moveDir:getX()
+					local y = playerObj:getY() + moveDir:getY()
+					local sq = playerObj:getSquare()
+					local sqDir = getCell():getGridSquare(playerObj:getX() + moveDir:getX(), 
+														  playerObj:getY() + moveDir:getY(), 
+														  playerObj:getZ())
 					if sq:DistTo(sqDir) >= 1 then
 						if sq:isWallTo(sqDir) or sq:isWindowTo(sqDir) then
-							player:setNoClip(false)
-						elseif not player:isNoClip() then
+							playerObj:setNoClip(false)
+						elseif not playerObj:isNoClip() then
 							-- moveDir:normalize()
 							
 							moveDir:rotate(3.14)
-							local rearSqr = getCell():getGridSquare(player:getX() + moveDir:getX()*2, 
-													  player:getY() + moveDir:getY()*2, 
-													  player:getZ())
+							local rearSqr = getCell():getGridSquare(playerObj:getX() + moveDir:getX()*2, 
+													  playerObj:getY() + moveDir:getY()*2, 
+													  playerObj:getZ())
 
-							moveDir = player:getForwardDirection()
+							moveDir = playerObj:getForwardDirection()
 							moveDir:rotate(1.57)
-							local sideSqr1 = getCell():getGridSquare(player:getX() + moveDir:getY(), 
-														  player:getY() + moveDir:getX(), 
-														  player:getZ())
+							local sideSqr1 = getCell():getGridSquare(playerObj:getX() + moveDir:getY(), 
+														  playerObj:getY() + moveDir:getX(), 
+														  playerObj:getZ())
 							moveDir:rotate(3.14)							  
-							local sideSqr2 = getCell():getGridSquare(player:getX() + moveDir:getX(), 
-														  player:getY() + moveDir:getY(), 
-														  player:getZ())
+							local sideSqr2 = getCell():getGridSquare(playerObj:getX() + moveDir:getX(), 
+														  playerObj:getY() + moveDir:getY(), 
+														  playerObj:getZ())
 							
 							if sqDir:Is(IsoFlagType.water) and 
 									not sq:isWallTo(sideSqr1) and 
@@ -169,7 +193,7 @@ function TickControl.main()
 									not sq:isWallTo(sideSqr2) and
 									not sq:isWindowTo(sideSqr2) and
 									sq:isWallTo(rearSqr) then
-								player:setNoClip(true)
+								playerObj:setNoClip(true)
 								-- print("NOCLIP")
 								-- print("sq ", sq:getX(), " ", sq:getY())
 								-- print("sqDir ", sqDir:getX(), " ", sqDir:getY())
@@ -185,14 +209,14 @@ function TickControl.main()
 					end
 				end
 				
-				if not emiPl:isPlaying("Swim") and not player:isDead() then
-					player:playSound("Swim")
+				if not emiPl:isPlaying("Swim") and not playerObj:isDead() then
+					playerObj:playSound("Swim")
 				end
 			else
-				if player:getSprite():getProperties():Is(IsoFlagType.invisible) then
+				if playerObj:getSprite():getProperties():Is(IsoFlagType.invisible) then
 					emiPl:playSound("LeaveWater")
-					player:getSprite():getProperties():UnSet(IsoFlagType.invisible)
-					player:setNoClip(false)
+					playerObj:getSprite():getProperties():UnSet(IsoFlagType.invisible)
+					playerObj:setNoClip(false)
 				end
 				if emiPl:isPlaying("Swim") then
 					emiPl:stopSoundByName("Swim")

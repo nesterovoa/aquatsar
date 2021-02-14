@@ -151,7 +151,8 @@ module Base
 		template = Light/part/LightFloodlightLeft,
 		template = Light/part/LightCabin,
 		
-		template = GloveBox,
+		template = Drawers/part/DrawerFrontLeft,
+		template = Counters/part/CounterFrontRight,
 		
 		template = InCabin/part/InCabinMiddleLeft,
 		template = InCabin/part/InCabinMiddleRight,
