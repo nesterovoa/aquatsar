@@ -697,7 +697,7 @@ module Base
 
 		area GasTank
 		{
-			xywh = 0.0000 -3.8111 2.6778 0.4889,
+			xywh = 0.8611 -3.6278 1.0778 1.2667,
 		}
 
 		template = Suspension/part/SuspensionFrontLeft,
