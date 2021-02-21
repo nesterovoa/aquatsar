@@ -462,7 +462,12 @@ module Base
 				complete = Boats.UninstallComplete.Propeller,
 			}
 		}
-
+		
+		part Heater
+		{
+			category = nodisplay,
+		}
+		
 		part Battery
 		{
 			category = nodisplay,

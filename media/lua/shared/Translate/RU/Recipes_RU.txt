@@ -6,4 +6,5 @@ Recipe_RU = {
 	Recipe_Powerboats_Mechanics = "Механика моторных лодок",
 	Recipe_Sailboats_Mechanics = "Механика парусников",
 	Recipe_Performance_Boat_Mechanics = "Профессиональный ремонт лодок",
+	Recipe_Swimming = "Лучшая техника плавания",
 }

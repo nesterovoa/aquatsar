@@ -19,7 +19,7 @@ IG_UI_EN = {
 	IGUI_VehiclePartManualStarter = "Recoil starter",
 	IGUI_VehiclePartSails = "Sails",
 
-	IGUI_ExitBoat = "Go ashore",
+	IGUI_ExitBoat = "Get off the boat",
 	IGUI_EnterBoat = "Board the boat",
 	
 	IGUI_PlayerText_CanNotSwim = "I can't swim",
@@ -58,6 +58,7 @@ IG_UI_EN = {
 	IGUI_SwimTo = "Swim to %1",
 	IGUI_SwimToLand = "Swim to the shore",
 	IGUI_Exit_Boat = "Free swimming",
+	IGUI_JumpInWater = "Jump into water",
 
 	IGUI_SwimWord_Endurance1 = "I'm tired, I need rest",
 	IGUI_SwimWord_Endurance2 = "Nice to take a break",

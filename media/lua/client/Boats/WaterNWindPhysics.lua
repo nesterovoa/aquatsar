@@ -353,6 +353,7 @@ end
 
 function AquaPhysics.heightFix(boat)
 	local squareUnderVehicle = getCell():getGridSquare(boat:getX(), boat:getY(), 0)
+	-- AUD.insp("Boat", "getDebugZ:", boat:getDebugZ())
 	if squareUnderVehicle ~= nil and isWater(squareUnderVehicle) then
 		-- AUD.insp("Boat", "getDebugZ:", boat:getDebugZ())
 		if boat:getDebugZ() < 0.62 and boat:getCurrentSpeedKmHour() < 2 then 
@@ -363,8 +364,8 @@ function AquaPhysics.heightFix(boat)
 			boat:addImpulse(tempVec1, tempVec2)
 			-- boat:update()
 		end
-	elseif boat:getDebugZ() < 0 then
-		boat:setZ(0 - boat:getDebugZ())
+	elseif boat:getDebugZ() < 0.1 then
+		boat:setZ(0.9 - boat:getDebugZ())
 	end
 end
 
@@ -401,7 +402,9 @@ end
 function AquaPhysics.waterFlowRotation(boat, force)
 	if boat:getDriver() and boat:getPartById("Propeller") and boat:getPartById("Propeller"):getInventoryItem() and not boat:getModData()["aqua_anchor_on"] then
 		local lenHalf = boat:getScript():getPhysicsChassisShape():z()/2
-		if isKeyDown(getCore():getKey("Right")) then
+		if isKeyDown(getCore():getKey("Right")) and 
+				not isKeyDown(getCore():getKey("Forward")) and 
+				not isKeyDown(getCore():getKey("Backward")) then
 			-- boat:setPhysicsActive(true)
 			-- AquaPhysics.addImpulseGetWorldPos(boat, force)
 			
@@ -425,7 +428,9 @@ function AquaPhysics.waterFlowRotation(boat, force)
 			boat:addImpulse(forceVector, pushPoint)
 			boat:update()
 
-		elseif isKeyDown(getCore():getKey("Left")) then
+		elseif isKeyDown(getCore():getKey("Left")) and 
+				not isKeyDown(getCore():getKey("Forward")) and 
+				not isKeyDown(getCore():getKey("Backward")) then
 			boat:setPhysicsActive(true)
 
 			local forceVector = boat:getWorldPos(1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())

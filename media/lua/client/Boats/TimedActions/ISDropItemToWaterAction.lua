@@ -22,6 +22,10 @@ function ISDropItemToWaterAction:perform()
 	self.character:getEmitter():playSound("ThrowInWater")
 	if self.item:getContainer() ~= nil then
 		self.item:getContainer():Remove(self.item)
+		if isForceDropHeavyItem(self.item) then
+			self.character:setPrimaryHandItem(nil);
+			self.character:setSecondaryHandItem(nil);
+		end
 	end
 	ISBaseTimedAction.perform(self)
 end

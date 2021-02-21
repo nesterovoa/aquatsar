@@ -8,6 +8,10 @@ local function blockOptions(player, context, worldobjects, test)
 		context:removeOption(context:getOptionFromName(getText("ContextMenu_Walk_to")))
 		context:removeOption(context:getOptionFromName(getText("ContextMenu_Wash")))
 		context:removeOption(context:getOptionFromName(getText("ContextMenu_SleepOnGround")))
+		local heavyItem = playerObj:getPrimaryHandItem()
+		if isForceDropHeavyItem(heavyItem) then
+			context:removeOption(context:getOptionFromName(getText("ContextMenu_DropNamedItem", heavyItem:getDisplayName())))
+		end
 	end
 end
 

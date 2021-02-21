@@ -1,6 +1,6 @@
-name=Aquatsar Yacht Club TEST v.1.01
+name=Aquatsar Yacht Club TEST v.1.03
 poster=poster.png
-require=tsarslib
+require=tsarslibtest
 id=AquatsarYachtClubTEST
 versionMin=41.46
 description=---

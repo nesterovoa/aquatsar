@@ -10,11 +10,11 @@ function ISHornBoat:isValid()
 	return true
 end
 
--- function ISHornBoat:update()
-	-- if (getTimestampMs() - self.t >1500) then
-		-- ISBaseTimedAction.forceComplete(self)
-	-- end
--- end
+function ISHornBoat:update()
+	if (getTimestampMs() - self.t > 1500) then
+		ISBaseTimedAction.forceComplete(self)
+	end
+end
 
 function ISHornBoat:start()
 	self.t = getTimestampMs()

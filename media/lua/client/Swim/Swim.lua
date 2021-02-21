@@ -113,16 +113,14 @@ end
 ------
 -- Fast swim
 
-local function fastSwim(key)
-    if key == Keyboard.KEY_SPACE and (isShiftKeyDown() or isKeyDown(Keyboard.KEY_LMENU)) then
+function fastSwim(key, joypadKey)
+    if (key == Keyboard.KEY_SPACE and (isShiftKeyDown() or isKeyDown(Keyboard.KEY_LMENU))) or joypadKey == Keyboard.KEY_SPACE then
         local player = getPlayer()
         local dir = player:getForwardDirection()
         local x = player:getX() + dir:getX()
         local y = player:getY() + dir:getY()
-		
 		local sq = player:getSquare()
         local sqDir = getCell():getGridSquare(x, y, player:getZ())
-		
         if sqDir and 
 		sqDir:Is(IsoFlagType.water) and 
 		not sq:Is(IsoFlagType.water) and 
@@ -218,19 +216,19 @@ function AquatsarYachts.Swim.onTick()
             if ZombRand(100) < 5 then
                 local part = ZombRand(6)
                 if part == 0 then
-                    playerObj:getBodyDamage():getBodyPart(BodyPartType.Torso_Upper):AddDamage(1)
+                    playerObj:getBodyDamage():getBodyPart(BodyPartType.Torso_Upper):AddDamage(3)
                 elseif part == 1 then
-                    playerObj:getBodyDamage():getBodyPart(BodyPartType.Torso_Lower):AddDamage(1)
+                    playerObj:getBodyDamage():getBodyPart(BodyPartType.Torso_Lower):AddDamage(3)
                 elseif part == 2 then
-                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperLeg_L):AddDamage(1)
+                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperLeg_L):AddDamage(3)
                 elseif part == 3 then
-                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperLeg_R):AddDamage(1)
+                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperLeg_R):AddDamage(3)
                 elseif part == 4 then
-                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperArm_L):AddDamage(1)
+                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperArm_L):AddDamage(3)
                 elseif part == 5 then
-                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperArm_R):AddDamage(1)
+                    playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperArm_R):AddDamage(3)
                 end
-				AquatsarYachts.Swim.newSay("Damage", 45)
+				AquatsarYachts.Swim.newSay("Damage", 25)
             end
 		elseif newEndurance < 0.5 then 
 			AquatsarYachts.Swim.newSay("Endurance", 1)
@@ -240,7 +238,5 @@ end
 
 -- Events.OnTick.Add(AquatsarYachts.Swim.onTick)
 Events.OnPlayerMove.Add(AquatsarYachts.Swim.onTick)
-
-
 Events.OnKeyStartPressed.Add(fastSwim)
 -- Events.OnFillWorldObjectContextMenu.Add(swimToPoint)

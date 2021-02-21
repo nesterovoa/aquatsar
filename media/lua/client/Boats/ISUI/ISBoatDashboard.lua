@@ -596,7 +596,7 @@ function ISBoatDashboard.onSwitchVehicleSeat(character)
 	if instanceof(character, 'IsoPlayer') and character:isLocalPlayer() then
 		local boat = character:getVehicle()
 		if boat:isDriver(character) and AquaConfig.isBoat(boat) then
-			local data = getPlayerData(character:getPlayerNum())
+			local data = getPlayerData(character:getPlayerNum()) -- dataT = getPlayerData(getPlayer():getPlayerNum())
 			if not string.match(getPlayerVehicleDashboard(character:getPlayerNum()).dashboardBG:getName(), "boat_dashboard") then
 				getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(nil)
 				if AquaConfig.Boat(boat).dashboard == "ISSalingBoatDashboard" then
@@ -610,7 +610,7 @@ function ISBoatDashboard.onSwitchVehicleSeat(character)
 				data.vehicleDashboard:instantiate()
 			end
 			data.vehicleDashboard:setVehicle(boat)
-		else
+		elseif not boat:isDriver(character) then
 			getPlayerVehicleDashboard(character:getPlayerNum()):setVehicle(nil)
 		end
 	end

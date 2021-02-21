@@ -19,8 +19,8 @@ IGUI_RU = {
 	IGUI_VehiclePartManualStarter = "Ручной стартер",
 	IGUI_VehiclePartSails = "Паруса",
 	
-	IGUI_ExitBoat = "Сойти на берег",
-	IGUI_EnterBoat = "Подняться на лодку",
+	IGUI_ExitBoat = "Выйти из лодки",
+	IGUI_EnterBoat = "Зайти на лодку",
 	
 	IGUI_PlayerText_CanNotSwim = "Я не умею плавать",
 	IGUI_PlayerText_CabinlightDoNotWork = "Похоже, свет не работает",
@@ -58,6 +58,7 @@ IGUI_RU = {
 	IGUI_SwimTo = "Плыть к %1",
 	IGUI_SwimToLand = "Плыть на берег",
 	IGUI_Exit_Boat = "Выйти в воду",
+	IGUI_JumpInWater = "Прыгнуть в воду",
 	
 	IGUI_SwimWord_Endurance1 = "Я устал, мне нужен отдых.",
 	IGUI_SwimWord_Endurance2 = "Хорошо бы передохнуть.",

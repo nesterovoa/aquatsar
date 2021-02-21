@@ -126,6 +126,11 @@ module Base
 		{
 			xywh = -0.1838 -0.3700 0.2025 0.3875,
 		}
+		
+		area GasTank
+		{
+			xywh = -0.1838 -0.3700 0.2025 0.3875,
+		}
 	}
 	template vehicle BoatSailingYachtTemplate
 	{
@@ -491,7 +496,6 @@ module Base
 		mass = 150,
 		physicsChassisShape = 0.4000 0.3200 1.2875,
 		centerOfMassOffset = 0.0000 0.3225 -0.0625,
-		
 		engineForce = 2500,
 		maxSpeed = 0.01f,
 		engineLoudness = 90,
@@ -747,7 +751,12 @@ module Base
 				complete = Boats.UninstallComplete.Propeller,
 			}
 		}
-
+		
+		part Heater
+		{
+			category = nodisplay,
+		}
+		
 		part Battery
 		{
 			category = nodisplay,

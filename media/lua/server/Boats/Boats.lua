@@ -168,16 +168,18 @@ function Boats.Update.GasTank(boat, part, elapsedMinutes)
 		local qualityMultiplier = ((100 - boat:getEngineQuality()) / 200) + 1;
 		local massMultiplier =  ((math.abs(1000 - boat:getScript():getMass())) / 300) + 1;
 		-- if boat is stopped, we half the value of gas consummed
-		if math.floor(math.abs(boat:getCurrentSpeedKmHour())) > 0 then
-			gasMultiplier = gasMultiplier / qualityMultiplier / massMultiplier/4;
+		-- AUD.insp("Boat", "getCurrentSpeedKmHour:", boat:getCurrentSpeedKmHour())
+		if math.abs(boat:getCurrentSpeedKmHour()) > 0.4 then
+			gasMultiplier = gasMultiplier / qualityMultiplier / massMultiplier;
 			speedMultiplier = 800;
 		else
 			gasMultiplier = (gasMultiplier / qualityMultiplier);
 			speedMultiplier = 800;
 		end
 
-		local newAmount = (speedMultiplier / gasMultiplier)  * SandboxVars.CarGasConsumption;
+		local newAmount = (speedMultiplier / gasMultiplier) * AquaConfig.Boat(boat).multiplierFuelConsumption * SandboxVars.CarGasConsumption;
 		newAmount =  newAmount * (boat:getEngineSpeed()/2500.0);
+		-- AUD.insp("Boat", "newAmount:", newAmount)
 		amount = amount - elapsedMinutes * newAmount;
 		-- if your gas tank is in bad condition, you can simply lose fuel
 		if part:getCondition() < 70 then

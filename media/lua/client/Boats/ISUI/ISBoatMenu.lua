@@ -3,11 +3,18 @@
 -- --***********************************************************
 
 require 'Boats/Init'
-require "ISUI/CommonISContextMenu" 
+require "CommonTemplates/ISUI/ISContextMenuExtension" 
 
 local SORTVARS = {
 	pos = Vector3f.new()
 }
+
+-- if not FindVehicleGas then
+	-- FindVehicleGas = function(worldobjects, metalDrum, player)
+		-- return false
+	-- end
+-- end
+
 local function distanceToPassengerPosition(seatNum)
 	local outside = SORTVARS.boat:getPassengerPosition(seatNum, "outside")
 	local worldPos = SORTVARS.boat:getWorldPos(outside:getOffset(), SORTVARS.pos)
@@ -29,9 +36,9 @@ function getClosestSeat(playerObj, boat, seats)
 	return seats[1]
 end
 
-local function starts_with(str, start)
-   return str:sub(1, #start) == start
-end
+-- local function starts_with(str, start)
+   -- return str:sub(1, #start) == start
+-- end
 
 ISBoatMenu = {}
 
@@ -84,11 +91,11 @@ function ISBoatMenu.onKeyStartPressed(key)
 		if boat == nil then
 			boat = ISBoatMenu.getBoatToInteractWith(playerObj)
 			if boat then
-				if playerObj:getSquare():Is(IsoFlagType.water) then
+				-- if playerObj:getSquare():Is(IsoFlagType.water) then
 					ISBoatMenu.onEnter(playerObj, boat)
-				else
-					ISBoatMenu.onEnterFromGround(playerObj, boat)
-				end
+				-- else
+					-- ISBoatMenu.onEnterFromGround(playerObj, boat)
+				-- end
 				-- ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, 0))
 			end
 		elseif AquaConfig.isBoat(boat) then
@@ -102,11 +109,14 @@ function ISBoatMenu.onKeyStartPressed(key)
 			return
 		end
 		boat = ISBoatMenu.getBoatToInteractWith(playerObj)
+		local vehicle = ISVehicleMenu.getVehicleToInteractWith(playerObj)
 		if boat then
+			if key == getCore():getKey("Toggle UI") and getCore():getGameMode() ~= "Tutorial" and not vehicle then
+				ISUIHandler.toggleUI()
+			end
 			ISBoatMenu.showRadialMenuOutside(playerObj)
 			return
 		end
-		local vehicle = ISVehicleMenu.getVehicleToInteractWith(playerObj)
 		if vehicle ~= nil and AquaConfig.Trailers[vehicle:getScript():getName()] then
 			if AquaConfig.Trailers[vehicle:getScript():getName()].isWithBoat then
 				ISVehicleMenuForTrailerWithBoat.launchRadialMenu(playerObj, vehicle)
@@ -114,6 +124,7 @@ function ISBoatMenu.onKeyStartPressed(key)
 				ISVehicleMenuForTrailerWithBoat.loadOntoTrailerRadialMenu(playerObj, vehicle)
 			end
 		end
+
 	elseif key == getCore():getKey("VehicleSwitchSeat") then	
 		local boat = ISBoatMenu.getBoatInside(playerObj)
 		if boat then
@@ -195,14 +206,14 @@ end
 
 function ISBoatMenu.getBoatInside(player)
 	local boat = player:getVehicle()
-	if boat and starts_with(string.lower(boat:getScript():getName()), "boat") then
+	if boat and AquaConfig.Boat(boat) then
 		return boat
 	end
 end
 
 function ISBoatMenu.getNearBoat(player)
 	local boat = player:getNearVehicle()
-	if boat and starts_with(string.lower(boat:getScript():getName()), "boat") then
+	if boat and AquaConfig.Boat(boat) then
 		return boat
 	end
 end
@@ -343,20 +354,16 @@ function ISBoatMenu.getNearSquare(object, x_max, y_max, z)
 	return squares
 end
 
-function ISBoatMenu.onEnterFromGround(playerObj, boat)
-	local seat = ISBoatMenu.getBestSeatEnter(playerObj, boat, true)
-	if seat then
-		ISBoatMenu.onEnterAux2(playerObj, boat, seat)
-	-- else
-		-- playerObj:Say(getText("IGUI_PlayerText_NeedSwim")) -- Проход заблокирован.
-	end
-end
+-- function ISBoatMenu.onEnterFromGround(playerObj, boat)
+	-- local seat = ISBoatMenu.getBestSeatEnter(playerObj, boat, true)
+	-- if seat then
+		-- ISBoatMenu.onEnterAux(playerObj, boat, seat)
+	-- -- else
+		-- -- playerObj:Say(getText("IGUI_PlayerText_NeedSwim")) -- Проход заблокирован.
+	-- end
+-- end
 
 function ISBoatMenu.onEnter(playerObj, boat)
-	-- Получить координаты зон для посадки
-	-- Проверить можно ли до них дойти
-	-- Дойти и сесть
-
 	local seat = ISBoatMenu.getBestSeatEnter(playerObj, boat)
 	if seat then
 		ISBoatMenu.onEnterAux(playerObj, boat, seat)
@@ -440,21 +447,21 @@ function ISBoatMenu.onEnterAux(playerObj, boat, seat)
 	ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, seat))
 end
 
-function ISBoatMenu.onEnterAux2(playerObj, boat, seat)
-	ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, seat))
-end
+-- function ISBoatMenu.onEnterAux2(playerObj, boat, seat)
+	-- ISTimedActionQueue.add(ISEnterVehicle:new(playerObj, boat, seat))
+-- end
 
 function ISBoatMenu.onExit(playerObj)
     local boat = playerObj:getVehicle()
 	if not boat then return end
     boat:updateHasExtendOffsetForExit(playerObj)
 	if AquaConfig.isBoat(boat) then
-		if math.abs(boat:getCurrentSpeedKmHour()) < 4 then 
+		local inCabin = boat:getPartById("InCabin" .. seatNameTable[boat:getSeat(playerObj)+1])
+		if math.abs(boat:getCurrentSpeedKmHour()) < 4 and not inCabin then 
 			-- exitPoint = ISBoatMenu.getNearLandForExit(boat)
-			exitPoint = ISBoatMenu.getBestSeatExit(playerObj, boat, true)
+			local exitPoint = ISBoatMenu.getBestSeatExit(playerObj, boat, true)
 			if exitPoint then
 				ISTimedActionQueue.add(ISExitBoat:new(playerObj, exitPoint))
-				return
 			else	
 				ISBoatMenu.exitBoatOnWater(playerObj)
 			end
@@ -547,14 +554,13 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	menu:setX(getPlayerScreenLeft(playerObj:getPlayerNum()) + getPlayerScreenWidth(playerObj:getPlayerNum()) / 2 - menu:getWidth() / 2)
 	menu:setY(getPlayerScreenTop(playerObj:getPlayerNum()) + getPlayerScreenHeight(playerObj:getPlayerNum()) / 2 - menu:getHeight() / 2)
 	
-	local seatNum = boat:getSeat(playerObj)
-	local seat = seatNameTable[seatNum+1]
+
 	local lightIsOn = true
 	local timeHours = getGameTime():getHour()
 	
 	menu:addSlice(getText("IGUI_SwitchPlace"), getTexture("media/ui/boats/RadialMenu_ChangePlace.png"), ISBoatMenu.onShowSeatUI, playerObj, boat )
 	
-	local inCabin = boat:getPartById("InCabin" .. seat)
+	local inCabin = boat:getPartById("InCabin" .. seatNameTable[boat:getSeat(playerObj)+1])
 	if inCabin then
 		if boat:getPartById("HeadlightRearRight") and 
 				not boat:getPartById("HeadlightRearRight"):getInventoryItem() then
@@ -618,22 +624,22 @@ function ISBoatMenu.showRadialMenu(playerObj)
 
 	-- Swim
 	boat:updateHasExtendOffsetForExit(playerObj)
-	if boat:getCurrentSpeedKmHour() < 5 and boat:getCurrentSpeedKmHour() > -5 then -- and not ISBoatMenu.getNearLandForExit(boat)
+	if not inCabin and boat:getCurrentSpeedKmHour() < 10 and boat:getCurrentSpeedKmHour() > -10 then -- and not ISBoatMenu.getNearLandForExit(boat)
 		menu:addSlice(getText("ContextMenu_SwimToLand"), getTexture("media/ui/boats/ICON_boat_swim.png"), ISBoatMenu.exitBoatOnWater, playerObj)
 	end
 
-	if seatNum < 2 and AquaConfig.Boat(boat).removeSailsScript then
+	if not inCabin and AquaConfig.Boat(boat).removeSailsScript then
 		menu:addSlice(getText("ContextMenu_RemoveSail"), getTexture("media/ui/boats/ICON_remove_sails.png"), ISBoatMenu.RemoveSails, playerObj, boat)
 	end
-	if seatNum < 2 and AquaConfig.Boat(boat).setLeftSailsScript and boat:getPartById("Sails") and boat:getPartById("Sails"):getInventoryItem() then -- 
+	if not inCabin and AquaConfig.Boat(boat).setLeftSailsScript and boat:getPartById("Sails") and boat:getPartById("Sails"):getInventoryItem() then -- 
 		menu:addSlice(getText("ContextMenu_SetLeftSail"), getTexture("media/ui/boats/ICON_set_left_sails.png"), ISBoatMenu.SetLeftSails, playerObj, boat)
 	end
-	if seatNum < 2 and AquaConfig.Boat(boat).setRightSailsScript and boat:getPartById("Sails") and boat:getPartById("Sails"):getInventoryItem() then -- 
+	if not inCabin and AquaConfig.Boat(boat).setRightSailsScript and boat:getPartById("Sails") and boat:getPartById("Sails"):getInventoryItem() then -- 
 		menu:addSlice(getText("ContextMenu_SetRightSail"), getTexture("media/ui/boats/ICON_set_right_sails.png"), ISBoatMenu.SetRightSails, playerObj, boat)
 	end
 
 	-- Cabin
-	if not boat:getPartById("InCabin" .. seatNameTable[seatNum+1]) and not boat:getModData()["AquaCabin_isUnlocked"] then		
+	if not inCabin and not boat:getModData()["AquaCabin_isUnlocked"] then		
 		if playerObj:getInventory():haveThisKeyId(boat:getKeyId()) then
 			local func =  function(arg_boat, arg_pl) 
 				arg_boat:getModData()["AquaCabin_isUnlocked"] = true
@@ -679,7 +685,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		end
 	end
 	
-	if seatNum < 2 then
+	if not inCabin then
 		local playerIndex = playerObj:getPlayerNum()
 		ISBoatMenu.FillPartMenu(playerIndex, nil, menu, boat)
 	end
@@ -893,12 +899,12 @@ function ISBoatMenu.showRadialMenuOutside(playerObj)
 	
 	local playerIndex = playerObj:getPlayerNum()
 	local menu = getPlayerRadialMenu(playerIndex)
-
 	-- For keyboard, toggle visibility
 	if menu:isReallyVisible() then
 		if menu.joyfocus then
 			setJoypadFocus(playerIndex, nil)
 		end
+		menu:undisplay()
 		menu:removeFromUIManager()
 		return
 	end
@@ -913,6 +919,9 @@ function ISBoatMenu.showRadialMenuOutside(playerObj)
 		if boat:getScript() and boat:getScript():getPassengerCount() > 0 then
 			menu:addSlice(getText("IGUI_EnterBoat"), getTexture("media/ui/boats/RadialMenu_ChangePlace.png"), ISBoatMenu.onShowSeatUI, playerObj, boat )
 		end
+		-- local fuel_truck_source = FindVehicleGas(playerObj, vehicle)
+		
+		
 		
 		--
 	
@@ -944,15 +953,15 @@ function ISBoatMenu.showRadialMenuOutside(playerObj)
 			-- end
 		-- end
 
-		local part = boat:getClosestWindow(playerObj);
-		if part then
-			local window = part:getWindow()
-			if not window:isDestroyed() and not window:isOpen() then
-				menu:addSlice(getText("ContextMenu_Vehicle_Smashwindow", getText("IGUI_VehiclePart" .. part:getId())),
-					getTexture("media/ui/vehicles/vehicle_smash_window.png"),
-					ISVehiclePartMenu.onSmashWindow, playerObj, part)
-			end
-		end
+		-- local part = boat:getClosestWindow(playerObj);
+		-- if part then
+			-- local window = part:getWindow()
+			-- if not window:isDestroyed() and not window:isOpen() then
+				-- menu:addSlice(getText("ContextMenu_Vehicle_Smashwindow", getText("IGUI_VehiclePart" .. part:getId())),
+					-- getTexture("media/ui/vehicles/vehicle_smash_window.png"),
+					-- ISVehiclePartMenu.onSmashWindow, playerObj, part)
+			-- end
+		-- end
 
 		--ISBoatMenu.doTowingMenu(playerObj, boat, menu)
 	end
@@ -965,7 +974,7 @@ function ISBoatMenu.showRadialMenuOutside(playerObj)
 		setJoypadFocus(playerObj:getPlayerNum(), menu)
 		playerObj:setJoypadIgnoreAimUntilCentered(true)
 	end
-	ISUIHandler.toggleUI()
+	-- ISUIHandler.toggleUI()
 end
 
 -- function ISBoatMenu.doTowingMenu(playerObj, boat, menu)
@@ -1166,12 +1175,11 @@ function ISBoatMenu.FillMenuOutsideBoat(playerObj, context, boat, test)
 end
 
 function ISBoatMenu.FillMenuInsideBoat(playerObj, context, boat, test)
-	local old_option_update = context:getOptionFromName(getText("ContextMenu_Drink"))
 	local inCabin = boat:getPartById("InCabin" .. seatNameTable[boat:getSeat(playerObj)+1])
-	-- local storeWater = nil
+	local old_option_update = context:getOptionFromName(getText("ContextMenu_Drink"))
+
 	if old_option_update then
 		if not inCabin then
-			-- storeWater = old_option_update.param1
 			context:updateOption(old_option_update.id, old_option_update.name, old_option_update.target, ISBoatMenu.onDrink, old_option_update.param1, playerObj)
 		else
 			context:removeOption(context:getOptionFromName(getText("ContextMenu_Drink")))
@@ -1209,11 +1217,16 @@ function ISBoatMenu.FillMenuInsideBoat(playerObj, context, boat, test)
 		end
 	end
 	
-	old_option_update = context:getOptionFromName(getText("ContextMenu_Fishing"))
-	if old_option_update then
-		if inCabin then
-			context:removeOption(context:getOptionFromName(getText("ContextMenu_Fishing")))
-		end
+	-- old_option_update = context:getOptionFromName(getText("ContextMenu_Fishing"))
+	-- if old_option_update then
+	if inCabin then
+		context:removeOption(context:getOptionFromName(getText("ContextMenu_Fishing")))
+	end
+	-- end
+	
+	local heavyItem = playerObj:getPrimaryHandItem()
+	if isForceDropHeavyItem(heavyItem) then
+		context:removeOption(context:getOptionFromName(getText("ContextMenu_DropNamedItem", heavyItem:getDisplayName())))
 	end
 	
 	context:removeOption(context:getOptionFromName(getText("ContextMenu_SleepOnGround")))
@@ -1866,26 +1879,26 @@ function ISBoatMenu.onHorn(playerObj)
 	ISTimedActionQueue.add(ISHornBoat:new(playerObj))
 end
 
-function ISBoatMenu.onHornStart(playerObj)
---	print "onHornStart"
-	local boat = playerObj:getVehicle()
-	if boat:getBatteryCharge() <= 0.0 then return end
-	if isClient() then
-		sendClientCommand(playerObj, 'vehicle', 'onHorn', {state="start"})
-	else
-		boat:onHornStart();
-	end
-end
+-- function ISBoatMenu.onHornStart(playerObj)
+-- --	print "onHornStart"
+	-- local boat = playerObj:getVehicle()
+	-- if boat:getBatteryCharge() <= 0.0 then return end
+	-- if isClient() then
+		-- sendClientCommand(playerObj, 'vehicle', 'onHorn', {state="start"})
+	-- else
+		-- boat:onHornStart();
+	-- end
+-- end
 
-function ISBoatMenu.onHornStop(playerObj)
---	print "onHornStop"
-	local boat = playerObj:getVehicle()
-	if isClient() then
-		sendClientCommand(playerObj, 'vehicle', 'onHorn', {state="stop"})
-	else
-		boat:onHornStop();
-	end
-end
+-- function ISBoatMenu.onHornStop(playerObj)
+-- --	print "onHornStop"
+	-- local boat = playerObj:getVehicle()
+	-- if isClient() then
+		-- sendClientCommand(playerObj, 'vehicle', 'onHorn', {state="stop"})
+	-- else
+		-- boat:onHornStop();
+	-- end
+-- end
 
 -- function ISBoatMenu.onLightbar(playerObj)
 	-- ISTimedActionQueue.add(ISLightbarUITimedAction:new(playerObj))
@@ -1917,7 +1930,7 @@ end
 	-- end
 -- end
 Events.OnFillWorldObjectContextMenu.Add(ISBoatMenu.OnFillWorldObjectContextMenu)
-Events.OnKeyPressed.Add(ISBoatMenu.onKeyPressed);
+-- Events.OnKeyPressed.Add(ISBoatMenu.onKeyPressed);
 Events.OnKeyStartPressed.Add(ISBoatMenu.onKeyStartPressed);
 Events.OnEnterVehicle.Add(ISBoatMenu.onEnterVehicle)
 -- Events.OnExitVehicle.Add(ISBoatMenu.onExitVehicle)
