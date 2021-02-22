@@ -3,7 +3,7 @@
 -- --***********************************************************
 
 require 'Boats/Init'
-require "CommonTemplates/ISUI/ISContextMenuExtension" 
+-- require "CommonTemplates/ISUI/ISContextMenuExtension" 
 
 local SORTVARS = {
 	pos = Vector3f.new()

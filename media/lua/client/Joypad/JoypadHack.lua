@@ -1,5 +1,5 @@
-require "Boats/ISUI/ISBoatMenu"
-require "ISUI/ISButtonPrompt"
+-- require "Boats/ISUI/ISBoatMenu"
+-- require "ISUI/ISButtonPrompt"
 
 oldGetBestBButtonAction = ISButtonPrompt.getBestAButtonAction
 

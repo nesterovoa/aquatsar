@@ -1,8 +1,8 @@
 -- --***********************************************************
 -- --**                    THE INDIE STONE                    **
 -- --***********************************************************
-require 'Vehicles/ISUI/ISVehicleDashboard'
-require 'Boats/AquaConfig'
+-- require 'Vehicles/ISUI/ISVehicleDashboard'
+-- require 'AquaConfig'
 -- require "ISUI/ISPanel"
 
 ISBoatDashboard = ISPanel:derive("ISBoatDashboard")
