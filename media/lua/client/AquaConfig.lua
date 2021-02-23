@@ -75,8 +75,8 @@ boat.boatSeatUI_SeatOffsetX = {
 boat.boatSeatUI_SeatOffsetY = {
 	["FrontLeft"] = 120,
 	["FrontRight"] = 120,
-	["MiddleLeft"] = -30, 
-	["MiddleRight"] = -50,
+	["MiddleLeft"] = -50, 
+	["MiddleRight"] = -30,
 	["RearLeft"] = -40,
 	["RearRight"] = 50,
 }
@@ -106,8 +106,8 @@ boat.boatSeatUI_SeatOffsetX = {
 boat.boatSeatUI_SeatOffsetY = {
 	["FrontLeft"] = 120,
 	["FrontRight"] = 120,
-	["MiddleLeft"] = -30, 
-	["MiddleRight"] = -50,
+	["MiddleLeft"] = -50, 
+	["MiddleRight"] = -30,
 	["RearLeft"] = -40,
 	["RearRight"] = 50,
 }
@@ -137,8 +137,8 @@ boat.boatSeatUI_SeatOffsetX = {
 boat.boatSeatUI_SeatOffsetY = {
 	["FrontLeft"] = 120,
 	["FrontRight"] = 120,
-	["MiddleLeft"] = -30, 
-	["MiddleRight"] = -50,
+	["MiddleLeft"] = -50, 
+	["MiddleRight"] = -30,
 	["RearLeft"] = -40,
 	["RearRight"] = 50,
 }

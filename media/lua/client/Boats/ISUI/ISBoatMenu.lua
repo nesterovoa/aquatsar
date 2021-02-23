@@ -3,7 +3,7 @@
 -- --***********************************************************
 
 require 'Boats/Init'
--- require "CommonTemplates/ISUI/ISContextMenuExtension" 
+require "CommonTemplates/ISUI/ISCommonMenu" 
 
 local SORTVARS = {
 	pos = Vector3f.new()
@@ -42,6 +42,35 @@ end
 
 ISBoatMenu = {}
 
+ISBoatMenu.oldShowRadialMenu = ISVehicleMenu.showRadialMenu
+
+function ISVehicleMenu.showRadialMenu(playerObj)
+	ISBoatMenu.oldShowRadialMenu(playerObj)
+	local boat = ISBoatMenu.getBoatInside(playerObj)
+	if boat then
+		ISBoatMenu.showRadialMenu(playerObj)
+		ISCommonMenu.showRadialMenu(playerObj)
+		return
+	end
+	boat = ISBoatMenu.getBoatToInteractWith(playerObj)
+	local vehicle = ISVehicleMenu.getVehicleToInteractWith(playerObj)
+	if boat then
+		if key == getCore():getKey("Toggle UI") and getCore():getGameMode() ~= "Tutorial" and not vehicle then
+			ISUIHandler.toggleUI()
+		end
+		ISBoatMenu.showRadialMenuOutside(playerObj)
+		return
+	end
+	if vehicle ~= nil and AquaConfig.Trailers[vehicle:getScript():getName()] then
+		if AquaConfig.Trailers[vehicle:getScript():getName()].isWithBoat then
+			ISVehicleMenuForTrailerWithBoat.launchRadialMenu(playerObj, vehicle)
+		else
+			ISVehicleMenuForTrailerWithBoat.loadOntoTrailerRadialMenu(playerObj, vehicle)
+		end
+	end
+	-- ISCommonMenu.showRadialMenu(playerObj)
+end
+
 function ISBoatMenu.isWater(square)
 	local tileName = square:getFloor():getTextureName()
 	if not tileName then
@@ -55,7 +84,7 @@ function ISBoatMenu.isWater(square)
 end
 
 function ISBoatMenu.onKeyStartPressed(key)
-	local playerObj = getPlayer()
+	local playerObj = getSpecificPlayer(0)
 	if not playerObj then return end
 	if playerObj:isDead() then return end
 	local boat = playerObj:getVehicle()
@@ -101,29 +130,29 @@ function ISBoatMenu.onKeyStartPressed(key)
 		elseif AquaConfig.isBoat(boat) then
 			ISBoatMenu.onExit(playerObj)
 		end	
-	elseif key == getCore():getKey("VehicleRadialMenu") and playerObj then
-		-- 'V' can be 'Toggle UI' when outside a vehicle
-		local boat = ISBoatMenu.getBoatInside(playerObj)
-		if boat then
-			ISBoatMenu.showRadialMenu(playerObj)
-			return
-		end
-		boat = ISBoatMenu.getBoatToInteractWith(playerObj)
-		local vehicle = ISVehicleMenu.getVehicleToInteractWith(playerObj)
-		if boat then
-			if key == getCore():getKey("Toggle UI") and getCore():getGameMode() ~= "Tutorial" and not vehicle then
-				ISUIHandler.toggleUI()
-			end
-			ISBoatMenu.showRadialMenuOutside(playerObj)
-			return
-		end
-		if vehicle ~= nil and AquaConfig.Trailers[vehicle:getScript():getName()] then
-			if AquaConfig.Trailers[vehicle:getScript():getName()].isWithBoat then
-				ISVehicleMenuForTrailerWithBoat.launchRadialMenu(playerObj, vehicle)
-			else
-				ISVehicleMenuForTrailerWithBoat.loadOntoTrailerRadialMenu(playerObj, vehicle)
-			end
-		end
+	-- elseif key == getCore():getKey("VehicleRadialMenu") and playerObj then
+		-- -- 'V' can be 'Toggle UI' when outside a vehicle
+		-- local boat = ISBoatMenu.getBoatInside(playerObj)
+		-- if boat then
+			-- ISBoatMenu.showRadialMenu(playerObj)
+			-- return
+		-- end
+		-- boat = ISBoatMenu.getBoatToInteractWith(playerObj)
+		-- local vehicle = ISVehicleMenu.getVehicleToInteractWith(playerObj)
+		-- if boat then
+			-- if key == getCore():getKey("Toggle UI") and getCore():getGameMode() ~= "Tutorial" and not vehicle then
+				-- ISUIHandler.toggleUI()
+			-- end
+			-- ISBoatMenu.showRadialMenuOutside(playerObj)
+			-- return
+		-- end
+		-- if vehicle ~= nil and AquaConfig.Trailers[vehicle:getScript():getName()] then
+			-- if AquaConfig.Trailers[vehicle:getScript():getName()].isWithBoat then
+				-- ISVehicleMenuForTrailerWithBoat.launchRadialMenu(playerObj, vehicle)
+			-- else
+				-- ISVehicleMenuForTrailerWithBoat.loadOntoTrailerRadialMenu(playerObj, vehicle)
+			-- end
+		-- end
 
 	elseif key == getCore():getKey("VehicleSwitchSeat") then	
 		local boat = ISBoatMenu.getBoatInside(playerObj)

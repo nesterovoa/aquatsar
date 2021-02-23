@@ -65,7 +65,7 @@ module Base
 			}
 		}
 
-		passenger MiddleLeft
+		passenger MiddleRight
 		{
 			position inside
 			{
@@ -78,7 +78,7 @@ module Base
 			}
 		}
 
-		passenger MiddleRight
+		passenger MiddleLeft
 		{
 			position inside
 			{
@@ -136,8 +136,8 @@ module Base
 	{
 		template = Seat/part/SeatFrontLeft,
 		template = Seat/part/SeatFrontRight,
-		template = Seat/part/SeatMiddleLeft,
 		template = Seat/part/SeatMiddleRight,
+		template = Seat/part/SeatMiddleLeft,
 		template = Seat/part/SeatRearLeft,
 		template = Seat/part/SeatRearRight,
 
@@ -155,7 +155,7 @@ module Base
 		template = BoatStandartParts/part/Battery,
 		template = BoatStandartParts/part/Engine,
 		template = BoatStandartParts/part/Radio,
-		template = BatteryHeater/part/Heater,
+		template = BatteryHeater/part/BatteryHeater,
 
 		template = ApiBoatAirbag,
 		template = Propeller,
@@ -171,17 +171,17 @@ module Base
 		template = Light/part/LightFloodlightLeft,
 		template = Light/part/LightFloodlightRight,
 		template = Light/part/LightCabin,
-		template = InCabin/part/InCabinMiddleLeft,
 		template = InCabin/part/InCabinMiddleRight,
+		template = InCabin/part/InCabinMiddleLeft,
 		template = InCabin/part/InCabinRearLeft,
 		template = InCabin/part/InCabinRearRight,
 		
-		template = Cupboards/part/CupboardMiddleLeft,
-		template = Counters/part/CounterMiddleLeft,
-		
+		template = Cupboards/part/CupboardMiddleRight,
 		template = Counters/part/CounterMiddleRight,
-		template = Drawers/part/DrawerMiddleRight,
-		template = Medicines/part/MedicineMiddleRight,
+		
+		template = Counters/part/CounterMiddleLeft,
+		template = Drawers/part/DrawerMiddleLeft,
+		template = Medicines/part/MedicineMiddleLeft,
 		
 		template = Counters/part/CounterRearLeft,
 		template = Drawers/part/DrawerRearLeft,
@@ -193,6 +193,8 @@ module Base
 		template = Microwaves/part/MicrowaveRearRight,
 		template = SeatBoxWooden/part/SeatBoxWoodenFrontLeft,
 		template = SeatBoxWooden/part/SeatBoxWoodenFrontRight,
+		template = Mattresses/part/MattressMiddleLeft,
+		template = Mattresses/part/MattressMiddleRight,
 	}
 	vehicle BoatSailingYachtWithSailsLeft
 	{
@@ -752,7 +754,7 @@ module Base
 			}
 		}
 		
-		part Heater
+		part BatteryHeater
 		{
 			category = nodisplay,
 		}

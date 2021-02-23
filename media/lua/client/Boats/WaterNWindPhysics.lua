@@ -301,13 +301,10 @@ end
 -- Physics
 -------------------------------------
 
-function AquaPhysics.boatEngineShutDownOnGround()
-	local veh = getPlayer():getVehicle()
-	if veh and AquaConfig.isBoat(veh) then
-		local sq = veh:getSquare()
-		if sq and not isWater(sq) and veh:isEngineRunning() then
-			veh:engineDoShutingDown()
-		end
+function AquaPhysics.boatEngineShutDownOnGround(veh)
+	local sq = veh:getSquare()
+	if sq and not isWater(sq) and veh:isEngineRunning() then
+		veh:engineDoShutingDown()
 	end
 end
 
@@ -400,6 +397,8 @@ end
 
 
 function AquaPhysics.waterFlowRotation(boat, force)
+	local playerObj = getSpecificPlayer(0)
+	if not playerObj or not (boat:getDriver() == playerObj) then return end
 	if boat:getDriver() and boat:getPartById("Propeller") and boat:getPartById("Propeller"):getInventoryItem() and not boat:getModData()["aqua_anchor_on"] then
 		local lenHalf = boat:getScript():getPhysicsChassisShape():z()/2
 		if isKeyDown(getCore():getKey("Right")) and 
@@ -459,7 +458,7 @@ end
 -------------------------------------
 
 function AquaPhysics.changeSailAngle(boat)
-	local playerObj = getPlayer()
+	local playerObj = getSpecificPlayer(0)
 	if not playerObj or not (boat:getDriver() == playerObj) then return end
 	local sailAngle = boat:getModData()["sailAngle"]
 	if sailAngle == nil then
@@ -480,7 +479,6 @@ function AquaPhysics.changeSailAngle(boat)
 		playerObj:getStats():setEndurance(playerObj:getStats():getEndurance() - 0.0005)
 	end
 end
-
 
 function AquaPhysics.stopByAnchor(vehicle, force)   
 	local linearVel = vehicle:getLinearVelocity(tempVec1)
@@ -523,7 +521,6 @@ function AquaPhysics.updateVehicles()
         local boat = vehicles:get(i)
 		if boat ~= nil and AquaConfig.isBoat(boat) then
 			-- dirTest (boat)
-
 			local collisionWithGround = AquaPhysics.Water.Borders(boat)
 			AquaPhysics.heightFix(boat)
 			-- AquaPhysics.inertiaFix(boat)
@@ -544,9 +541,10 @@ function AquaPhysics.updateVehicles()
 			if boat:getModData()["aqua_anchor_on"] then 
 				AquaPhysics.stopByAnchor(boat, 5000) 
 			end
+			AquaPhysics.boatEngineShutDownOnGround(boat)
         end
     end
-	AquaPhysics.boatEngineShutDownOnGround()
+	
 end
 
 Events.OnTick.Add(AquaPhysics.updateVehicles)

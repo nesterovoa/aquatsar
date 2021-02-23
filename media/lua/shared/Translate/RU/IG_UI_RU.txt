@@ -21,6 +21,8 @@ IGUI_RU = {
 	
 	IGUI_ExitBoat = "Выйти из лодки",
 	IGUI_EnterBoat = "Зайти на лодку",
+	IGUI_SailLeft = "Парус влево",
+	IGUI_SailRight = "Парус вправо",
 	
 	IGUI_PlayerText_CanNotSwim = "Я не умею плавать",
 	IGUI_PlayerText_CabinlightDoNotWork = "Похоже, свет не работает",

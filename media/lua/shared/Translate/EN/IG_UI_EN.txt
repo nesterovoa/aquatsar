@@ -21,6 +21,8 @@ IG_UI_EN = {
 
 	IGUI_ExitBoat = "Get off the boat",
 	IGUI_EnterBoat = "Board the boat",
+	IGUI_SailLeft = "Sail to the left",
+	IGUI_SailRight = "Sail to the right",
 	
 	IGUI_PlayerText_CanNotSwim = "I can't swim",
 	IGUI_PlayerText_CabinlightDoNotWork = "It looks like the light isn't working",

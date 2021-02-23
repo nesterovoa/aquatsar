@@ -114,8 +114,28 @@ end
 -- Fast swim
 
 function fastSwim(key, joypadKey)
-    if (key == Keyboard.KEY_SPACE and (isShiftKeyDown() or isKeyDown(Keyboard.KEY_LMENU))) or joypadKey == Keyboard.KEY_SPACE then
-        local player = getPlayer()
+    if (key == Keyboard.KEY_SPACE and (isShiftKeyDown() or isKeyDown(Keyboard.KEY_LMENU))) then
+        local player = getSpecificPlayer(0)
+        local dir = player:getForwardDirection()
+        local x = player:getX() + dir:getX()
+        local y = player:getY() + dir:getY()
+		local sq = player:getSquare()
+        local sqDir = getCell():getGridSquare(x, y, player:getZ())
+        if sqDir and 
+		sqDir:Is(IsoFlagType.water) and 
+		not sq:Is(IsoFlagType.water) and 
+		not sq:isWallTo(sqDir) and 
+		not sq:isWindowTo(sqDir) then 
+            player:setX(x)
+            player:setY(y)
+        end 
+    end
+end
+
+function fastSwimJoypad(joypadData, joypadKey)
+	-- print(joypadData.player)
+    if joypadKey == Keyboard.KEY_SPACE then
+        local player = getSpecificPlayer(joypadData.player)
         local dir = player:getForwardDirection()
         local x = player:getX() + dir:getX()
         local y = player:getY() + dir:getY()
@@ -182,7 +202,7 @@ function AquatsarYachts.Swim.Say(situation, chaceToSay)
 	end
 end
 
-function AquatsarYachts.Swim.newSay(situation, chanceToSay)
+function AquatsarYachts.Swim.newSay(playerObj, situation, chanceToSay)
 	local maxCount = ZombRand(10000)
 	local updateChance = maxCount*chanceToSay/1000
 	local check = ZombRand(maxCount)
@@ -194,6 +214,7 @@ end
 
 function AquatsarYachts.Swim.onTick()
     local playerObj = getPlayer()
+	-- print(playerObj)
     if playerObj == nil then return end
     if not playerObj:getVehicle() and playerObj:getSquare():Is(IsoFlagType.water) then
         local coeff = AquatsarYachts.Swim.swimDifficultCoeff(playerObj)
@@ -228,10 +249,10 @@ function AquatsarYachts.Swim.onTick()
                 elseif part == 5 then
                     playerObj:getBodyDamage():getBodyPart(BodyPartType.UpperArm_R):AddDamage(3)
                 end
-				AquatsarYachts.Swim.newSay("Damage", 25)
+				AquatsarYachts.Swim.newSay(playerObj, "Damage", 25)
             end
 		elseif newEndurance < 0.5 then 
-			AquatsarYachts.Swim.newSay("Endurance", 1)
+			AquatsarYachts.Swim.newSay(playerObj, "Endurance", 1)
         end
     end
 end
