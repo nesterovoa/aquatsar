@@ -1,4 +1,5 @@
 require '_Debug/AquatsarYachtsDebug'
+require 'AquaConfig'
 
 local function spawnBoat(playerObj, boatName, sq)
     local boat = addVehicleDebug("Base." .. boatName, IsoDirections.W, nil, sq)

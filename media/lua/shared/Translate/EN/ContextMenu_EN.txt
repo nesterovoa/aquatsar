@@ -13,7 +13,9 @@ ContextMenu_EN = {
 	ContextMenu_SwimToLand = "Swim to land",
 	
 	ContextMenu_LaunchBoat = "Launch boat",
+	ContextMenu_CantLaunchBoat = "It is necessary to drive<br>the trailer to the water",
 	ContextMenu_LoadBoatOntoTrailer = "Load boat onto trailer",
+	ContextMenu_CantLoadBoatOntoTrailer = "The boat and trailer<br>must be close",
 	
 	ContextMenu_VehicleStartEngineManual = "Start engine manually",
 	ContextMenu_VehicleManualStarterDamage = "Recoil starter not installed<br>or damaged",

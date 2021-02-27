@@ -1,4 +1,4 @@
-
+require 'AquaConfig'
 
 local function dropItems(items, playerObj)
 	items = ISInventoryPane.getActualItems(items)

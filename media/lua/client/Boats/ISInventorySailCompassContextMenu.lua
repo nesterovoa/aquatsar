@@ -1,4 +1,6 @@
 
+require 'AquaConfig'
+
 local function repairSailPerform(playerObj, sail, item, thread, needle, addCondition)
     ISTimedActionQueue.add(ISRepairSailAction:new(playerObj, sail, item, thread, needle, addCondition));
 end

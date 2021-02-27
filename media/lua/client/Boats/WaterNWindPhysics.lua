@@ -2,11 +2,12 @@
 --**              Developers: IBrRus n Aiteron               **
 --*************************************************************
 
+require 'AquaConfig'
+
 if AquaPhysics == nil then AquaPhysics = {} end
 AquaPhysics.Utils = {}
 AquaPhysics.Wind = {}
 AquaPhysics.Water = {}
-
 
 -----------------------------
 -- Util variables/functions

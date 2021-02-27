@@ -1,5 +1,5 @@
--- require "Boats/ISUI/ISBoatMenu"
--- require "ISUI/ISButtonPrompt"
+require "Boats/ISUI/ISBoatMenu"
+require 'AquaConfig'
 
 local oldGetBestBButtonAction = ISButtonPrompt.getBestAButtonAction
 local oldGetBestLBButtonAction = ISButtonPrompt.getBestLBButtonAction

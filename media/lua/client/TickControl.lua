@@ -1,3 +1,5 @@
+require 'AquaConfig'
+
 TickControl = {}
 TickTable = {}
 TickTable.Wind = {}

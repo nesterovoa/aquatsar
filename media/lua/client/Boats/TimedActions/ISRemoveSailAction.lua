@@ -4,6 +4,7 @@
 
 require 'Boats/Init'
 require "TimedActions/ISBaseTimedAction"
+require 'AquaConfig'
 
 ISRemoveSailAction = ISBaseTimedAction:derive("ISRemoveSailAction")
 

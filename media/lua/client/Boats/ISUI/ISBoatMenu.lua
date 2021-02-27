@@ -4,6 +4,7 @@
 
 require 'Boats/Init'
 require "CommonTemplates/ISUI/ISCommonMenu" 
+require 'AquaConfig'
 
 local SORTVARS = {
 	pos = Vector3f.new()

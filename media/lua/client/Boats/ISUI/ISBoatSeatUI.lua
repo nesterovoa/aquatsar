@@ -1,8 +1,9 @@
 --***********************************************************
---**                    THE INDIE STONE                    **
+--**        THE INDIE STONE/edited by iBrRus               **
 --***********************************************************
 
 require "ISUI/ISPanelJoypad"
+require 'AquaConfig'
 
 ISBoatSeatUI = ISPanelJoypad:derive("ISBoatSeatUI")
 

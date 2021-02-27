@@ -1,7 +1,7 @@
 --**************************************************************
 --**                    Developer: Aiteron                    **
 --**************************************************************
-
+require 'AquaConfig'
 require "TimedActions/ISBaseTimedAction"
 
 ISLoadBoatOntoTrailer = ISBaseTimedAction:derive("ISLoadBoatOntoTrailer")
