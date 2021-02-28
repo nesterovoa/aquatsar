@@ -103,12 +103,12 @@ end
 
 function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 	local boatScriptName = boat:getScript():getName()
-	local boatSpeed = boat:getCurrentSpeedKmHour()
+	local boatSpeedKPH = boat:getCurrentSpeedKmHour()
 	boat:getAttachmentWorldPos("trailerfront", frontVector)
 	boat:getAttachmentWorldPos("trailer", rearVector)
 	local x = frontVector:x() - rearVector:x()
 	local y = frontVector:y() - rearVector:y()
-	local windSpeed = AquaPhysics.Wind.getWindSpeed()
+	local windSpeedKPH = AquaPhysics.Wind.getWindSpeed()
 
 	-- AUD.insp("Boat", "boatSpeed (MPH):", boat:getCurrentSpeedKmHour() / 1.60934)
 	-- AUD.insp("Boat", " ", " ")
@@ -132,21 +132,21 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 	end
 	
 	local windForceByDirection = 0
-	if windSpeed < AquaConfig.windVeryLight then
+	if windSpeedKPH < AquaConfig.windVeryLight then
 		windForceByDirection = 0
-	elseif windSpeed < AquaConfig.windLight then
+	elseif windSpeedKPH < AquaConfig.windLight then
 		if windOnBoat > 85 and windOnBoat < 275 then
 			windForceByDirection = 7 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 		end
-	elseif windSpeed < AquaConfig.windMedium then
+	elseif windSpeedKPH < AquaConfig.windMedium then
 		if windOnBoat > 20 and windOnBoat < 340 then
 			windForceByDirection = 10 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 		end
-	elseif windSpeed < AquaConfig.windStrong then
+	elseif windSpeedKPH < AquaConfig.windStrong then
 		if windOnBoat > 20 and windOnBoat < 340 then
 			windForceByDirection = 12 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 		end
-	elseif windSpeed < AquaConfig.windVeryStrong then
+	elseif windSpeedKPH < AquaConfig.windVeryStrong then
 		if windOnBoat > 85 and windOnBoat < 275 then
 			windForceByDirection = 14 * math.sqrt(1 * math.cos(math.rad(2*(windOnBoat + 90))) + 1.3) * AquaConfig.Boats[boatScriptName].windInfluence
 		end
@@ -156,7 +156,7 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 		end
 	end
 	
-	-- AUD.insp("Boat", "windSpeed (MPH):", windSpeed / 1.60934)
+	-- AUD.insp("Boat", "windSpeedKPH (MPH):", windSpeedKPH / 1.60934)
 	-- AUD.insp("Boat", "windForceByDirection154:", windForceByDirection)
 	local coefficientSailAngle = 0
 	local requiredSailAngle = 0
@@ -225,7 +225,7 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 	end
 	
 	-- AUD.insp("Boat", "Name: ", boatScriptName)
-	-- AUD.insp("Boat", "Boat Speed: ", boatSpeed)
+	-- AUD.insp("Boat", "Boat Speed: ", boatSpeedKPH)
 	-- AUD.insp("Boat", "Mass: ", boat:getMass())
 	-- AUD.insp("Boat", " ", " ")		
 	-- AUD.insp("Boat", "windOnBoat:", windOnBoat)
@@ -256,9 +256,9 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 
 	local squareFrontVehicle = getCell():getGridSquare(frontVector:x(), frontVector:y(), 0)
 	if squareFrontVehicle ~= nil and isWater(squareFrontVehicle) then
-		if savedWindForce > 0 and boatSpeed < (savedWindForce * 1.60934) and boatSpeed/1.60934 < savedWindForce and not isKeyDown(getCore():getKey("Backward")) then
+		if savedWindForce > 0 and boatSpeedKPH < (savedWindForce * 1.60934) and boatSpeedKPH < windSpeedKPH and not isKeyDown(getCore():getKey("Backward")) then
 			local startCoeff = 1
-			if boatSpeed < 2 * 1.60934 then
+			if boatSpeedKPH < 2 * 1.60934 then
 				startCoeff = 5
 			end
 			if collisionWithGround then 
