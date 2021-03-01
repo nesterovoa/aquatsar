@@ -101,4 +101,7 @@ IG_UI_EN = {
 	
 	IGUI_RepairSail = "Sew up the sail",
 	IGUI_CantRepairSails = "Fabric, needle, thread and Tailoring level IV required for sailing repair.",
+
+	IGUI_Tutorial = "<H1> EXAMPLE BIG TEXT <BR> <TEXT> So how do you rummage, grab, drop and use? In Project Zomboid we're all over this kind of item procurement! <BR> The primary way is simply to drag and drop - or alternatively right click to bring up the context menu. <BR> <IMAGECENTRE:media/ui/tutimages/invrbtnselect.png> <LINE> " ..
+					"<H2> GROUND ATTACKS <BR> <TEXT> Holding LSHIFT will also allow you select multiple items.",
 }
