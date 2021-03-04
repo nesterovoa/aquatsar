@@ -5,8 +5,9 @@
 require 'Boats/Init'
 require "CommonTemplates/ISUI/ISCommonMenu" 
 require 'AquaConfig'
+require 'Vehicles/ISUI/ISVehicleMenuForTrailerWithBoat'
 
-local SORTVARS = {
+local TEMPVARS = {
 	pos = Vector3f.new()
 }
 
@@ -17,9 +18,9 @@ local SORTVARS = {
 -- end
 
 local function distanceToPassengerPosition(seatNum)
-	local outside = SORTVARS.boat:getPassengerPosition(seatNum, "outside")
-	local worldPos = SORTVARS.boat:getWorldPos(outside:getOffset(), SORTVARS.pos)
-	return SORTVARS.playerObj:DistTo(worldPos:x(), worldPos:y())
+	local outside = TEMPVARS.boat:getPassengerPosition(seatNum, "outside")
+	local worldPos = TEMPVARS.boat:getWorldPos(outside:getOffset(), TEMPVARS.pos)
+	return TEMPVARS.playerObj:DistTo(worldPos:x(), worldPos:y())
 end
 
 function getClosestSeat(playerObj, boat, seats)
@@ -27,8 +28,8 @@ function getClosestSeat(playerObj, boat, seats)
 		return nil
 	end
 	-- Sort by distance from the player to the 'outside' position.
-	SORTVARS.playerObj = playerObj
-	SORTVARS.boat = boat
+	TEMPVARS.playerObj = playerObj
+	TEMPVARS.boat = boat
 	table.sort(seats, function(a,b)
 		local distA = distanceToPassengerPosition(a)
 		local distB = distanceToPassengerPosition(b)
@@ -409,8 +410,8 @@ function ISBoatMenu.getBestSeatEnter(playerObj, boat, ground)
 		if outside and
 				not boat:getCharacter(seat) then
 			if ground then
-				local worldPos = boat:getWorldPos(outside:getOffset(), SORTVARS.pos)
-				local squares = ISBoatMenu.getNearSquare(getCell():getGridSquare(SORTVARS.pos:x(), SORTVARS.pos:y(), 0), 1, 1)
+				local worldPos = boat:getWorldPos(outside:getOffset(), TEMPVARS.pos)
+				local squares = ISBoatMenu.getNearSquare(getCell():getGridSquare(TEMPVARS.pos:x(), TEMPVARS.pos:y(), 0), 1, 1)
 				for i, square in pairs(squares) do
 					if square and not ISBoatMenu.isWater(square) and square:isNotBlocked(true) then
 						table.insert(seats, seat)
@@ -429,33 +430,33 @@ function ISBoatMenu.getBestSeatExit(playerObj, boat, ground)
 	local seat = boat:getSeat(playerObj) -- print(getPlayer():getVehicle():getSeat(getPlayer()))
 	local outside = boat:getPassengerPosition(seat, "outside")
 	if outside then
-		boat:getWorldPos(outside:getOffset(), SORTVARS.pos)
-		local squares = ISBoatMenu.getNearSquare(getCell():getGridSquare(SORTVARS.pos:x(), SORTVARS.pos:y(), 0), 1, 1)
+		boat:getWorldPos(outside:getOffset(), TEMPVARS.pos)
+		local squares = ISBoatMenu.getNearSquare(getCell():getGridSquare(TEMPVARS.pos:x(), TEMPVARS.pos:y(), 0), 1, 1)
 		if ground then
 			for i, square in pairs(squares) do
 				if square and not ISBoatMenu.isWater(square) and square:isNotBlocked(true) then
-					SORTVARS.pos:set(square:getX(), square:getY(), 0)
-					return SORTVARS.pos
+					TEMPVARS.pos:set(square:getX(), square:getY(), 0)
+					return TEMPVARS.pos
 				end
 			end
 		elseif ground == false then
-			return SORTVARS.pos
+			return TEMPVARS.pos
 		end
 	end
 	for seat2=0, boat:getMaxPassengers()-1 do
 		outside = boat:getPassengerPosition(seat2, "outside")
 		if outside then
-			boat:getWorldPos(outside:getOffset(), SORTVARS.pos)
-			squares = ISBoatMenu.getNearSquare(getCell():getGridSquare(SORTVARS.pos:x(), SORTVARS.pos:y(), 0), 1, 1)
+			boat:getWorldPos(outside:getOffset(), TEMPVARS.pos)
+			squares = ISBoatMenu.getNearSquare(getCell():getGridSquare(TEMPVARS.pos:x(), TEMPVARS.pos:y(), 0), 1, 1)
 			if ground then
 				for i, square in pairs(squares) do
 					if square and not ISBoatMenu.isWater(square) and square:isNotBlocked(true) then
-						SORTVARS.pos:set(square:getX(), square:getY(), 0)
-						return SORTVARS.pos
+						TEMPVARS.pos:set(square:getX(), square:getY(), 0)
+						return TEMPVARS.pos
 					end
 				end
 			elseif ground == false then
-				return SORTVARS.pos
+				return TEMPVARS.pos
 			end
 		end
 	end
