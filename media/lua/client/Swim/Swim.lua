@@ -1,6 +1,42 @@
 require("Boats/Init")
 AquatsarYachts.Swim = {}
 
+local SwimSayWords = {}
+SwimSayWords.damage = {}
+SwimSayWords.damage["IGUI_SwimWord_Damage1"] = 30
+SwimSayWords.damage["IGUI_SwimWord_Damage2"] = 30
+SwimSayWords.damage["IGUI_SwimWord_Damage3"] = 30
+-- SwimSayWords.damage["IGUI_SwimWord_Damage4"] = 15
+-- SwimSayWords.damage["IGUI_SwimWord_Damage5"] = 15
+-- SwimSayWords.damage["IGUI_SwimWord_Damage6"] = 15
+
+SwimSayWords.lostItems = {}
+SwimSayWords.lostItems["IGUI_SwimWord_LostItems1"] = 33
+SwimSayWords.lostItems["IGUI_SwimWord_LostItems2"] = 33
+SwimSayWords.lostItems["IGUI_SwimWord_LostItems3"] = 34
+
+SwimSayWords.success = {}
+SwimSayWords.success["IGUI_SwimWord_Success1"] = 33
+SwimSayWords.success["IGUI_SwimWord_Success2"] = 33
+SwimSayWords.success["IGUI_SwimWord_Success3"] = 34
+
+SwimSayWords.fail = {}
+SwimSayWords.fail["IGUI_SwimWord_Fail1"] = 33
+SwimSayWords.fail["IGUI_SwimWord_Fail2"] = 33
+SwimSayWords.fail["IGUI_SwimWord_Fail3"] = 34
+
+SwimSayWords.endurance = {}
+SwimSayWords.endurance["IGUI_SwimWord_Endurance1"] = 10
+SwimSayWords.endurance["IGUI_SwimWord_Endurance2"] = 10
+SwimSayWords.endurance["IGUI_SwimWord_Endurance3"] = 10
+SwimSayWords.endurance["IGUI_SwimWord_Endurance4"] = 10
+
+SwimSayWords.LostItems = {"IGUI_SwimWord_LostItems1", "IGUI_SwimWord_LostItems2", "IGUI_SwimWord_LostItems3"}
+SwimSayWords.Damage = {"IGUI_SwimWord_Damage1", "IGUI_SwimWord_Damage2", "IGUI_SwimWord_Damage3"}
+SwimSayWords.Endurance = {"IGUI_SwimWord_Endurance1", "IGUI_SwimWord_Endurance2", "IGUI_SwimWord_Endurance3", "IGUI_SwimWord_Endurance4"}
+
+
+
 function AquatsarYachts.Swim.swimDifficultCoeff(playerObj)
     local canSwim = playerObj:isRecipeKnown("Swimming")
     
@@ -87,9 +123,11 @@ function AquatsarYachts.Swim.swimDifficultCoeff(playerObj)
 end
 
 
+
 local function compare(a,b)
     return a:getWeight() > b:getWeight()
 end
+
 
 function AquatsarYachts.Swim.dropItems(playerObj)
     local inv = playerObj:getInventory()    
@@ -107,7 +145,12 @@ function AquatsarYachts.Swim.dropItems(playerObj)
         if not items[i]:isEquipped() then
             inv:DoRemoveItem(items[i])
         end
+		if round(playerObj:getInventory():getCapacityWeight(), 2) < 10 then
+			break
+		end
     end
+	local currentNum = ZombRand(#SwimSayWords["LostItems"])+1
+	playerObj:Say(getText(SwimSayWords["LostItems"][currentNum]))
 end
 
 ------
@@ -152,55 +195,19 @@ function fastSwimJoypad(joypadData, joypadKey)
     end
 end
 
-------
---- Say when swim
-
-local SwimSayWords = {}
-SwimSayWords.damage = {}
-SwimSayWords.damage["IGUI_SwimWord_Damage1"] = 30
-SwimSayWords.damage["IGUI_SwimWord_Damage2"] = 30
-SwimSayWords.damage["IGUI_SwimWord_Damage3"] = 30
--- SwimSayWords.damage["IGUI_SwimWord_Damage4"] = 15
--- SwimSayWords.damage["IGUI_SwimWord_Damage5"] = 15
--- SwimSayWords.damage["IGUI_SwimWord_Damage6"] = 15
-
-SwimSayWords.lostItems = {}
-SwimSayWords.lostItems["IGUI_SwimWord_LostItems1"] = 33
-SwimSayWords.lostItems["IGUI_SwimWord_LostItems2"] = 33
-SwimSayWords.lostItems["IGUI_SwimWord_LostItems3"] = 34
-
-SwimSayWords.success = {}
-SwimSayWords.success["IGUI_SwimWord_Success1"] = 33
-SwimSayWords.success["IGUI_SwimWord_Success2"] = 33
-SwimSayWords.success["IGUI_SwimWord_Success3"] = 34
-
-SwimSayWords.fail = {}
-SwimSayWords.fail["IGUI_SwimWord_Fail1"] = 33
-SwimSayWords.fail["IGUI_SwimWord_Fail2"] = 33
-SwimSayWords.fail["IGUI_SwimWord_Fail3"] = 34
-
-SwimSayWords.endurance = {}
-SwimSayWords.endurance["IGUI_SwimWord_Endurance1"] = 10
-SwimSayWords.endurance["IGUI_SwimWord_Endurance2"] = 10
-SwimSayWords.endurance["IGUI_SwimWord_Endurance3"] = 10
-SwimSayWords.endurance["IGUI_SwimWord_Endurance4"] = 10
-
-SwimSayWords.Damage = {"IGUI_SwimWord_Damage1", "IGUI_SwimWord_Damage2", "IGUI_SwimWord_Damage3"}
-SwimSayWords.Endurance = {"IGUI_SwimWord_Endurance1", "IGUI_SwimWord_Endurance2", "IGUI_SwimWord_Endurance3", "IGUI_SwimWord_Endurance4"}
-
-function AquatsarYachts.Swim.Say(situation, chaceToSay)
-    if ZombRand(374) <= chaceToSay then
-        local currentChance = ZombRand(100)
-        local count = 0
-        for word, chance in pairs(SwimSayWords[situation]) do
-            if currentChance >= count and currentChance < (count + chance) then
-                getPlayer():Say(getText(word))
-                break
-            end
-            count = count + chance
-        end
-	end
-end
+-- function AquatsarYachts.Swim.Say(situation, chaceToSay)
+    -- if ZombRand(374) <= chaceToSay then
+        -- local currentChance = ZombRand(100)
+        -- local count = 0
+        -- for word, chance in pairs(SwimSayWords[situation]) do
+            -- if currentChance >= count and currentChance < (count + chance) then
+                -- getPlayer():Say(getText(word))
+                -- break
+            -- end
+            -- count = count + chance
+        -- end
+	-- end
+-- end
 
 function AquatsarYachts.Swim.newSay(playerObj, situation, chanceToSay)
 	local maxCount = ZombRand(10000)
@@ -208,12 +215,12 @@ function AquatsarYachts.Swim.newSay(playerObj, situation, chanceToSay)
 	local check = ZombRand(maxCount)
 	if check <= updateChance then
 		local currentNum = ZombRand(#SwimSayWords[situation])+1
-		getPlayer():Say(getText(SwimSayWords[situation][currentNum]))
+		playerObj:Say(getText(SwimSayWords[situation][currentNum]))
 	end
 end
 
-function AquatsarYachts.Swim.onTick()
-    local playerObj = getPlayer()
+function AquatsarYachts.Swim.OnPlayerMove(playerObj)
+    -- local playerObj = getPlayer()
 	-- print(playerObj)
     if playerObj == nil then return end
     if not playerObj:getVehicle() and playerObj:getSquare():Is(IsoFlagType.water) then
@@ -228,9 +235,9 @@ function AquatsarYachts.Swim.onTick()
 		local newEndurance = playerObj:getStats():getEndurance()
 		
         local eqWeight = round(playerObj:getInventory():getCapacityWeight(), 2)
-        if eqWeight > 20 and ZombRand(100) < 20 and newEndurance < 0.4 then
+        if eqWeight > 20 and ZombRand(100) < 20 and newEndurance < 0.3 then
             AquatsarYachts.Swim.dropItems(playerObj)
-        elseif eqWeight > 10 and ZombRand(100) < 5 and newEndurance < 0.4 then
+        elseif eqWeight > 10 and ZombRand(100) < 5 and newEndurance < 0.3 then
             AquatsarYachts.Swim.dropItems(playerObj)
         end
         if newEndurance < 0.05 then
@@ -257,7 +264,6 @@ function AquatsarYachts.Swim.onTick()
     end
 end
 
--- Events.OnTick.Add(AquatsarYachts.Swim.onTick)
-Events.OnPlayerMove.Add(AquatsarYachts.Swim.onTick)
+Events.OnPlayerMove.Add(AquatsarYachts.Swim.OnPlayerMove)
 Events.OnKeyStartPressed.Add(fastSwim)
 -- Events.OnFillWorldObjectContextMenu.Add(swimToPoint)

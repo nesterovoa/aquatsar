@@ -74,8 +74,8 @@ IG_UI_EN = {
 	IGUI_SwimWord_Damage4 = "...",
 
 	IGUI_SwimWord_LostItems1 = "Ah, I lost my things",
-	IGUI_SwimWord_LostItems1 = "I had to get rid of excess cargo",
-	IGUI_SwimWord_LostItems1 = "Some things have gone to the bottom",
+	IGUI_SwimWord_LostItems2 = "I had to get rid of excess cargo",
+	IGUI_SwimWord_LostItems3 = "Some things have gone to the bottom",
 	
 	IGUI_sayWindInfo = "Detect wind direction",
 	IGUI_needBeOutside_tosayWindInfo = "Indoor wind cannot be detected",

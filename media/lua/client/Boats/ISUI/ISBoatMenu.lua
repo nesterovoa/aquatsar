@@ -888,6 +888,7 @@ end
 
 function ISBoatMenu.replaceBoat(boat, newSriptName)
 	local partsTable = {}
+	local keyId = boat:getKeyId()
 	for i=1, boat:getScript():getPartCount() do
 		local part = boat:getPartByIndex(i-1)
 		partsTable[part:getId()] = {}
@@ -909,6 +910,7 @@ function ISBoatMenu.replaceBoat(boat, newSriptName)
 			part:setItemContainer(partsTable[part:getId()]["ItemContainer"])
 		end
 	end
+	boat:setKeyId(keyId)
 	boat:setDebugZ(0.75)
 	return boat
 end

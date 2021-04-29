@@ -74,8 +74,8 @@ IGUI_RU = {
 	IGUI_SwimWord_Damage4 = "...",
 
 	IGUI_SwimWord_LostItems1 = "Эх, потерял часть вещей",
-	IGUI_SwimWord_LostItems1 = "Пришлось избавиться от лишнего груза",
-	IGUI_SwimWord_LostItems1 = "Часть вещей пошла ко дну",
+	IGUI_SwimWord_LostItems2 = "Пришлось избавиться от лишнего груза",
+	IGUI_SwimWord_LostItems3 = "Часть вещей пошла ко дну",
 
 	IGUI_sayWindInfo = "Определить направление ветра",
 	IGUI_needBeOutside_tosayWindInfo = "Нельзя определить ветер в помещении",

@@ -231,8 +231,8 @@ function TickControl.main()
 	end
 end
 
-local function onPlayerDeathStopSwimSound()
-	getPlayer():getEmitter():stopSoundByName("Swim")
+local function onPlayerDeathStopSwimSound(playerObj)
+	playerObj:getEmitter():stopSoundByName("Swim")
 end
 
 Events.OnTileRemoved.Add(TickControl.checkWaterBuild)

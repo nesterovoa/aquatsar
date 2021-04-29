@@ -117,11 +117,13 @@ function ISVehicleMenuForTrailerWithBoat.replaceTrailerBoat(veh1, veh2)
 			end
 		end
 	end
+	veh2:setKeyId(veh1:getKeyId())
 	return veh2
 end
 
 function ISVehicleMenuForTrailerWithBoat.replaceTrailer(trailer, newTrailerName)
 	local partsTable = {}
+	local keyId = trailer:getKeyId()
 	for i=1, trailer:getScript():getPartCount() do
 		local part = trailer:getPartByIndex(i-1)
 		partsTable[part:getId()] = {}
@@ -145,6 +147,7 @@ function ISVehicleMenuForTrailerWithBoat.replaceTrailer(trailer, newTrailerName)
 			end
 		end
 	end
+	trailer:setKeyId(keyId)
 	return trailer
 end
 

@@ -553,7 +553,7 @@ module Base
 	}
 	vehicle TrailerWithBoatSailingYacht
 	{
-		mechanicType = 1,
+		mechanicType = 3,
 		engineRepairLevel = 5,
 		playerDamageProtection = 1.3,
 		offRoadEfficiency = 2,
