@@ -2,7 +2,6 @@
 --**                      AQUATSAR       	               **
 --***********************************************************
 
-require 'Boats/Init'
 require "TimedActions/ISBaseTimedAction"
 require 'AquaConfig'
 
@@ -18,22 +17,23 @@ end
 
 function ISSetSailAction:update()
 	-- speed 1 = 1, 2 = 5, 3 = 20, 4 = 40
-    local uispeed = UIManager.getSpeedControls():getCurrentGameSpeed()
-    if uispeed ~= 1 and self.isFirstSail  then
-        UIManager.getSpeedControls():SetCurrentGameSpeed(1)
-    end
-    local speedCoeff = { [1] = 1, [2] = 5, [3] = 20, [4] = 40 }
+    -- local uispeed = UIManager.getSpeedControls():getCurrentGameSpeed()
+    -- if uispeed ~= 1 and self.isFirstSail  then
+        -- UIManager.getSpeedControls():SetCurrentGameSpeed(1)
+    -- end
+    -- local speedCoeff = { [1] = 1, [2] = 5, [3] = 20, [4] = 40 }
 
-	local timeLeftNow =  (1 - self:getJobDelta()) * self.maxTime
+	-- local timeLeftNow =  (1 - self:getJobDelta()) * self.maxTime
 
-	if self.isFadeOut == false and timeLeftNow < 200 * speedCoeff[uispeed] then
-		UIManager.FadeOut(self.playerNum, 1)
-        self.isFadeOut = true
-		-- saveGame()
-	end
+	-- if self.isFadeOut == false and timeLeftNow < 200 * speedCoeff[uispeed] then
+		-- UIManager.FadeOut(self.playerNum, 1)
+        -- self.isFadeOut = true
+		-- -- saveGame()
+	-- end
 end
 
 function ISSetSailAction:start()
+	setGameSpeed(1)
     if not self.boat:getPartById("Sails"):getLight():getActive() then
 		self.boat:getEmitter():playSound("boat_sails_set")
 		if self.character:getModData()["isFirstSail"] == nil then
@@ -53,32 +53,33 @@ function ISSetSailAction:stop()
         -- getSoundManager():StopSound(self.sound)
     -- end
 	self.boat:getEmitter():stopSoundByName("boat_sails_set")
-    if self.isFadeOut == true then
-		UIManager.FadeIn(self.playerNum, 1)
-		UIManager.setFadeBeforeUI(self.playerNum, false)
-	end
+    -- if self.isFadeOut == true then
+		-- UIManager.FadeIn(self.playerNum, 1)
+		-- UIManager.setFadeBeforeUI(self.playerNum, false)
+	-- end
 	ISBaseTimedAction.stop(self)
 end
 
 function ISSetSailAction:perform()
-    if self.dir == "LEFT" then
-        local nameWithSails = AquaConfig.Boat(self.boat).setLeftSailsScript
-        if nameWithSails then
-            ISBoatMenu.replaceBoat(self.boat, nameWithSails)
-        else
-            print("AQUATSAR: script for SetLeftSails (" .. self.boat:getScript():getName() .. ") didn't find.")
-        end    
+    local part = self.boat:getPartById("Sails")
+	if self.dir == "LEFT" then
+        part:setModelVisible("Boom", false)
+		part:setModelVisible("SailCover", false)
+		part:setModelVisible("SailLeft", true)
+		part:setModelVisible("SailRight", false)
+		self.boat:getModData().sailCode = 1
+		part:setLightActive(true)
     elseif self.dir == "RIGHT" then
-        local nameWithSails = AquaConfig.Boat(self.boat).setRightSailsScript
-        if nameWithSails then
-            ISBoatMenu.replaceBoat(self.boat, nameWithSails)
-        else
-            print("AQUATSAR: script for SetRightSails (" .. self.boat:getScript():getName() .. ") didn't find.")
-        end
+        part:setModelVisible("Boom", false)
+		part:setModelVisible("SailCover", false)
+		part:setModelVisible("SailLeft", false)
+		part:setModelVisible("SailRight", true)
+		self.boat:getModData().sailCode = 2
+		part:setLightActive(true)
     end
 	self.character:getStats():setEndurance(self.character:getStats():getEndurance() - 0.23)
-	UIManager.FadeIn(self.playerNum, 1)
-	UIManager.setFadeBeforeUI(self.playerNum, false)
+	-- UIManager.FadeIn(self.playerNum, 1)
+	-- UIManager.setFadeBeforeUI(self.playerNum, false)
 
 	ISBaseTimedAction.perform(self)
 end

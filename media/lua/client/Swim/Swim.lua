@@ -1,4 +1,4 @@
-require("Boats/Init")
+if not AquatsarYachts then AquatsarYachts = {} end
 AquatsarYachts.Swim = {}
 
 local SwimSayWords = {}

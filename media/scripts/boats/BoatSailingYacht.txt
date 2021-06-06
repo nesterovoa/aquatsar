@@ -2,25 +2,12 @@ module Base
 {
 	model BoatSailingYachtBody
     {
-        mesh = boats/SailingBoat,
+        mesh = boats/SailingBoat|Body,
         shader = vehicle_norandom_multiuv,
         invertX = FALSE,
         scale = 0.0011,
     }
-	model BoatSailingYachtWithSailsLeftBody
-    {
-        mesh = boats/SailingBoatWithSails,
-        shader = vehicle_norandom_multiuv,
-        invertX = FALSE,
-        scale = 0.0011,
-    }
-	model BoatSailingYachtWithSailsRightBody
-    {
-        mesh = boats/SailingBoatWithSailsRight,
-        shader = vehicle_norandom_multiuv,
-        invertX = TRUE,
-        scale = 0.0011,
-    }
+	
 	model TrailerWithSailingYachtBase
     {
         mesh = trailers/TrailerWithBoatSailingYacht,
@@ -196,245 +183,7 @@ module Base
 		template = Mattresses/part/MattressMiddleLeft,
 		template = Mattresses/part/MattressMiddleRight,
 	}
-	vehicle BoatSailingYachtWithSailsLeft
-	{
-		model
-		{
-			file = BoatSailingYachtWithSailsLeftBody,
-			scale = 8.0000,
-			offset = 0.0000 -0.2250 0.0000,
-		}
-
-		spawnOffsetY = 0.15,
-
-		skin
-		{
-			texture = Boats/SailingYacht_body,
-		}
-
-		textureLights = Boats/SailingYacht_light,
-		textureMask = Boats/SailingYacht_mask,
-		mechanicType = 3,
-		offRoadEfficiency = 1,
-		engineRepairLevel = 5,
-		playerDamageProtection = 1.3,
-		engineRPMType = firebird,
-
-		sound
-		{
-			horn = BoatHorn,
-		}
-
-		wheel FrontLeft
-		{
-			front = true,
-			offset = 0.1800 0.3750 0.3125,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		wheel FrontRight
-		{
-			front = true,
-			offset = -0.1800 0.3750 0.3125,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		wheel RearLeft
-		{
-			front = false,
-			offset = 0.1800 0.3750 -0.4375,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		wheel RearRight
-		{
-			front = false,
-			offset = -0.1800 0.3750 -0.4375,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		extents = 0.4000 0.3200 1.2875,
-		mass = 150,
-		physicsChassisShape = 0.4000 0.3200 1.2875,
-		centerOfMassOffset = 0.0000 0.3225 -0.0625,
-		engineForce = 2500,
-		maxSpeed = 0.01f,
-		engineLoudness = 90,
-		engineQuality = 10,
-		brakingForce = 90,
-		gearRatioCount = 1,
-		gearRatioR = 10,
-		gearRatio0 = 10,
-		stoppingMovementForce = 2.0f,
-		rollInfluence = 0.1f,
-		steeringIncrement = 0.03,
-		steeringClamp = 0.3,
-		suspensionStiffness = 50,
-		suspensionCompression = 2,
-		suspensionDamping = 1,
-		maxSuspensionTravelCm = 1.1,
-		suspensionRestLength = 0.3,
-		wheelFriction = 1.6f,
-		frontEndHealth = 150,
-		rearEndHealth = 150,
-		seats = 6,
-		template = BoatSailingYachtTemplate,
-		template = BoatSailingYachtPassengerTemplate,
-
-		part Sails
-		{
-			lua
-			{
-				create = Boats.Create.Sails,
-				init = Boats.Init.SailsSet,
-				update = Boats.Update.SailsSet,
-			}
-		}
-
-		attachment checkFront
-		{
-			offset = 0.0000 0.0000 0.8525,
-			rotate = 0.0000 0.0000 0.0000,
-		}
-
-		attachment trailer
-		{
-			offset = 0.0000 0.0000 -0.6250,
-			rotate = 0.0000 0.0000 0.0000,
-			zoffset = -1.0000,
-		}
-
-		attachment trailerfront
-		{
-			offset = 0.0000 0.0000 0.6250,
-			rotate = 0.0000 0.0000 0.0000,
-			zoffset = 1.0000,
-		}
-	}
-	vehicle BoatSailingYachtWithSailsRight
-	{
-		model
-		{
-			file = BoatSailingYachtWithSailsRightBody,
-			scale = 8.0000,
-			offset = 0.0000 -0.2250 0.0000,
-		}
-
-		spawnOffsetY = 0.15,
-
-		skin
-		{
-			texture = Boats/SailingYacht_body_right,
-		}
-
-		textureLights = Boats/SailingYacht_light,
-		textureMask = Boats/SailingYacht_mask_right,
-		mechanicType = 3,
-		offRoadEfficiency = 2,
-		engineRepairLevel = 5,
-		playerDamageProtection = 1.3,
-		engineRPMType = firebird,
-
-		sound
-		{
-			horn = BoatHorn,
-		}
-
-		wheel FrontLeft
-		{
-			front = true,
-			offset = 0.1800 0.3750 0.3125,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		wheel FrontRight
-		{
-			front = true,
-			offset = -0.1800 0.3750 0.3125,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		wheel RearLeft
-		{
-			front = false,
-			offset = 0.1800 0.3750 -0.4375,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		wheel RearRight
-		{
-			front = false,
-			offset = -0.1800 0.3750 -0.4375,
-			radius = 0.15f,
-			width = 0.2f,
-		}
-
-		extents = 0.4000 0.3200 1.2875,
-		mass = 150,
-		physicsChassisShape = 0.4000 0.3200 1.2875,
-		centerOfMassOffset = 0.0000 0.3225 -0.0625,
-		
-		engineForce = 2500,
-		maxSpeed = 0.01f,
-		engineLoudness = 90,
-		engineQuality = 10,
-		brakingForce = 90,
-		gearRatioCount = 1,
-		gearRatioR = 10,
-		gearRatio0 = 10,
-		stoppingMovementForce = 2.0f,
-		rollInfluence = 0.1f,
-		steeringIncrement = 0.03,
-		steeringClamp = 0.3,
-		suspensionStiffness = 50,
-		suspensionCompression = 2,
-		suspensionDamping = 1,
-		maxSuspensionTravelCm = 1.1,
-		suspensionRestLength = 0.3,
-		wheelFriction = 5.6f,
-		frontEndHealth = 150,
-		rearEndHealth = 150,
-		seats = 6,
-		template = BoatSailingYachtTemplate,
-		template = BoatSailingYachtPassengerTemplate,
-
-		part Sails
-		{
-			lua
-			{
-				create = Boats.Create.Sails,
-				init = Boats.Init.SailsSet,
-				update = Boats.Update.SailsSet,
-			}
-		}
-
-		attachment checkFront
-		{
-			offset = 0.0000 0.0000 0.8525,
-			rotate = 0.0000 0.0000 0.0000,
-		}
-
-		attachment trailer
-		{
-			offset = 0.0000 0.6125 -1.1475,
-			rotate = 0.0000 0.0000 0.0000,
-			zoffset = -1.0000,
-		}
-
-		attachment trailerfront
-		{
-			offset = 0.0000 0.6125 1.1475,
-			rotate = 0.0000 0.0000 0.0000,
-			zoffset = 1.0000,
-		}
-	}
+	
 	vehicle BoatSailingYacht
 	{
 		model
@@ -521,16 +270,9 @@ module Base
 		seats = 6,
 		template = BoatSailingYachtTemplate,
 		template = BoatSailingYachtPassengerTemplate,
-
-		part Sails
-		{
-			lua
-			{
-				create = Boats.Create.Sails,
-				init = Boats.Init.SailsRemoved,
-			}
-		}
-
+		template = BoatName/part/SailingYacht,
+		
+		
 		attachment checkFront
 		{
 			offset = 0.0000 0.0000 0.8938,

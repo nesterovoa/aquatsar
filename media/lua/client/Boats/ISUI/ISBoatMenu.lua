@@ -1,8 +1,7 @@
 -- --***********************************************************
--- --**                   iBrRus n Aiteron                    **
+-- --**                       AQUATSAR                        **
 -- --***********************************************************
 
-require 'Boats/Init'
 require "CommonTemplates/ISUI/ISCommonMenu" 
 require 'AquaConfig'
 require 'Vehicles/ISUI/ISVehicleMenuForTrailerWithBoat'
@@ -659,13 +658,13 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		menu:addSlice(getText("ContextMenu_SwimToLand"), getTexture("media/ui/boats/ICON_boat_swim.png"), ISBoatMenu.exitBoatOnWater, playerObj)
 	end
 
-	if not inCabin and AquaConfig.Boat(boat).removeSailsScript then
+	if not inCabin and boat:getModData().sailCode ~= 0 then
 		menu:addSlice(getText("ContextMenu_RemoveSail"), getTexture("media/ui/boats/ICON_remove_sails.png"), ISBoatMenu.RemoveSails, playerObj, boat)
 	end
-	if not inCabin and AquaConfig.Boat(boat).setLeftSailsScript and boat:getPartById("Sails") and boat:getPartById("Sails"):getInventoryItem() then -- 
+	if not inCabin and boat:getModData().sailCode ~= 1 and boat:getPartById("Sails") and boat:getPartById("Sails"):getInventoryItem() then
 		menu:addSlice(getText("ContextMenu_SetLeftSail"), getTexture("media/ui/boats/ICON_set_left_sails.png"), ISBoatMenu.SetLeftSails, playerObj, boat)
 	end
-	if not inCabin and AquaConfig.Boat(boat).setRightSailsScript and boat:getPartById("Sails") and boat:getPartById("Sails"):getInventoryItem() then -- 
+	if not inCabin and boat:getModData().sailCode ~= 2 and boat:getPartById("Sails") and boat:getPartById("Sails"):getInventoryItem() then
 		menu:addSlice(getText("ContextMenu_SetRightSail"), getTexture("media/ui/boats/ICON_set_right_sails.png"), ISBoatMenu.SetRightSails, playerObj, boat)
 	end
 
@@ -1953,6 +1952,17 @@ function ISBoatMenu.onEnterVehicle(playerObj)
 	end
 end
 
+function ISBoatMenu.recoveryKeys(playerObj)
+	if playerObj:getModData()["blockForward"] then
+		getCore():addKeyBinding("Forward", playerObj:getModData()["blockForward"])
+		playerObj:getModData()["blockForward"] = nil
+		getCore():addKeyBinding("Backward", playerObj:getModData()["blockBackward"])
+		playerObj:getModData()["blockBackward"] = nil
+		getCore():addKeyBinding("StartVehicleEngine", playerObj:getModData()["blockStartVehicleEngine"])
+		playerObj:getModData()["StartVehicleEngine"] = nil
+	end
+end
+
 -- function ISBoatMenu.onExitVehicle(playerObj)
 	-- if instanceof(playerObj, 'IsoPlayer') and playerObj:isLocalPlayer() then
 		-- local boat = playerObj:getVehicle()
@@ -1966,4 +1976,5 @@ Events.OnFillWorldObjectContextMenu.Add(ISBoatMenu.OnFillWorldObjectContextMenu)
 -- Events.OnKeyPressed.Add(ISBoatMenu.onKeyPressed);
 Events.OnKeyStartPressed.Add(ISBoatMenu.onKeyStartPressed);
 Events.OnEnterVehicle.Add(ISBoatMenu.onEnterVehicle)
+Events.OnPlayerDeath.Add(ISBoatMenu.recoveryKeys)
 -- Events.OnExitVehicle.Add(ISBoatMenu.onExitVehicle)

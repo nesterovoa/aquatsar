@@ -30,6 +30,7 @@ function ISLaunchBoatOnWater:update()
 end
 
 function ISLaunchBoatOnWater:start()
+	setGameSpeed(1)
 	self:setActionAnim("Loot")
 	self.trailer:getEmitter():playSound("boat_launching")
 end

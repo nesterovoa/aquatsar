@@ -2,7 +2,6 @@
 --**                      AQUATSAR       	               **
 --***********************************************************
 
-require 'Boats/Init'
 require "TimedActions/ISBaseTimedAction"
 
 ISExitBoat = ISBaseTimedAction:derive("ISExitBoat")

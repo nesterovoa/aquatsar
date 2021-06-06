@@ -1,4 +1,4 @@
-debugScenarios = {}
+-- debugScenarios = {}
 
 local function getCountItem(playerObj, item, count)
 	for i = 1, count do 

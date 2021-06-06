@@ -30,6 +30,7 @@ function ISLoadBoatOntoTrailer:update()
 end
 
 function ISLoadBoatOntoTrailer:start()
+	setGameSpeed(1)
 	self:setActionAnim("Loot")
 	self.trailer:getEmitter():playSound("boat_on_trailer")
 end

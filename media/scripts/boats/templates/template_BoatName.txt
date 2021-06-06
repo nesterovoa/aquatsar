@@ -1,0 +1,50 @@
+module Base
+{
+	model BoatSailingYachtName_Sakharov
+    {
+        mesh = boats/SailingBoat|BodyName,
+		texture = Boats/SailingYacht_body_name,
+        shader = vehiclewheel,
+        invertX = FALSE,
+        scale = 0.0011,
+    }
+	
+	item SailingYachtName_Default_Item
+	{
+		Weight	=	0.1,
+        Type	=	Normal,
+        DisplayName	= BoatName Default,
+        Icon	=	CarKey,
+		ConditionMax = 100,
+        MechanicsItem = TRUE,
+	}
+	
+	item SailingYachtName_Sakharov_Item
+	{
+		Weight	=	0.1,
+        Type	=	Normal,
+        DisplayName	= BoatName Sakharov,
+        Icon	=	CarKey,
+		ConditionMax = 100,
+        MechanicsItem = TRUE,
+	}
+	
+	template vehicle BoatName
+	{
+		part SailingYacht
+		{
+			model Sakharov
+			{
+				file = BoatSailingYachtName_Sakharov,
+			}
+			specificItem = false,
+			itemType = Base.SailingYachtName_Default_Item;Base.SailingYachtName_Sakharov_Item,
+			category = nodisplay,
+			lua
+			{
+				create = Boats.Create.BoatName,
+				init = Boats.Init.BoatName,
+			}
+		}
+	}
+}

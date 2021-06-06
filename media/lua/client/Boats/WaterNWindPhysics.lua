@@ -161,17 +161,17 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 	local coefficientSailAngle = 0
 	local requiredSailAngle = 0
 	if windOnBoat >= 150 and windOnBoat <= 210 then
-		if AquaConfig.Boats[boatScriptName].sailsSide == "Left" and sailAngle < 0 then
+		if boat:getModData().sailCode == 1 and sailAngle < 0 then
 			windForceByDirection = windForceByDirection * (sailAngle / -90)
 			requiredSailAngle = "Any < 0"
-		elseif AquaConfig.Boats[boatScriptName].sailsSide == "Right" and sailAngle > 0 then
+		elseif boat:getModData().sailCode == 2 and sailAngle > 0 then
 			windForceByDirection = windForceByDirection * (sailAngle / 90)
 			requiredSailAngle = "Any > 0"
 		else 
 			windForceByDirection = 0
 			requiredSailAngle = "Another direction"
 		end
-	elseif windOnBoat < 150 and AquaConfig.Boats[boatScriptName].sailsSide == "Right" and sailAngle < 0 then
+	elseif windOnBoat < 150 and boat:getModData().sailCode == 2 and sailAngle < 0 then
 		requiredSailAngle = windOnBoat/2
 		local deltaAngle = math.abs(sailAngle) - requiredSailAngle
 		if deltaAngle > 10 then
@@ -195,7 +195,7 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 		else
 			windForceByDirection = 0
 		end
-	elseif windOnBoat > 210 and AquaConfig.Boats[boatScriptName].sailsSide == "Left" and sailAngle > 0 then
+	elseif windOnBoat > 210 and boat:getModData().sailCode == 1 and sailAngle > 0 then
 		requiredSailAngle = (360 - windOnBoat)/2
 		local deltaAngle = math.abs(sailAngle) - requiredSailAngle
 		if deltaAngle > 10 then
@@ -407,7 +407,6 @@ function AquaPhysics.waterFlowRotation(boat, force)
 				not isKeyDown(getCore():getKey("Backward")) then
 			-- boat:setPhysicsActive(true)
 			-- AquaPhysics.addImpulseGetWorldPos(boat, force)
-			
 			boat:setPhysicsActive(true)
 			
 			local forceVector = boat:getWorldPos(-1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
@@ -432,7 +431,6 @@ function AquaPhysics.waterFlowRotation(boat, force)
 				not isKeyDown(getCore():getKey("Forward")) and 
 				not isKeyDown(getCore():getKey("Backward")) then
 			boat:setPhysicsActive(true)
-
 			local forceVector = boat:getWorldPos(1, 0, 0, tempVec1):add(-boat:getX(), -boat:getY(), -boat:getZ())
 			local pushPoint = boat:getWorldPos(0, 0, lenHalf, tempVec2):add(-boat:getX(), -boat:getY(), -boat:getZ())
 			pushPoint:set(pushPoint:x(), 0, pushPoint:y())
