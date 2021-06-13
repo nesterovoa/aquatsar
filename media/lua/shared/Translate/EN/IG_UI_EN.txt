@@ -1,7 +1,7 @@
 IG_UI_EN = {
-	IGUI_VehicleNameBoatSailingYacht = "Yacht 'La Brigandine'",
-	IGUI_VehicleNameBoatSailingYachtWithSailsLeft = "Yacht 'La Brigandine'",
-	IGUI_VehicleNameBoatSailingYachtWithSailsRight = "Yacht 'La Brigandine'",
+	IGUI_VehicleNameBoatSailingYacht = "Sailing yacht",
+	IGUI_VehicleNameBoatSailingYachtWithSailsLeft = "Sailing yacht",
+	IGUI_VehicleNameBoatSailingYachtWithSailsRight = "Sailing yacht",
 	IGUI_VehicleNameBoatMotor = "Powerboat 'M/Y Orianna'",
 
 	IGUI_VehicleNameTrailerWithBoatSailingYacht = "Autotsar BT-13M",
@@ -18,7 +18,10 @@ IG_UI_EN = {
 	IGUI_VehiclePartLightCabin = "Cockpit light",
 	IGUI_VehiclePartManualStarter = "Recoil starter",
 	IGUI_VehiclePartSails = "Sails",
+	IGUI_VehiclePartBoatName = "Boat name",
 
+	IGUI_RenameBoat = "Rename boat",
+	
 	IGUI_ExitBoat = "Get off the boat",
 	IGUI_EnterBoat = "Board the boat",
 	IGUI_SailLeft = "Sail to the left",

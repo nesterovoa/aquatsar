@@ -307,3 +307,26 @@ function ISBoatPartMenu.onSmashWindow(playerObj, part, open)
 	ISTimedActionQueue.add(ISSmashVehicleWindow:new(playerObj, part))
 end
 
+function ISBoatPartMenu.onRenameBoat(playerObj, part, item)
+	if not ISVehicleMechanics.cheat then
+		-- ISBoatPartMenu.toPlayerInventory(playerObj, item)
+		local tbl = part:getTable("install")
+		ISBoatPartMenu.transferRequiredItems(playerObj, part, tbl)
+		-- local area = tbl.area or part:getArea()
+		-- ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(playerObj, part:getVehicle(), area))
+		ISBoatPartMenu.equipRequiredItems(playerObj, part, tbl)
+	end
+	
+	-- Open the engine cover if needed
+	-- TODO: pop hood inside vehicle?
+	local keyvalues = part:getTable("install")
+	local time = tonumber(keyvalues.time) or 50
+	-- if engineCover and not ISVehicleMechanics.cheat then
+		--ISTimedActionQueue.add(ISOpenVehicleDoor:new(playerObj, part:getVehicle(), engineCover))
+	-- ISTimedActionQueue.add(ISUninstallBoatPart:new(playerObj, part, time))
+	ISTimedActionQueue.add(ISRenameBoat:new(playerObj, part, item, time))
+		--ISTimedActionQueue.add(ISCloseVehicleDoor:new(playerObj, part:getVehicle(), engineCover))
+	--else
+		--ISTimedActionQueue.add(ISInstallVehiclePart:new(playerObj, part, item, time))
+	--end
+end

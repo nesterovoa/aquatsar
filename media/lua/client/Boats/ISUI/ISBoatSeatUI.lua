@@ -3,6 +3,7 @@
 --***********************************************************
 
 require "ISUI/ISPanelJoypad"
+require 'CommonTemplates/CommonTemplates.lua'
 require 'AquaConfig'
 
 ISBoatSeatUI = ISPanelJoypad:derive("ISBoatSeatUI")
@@ -128,6 +129,12 @@ function ISBoatSeatUI:render()
 
 	local scale = height / extents:z()
 	local sizeX,sizeY = 41,59
+	local playerInCabin = false
+	if self.characterSeat then
+		if self.vehicle:getPartById("InCabin" .. seatNameTable[self.characterSeat+1]) then
+			playerInCabin = true
+		end
+	end
 	for seat=1,self.vehicle:getMaxPassengers() do
 		local pngr = script:getPassenger(seat-1)
 		local posn = pngr:getPositionById("inside")
@@ -190,7 +197,18 @@ function ISBoatSeatUI:render()
 					outlineG = 0.0
 					outlineB = 0.0
 				end
-			elseif isCabin and not playerHaveAccesToCabin then
+			elseif isCabin and not playerHaveAccesToCabin and not playerInCabin then
+				texName = "icon_vehicle_uninstalled.png"
+				fillR = 0.5
+				fillG = 0.5
+				fillB = 0.5
+				if mouseOver then
+					outlineR = 1.0
+					outlineG = 0.0
+					outlineB = 0.0
+				end
+				canSwitch = false
+			elseif not isCabin and not playerHaveAccesToCabin and playerInCabin then
 				texName = "icon_vehicle_uninstalled.png"
 				fillR = 0.5
 				fillG = 0.5
@@ -345,20 +363,27 @@ function ISBoatSeatUI:useSeat(seat)
 
 	local playerHaveAccesToCabin = self.vehicle:getModData()["AquaCabin_isUnlocked"]
 	local isCabin = false
+
 	if self.vehicle:getPartById("InCabin" .. seatNameTable[seat+1]) then
 		isCabin = true
+	end
+
+	local playerInCabin = false
+	if self.characterSeat then
+		if self.vehicle:getPartById("InCabin" .. seatNameTable[self.characterSeat+1]) then
+			playerInCabin = true
+		end
 	end
 
 	self:closeSelf()
 	if self.character:getVehicle() then
 		if self.vehicle:canSwitchSeat(self.vehicle:getSeat(self.character), seat) then
-			if (not isCabin or playerHaveAccesToCabin) then
+			if playerHaveAccesToCabin or (playerInCabin and isCabin) or (not playerInCabin and not isCabin) then
 				if not ISVehicleMenu.moveItemsFromSeat(self.character, self.vehicle, seat, true, false) then return; end
 				ISVehicleMenu.onSwitchSeat(self.character, seat)						   
 			else
 				self.character:Say(getText("IGUI_PlayerText_CabinIsLocked"))	
 			end
-			
 		end
 	else
 		if (not isCabin or playerHaveAccesToCabin) then

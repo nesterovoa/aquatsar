@@ -669,8 +669,15 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	end
 
 	-- Cabin
-	if not inCabin and not boat:getModData()["AquaCabin_isUnlocked"] then		
-		if playerObj:getInventory():haveThisKeyId(boat:getKeyId()) then
+	-- if inCabin and not boat:getModData()["AquaCabin_isUnlocked"] then	
+		-- local func =  function(arg_boat, arg_pl) 
+			-- arg_boat:getModData()["AquaCabin_isUnlocked"] = true
+			-- arg_pl:getEmitter():playSound("UnlockDoor")
+		-- end
+		-- menu:addSlice(getText("ContextMenu_Open_Cabin"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
+	-- end
+	if not boat:getModData()["AquaCabin_isUnlocked"] then
+		if playerObj:getInventory():haveThisKeyId(boat:getKeyId()) or inCabin then
 			local func =  function(arg_boat, arg_pl) 
 				arg_boat:getModData()["AquaCabin_isUnlocked"] = true
 				arg_pl:getEmitter():playSound("UnlockDoor")
@@ -698,12 +705,14 @@ function ISBoatMenu.showRadialMenu(playerObj)
 				menu:addSlice(getText("ContextMenu_Open_Cabin_Force_Need_Crowbar"), getTexture("media/ui/boats/RadialMenu_Door.png"))
 			end
 		end
-	elseif not inCabin and boat:getModData()["AquaCabin_isUnlocked"] and not boat:getModData()["AquaCabin_isLockRuined"] then
-		local func = function(arg_boat, arg_pl) 
-			arg_boat:getModData()["AquaCabin_isUnlocked"] = false
-			arg_pl:getEmitter():playSound("LockDoor")
+	elseif boat:getModData()["AquaCabin_isUnlocked"] and not boat:getModData()["AquaCabin_isLockRuined"] then
+		if playerObj:getInventory():haveThisKeyId(boat:getKeyId()) or inCabin  then
+			local func = function(arg_boat, arg_pl) 
+				arg_boat:getModData()["AquaCabin_isUnlocked"] = false
+				arg_pl:getEmitter():playSound("LockDoor")
+			end
+			menu:addSlice(getText("ContextMenu_Close_Cabin"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
 		end
-		menu:addSlice(getText("ContextMenu_Close_Cabin"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
 	end
 
 	if inCabin and lightIsOn then

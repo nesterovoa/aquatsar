@@ -106,6 +106,26 @@ function Boats.Init.BoatName(boat, part)
 	end
 end
 
+
+function Boats.InstallComplete.BoatName(vehicle, part)
+	local item = part:getInventoryItem()
+	if not item then
+		-- part:setModelVisible("LB", true)
+		part:setModelVisible("Sakharov", false)
+	elseif item:getType() == "SailingYachtName_Sakharov_Item" then
+		-- part:setModelVisible("LB", false)
+		part:setModelVisible("Sakharov", true)
+	else
+		part:setModelVisible("Sakharov", false)
+	end
+
+
+	vehicle:doDamageOverlay()
+	-- vehicle:getPartById("BoatName"):setModelVisible("Sakharov", true)
+	-- vehicle:getPartById("BoatName"):setModelVisible("LB", false)
+	
+end
+
 --***********************************************************
 --**                                                       **
 --**                         Sails                         **
@@ -208,8 +228,6 @@ function Boats.UninstallComplete.Sails(vehicle, part, item)
 	-- vehicle:getPartById("BoatName"):setModelVisible("LB", true)
 	vehicle:doDamageOverlay()
 end
-
-
 
 --***********************************************************
 --**                                                       **

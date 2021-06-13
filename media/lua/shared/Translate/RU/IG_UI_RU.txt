@@ -1,8 +1,8 @@
 IGUI_RU = {
-	IGUI_VehicleNameBoatSailingYacht = "Яхта 'La Brigandine'",
-	IGUI_VehicleNameBoatSailingYachtWithSailsLeft = "Яхта 'La Brigandine'",
-	IGUI_VehicleNameBoatSailingYachtWithSailsRight = "Яхта 'La Brigandine'",
-	IGUI_VehicleNameBoatMotor = "Моторная лодка 'M/Y Orianna'",
+	IGUI_VehicleNameBoatSailingYacht = "Парусная яхта",
+	IGUI_VehicleNameBoatSailingYachtWithSailsLeft = "Парусная яхта",
+	IGUI_VehicleNameBoatSailingYachtWithSailsRight = "Парусная яхта",
+	IGUI_VehicleNameBoatMotor = "Моторная лодка",
 	
 	IGUI_VehicleNameTrailerWithBoatSailingYacht = "Autotsar BT-13M",
 	IGUI_VehicleNameTrailerWithBoatMotor = "Autotsar BT-13M",
@@ -18,6 +18,9 @@ IGUI_RU = {
 	IGUI_VehiclePartLightCabin = "Лампочка в кабине",	
 	IGUI_VehiclePartManualStarter = "Ручной стартер",
 	IGUI_VehiclePartSails = "Паруса",
+	IGUI_VehiclePartBoatName = "Имя лодки",
+
+	IGUI_RenameBoat = "Переименовать лодку",
 	
 	IGUI_ExitBoat = "Выйти из лодки",
 	IGUI_EnterBoat = "Зайти на лодку",

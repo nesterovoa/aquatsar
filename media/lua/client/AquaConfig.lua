@@ -79,6 +79,56 @@ boat.boatSeatUI_SeatOffsetY = {
 	["RearRight"] = 50,
 }
 
+AquaConfig.Boats["BoatSailingYachtWithSailsLeft"] = {}
+boat = AquaConfig.Boats["BoatSailingYachtWithSailsLeft"]
+boat.dashboard = "ISNewSalingBoatDashboard"
+boat.multiplierFuelConsumption = 4
+boat.limitReverseSpeed = 6
+boat.windInfluence = 1.1
+boat.boatSeatUI_Image = "BoatSailingYacht_seat"
+boat.boatSeatUI_Scale = 0.75
+boat.boatSeatUI_SeatOffsetX = {
+	["FrontLeft"] = 0,
+	["FrontRight"] = 0,
+	["MiddleLeft"] = 0,
+	["MiddleRight"] = 0,
+	["RearLeft"] = 0,
+	["RearRight"] = 0,
+}
+boat.boatSeatUI_SeatOffsetY = {
+	["FrontLeft"] = 120,
+	["FrontRight"] = 120,
+	["MiddleLeft"] = -50, 
+	["MiddleRight"] = -30,
+	["RearLeft"] = -40,
+	["RearRight"] = 50,
+}
+
+AquaConfig.Boats["BoatSailingYachtWithSailsRight"] = {}
+boat = AquaConfig.Boats["BoatSailingYachtWithSailsRight"]
+boat.dashboard = "ISNewSalingBoatDashboard"
+boat.multiplierFuelConsumption = 4
+boat.limitReverseSpeed = 6
+boat.windInfluence = 1.1
+boat.boatSeatUI_Image = "BoatSailingYacht_seat"
+boat.boatSeatUI_Scale = 0.75
+boat.boatSeatUI_SeatOffsetX = {
+	["FrontLeft"] = 0,
+	["FrontRight"] = 0,
+	["MiddleLeft"] = 0,
+	["MiddleRight"] = 0,
+	["RearLeft"] = 0,
+	["RearRight"] = 0,
+}
+boat.boatSeatUI_SeatOffsetY = {
+	["FrontLeft"] = 120,
+	["FrontRight"] = 120,
+	["MiddleLeft"] = -50, 
+	["MiddleRight"] = -30,
+	["RearLeft"] = -40,
+	["RearRight"] = 50,
+}
+
 --[[
 AquaConfig.Boats["BoatZeroPatient"] = {}
 local boat = AquaConfig.Boats["BoatZeroPatient"]
@@ -113,6 +163,8 @@ local trailer = AquaConfig.Trailers["TrailerForBoat"]
 trailer.isWithBoat = false
 trailer.trailerWithBoatTable = {}
 trailer.trailerWithBoatTable["BoatSailingYacht"] = "TrailerWithBoatSailingYacht"
+trailer.trailerWithBoatTable["BoatSailingYachtWithSailsLeft"] = "TrailerWithBoatSailingYacht"
+trailer.trailerWithBoatTable["BoatSailingYachtWithSailsRight"] = "TrailerWithBoatSailingYacht"
 trailer.trailerWithBoatTable["BoatMotor"] = "TrailerWithBoatMotor"
 
 AquaConfig.Trailers["TrailerWithBoatSailingYacht"] = {}

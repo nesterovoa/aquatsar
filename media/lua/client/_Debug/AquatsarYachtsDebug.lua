@@ -146,26 +146,30 @@ debugScenarios.iBrRusScenario_AquatsarYachts = {
 		--playerObj:getInventory():AddItem("Base.PetrolCan");
 		playerObj:getInventory():AddItem("Base.Wrench");
 		
-		playerObj:getInventory():AddItem("Base.Needle");
-		playerObj:getInventory():AddItem("Base.Thread");
-		playerObj:getInventory():AddItems("Base.RippedSheets", 10);
-		playerObj:getInventory():AddItems("Base.LeatherStrips", 10);
-		playerObj:getInventory():AddItems("Base.DenimStrips", 10);
+		-- playerObj:getInventory():AddItem("Base.Needle");
+		-- playerObj:getInventory():AddItem("Base.Thread");
+		-- playerObj:getInventory():AddItems("Base.RippedSheets", 10);
+		-- playerObj:getInventory():AddItems("Base.LeatherStrips", 10);
+		-- playerObj:getInventory():AddItems("Base.DenimStrips", 10);
 		
 		playerObj:getInventory():AddItem("Aquatsar.DivingMask");
 		playerObj:getInventory():AddItem("Aquatsar.Lifebuoy");
 		playerObj:getInventory():AddItem("Aquatsar.Compass");
 		playerObj:getInventory():AddItem("Aquatsar.Sails");
-
+	
+	
+		playerObj:getInventory():AddItem("Aquatsar.Paintbrush");
+		playerObj:getInventory():AddItem("Aquatsar.PaintWhite");
+		playerObj:getInventory():AddItem("Aquatsar.PaintBlack");
 
 		playerObj:getInventory():AddItem("Aquatsar.BoatMag");
 		playerObj:getInventory():AddItem("Aquatsar.SwimMag");
-		playerObj:getInventory():AddItem("Base.SoupBowl");
-		playerObj:getInventory():AddItem("Base.SoupBowl");
+		-- playerObj:getInventory():AddItem("Base.SoupBowl");
+		-- playerObj:getInventory():AddItem("Base.SoupBowl");
 		playerObj:getInventory():AddItem("Base.Screwdriver");
-		playerObj:getInventory():AddItem("Base.Crowbar");
+		-- playerObj:getInventory():AddItem("Base.Crowbar");
 		--playerObj:getInventory():AddItem("Radio.HamRadio2");
-		playerObj:getInventory():AddItem("Base.AlarmClock2");
+		-- playerObj:getInventory():AddItem("Base.AlarmClock2");
 		for i=1, 10 do
 			playerObj:LevelPerk(Perks.Mechanics);
 		end

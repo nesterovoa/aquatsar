@@ -48,8 +48,11 @@ function ISLoadBoatOntoTrailer:perform()
 	local newTrailerName = AquaConfig.Trailers[self.trailer:getScript():getName()].trailerWithBoatTable[self.boat:getScript():getName()]
 	ISVehicleMenuForTrailerWithBoat.replaceTrailer(self.trailer, newTrailerName)
 	ISVehicleMenuForTrailerWithBoat.replaceTrailerBoat(self.boat, self.trailer)
-	self.boat:removeFromWorld()
-
+	if isClient() then
+		sendClientCommand(self.character, "vehicle", "remove", { vehicle = self.boat:getId() })
+	else
+		self.boat:permanentlyRemove()
+	end
 	local playerNum = self.character:getPlayerNum()
 	UIManager.FadeIn(playerNum, 1)
 	UIManager.setFadeBeforeUI(playerNum, false)

@@ -1,12 +1,5 @@
 module Base
 {
-	model TrailerForBoatBase
-    {
-        mesh = trailers/TrailerForBoat,
-        shader = vehicle_multiuv,
-        invertX = FALSE,
-        scale = 0.0050,
-    }
 	vehicle TrailerForBoat
 	{
 		mechanicType = 1,
@@ -103,22 +96,22 @@ module Base
 
 		area TireFrontLeft
 		{
-			xywh = 0.6722 0.1611 0.4778 0.4778,
+			xywh = 0.7667 -0.9111 0.4778 0.4778,
 		}
 
 		area TireFrontRight
 		{
-			xywh = -0.6722 0.1278 0.4778 0.4778,
+			xywh = -0.7611 -0.9111 0.4778 0.4778,
 		}
 
 		area TireRearLeft
 		{
-			xywh = 0.6722 0.1611 0.4778 0.4778,
+			xywh = 0.7611 -1.2167 0.4778 0.4778,
 		}
 
 		area TireRearRight
 		{
-			xywh = -0.6722 0.1278 0.4778 0.4778,
+			xywh = -0.7611 -1.2167 0.4778 0.4778,
 		}
 
 		template = Tire/part/TireFrontLeft,

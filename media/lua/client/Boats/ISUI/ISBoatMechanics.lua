@@ -337,6 +337,56 @@ function ISBoatMechanics:doPartContextMenu(part, x,y)
 			option.notAvailable = true;
 		end
 	end
+	-- Переименование лодок
+	if part:getId() == "BoatName" then
+		if part:getItemType() and not part:getItemType():isEmpty() then
+			if part:getTable("install") then
+				local haveAllItems = true
+				local typeToItem = VehicleUtils.getItems(self.playerNum);
+				for i, j in pairs(part:getTable("install")["items"]) do 
+					if typeToItem[j["type"]] then
+						haveAllItems = haveAllItems and true
+					else 
+						haveAllItems = haveAllItems and false
+					end
+				end
+				option = self.context:addOption(getText("IGUI_RenameBoat"), playerObj, nil)
+				if not ISVehicleMechanics.cheat and not haveAllItems then
+					self:doMenuTooltip(part, option, "install", nil);
+					option.notAvailable = true;
+				else
+					local subMenu = ISContextMenu:getNew(self.context);
+					self.context:addSubMenu(option, subMenu);
+					local typeToItem = VehicleUtils.getItems(self.character:getPlayerNum())
+					-- display all possible item that can be installed
+					for i=0,part:getItemType():size() - 1 do
+						local name = part:getItemType():get(i);
+						-- print(name)
+						local item = InventoryItemFactory.CreateItem(name);
+						if item then name = item:getName(); end
+						local itemOpt = subMenu:addOption(item:getDisplayName(), playerObj, ISBoatPartMenu.onRenameBoat, part, item);
+					-- self:doMenuTooltip(part, itemOpt, "install", part:getItemType():get(i));
+					-- self:doMenuTooltip(part, itemOpt, "install", part:getItemType():get(i));
+					-- if not typeToItem[part:getItemType():get(i)] then
+						-- itemOpt.notAvailable = true;
+						
+						
+						
+					-- else
+						-- display every item the player posess
+						-- local subMenuItem = ISContextMenu:getNew(subMenu);
+						-- self.context:addSubMenu(itemOpt, subMenuItem);
+						
+						-- local itemOpt = subMenuItem:addOption(item:getDisplayName() .. " (" .. item:getCondition() .. "%)", playerObj, ISBoatPartMenu.onInstallPart, part, item);
+						-- self:doMenuTooltip(part, itemOpt, "install", part:getItemType():get(i));
+						
+					-- end
+					end
+				end
+			end
+		end
+	end
+	
 --[[
 	if ((part:getId() == "HeadlightLeft") or (part:getId() == "HeadlightRight")) and part:getInventoryItem() then
 		if part:getLight():canFocusingUp() and self.character:getPerkLevel(Perks.Mechanics) >= part:getVehicle():getScript():getHeadlightConfigLevel() then

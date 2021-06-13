@@ -26,7 +26,7 @@ ContextMenu_RU = {
 	
 	ContextMenu_Wooden_Pantone = "Деревянный понтон",
 	
-	ContextMenu_Open_Cabin = "Открыть каюту<br>(с помощью ключа)",
+	ContextMenu_Open_Cabin = "Открыть каюту",
 	ContextMenu_Open_Cabin_Force = "Открыть каюту<br>(с помощью монтировки)",
 	ContextMenu_Open_Cabin_Force_Need_Crowbar = "Открыть каюту<br>(нужна монтировка или ключ)",
 	ContextMenu_Close_Cabin = "Закрыть каюту",

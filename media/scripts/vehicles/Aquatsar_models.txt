@@ -1,0 +1,41 @@
+module Base
+{
+	model TrailerForBoatBase
+    {
+        mesh = trailers/TrailerForBoat,
+        shader = vehicle_multiuv,
+        invertX = FALSE,
+        scale = 0.0050,
+    }
+	
+	model BoatSailingYachtBody
+    {
+        mesh = boats/SailingBoat|Body,
+        shader = vehicle_norandom_multiuv,
+        invertX = FALSE,
+        scale = 0.0011,
+    }
+	
+	model TrailerWithSailingYachtBase
+    {
+        mesh = trailers/TrailerWithBoatSailingYacht,
+        shader = vehicle_norandom_multiuv,
+        invertX = FALSE,
+        scale = 0.0050,
+    }
+	
+	model BoatMotorBody
+    {
+        mesh = boats/BoatMotor,
+        shader = vehicle_norandom_multiuv,
+        invertX = FALSE,
+        scale = 0.0015,
+    }
+	model TrailerBoatMotorBody
+    {
+        mesh = trailers/TrailerWithBoatMotor,
+        shader = vehicle_norandom_multiuv,
+        invertX = FALSE,
+        scale = 0.0050,
+    }
+}

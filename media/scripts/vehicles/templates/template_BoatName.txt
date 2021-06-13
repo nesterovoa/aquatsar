@@ -29,9 +29,9 @@ module Base
         MechanicsItem = TRUE,
 	}
 	
-	template vehicle BoatName
+	template vehicle SailingYacht
 	{
-		part SailingYacht
+		part BoatName
 		{
 			model Sakharov
 			{
@@ -39,7 +39,39 @@ module Base
 			}
 			specificItem = false,
 			itemType = Base.SailingYachtName_Default_Item;Base.SailingYachtName_Sakharov_Item,
-			category = nodisplay,
+			category = BoatBody,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Paintbrush,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+					2
+					{
+						type = Base.PaintWhite,
+						count = 1,
+						keep = true,
+					}
+					3
+					{
+						type = Base.PaintBlack,
+						count = 1,
+						keep = true,
+					}
+				}
+				time = 500,
+				professions = ,
+				skills = ,
+				traits = ,
+				recipes = ,
+				test = Vehicles.InstallTest.Default,
+				complete = Boats.InstallComplete.BoatName,
+			}
 			lua
 			{
 				create = Boats.Create.BoatName,
