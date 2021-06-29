@@ -37,14 +37,6 @@ module Base
         invertX = FALSE,
         scale = 0.0015,
     }
-	model BoatMotorTrailerName_NP
-    {
-        mesh = trailers/TrailerWithBoatMotor|BodyName,
-		texture = Boats/Name_BoatMotor_NP,
-        shader = vehiclewheel,
-        invertX = FALSE,
-        scale = 0.0050,
-    }
 	
 	item BoatMotorName_NP_Item
 	{
@@ -73,6 +65,11 @@ module Base
 			model Sakharov
 			{
 				file = BoatSailingYachtName_Sakharov,
+			}
+			model Sakharov_Trailer
+			{
+				file = BoatSailingYachtName_Sakharov,
+				scale = 4.54,
 			}
 			specificItem = false,
 			itemType = Base.SailingYachtName_Default_Item;Base.SailingYachtName_Sakharov_Item,
@@ -123,6 +120,11 @@ module Base
 			model NP
 			{
 				file = BoatMotorName_NP,
+			}
+			model NP_Trailer
+			{
+				file = BoatMotorName_NP,
+				scale = 4,
 			}
 			specificItem = false,
 			itemType = Base.BoatMotorName_Default_Item;Base.BoatMotorName_NP_Item,

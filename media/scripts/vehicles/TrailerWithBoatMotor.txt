@@ -11,7 +11,7 @@ module Base
 		{
 			file = TrailerBoatMotorBody,
 			scale = 1.8000,
-			offset = 0.0000 0.3667 0.8111,
+			offset = 0.0000 0.4389 -0.7333,
 		}
 
 		skin
@@ -22,7 +22,7 @@ module Base
 		extents = 1.4222 0.6333 4.2222,
 		mass = 400,
 		physicsChassisShape = 1.4222 0.6333 4.2222,
-		centerOfMassOffset = 0.0000 0.6556 -0.8556,
+		centerOfMassOffset = 0.0000 0.6556 -0.7056,
 		engineForce = 4000,
 		engineQuality = 80,
 		engineLoudness = 110,
@@ -39,7 +39,6 @@ module Base
 		wheelFriction = 1.5f,
 		frontEndHealth = 150,
 		rearEndHealth = 150,
-		
 		template = Seat/part/SeatFrontLeft,
 		template = Seat/part/SeatFrontRight,
 		template = Seat/part/SeatRearLeft,
@@ -68,55 +67,50 @@ module Base
 		template = BoatStandartParts/part/Windshield,
 		template = BoatStandartParts/part/Radio,
 		template = BatteryHeater/part/BatteryHeater,
-		
 		template = ApiBoatAirbag,
 		template = Propeller,
-
 		template = LightApi,
 		template = Light/part/LightFloodlightLeft,
 		template = Light/part/LightCabin,
-		
 		template = Drawers/part/DrawerFrontLeft,
 		template = Counters/part/CounterFrontRight,
-		
 		template = InCabin/part/InCabinMiddleLeft,
 		template = InCabin/part/InCabinMiddleRight,
 		template = InCabin/part/InCabinFrontLeft,
 		template = InCabin/part/InCabinFrontRight,
-		
 		template = Cupboards/part/CupboardMiddleLeft,
 		template = Counters/part/CounterMiddleLeft,
 		template = Medicines/part/MedicineMiddleRight,
-		
 		template = SeatBoxWooden/part/SeatBoxWoodenRearLeft,
 		template = SeatBoxWooden/part/SeatBoxWoodenRearRight,
 		template = Mattresses/part/MattressMiddleLeft,
 		template = Mattresses/part/MattressMiddleRight,
+		template = BoatMotorName/part/BoatName,
 
 		physics box
 		{
-			offset = -0.0944 0.3111 1.3722,
+			offset = -0.0944 0.2611 1.5111,
 			extents = 0.0556 0.0556 0.6833,
 			rotate = 0.0000 17.0000 0.0000,
 		}
 
 		physics box
 		{
-			offset = 0.0833 0.3111 1.3722,
+			offset = 0.0833 0.2556 1.5111,
 			extents = 0.0556 0.0556 0.6833,
 			rotate = 0.0000 -18.0000 0.0000,
 		}
 
 		physics sphere
 		{
-			offset = -0.0056 0.3222 1.6833,
+			offset = -0.0056 0.4667 1.8333,
 			radius = 0.0421,
 		}
 
 		wheel FrontLeft
 		{
 			front = true,
-			offset = 0.6000 -0.1833 -1.7111,
+			offset = 0.6000 -0.3389 -0.1556,
 			radius = 0.20f,
 			width = 0.2f,
 		}
@@ -124,7 +118,7 @@ module Base
 		wheel FrontRight
 		{
 			front = true,
-			offset = -0.6000 -0.1833 -1.7111,
+			offset = -0.6000 -0.3389 -0.1556,
 			radius = 0.20f,
 			width = 0.2f,
 		}
@@ -132,7 +126,7 @@ module Base
 		wheel RearLeft
 		{
 			front = true,
-			offset = 0.6000 -0.1833 -2.0611,
+			offset = 0.6000 -0.3389 -0.5056,
 			radius = 0.20f,
 			width = 0.2f,
 		}
@@ -140,7 +134,7 @@ module Base
 		wheel RearRight
 		{
 			front = true,
-			offset = -0.6000 -0.1833 -2.0611,
+			offset = -0.6000 -0.3389 -0.5056,
 			radius = 0.20f,
 			width = 0.2f,
 		}
@@ -239,12 +233,12 @@ module Base
 				complete = Boats.UninstallComplete.Propeller,
 			}
 		}
-		
+
 		part BatteryHeater
 		{
 			category = nodisplay,
 		}
-		
+
 		part Battery
 		{
 			category = nodisplay,
@@ -257,7 +251,7 @@ module Base
 
 		attachment trailer
 		{
-			offset = 0.0000 -0.1556 1.0222,
+			offset = 0.0000 -0.1556 2.6889,
 			rotate = 0.0000 0.0000 0.0000,
 		}
 	}

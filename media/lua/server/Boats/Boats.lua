@@ -89,9 +89,14 @@ end
 function Boats.Create.SailingYachtName(boat, part)
 	local item = VehicleUtils.createPartInventoryItem(part)
 	if item:getType() == "SailingYachtName_Sakharov_Item" then
-		part:setModelVisible("Sakharov", true)
+		if string.match(string.lower(boat:getScriptName()), "trailer") then
+			part:setModelVisible("Sakharov_Trailer", true)
+		else
+			part:setModelVisible("Sakharov", true)
+		end
 	else
 		part:setModelVisible("Sakharov",false)
+		part:setModelVisible("Sakharov_Trailer", false)
 	end
 end
 
@@ -99,9 +104,14 @@ function Boats.Init.SailingYachtName(boat, part)
 	local item = part:getInventoryItem()
 	if item then
 		if item:getType() == "SailingYachtName_Sakharov_Item" then
-			part:setModelVisible("Sakharov", true)
+			if string.match(string.lower(boat:getScriptName()), "trailer") then
+				part:setModelVisible("Sakharov_Trailer", true)
+			else
+				part:setModelVisible("Sakharov", true)
+			end
 		else
 			part:setModelVisible("Sakharov",false)
+			part:setModelVisible("Sakharov_Trailer", false)
 		end
 	end
 end
@@ -110,10 +120,16 @@ function Boats.InstallComplete.SailingYachtName(boat, part)
 	local item = part:getInventoryItem()
 	if not item then
 		part:setModelVisible("Sakharov", false)
+		part:setModelVisible("Sakharov_Trailer", false)
 	elseif item:getType() == "SailingYachtName_Sakharov_Item" then
-		part:setModelVisible("Sakharov", true)
+		if string.match(string.lower(boat:getScriptName()), "trailer") then
+			part:setModelVisible("Sakharov_Trailer", true)
+		else
+			part:setModelVisible("Sakharov", true)
+		end
 	else
 		part:setModelVisible("Sakharov", false)
+		part:setModelVisible("Sakharov_Trailer", false)
 	end
 	boat:doDamageOverlay()
 end
@@ -126,11 +142,15 @@ end
 
 function Boats.Create.MotorBoatName(boat, part)
 	local item = VehicleUtils.createPartInventoryItem(part)
-	if item:getType() == "BoatMotorName_MYA_Item" then
-		part:setModelVisible("NP", true)
-		print("Boats.Create.MotorBoatName")
+	if item:getType() == "BoatMotorName_NP_Item" then
+		if string.match(string.lower(boat:getScriptName()), "trailer") then
+			part:setModelVisible("NP_Trailer", true)
+		else
+			part:setModelVisible("NP", true)
+		end
 	else
 		part:setModelVisible("NP",false)
+		part:setModelVisible("NP_Trailer", false)
 	end
 end
 
@@ -138,10 +158,14 @@ function Boats.Init.MotorBoatName(boat, part)
 	local item = part:getInventoryItem()
 	if item then
 		if item:getType() == "BoatMotorName_NP_Item" then
-			part:setModelVisible("NP", true)
-			print("Boats.Init.MotorBoatName")
+			if string.match(string.lower(boat:getScriptName()), "trailer") then
+				part:setModelVisible("NP_Trailer", true)
+			else
+				part:setModelVisible("NP", true)
+			end
 		else
 			part:setModelVisible("NP",false)
+			part:setModelVisible("NP_Trailer", false)
 		end
 	end
 end
@@ -150,10 +174,16 @@ function Boats.InstallComplete.MotorBoatName(boat, part)
 	local item = part:getInventoryItem()
 	if not item then
 		part:setModelVisible("NP", false)
+		part:setModelVisible("NP_Trailer", false)
 	elseif item:getType() == "BoatMotorName_NP_Item" then
-		part:setModelVisible("NP", true)
+		if string.match(string.lower(boat:getScriptName()), "trailer") then
+			part:setModelVisible("NP_Trailer", true)
+		else
+			part:setModelVisible("NP", true)
+		end
 	else
 		part:setModelVisible("NP", false)
+		part:setModelVisible("NP_Trailer", false)
 	end
 	boat:doDamageOverlay()
 end
@@ -174,7 +204,7 @@ function Boats.Create.Sails(boat, part)
 end
 
 function Boats.Init.Sails(boat, part)
-print("Boats.Init.Sails: ", boat:getX(), " ", boat:getY())
+-- print("Boats.Init.Sails: ", boat:getX(), " ", boat:getY())
 	local item = part:getInventoryItem()
 	if not item then
 		part:setModelVisible("Boom", true)

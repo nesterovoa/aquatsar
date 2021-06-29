@@ -21,9 +21,9 @@ function ISLaunchBoatOnWater:update()
 	local timeLeftNow =  (1 - self:getJobDelta()) * self.maxTime
 
 	if self.isFadeOut == false and timeLeftNow < 115 * speedCoeff[uispeed] then
-		UIManager.FadeOut(self.character:getPlayerNum(), 1)
+		-- UIManager.FadeOut(self.character:getPlayerNum(), 1)
 		self.isFadeOut = true
-		saveGame()
+		-- saveGame()
 	end
 
     self.character:setMetabolicTarget(Metabolics.HeavyWork);
@@ -37,7 +37,7 @@ end
 
 function ISLaunchBoatOnWater:stop()
 	if self.isFadeOut == true then
-		UIManager.FadeIn(self.character:getPlayerNum(), 1)
+		-- UIManager.FadeIn(self.character:getPlayerNum(), 1)
 		UIManager.setFadeBeforeUI(self.character:getPlayerNum(), false)
 	end
 	self.trailer:getEmitter():stopSoundByName("boat_launching")
@@ -52,6 +52,10 @@ function ISLaunchBoatOnWater:perform()
 	boat:setAngles(self.trailer:getAngleX(), self.trailer:getAngleY(), self.trailer:getAngleZ())
 	ISVehicleMenuForTrailerWithBoat.replaceTrailerBoat(self.trailer, boat)
 	ISVehicleMenuForTrailerWithBoat.replaceTrailer(self.trailer, newTrailerName)
+	local boatName = boat:getPartById("BoatName")
+	if boatName then
+		VehicleUtils.callLua(boatName:getLuaFunction("init"), boat, boatName, self.character)
+	end
 	-- Delete key
 	local xx = boat:getX()
 	local yy = boat:getY()

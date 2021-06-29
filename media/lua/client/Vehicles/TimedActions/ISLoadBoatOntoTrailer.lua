@@ -21,9 +21,9 @@ function ISLoadBoatOntoTrailer:update()
 	local timeLeftNow =  (1 - self:getJobDelta()) * self.maxTime
 
 	if self.isFadeOut == false and timeLeftNow < 250 * speedCoeff[uispeed] then
-		UIManager.FadeOut(self.character:getPlayerNum(), 1)
+		-- UIManager.FadeOut(self.character:getPlayerNum(), 1)
 		self.isFadeOut = true
-		saveGame()
+		-- saveGame()
 	end
 
     self.character:setMetabolicTarget(Metabolics.HeavyWork);
@@ -48,6 +48,10 @@ function ISLoadBoatOntoTrailer:perform()
 	local newTrailerName = AquaConfig.Trailers[self.trailer:getScript():getName()].trailerWithBoatTable[self.boat:getScript():getName()]
 	ISVehicleMenuForTrailerWithBoat.replaceTrailer(self.trailer, newTrailerName)
 	ISVehicleMenuForTrailerWithBoat.replaceTrailerBoat(self.boat, self.trailer)
+	local boatName = self.boat:getPartById("BoatName")
+	if boatName then
+		VehicleUtils.callLua(boatName:getLuaFunction("init"), self.boat, boatName, self.character)
+	end
 	if isClient() then
 		sendClientCommand(self.character, "vehicle", "remove", { vehicle = self.boat:getId() })
 	else
