@@ -2,7 +2,7 @@ IG_UI_EN = {
 	IGUI_VehicleNameBoatSailingYacht = "Sailing yacht",
 	IGUI_VehicleNameBoatSailingYachtWithSailsLeft = "Sailing yacht",
 	IGUI_VehicleNameBoatSailingYachtWithSailsRight = "Sailing yacht",
-	IGUI_VehicleNameBoatMotor = "Powerboat 'M/Y Orianna'",
+	IGUI_VehicleNameBoatMotor = "Powerboat",
 
 	IGUI_VehicleNameTrailerWithBoatSailingYacht = "Autotsar BT-13M",
 	IGUI_VehicleNameTrailerWithBoatMotor = "Autotsar BT-13M",

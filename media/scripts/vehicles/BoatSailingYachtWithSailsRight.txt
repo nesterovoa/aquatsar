@@ -249,7 +249,7 @@ module Base
 			xywh = -0.1838 -0.3700 0.2025 0.3875,
 		}
 		
-		template = SailingYacht/part/BoatName,
+		template = SailingYachtName/part/BoatName,
 		
 		
 		attachment checkFront

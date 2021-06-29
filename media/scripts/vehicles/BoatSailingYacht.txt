@@ -149,6 +149,8 @@ module Base
 		
 		template = PassengerSeat6,
 		template = PassengerCompartment,
+		
+		template = SailingYachtName/part/BoatName,
 
 		passenger FrontLeft
 		{
@@ -248,9 +250,6 @@ module Base
 		{
 			xywh = -0.1838 -0.3700 0.2025 0.3875,
 		}
-		
-		template = SailingYacht/part/BoatName,
-		
 		
 		attachment checkFront
 		{

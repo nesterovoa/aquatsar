@@ -235,7 +235,9 @@ module Base
 		template = SeatBoxWooden/part/SeatBoxWoodenRearRight,
 		template = Mattresses/part/MattressMiddleLeft,
 		template = Mattresses/part/MattressMiddleRight,
-
+		
+		template = BoatMotorName/part/BoatName,
+		
 		attachment checkFront
 		{
 			offset = 0.0000 0.0000 0.8525,

@@ -101,7 +101,9 @@ module Base
 		template = SeatBoxWooden/part/SeatBoxWoodenFrontRight,
 		template = Mattresses/part/MattressMiddleLeft,
 		template = Mattresses/part/MattressMiddleRight,
-
+		
+		template = SailingYachtName/part/BoatName,
+		
 		physics box
 		{
 			offset = -0.0944 0.3111 1.3833,

@@ -12,4 +12,6 @@ ItemName_EN = {
 	ItemName_Aquatsar.TireTube = "Tire Tube",
 	ItemName_Base.SailingYachtName_Default_Item = "La Brigandine",
 	ItemName_Base.SailingYachtName_Sakharov_Item = "Akademik Sakharov",
+	ItemName_Base.BoatMotorName_Default_Item = "M/Y Orianna",
+	ItemName_Base.BoatMotorName_NP_Item = "Nautilus P.",
 }

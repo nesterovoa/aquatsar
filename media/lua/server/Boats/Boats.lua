@@ -82,11 +82,11 @@ end
 
 --***********************************************************
 --**                                                       **
---**                       Boat Name                       **
+--**                 Sailing Yacht Name                    **
 --**                                                       **
 --***********************************************************
 
-function Boats.Create.BoatName(boat, part)
+function Boats.Create.SailingYachtName(boat, part)
 	local item = VehicleUtils.createPartInventoryItem(part)
 	if item:getType() == "SailingYachtName_Sakharov_Item" then
 		part:setModelVisible("Sakharov", true)
@@ -95,7 +95,7 @@ function Boats.Create.BoatName(boat, part)
 	end
 end
 
-function Boats.Init.BoatName(boat, part)
+function Boats.Init.SailingYachtName(boat, part)
 	local item = part:getInventoryItem()
 	if item then
 		if item:getType() == "SailingYachtName_Sakharov_Item" then
@@ -106,24 +106,56 @@ function Boats.Init.BoatName(boat, part)
 	end
 end
 
-
-function Boats.InstallComplete.BoatName(vehicle, part)
+function Boats.InstallComplete.SailingYachtName(boat, part)
 	local item = part:getInventoryItem()
 	if not item then
-		-- part:setModelVisible("LB", true)
 		part:setModelVisible("Sakharov", false)
 	elseif item:getType() == "SailingYachtName_Sakharov_Item" then
-		-- part:setModelVisible("LB", false)
 		part:setModelVisible("Sakharov", true)
 	else
 		part:setModelVisible("Sakharov", false)
 	end
+	boat:doDamageOverlay()
+end
 
+--***********************************************************
+--**                                                       **
+--**                 Motor Boat Name                       **
+--**                                                       **
+--***********************************************************
 
-	vehicle:doDamageOverlay()
-	-- vehicle:getPartById("BoatName"):setModelVisible("Sakharov", true)
-	-- vehicle:getPartById("BoatName"):setModelVisible("LB", false)
-	
+function Boats.Create.MotorBoatName(boat, part)
+	local item = VehicleUtils.createPartInventoryItem(part)
+	if item:getType() == "BoatMotorName_MYA_Item" then
+		part:setModelVisible("NP", true)
+		print("Boats.Create.MotorBoatName")
+	else
+		part:setModelVisible("NP",false)
+	end
+end
+
+function Boats.Init.MotorBoatName(boat, part)
+	local item = part:getInventoryItem()
+	if item then
+		if item:getType() == "BoatMotorName_NP_Item" then
+			part:setModelVisible("NP", true)
+			print("Boats.Init.MotorBoatName")
+		else
+			part:setModelVisible("NP",false)
+		end
+	end
+end
+
+function Boats.InstallComplete.MotorBoatName(boat, part)
+	local item = part:getInventoryItem()
+	if not item then
+		part:setModelVisible("NP", false)
+	elseif item:getType() == "BoatMotorName_NP_Item" then
+		part:setModelVisible("NP", true)
+	else
+		part:setModelVisible("NP", false)
+	end
+	boat:doDamageOverlay()
 end
 
 --***********************************************************
