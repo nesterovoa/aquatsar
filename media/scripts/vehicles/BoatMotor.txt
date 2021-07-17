@@ -14,6 +14,7 @@ module Base
 			texture = Boats/BoatMotor_base,
 		}
 
+		textureShadow = Boats/Shadows/BoatMotor_shadow,
 		textureLights = Boats/BoatMotor_light,
 		textureMask = Boats/BoatMotor_mask,
 		mechanicType = 3,
@@ -27,10 +28,10 @@ module Base
 			horn = BoatHorn,
 		}
 
-		extents = 0.3571 0.3200 1.1086,
+		extents = 0.3171 0.3200 0.9971,
 		mass = 100,
-		physicsChassisShape = 0.2886 0.3200 1.0543,
-		centerOfMassOffset = 0.0000 0.2886 -0.0257,
+		physicsChassisShape = 0.2886 0.3200 1.0114,
+		centerOfMassOffset = 0.0000 0.2886 -0.0086,
 
 		wheel FrontLeft
 		{
@@ -85,7 +86,6 @@ module Base
 		frontEndHealth = 150,
 		rearEndHealth = 150,
 		seats = 6,
-		
 		template = PassengerSeat6,
 		template = PassengerCompartment,
 
@@ -182,7 +182,7 @@ module Base
 		{
 			xywh = -0.2143 -0.3700 0.2029 0.3886,
 		}
-		
+
 		template = Seat/part/SeatFrontLeft,
 		template = Seat/part/SeatFrontRight,
 		template = Seat/part/SeatRearLeft,
@@ -211,33 +211,26 @@ module Base
 		template = BoatStandartParts/part/Windshield,
 		template = BoatStandartParts/part/Radio,
 		template = BatteryHeater/part/BatteryHeater,
-		
 		template = ApiBoatAirbag,
 		template = Propeller,
-
 		template = LightApi,
 		template = Light/part/LightFloodlightLeft,
 		template = Light/part/LightCabin,
-		
 		template = Drawers/part/DrawerFrontLeft,
 		template = Counters/part/CounterFrontRight,
-		
 		template = InCabin/part/InCabinMiddleLeft,
 		template = InCabin/part/InCabinMiddleRight,
 		template = InCabin/part/InCabinFrontLeft,
 		template = InCabin/part/InCabinFrontRight,
-		
 		template = Cupboards/part/CupboardMiddleLeft,
 		template = Counters/part/CounterMiddleLeft,
 		template = Medicines/part/MedicineMiddleRight,
-		
 		template = SeatBoxWooden/part/SeatBoxWoodenRearLeft,
 		template = SeatBoxWooden/part/SeatBoxWoodenRearRight,
 		template = Mattresses/part/MattressMiddleLeft,
 		template = Mattresses/part/MattressMiddleRight,
-		
 		template = BoatMotorName/part/BoatName,
-		
+
 		attachment checkFront
 		{
 			offset = 0.0000 0.0000 0.8525,

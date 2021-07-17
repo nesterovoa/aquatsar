@@ -91,7 +91,9 @@ function Boats.Create.SailingYachtName(boat, part)
 	if item:getType() == "SailingYachtName_Sakharov_Item" then
 		if string.match(string.lower(boat:getScriptName()), "trailer") then
 			part:setModelVisible("Sakharov_Trailer", true)
+			part:setModelVisible("Sakharov", false)
 		else
+			part:setModelVisible("Sakharov_Trailer", false)
 			part:setModelVisible("Sakharov", true)
 		end
 	else
@@ -106,7 +108,9 @@ function Boats.Init.SailingYachtName(boat, part)
 		if item:getType() == "SailingYachtName_Sakharov_Item" then
 			if string.match(string.lower(boat:getScriptName()), "trailer") then
 				part:setModelVisible("Sakharov_Trailer", true)
+				part:setModelVisible("Sakharov", false)
 			else
+				part:setModelVisible("Sakharov_Trailer", false)
 				part:setModelVisible("Sakharov", true)
 			end
 		else
@@ -124,7 +128,9 @@ function Boats.InstallComplete.SailingYachtName(boat, part)
 	elseif item:getType() == "SailingYachtName_Sakharov_Item" then
 		if string.match(string.lower(boat:getScriptName()), "trailer") then
 			part:setModelVisible("Sakharov_Trailer", true)
+			part:setModelVisible("Sakharov", false)
 		else
+			part:setModelVisible("Sakharov_Trailer", false)
 			part:setModelVisible("Sakharov", true)
 		end
 	else
@@ -145,7 +151,9 @@ function Boats.Create.MotorBoatName(boat, part)
 	if item:getType() == "BoatMotorName_NP_Item" then
 		if string.match(string.lower(boat:getScriptName()), "trailer") then
 			part:setModelVisible("NP_Trailer", true)
+			part:setModelVisible("NP", false)
 		else
+			part:setModelVisible("NP_Trailer", false)
 			part:setModelVisible("NP", true)
 		end
 	else
@@ -160,7 +168,9 @@ function Boats.Init.MotorBoatName(boat, part)
 		if item:getType() == "BoatMotorName_NP_Item" then
 			if string.match(string.lower(boat:getScriptName()), "trailer") then
 				part:setModelVisible("NP_Trailer", true)
+				part:setModelVisible("NP", false)
 			else
+				part:setModelVisible("NP_Trailer", false)
 				part:setModelVisible("NP", true)
 			end
 		else
@@ -178,7 +188,9 @@ function Boats.InstallComplete.MotorBoatName(boat, part)
 	elseif item:getType() == "BoatMotorName_NP_Item" then
 		if string.match(string.lower(boat:getScriptName()), "trailer") then
 			part:setModelVisible("NP_Trailer", true)
+			part:setModelVisible("NP", false)
 		else
+			part:setModelVisible("NP_Trailer", false)
 			part:setModelVisible("NP", true)
 		end
 	else
