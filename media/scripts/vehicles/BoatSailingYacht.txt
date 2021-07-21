@@ -13,11 +13,13 @@ module Base
 		{
 			texture = Boats/SailingYacht_body,
 		}
+
 		skin
 		{
 			texture = Boats/SailingYacht_body2,
 		}
 
+		textureShadow = Shadows/SailingYacht_shadow,
 		textureLights = Boats/SailingYacht_light,
 		textureMask = Boats/SailingYacht_mask,
 		mechanicType = 3,
@@ -67,6 +69,8 @@ module Base
 		mass = 150,
 		physicsChassisShape = 0.4000 0.3200 1.2875,
 		centerOfMassOffset = 0.0000 0.3225 -0.0625,
+		shadowExtents = 0.4162 1.3188,
+		shadowOffset = 0.0000 -0.0063,
 		engineForce = 2500,
 		maxSpeed = 0.01f,
 		engineLoudness = 90,
@@ -88,7 +92,6 @@ module Base
 		frontEndHealth = 150,
 		rearEndHealth = 150,
 		seats = 6,
-		
 		template = Seat/part/SeatFrontLeft,
 		template = Seat/part/SeatFrontRight,
 		template = Seat/part/SeatMiddleRight,
@@ -100,6 +103,7 @@ module Base
 		{
 			itemType = Aquatsar.NotRemovableBoatSeat,
 			category = nodisplay,
+
 			container
 			{
 				test = Boats.ContainerAccess.BlockSeat,
@@ -111,7 +115,6 @@ module Base
 		template = BoatStandartParts/part/Engine,
 		template = BoatStandartParts/part/Radio,
 		template = BatteryHeater/part/BatteryHeater,
-
 		template = ApiBoatAirbag,
 		template = Propeller,
 		template = Sails,
@@ -121,7 +124,6 @@ module Base
 		template = BoatStandartParts/part/WindowRearLeft,
 		template = BoatStandartParts/part/WindowRearRight,
 		template = BoatStandartParts/part/Windshield,
-
 		template = LightApi,
 		template = Light/part/LightFloodlightLeft,
 		template = Light/part/LightFloodlightRight,
@@ -130,17 +132,13 @@ module Base
 		template = InCabin/part/InCabinMiddleLeft,
 		template = InCabin/part/InCabinRearLeft,
 		template = InCabin/part/InCabinRearRight,
-		
 		template = Cupboards/part/CupboardMiddleRight,
 		template = Counters/part/CounterMiddleRight,
-		
 		template = Counters/part/CounterMiddleLeft,
 		template = Drawers/part/DrawerMiddleLeft,
 		template = Medicines/part/MedicineMiddleLeft,
-		
 		template = Counters/part/CounterRearLeft,
 		template = Drawers/part/DrawerRearLeft,
-		
 		template = Shelves/part/ShelveRearRight,
 		template = Fridges/part/FridgeRearRight,
 		template = Freezers/part/FreezerRearRight,
@@ -150,10 +148,8 @@ module Base
 		template = SeatBoxWooden/part/SeatBoxWoodenFrontRight,
 		template = Mattresses/part/MattressMiddleLeft,
 		template = Mattresses/part/MattressMiddleRight,
-		
 		template = PassengerSeat6,
 		template = PassengerCompartment,
-		
 		template = SailingYachtName/part/BoatName,
 
 		passenger FrontLeft
@@ -249,12 +245,12 @@ module Base
 		{
 			xywh = -0.1838 -0.3700 0.2025 0.3875,
 		}
-		
+
 		area GasTank
 		{
 			xywh = -0.1838 -0.3700 0.2025 0.3875,
 		}
-		
+
 		attachment checkFront
 		{
 			offset = 0.0000 0.0000 0.8938,

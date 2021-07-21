@@ -19,10 +19,13 @@ module Base
 			texture = Boats/BoatMotor_base,
 		}
 
+		textureShadow = Shadows/TrailerBoatMotor_shadow,
 		extents = 1.4222 0.6333 4.2222,
 		mass = 400,
 		physicsChassisShape = 1.4222 0.6333 4.2222,
 		centerOfMassOffset = 0.0000 0.6556 -0.7056,
+		shadowExtents = 1.3611 4.7389,
+		shadowOffset = 0.0056 -0.4834,
 		engineForce = 4000,
 		engineQuality = 80,
 		engineLoudness = 110,

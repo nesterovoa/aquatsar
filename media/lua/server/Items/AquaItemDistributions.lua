@@ -1,71 +1,30 @@
--- require 'Items/SuburbsDistributions'
+require 'Items/ProceduralDistributions'
 
--- table.insert(SuburbsDistributions["zippeestore"]["shelvesmag"].items, "Aquatsar.BoatMag");
--- table.insert(SuburbsDistributions["zippeestore"]["shelvesmag"].items, 0.2);
--- table.insert(SuburbsDistributions["fossoil"]["counter"].items, "Aquatsar.BoatMag");
--- table.insert(SuburbsDistributions["fossoil"]["counter"].items, 0.1);
--- table.insert(SuburbsDistributions["fossoil"]["shelvesmag"].items, "Aquatsar.BoatMag");
--- table.insert(SuburbsDistributions["fossoil"]["shelvesmag"].items, 0.2);
--- table.insert(SuburbsDistributions["all"]["postbox"].items, "Aquatsar.BoatMag");
--- table.insert(SuburbsDistributions["all"]["postbox"].items, 0.2);
--- table.insert(SuburbsDistributions["all"]["sidetable"].items, "Aquatsar.BoatMag");
--- table.insert(SuburbsDistributions["all"]["sidetable"].items, 0.7);
--- table.insert(SuburbsDistributions["all"]["shelves"].items, "Aquatsar.BoatMag");
--- table.insert(SuburbsDistributions["all"]["shelves"].items, 1);
--- table.insert(SuburbsDistributions["shed"]["other"].items, "Aquatsar.BoatMag");
--- table.insert(SuburbsDistributions["shed"]["other"].items, 0.5);
--- table.insert(SuburbsDistributions["garagestorage"]["other"].items, "Aquatsar.BoatMag");
--- table.insert(SuburbsDistributions["garagestorage"]["other"].items, 0.5);
--- table.insert(SuburbsDistributions["garage"]["metal_shelves"].items, "Aquatsar.BoatMag");
--- table.insert(SuburbsDistributions["garage"]["metal_shelves"].items, 0.5);
--- table.insert(SuburbsDistributions["bookstore"]["other"].items, "Aquatsar.BoatMag");
--- table.insert(SuburbsDistributions["bookstore"]["other"].items, 1);
--- table.insert(SuburbsDistributions["toolstore"]["shelves"].items, "Aquatsar.BoatMag");
--- table.insert(SuburbsDistributions["toolstore"]["shelves"].items, 0.2);
--- table.insert(SuburbsDistributions["toolstore"]["counter"].items, "Aquatsar.BoatMag");
--- table.insert(SuburbsDistributions["toolstore"]["counter"].items, 0.2);
--- table.insert(SuburbsDistributions["mechanic"]["wardrobe"].items, "Aquatsar.BoatMag");
--- table.insert(SuburbsDistributions["mechanic"]["wardrobe"].items, 1);
--- table.insert(SuburbsDistributions["mechanic"]["metal_shelves"].items, "Aquatsar.BoatMag");
--- table.insert(SuburbsDistributions["mechanic"]["metal_shelves"].items, 0.3);
--- table.insert(SuburbsDistributions["poststorage"]["all"].items, "Aquatsar.BoatMag");
--- table.insert(SuburbsDistributions["poststorage"]["all"].items, 0.5);
--- table.insert(SuburbsDistributions["cornerstore"]["shelvesmag"].items, "Aquatsar.BoatMag");
--- table.insert(SuburbsDistributions["cornerstore"]["shelvesmag"].items, 0.2);
+table.insert(ProceduralDistributions.list["MechanicShelfBooks"].items, "Aquatsar.BoatMag");
+table.insert(ProceduralDistributions.list["MechanicShelfBooks"].items, 0.5);
+table.insert(ProceduralDistributions.list["MechanicShelfBooks"].junk, "Aquatsar.BoatMag");
+table.insert(ProceduralDistributions.list["MechanicShelfBooks"].junk, 0.5);
+table.insert(ProceduralDistributions.list["BookstoreMechanic"].items, "Aquatsar.BoatMag");
+table.insert(ProceduralDistributions.list["BookstoreMechanic"].items, 0.5);
+table.insert(ProceduralDistributions.list["BookstoreMechanic"].junk, "Aquatsar.BoatMag");
+table.insert(ProceduralDistributions.list["BookstoreMechanic"].junk, 0.5);
+table.insert(ProceduralDistributions.list["StoreShelfMechanics"].items, "Aquatsar.BoatMag");
+table.insert(ProceduralDistributions.list["StoreShelfMechanics"].items, 0.5);
+
+table.insert(ProceduralDistributions.list["CampingStoreBooks"].items, "Aquatsar.SwimMag");
+table.insert(ProceduralDistributions.list["CampingStoreBooks"].items, 1);
+table.insert(ProceduralDistributions.list["CampingStoreBooks"].junk, "Aquatsar.SwimMag");
+table.insert(ProceduralDistributions.list["CampingStoreBooks"].junk, 0.5);
+table.insert(ProceduralDistributions.list["JanitorMisc"].items, "Aquatsar.SwimMag");
+table.insert(ProceduralDistributions.list["JanitorMisc"].items, 0.5);
+table.insert(ProceduralDistributions.list["LivingRoomShelf"].items, "Aquatsar.SwimMag");
+table.insert(ProceduralDistributions.list["LivingRoomShelf"].items, 0.3);
+table.insert(ProceduralDistributions.list["MagazineRackMixed"].items, "Aquatsar.SwimMag");
+table.insert(ProceduralDistributions.list["MagazineRackMixed"].items, 0.3);
+table.insert(ProceduralDistributions.list["StorageUnitMagazines"].items, "Aquatsar.SwimMag");
+table.insert(ProceduralDistributions.list["StorageUnitMagazines"].items, 0.3);
 
 
--- table.insert(SuburbsDistributions["zippeestore"]["shelvesmag"].items, "Aquatsar.SwimMag");
--- table.insert(SuburbsDistributions["zippeestore"]["shelvesmag"].items, 0.2);
--- table.insert(SuburbsDistributions["fossoil"]["counter"].items, "Aquatsar.SwimMag");
--- table.insert(SuburbsDistributions["fossoil"]["counter"].items, 0.1);
--- table.insert(SuburbsDistributions["fossoil"]["shelvesmag"].items, "Aquatsar.SwimMag");
--- table.insert(SuburbsDistributions["fossoil"]["shelvesmag"].items, 0.2);
--- table.insert(SuburbsDistributions["all"]["postbox"].items, "Aquatsar.SwimMag");
--- table.insert(SuburbsDistributions["all"]["postbox"].items, 0.2);
--- table.insert(SuburbsDistributions["all"]["sidetable"].items, "Aquatsar.SwimMag");
--- table.insert(SuburbsDistributions["all"]["sidetable"].items, 0.7);
--- table.insert(SuburbsDistributions["all"]["shelves"].items, "Aquatsar.SwimMag");
--- table.insert(SuburbsDistributions["all"]["shelves"].items, 1);
--- table.insert(SuburbsDistributions["shed"]["other"].items, "Aquatsar.SwimMag");
--- table.insert(SuburbsDistributions["shed"]["other"].items, 0.5);
--- table.insert(SuburbsDistributions["garagestorage"]["other"].items, "Aquatsar.SwimMag");
--- table.insert(SuburbsDistributions["garagestorage"]["other"].items, 0.5);
--- table.insert(SuburbsDistributions["garage"]["metal_shelves"].items, "Aquatsar.SwimMag");
--- table.insert(SuburbsDistributions["garage"]["metal_shelves"].items, 0.5);
--- table.insert(SuburbsDistributions["bookstore"]["other"].items, "Aquatsar.SwimMag");
--- table.insert(SuburbsDistributions["bookstore"]["other"].items, 1);
--- table.insert(SuburbsDistributions["toolstore"]["shelves"].items, "Aquatsar.SwimMag");
--- table.insert(SuburbsDistributions["toolstore"]["shelves"].items, 0.2);
--- table.insert(SuburbsDistributions["toolstore"]["counter"].items, "Aquatsar.SwimMag");
--- table.insert(SuburbsDistributions["toolstore"]["counter"].items, 0.2);
--- table.insert(SuburbsDistributions["mechanic"]["wardrobe"].items, "Aquatsar.SwimMag");
--- table.insert(SuburbsDistributions["mechanic"]["wardrobe"].items, 1);
--- table.insert(SuburbsDistributions["mechanic"]["metal_shelves"].items, "Aquatsar.SwimMag");
--- table.insert(SuburbsDistributions["mechanic"]["metal_shelves"].items, 0.3);
--- table.insert(SuburbsDistributions["poststorage"]["all"].items, "Aquatsar.SwimMag");
--- table.insert(SuburbsDistributions["poststorage"]["all"].items, 0.5);
--- table.insert(SuburbsDistributions["cornerstore"]["shelvesmag"].items, "Aquatsar.SwimMag");
--- table.insert(SuburbsDistributions["cornerstore"]["shelvesmag"].items, 0.2);
 
 
 -- table.insert(SuburbsDistributions["shed"]["other"].items, "Aquatsar.BoatPropeller");

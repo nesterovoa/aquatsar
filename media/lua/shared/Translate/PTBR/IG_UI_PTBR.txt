@@ -1,9 +1,6 @@
 IG_UI_PTBR = {
 	IGUI_VehicleNameBoatSailingYacht = "Iate 'La Brigandine'",
-	IGUI_VehicleNameBoatSailingYachtWithSailsLeft = "Iate 'La Brigandine'",
-	IGUI_VehicleNameBoatSailingYachtWithSailsRight = "Iate 'La Brigandine'",
 	IGUI_VehicleNameBoatMotor = "Barco a motor 'M/Y Orianna'",
-
 	IGUI_VehicleNameTrailerWithBoatSailingYacht = "Autotsar BT-13M",
 	IGUI_VehicleNameTrailerWithBoatMotor = "Autotsar BT-13M",
 	IGUI_VehicleNameTrailerForBoat = "Autotsar BT-13M",
@@ -32,6 +29,7 @@ IG_UI_PTBR = {
 	IGUI_PlayerText_CanNotSleepInMovingBoat = "Preciso diminuir a velocidade do barco",
 	IGUI_PlayerText_NoPower = "Nao ha energia",
 	IGUI_PlayerText_CabinIsLocked = "Porta da cabine esta fechada",
+	IGUI_PlayerText_BoatSeatBlock = "Não consigo entrar",
 
 	IGUI_SwitchPlace = "Ir para..",
 	IGUI_BoatSeat_Self = "Voce ja esta aqui",

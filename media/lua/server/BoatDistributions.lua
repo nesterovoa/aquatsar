@@ -10,14 +10,6 @@ distributionTable["BoatSailingYacht"] = {
 	Normal = VehicleDistributions.CommonTemplatesDist,
 }
 
-distributionTable["BoatSailingYachtWithSailsLeft"] = {
-	Normal = VehicleDistributions.CommonTemplatesDist,
-}
-
-distributionTable["BoatSailingYachtWithSailsRight"] = {
-	Normal = VehicleDistributions.CommonTemplatesDist,
-}
-
 distributionTable["BoatMotor"] = {
 	Normal = VehicleDistributions.CommonTemplatesDist,
 }

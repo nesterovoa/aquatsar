@@ -1,9 +1,6 @@
 IG_UI_PL = {
 	IGUI_VehicleNameBoatSailingYacht = "Jacht 'La Brigandine'",
-	IGUI_VehicleNameBoatSailingYachtWithSailsLeft = "Jacht 'La Brigandine'",
-	IGUI_VehicleNameBoatSailingYachtWithSailsRight = "Jacht 'La Brigandine'",
 	IGUI_VehicleNameBoatMotor = "Motorowka 'M/Y Orianna'",
-
 	IGUI_VehicleNameTrailerWithBoatSailingYacht = "Autotsar BT-13M",
 	IGUI_VehicleNameTrailerWithBoatMotor = "Autotsar BT-13M",
 	IGUI_VehicleNameTrailerForBoat = "Autotsar BT-13M",
@@ -32,7 +29,8 @@ IG_UI_PL = {
 	IGUI_PlayerText_CanNotSleepInMovingBoat = "Musze zatrzymac lodz",
 	IGUI_PlayerText_NoPower = "Nie ma mocy.",
 	IGUI_PlayerText_CabinIsLocked = "Drzwi kabiny sa zamkniete",
-
+	IGUI_PlayerText_BoatSeatBlock = "Nie mogę wejść do środka.",
+	
 	IGUI_SwitchPlace = "Idz do...",
 	IGUI_BoatSeat_Self = "Juz tu jestes",
 	IGUI_BoatSeat_Person = "Ktos stoi w tym miejscu",

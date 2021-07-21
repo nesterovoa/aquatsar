@@ -1,9 +1,6 @@
 IGUI_RU = {
 	IGUI_VehicleNameBoatSailingYacht = "Парусная яхта",
-	IGUI_VehicleNameBoatSailingYachtWithSailsLeft = "Парусная яхта",
-	IGUI_VehicleNameBoatSailingYachtWithSailsRight = "Парусная яхта",
 	IGUI_VehicleNameBoatMotor = "Моторная лодка",
-	
 	IGUI_VehicleNameTrailerWithBoatSailingYacht = "Autotsar BT-13M",
 	IGUI_VehicleNameTrailerWithBoatMotor = "Autotsar BT-13M",
 	IGUI_VehicleNameTrailerForBoat = "Autotsar BT-13M",
@@ -34,6 +31,7 @@ IGUI_RU = {
 	IGUI_PlayerText_CanNotSleepInMovingBoat = "Нужно сбавить скорость", 
 	IGUI_PlayerText_NoPower = "Отсутствует питание",
 	IGUI_PlayerText_CabinIsLocked = "Дверь в кабину заперта",
+	IGUI_PlayerText_BoatSeatBlock = "Не могу попасть внутрь",
 	
 	IGUI_SwitchPlace = "Перейти..",
 	IGUI_BoatSeat_Self = "Вы уже здесь",
