@@ -25,7 +25,8 @@ ContextMenu_PL = {
 	ContextMenu_Wooden_Pantone = "Drewniany poklad",
 
 	ContextMenu_Open_Cabin = "Otworz kabine",
-	ContextMenu_Open_Cabin_Force = "Otworz kabine<br>(uzyj lomu)",
+	ContextMenu_Open_Cabin_Force = "Otworz kabine<br>(bedzie uzyty<br>%1)",
+	
 	ContextMenu_Open_Cabin_Force_Need_Crowbar = "Otworz kabine<br>(potrzebujesz lomu lub klucza)"
 	ContextMenu_Close_Cabin = "Zamknij kabine",
 	ContextMenu_cabinForceUnlock_tooTired = "Jestem zbyt zmeczony<br>by otworzyc kabine",

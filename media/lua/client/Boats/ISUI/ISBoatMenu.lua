@@ -657,15 +657,17 @@ function ISBoatMenu.showRadialMenu(playerObj)
 	if not inCabin and boat:getCurrentSpeedKmHour() < 10 and boat:getCurrentSpeedKmHour() > -10 then -- and not ISBoatMenu.getNearLandForExit(boat)
 		menu:addSlice(getText("ContextMenu_SwimToLand"), getTexture("media/ui/boats/ICON_boat_swim.png"), ISBoatMenu.exitBoatOnWater, playerObj)
 	end
-
-	if not inCabin and boat:getModData().sailCode ~= 0 then
-		menu:addSlice(getText("ContextMenu_RemoveSail"), getTexture("media/ui/boats/ICON_remove_sails.png"), ISBoatMenu.RemoveSails, playerObj, boat)
-	end
-	if not inCabin and boat:getModData().sailCode ~= 1 and boat:getPartById("Sails") and boat:getPartById("Sails"):getInventoryItem() then
-		menu:addSlice(getText("ContextMenu_SetLeftSail"), getTexture("media/ui/boats/ICON_set_left_sails.png"), ISBoatMenu.SetLeftSails, playerObj, boat)
-	end
-	if not inCabin and boat:getModData().sailCode ~= 2 and boat:getPartById("Sails") and boat:getPartById("Sails"):getInventoryItem() then
-		menu:addSlice(getText("ContextMenu_SetRightSail"), getTexture("media/ui/boats/ICON_set_right_sails.png"), ISBoatMenu.SetRightSails, playerObj, boat)
+	
+	if not inCabin and boat:getPartById("Sails") and boat:getPartById("Sails"):getInventoryItem() then
+		if boat:getModData().sailCode ~= 0 then
+			menu:addSlice(getText("ContextMenu_RemoveSail"), getTexture("media/ui/boats/ICON_remove_sails.png"), ISBoatMenu.RemoveSails, playerObj, boat)
+		end
+		if boat:getModData().sailCode ~= 1 then
+			menu:addSlice(getText("ContextMenu_SetLeftSail"), getTexture("media/ui/boats/ICON_set_left_sails.png"), ISBoatMenu.SetLeftSails, playerObj, boat)
+		end
+		if boat:getModData().sailCode ~= 2 then
+			menu:addSlice(getText("ContextMenu_SetRightSail"), getTexture("media/ui/boats/ICON_set_right_sails.png"), ISBoatMenu.SetRightSails, playerObj, boat)
+		end
 	end
 
 	-- Cabin
@@ -684,16 +686,38 @@ function ISBoatMenu.showRadialMenu(playerObj)
 			end
 			menu:addSlice(getText("ContextMenu_Open_Cabin"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
 		else
-			if playerObj:getInventory():containsTypeRecurse("Crowbar") then
+			-- Предметы с помощью которых можно вскрыть каюту
+			local openTools = {
+				Crowbar = 60, 
+				Screwdriver = 40, 
+				HuntingKnife = 35, 
+				BreadKnife = 35,
+				KitchenKnife = 30, 
+				LetterOpener = 25, 
+				ButterKnife = 25, 
+				IcePick = 20, 
+				Scalpel = 20, 
+			}
+			local opener = ""
+			for tool, chance in pairs(openTools) do
+				opener = playerObj:getInventory():getFirstTypeRecurse(tool)
+				if opener then
+					
+					break
+				end
+			end
+			
+			if opener then
 				local bored = playerObj:getBodyDamage():getBoredomLevel() > 25
 				local tired = playerObj:getStats():getEndurance() < 0.7
 				local unhappy = playerObj:getBodyDamage():getUnhappynessLevel() > 20
 
 				if not tired and not bored and not unhappy then				
 					local func = function(arg_boat, arg_pl) 
-						ISTimedActionQueue.add(ISForceUnlockCabin:new(playerObj, boat));
+						ISTimedActionQueue.add(ISEquipWeaponAction:new(playerObj, opener, 50, true, true));
+						ISTimedActionQueue.add(ISForceUnlockCabin:new(playerObj, boat, opener, openTools[opener:getType()]));
 					end
-					menu:addSlice(getText("ContextMenu_Open_Cabin_Force"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
+					menu:addSlice(getText("ContextMenu_Open_Cabin_Force", string.lower(opener:getName())), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
 				elseif tired then
 					menu:addSlice(getText("ContextMenu_cabinForceUnlock_tooTired"), getTexture("media/ui/boats/RadialMenu_Door.png"), nil)
 				elseif bored then

@@ -283,6 +283,8 @@ function Boats.InstallComplete.Sails(vehicle, part)
 	if not item then return end
 	part:setModelVisible("Boom", true)
 	part:setModelVisible("SailCover", true)
+	part:setModelVisible("SailLeft", false)
+	part:setModelVisible("SailRight", false)
 	vehicle:doDamageOverlay()
 	-- vehicle:getPartById("BoatName"):setModelVisible("Sakharov", true)
 	-- vehicle:getPartById("BoatName"):setModelVisible("LB", false)
@@ -298,8 +300,8 @@ function Boats.UninstallComplete.Sails(vehicle, part, item)
 	if not item then return end
 	part:setModelVisible("Boom", true)
 	part:setModelVisible("SailCover", false)
-	-- vehicle:getPartById("BoatName"):setModelVisible("Sakharov", false)
-	-- vehicle:getPartById("BoatName"):setModelVisible("LB", true)
+	part:setModelVisible("SailLeft", false)
+	part:setModelVisible("SailRight", false)
 	vehicle:doDamageOverlay()
 end
 

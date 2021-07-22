@@ -4,10 +4,10 @@ table.insert(ProceduralDistributions.list["MechanicShelfBooks"].items, "Aquatsar
 table.insert(ProceduralDistributions.list["MechanicShelfBooks"].items, 0.5);
 table.insert(ProceduralDistributions.list["MechanicShelfBooks"].junk, "Aquatsar.BoatMag");
 table.insert(ProceduralDistributions.list["MechanicShelfBooks"].junk, 0.5);
-table.insert(ProceduralDistributions.list["BookstoreMechanic"].items, "Aquatsar.BoatMag");
-table.insert(ProceduralDistributions.list["BookstoreMechanic"].items, 0.5);
-table.insert(ProceduralDistributions.list["BookstoreMechanic"].junk, "Aquatsar.BoatMag");
-table.insert(ProceduralDistributions.list["BookstoreMechanic"].junk, 0.5);
+table.insert(ProceduralDistributions.list["BookstoreBooks"].items, "Aquatsar.BoatMag");
+table.insert(ProceduralDistributions.list["BookstoreBooks"].items, 0.5);
+table.insert(ProceduralDistributions.list["BookstoreMisc"].items, "Aquatsar.BoatMag");
+table.insert(ProceduralDistributions.list["BookstoreMisc"].items, 0.1);
 table.insert(ProceduralDistributions.list["StoreShelfMechanics"].items, "Aquatsar.BoatMag");
 table.insert(ProceduralDistributions.list["StoreShelfMechanics"].items, 0.5);
 
@@ -21,8 +21,8 @@ table.insert(ProceduralDistributions.list["LivingRoomShelf"].items, "Aquatsar.Sw
 table.insert(ProceduralDistributions.list["LivingRoomShelf"].items, 0.3);
 table.insert(ProceduralDistributions.list["MagazineRackMixed"].items, "Aquatsar.SwimMag");
 table.insert(ProceduralDistributions.list["MagazineRackMixed"].items, 0.3);
-table.insert(ProceduralDistributions.list["StorageUnitMagazines"].items, "Aquatsar.SwimMag");
-table.insert(ProceduralDistributions.list["StorageUnitMagazines"].items, 0.3);
+table.insert(ProceduralDistributions.list["CrateMagazines"].items, "Aquatsar.SwimMag");
+table.insert(ProceduralDistributions.list["CrateMagazines"].items, 0.3);
 
 
 

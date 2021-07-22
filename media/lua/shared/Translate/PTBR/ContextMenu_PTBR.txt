@@ -25,7 +25,7 @@ ContextMenu_PTBR = {
 	ContextMenu_Wooden_Pantone = "Deck de madeira",
 
 	ContextMenu_Open_Cabin = "Destrancar cabine",
-	ContextMenu_Open_Cabin_Force = "Destrancar cabine<br>(com pe de cabra)",
+	ContextMenu_Open_Cabin_Force = "Destrancar cabine<br>(sera usado<br>%1)",
 	ContextMenu_Open_Cabin_Force_Need_Crowbar = "Destrancar cabine<br>(Precisa de chave ou pe de cabra)"
 	ContextMenu_Close_Cabin = "Fechar cabine",
 	ContextMenu_cabinForceUnlock_tooTired = "Estou muito cansado<br>para abrir a cabine",

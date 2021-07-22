@@ -7,7 +7,7 @@ require "TimedActions/ISBaseTimedAction"
 ISForceUnlockCabin = ISBaseTimedAction:derive("ISForceUnlockCabin")
 
 function ISForceUnlockCabin:isValid()
-	return self.character:getVehicle() ~= nil
+	return self.character:getInventory():contains(self.opener) and (self.character:getVehicle() ~= nil)
 end
 
 function ISForceUnlockCabin:update()
@@ -39,7 +39,7 @@ function ISForceUnlockCabin:stop()
 end
 
 function ISForceUnlockCabin:perform()
-    if ZombRand(100) < 35 then
+    if ZombRand(100) < self.chance then
         self.boat:getModData()["AquaCabin_isUnlocked"] = true
         self.boat:getModData()["AquaCabin_isLockRuined"] = true
         self.character:getEmitter():playSound("UnlockDoor")				    
@@ -53,15 +53,17 @@ function ISForceUnlockCabin:perform()
 
 	UIManager.FadeIn(self.playerNum, 1)
 	UIManager.setFadeBeforeUI(self.playerNum, false)
-
+	UIManager.getSpeedControls():SetCurrentGameSpeed(1)
 	ISBaseTimedAction.perform(self)
 end
 
-function ISForceUnlockCabin:new(character, boat)
+function ISForceUnlockCabin:new(character, boat, opener, chance)
 	local o = {}
 	setmetatable(o, self)
 	self.__index = self
     o.character = character
+	o.opener = opener
+	o.chance = chance
     o.playerNum = character:getPlayerNum()
     o.isFadeOut = false
 	o.maxTime = 4000
