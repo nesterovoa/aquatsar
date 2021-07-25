@@ -16,7 +16,19 @@ module Base
 
 		skin
 		{
-			texture = Trailers/TrailerWithBoatSailingYacht_base,
+			texture = Boats/SailingYacht_body,
+		}
+		skin
+		{
+			texture = Boats/SailingYacht_body2,
+		}
+		skin
+		{
+			texture = Boats/SailingYacht_body3,
+		}
+		skin
+		{
+			texture = Boats/SailingYacht_body4,
 		}
 
 		textureShadow = Shadows/TrailerSailingYacht_shadow,
@@ -68,6 +80,10 @@ module Base
 		template = ApiBoatAirbag,
 		template = Propeller,
 		template = Sails,
+		part Sails 
+		{
+			category = nodisplay,
+		}
 		template = ManualStarter,
 		template = BoatStandartParts/part/WindowFrontLeft,
 		template = BoatStandartParts/part/WindowFrontRight,

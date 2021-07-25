@@ -13,10 +13,17 @@ module Base
 		{
 			texture = Boats/SailingYacht_body,
 		}
-
 		skin
 		{
 			texture = Boats/SailingYacht_body2,
+		}
+		skin
+		{
+			texture = Boats/SailingYacht_body3,
+		}
+		skin
+		{
+			texture = Boats/SailingYacht_body4,
 		}
 
 		textureShadow = Shadows/SailingYacht_shadow,

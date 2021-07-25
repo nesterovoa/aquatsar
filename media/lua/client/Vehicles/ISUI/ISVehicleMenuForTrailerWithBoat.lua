@@ -120,6 +120,7 @@ function ISVehicleMenuForTrailerWithBoat.replaceTrailerBoat(veh1, veh2)
 	-- print("veh1 keyId: ", veh1:getKeyId())
 	-- print("veh2 keyId: ", veh2:getKeyId())
 	veh2:setKeyId(veh1:getKeyId())
+	veh2:setSkinIndex(veh1:getSkinIndex())
 	-- print("veh2 new keyId: ", veh2:getKeyId())
 	return veh2
 end

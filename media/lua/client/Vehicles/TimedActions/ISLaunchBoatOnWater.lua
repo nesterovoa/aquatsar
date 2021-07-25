@@ -56,6 +56,10 @@ function ISLaunchBoatOnWater:perform()
 	if boatName then
 		VehicleUtils.callLua(boatName:getLuaFunction("init"), boat, boatName, self.character)
 	end
+	local sails = boat:getPartById("Sails")
+	if sails then
+		VehicleUtils.callLua(sails:getLuaFunction("init"), boat, sails, self.character)
+	end
 	-- Delete key
 	local xx = boat:getX()
 	local yy = boat:getY()
@@ -94,11 +98,11 @@ function ISLaunchBoatOnWater:perform()
 		end
 	end
 
-
 	local playerNum = self.character:getPlayerNum()
 	UIManager.FadeIn(playerNum, 1)
 	UIManager.setFadeBeforeUI(playerNum, false)
-
+	setGameSpeed(1)
+	self.trailer:getEmitter():stopSoundByName("boat_launching")
 	ISBaseTimedAction.perform(self)
 end
 
@@ -110,7 +114,6 @@ function ISLaunchBoatOnWater:new(character, trailer, sq)
 	o.character = character
     o.trailer = trailer
     o.square = sq
-
 	o.isFadeOut = false
     o.maxTime = 300;
     

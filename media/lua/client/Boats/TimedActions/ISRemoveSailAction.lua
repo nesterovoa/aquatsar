@@ -34,6 +34,7 @@ function ISRemoveSailAction:perform()
 	part:setModelVisible("SailRight", false)
 	part:setLightActive(false)
 	self.boat:getModData().sailCode = 0
+	setGameSpeed(1)
 	ISBaseTimedAction.perform(self)
 end
 

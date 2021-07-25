@@ -18,7 +18,6 @@ Boats.Update = {}
 Boats.Use = {}
 
 
-
 --***********************************************************
 --**                                                       **
 --**                       Propeller                       **
@@ -26,6 +25,9 @@ Boats.Use = {}
 --***********************************************************
 
 function Boats.Create.Propeller(boat, part)
+	if ZombRand(100) < 20 then
+		boat:getModData()["AquaCabin_isUnlocked"] = true			    
+	end
 	local item = VehicleUtils.createPartInventoryItem(part)
 	if (part:getInventoryItem()== nil) then
 		part:setInventoryItem(InventoryItemFactory.CreateItem("Aquatsar.BoatPropeller"), 10)
@@ -114,6 +116,7 @@ function Boats.Init.SailingYachtName(boat, part)
 				part:setModelVisible("Sakharov", true)
 			end
 		else
+			print("Correct Init SailingYachtName")
 			part:setModelVisible("Sakharov",false)
 			part:setModelVisible("Sakharov_Trailer", false)
 		end
@@ -206,41 +209,63 @@ end
 --**                                                       **
 --***********************************************************
 function Boats.Create.Sails(boat, part)
+print("Boats.Create.Sails")
 	local item = VehicleUtils.createPartInventoryItem(part)
 	CommonTemplates.createActivePart(part)
-	boat:getModData().sailCode = 0  -- 0 - паруса опущены
-									-- 1 - паруса слева
-									-- 2 - паруса справа
-	part:setModelVisible("Boom", true)
-	part:setModelVisible("SailCover", true)
-end
-
-function Boats.Init.Sails(boat, part)
--- print("Boats.Init.Sails: ", boat:getX(), " ", boat:getY())
-	local item = part:getInventoryItem()
-	if not item then
-		part:setModelVisible("Boom", true)
-		part:setModelVisible("SailCover", false)
-		boat:getModData().sailCode = 0
-		part:setLightActive(false)
-	elseif boat:getModData().sailCode == 0 then
+	boat:getModData().sailCode = 0
+	if AquaConfig.Boat(boat) then
 		part:setModelVisible("Boom", true)
 		part:setModelVisible("SailCover", true)
 		part:setModelVisible("SailLeft", false)
 		part:setModelVisible("SailRight", false)
-		part:setLightActive(false)
-	elseif boat:getModData().sailCode == 1 then
-		part:setModelVisible("Boom", false)
-		part:setModelVisible("SailCover", false)
-		part:setModelVisible("SailLeft", true)
-		part:setModelVisible("SailRight", false)
-		part:setLightActive(true)
-	elseif boat:getModData().sailCode == 2 then
+	else
 		part:setModelVisible("Boom", false)
 		part:setModelVisible("SailCover", false)
 		part:setModelVisible("SailLeft", false)
-		part:setModelVisible("SailRight", true)
-		part:setLightActive(true)
+		part:setModelVisible("SailRight", false)
+	end
+end
+
+function Boats.Init.Sails(boat, part)
+print("Boats.Init.Sails")
+-- print("Boats.Init.Sails: ", boat:getX(), " ", boat:getY())
+	if AquaConfig.Boat(boat) then
+		print("AquaConfig.Boat(boat)!")
+		local item = part:getInventoryItem()
+		if not item then
+			part:setModelVisible("Boom", true)
+			part:setModelVisible("SailCover", false)
+			part:setModelVisible("SailLeft", false)
+			part:setModelVisible("SailRight", false)
+			boat:getModData().sailCode = 0
+			part:setLightActive(false)
+		elseif boat:getModData().sailCode == 1 then
+			part:setModelVisible("Boom", false)
+			part:setModelVisible("SailCover", false)
+			part:setModelVisible("SailLeft", true)
+			part:setModelVisible("SailRight", false)
+			part:setLightActive(true)
+		elseif boat:getModData().sailCode == 2 then
+			part:setModelVisible("Boom", false)
+			part:setModelVisible("SailCover", false)
+			part:setModelVisible("SailLeft", false)
+			part:setModelVisible("SailRight", true)
+			part:setLightActive(true)
+		else
+			boat:getModData().sailCode = 0
+			part:setModelVisible("Boom", true)
+			part:setModelVisible("SailCover", true)
+			part:setModelVisible("SailLeft", false)
+			part:setModelVisible("SailRight", false)
+			part:setLightActive(false)
+		end
+	else
+		print("NOT AquaConfig.Boat(boat)!")
+		boat:getModData().sailCode = 0
+		part:setModelVisible("Boom", false)
+		part:setModelVisible("SailCover", false)
+		part:setModelVisible("SailLeft", false)
+		part:setModelVisible("SailRight", false)
 	end
 end
 

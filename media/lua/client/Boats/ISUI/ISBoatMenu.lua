@@ -394,6 +394,11 @@ end
 -- end
 
 function ISBoatMenu.onEnter(playerObj, boat)
+	-- if boat:getModData()["AquaCabin_isUnlocked"] == nil then
+		-- if ZombRand(100) < 20 then
+			-- boat:getModData()["AquaCabin_isUnlocked"] = true			    
+		-- end
+	-- end
 	local seat = ISBoatMenu.getBestSeatEnter(playerObj, boat)
 	if seat then
 		ISBoatMenu.onEnterAux(playerObj, boat, seat)
@@ -1293,7 +1298,6 @@ function ISBoatMenu.FillMenuInsideBoat(playerObj, context, boat, test)
 	if isForceDropHeavyItem(heavyItem) then
 		context:removeOption(context:getOptionFromName(getText("ContextMenu_DropNamedItem", heavyItem:getDisplayName())))
 	end
-	
 	context:removeOption(context:getOptionFromName(getText("ContextMenu_SleepOnGround")))
 end
 

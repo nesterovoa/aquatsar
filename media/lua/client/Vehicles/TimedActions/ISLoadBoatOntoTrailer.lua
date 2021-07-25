@@ -13,7 +13,6 @@ end
 
 function ISLoadBoatOntoTrailer:update()
 	self.character:faceThisObject(self.trailer)
-
 	-- speed 1 = 1, 2 = 5, 3 = 20, 4 = 40
 	local uispeed = UIManager.getSpeedControls():getCurrentGameSpeed()
 	local speedCoeff = { [1] = 1, [2] = 5, [3] = 20, [4] = 40 }
@@ -48,10 +47,15 @@ function ISLoadBoatOntoTrailer:perform()
 	local newTrailerName = AquaConfig.Trailers[self.trailer:getScript():getName()].trailerWithBoatTable[self.boat:getScript():getName()]
 	ISVehicleMenuForTrailerWithBoat.replaceTrailer(self.trailer, newTrailerName)
 	ISVehicleMenuForTrailerWithBoat.replaceTrailerBoat(self.boat, self.trailer)
-	local boatName = self.boat:getPartById("BoatName")
+	local boatName = self.trailer:getPartById("BoatName")
 	if boatName then
-		VehicleUtils.callLua(boatName:getLuaFunction("init"), self.boat, boatName, self.character)
+		VehicleUtils.callLua(boatName:getLuaFunction("init"), self.trailer, boatName, self.character)
 	end
+	local sails = self.trailer:getPartById("Sails")
+	if sails then
+		VehicleUtils.callLua(sails:getLuaFunction("init"), self.trailer, sails, self.character)
+	end
+	self.trailer:setSkinIndex(self.boat:getSkinIndex())
 	if isClient() then
 		sendClientCommand(self.character, "vehicle", "remove", { vehicle = self.boat:getId() })
 	else
@@ -60,7 +64,8 @@ function ISLoadBoatOntoTrailer:perform()
 	local playerNum = self.character:getPlayerNum()
 	UIManager.FadeIn(playerNum, 1)
 	UIManager.setFadeBeforeUI(playerNum, false)
-
+	setGameSpeed(1)
+	self.trailer:getEmitter():stopSoundByName("boat_on_trailer")
 	ISBaseTimedAction.perform(self)
 end
 
