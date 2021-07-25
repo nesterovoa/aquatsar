@@ -16,19 +16,7 @@ module Base
 
 		skin
 		{
-			texture = Boats/SailingYacht_body,
-		}
-		skin
-		{
-			texture = Boats/SailingYacht_body2,
-		}
-		skin
-		{
-			texture = Boats/SailingYacht_body3,
-		}
-		skin
-		{
-			texture = Boats/SailingYacht_body4,
+			texture = Trailers/TrailerWithBoatSailingYacht_base,
 		}
 
 		textureShadow = Shadows/TrailerSailingYacht_shadow,

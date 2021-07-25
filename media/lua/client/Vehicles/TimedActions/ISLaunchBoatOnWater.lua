@@ -102,7 +102,7 @@ function ISLaunchBoatOnWater:perform()
 	UIManager.FadeIn(playerNum, 1)
 	UIManager.setFadeBeforeUI(playerNum, false)
 	setGameSpeed(1)
-	self.trailer:getEmitter():stopSoundByName("boat_launching")
+	-- self.trailer:getEmitter():stopSoundByName("boat_launching")
 	ISBaseTimedAction.perform(self)
 end
 

@@ -31,6 +31,7 @@ module Base
 		engineLoudness = 110,
 		maxSpeed = 70f,
 		brakingForce = 80,
+		stoppingMovementForce = 10.0f,
 		rollInfluence = 0.8f,
 		steeringIncrement = 0.04,
 		steeringClamp = 0.3,

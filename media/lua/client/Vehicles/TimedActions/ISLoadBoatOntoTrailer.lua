@@ -65,7 +65,7 @@ function ISLoadBoatOntoTrailer:perform()
 	UIManager.FadeIn(playerNum, 1)
 	UIManager.setFadeBeforeUI(playerNum, false)
 	setGameSpeed(1)
-	self.trailer:getEmitter():stopSoundByName("boat_on_trailer")
+	-- self.trailer:getEmitter():stopSoundByName("boat_on_trailer")
 	ISBaseTimedAction.perform(self)
 end
 
