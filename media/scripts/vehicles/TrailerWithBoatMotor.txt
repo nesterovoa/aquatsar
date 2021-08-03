@@ -255,7 +255,7 @@ module Base
 
 		attachment trailer
 		{
-			offset = 0.0000 -0.1556 2.6889,
+			offset = 0.0000 -0.1556 2.7056,
 			rotate = 0.0000 0.0000 0.0000,
 		}
 	}

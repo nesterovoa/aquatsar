@@ -22,10 +22,10 @@ function ISRenameBoat:start()
 
 	for _, j in pairs(self.part:getTable("install")["items"]) do 
 		local item = self.character:getInventory():getItemFromType(j["type"])
-		print(item)
+		-- print(item)
 		if item then
 			if item:IsDrainable() then
-				print(item:getUseDelta())
+				-- print(item:getUseDelta())
 				item:Use()
 			end
 		else 

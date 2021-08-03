@@ -10,8 +10,10 @@ ItemName_EN = {
 	ItemName_Aquatsar.Compass = "Compass",
 	ItemName_Aquatsar.DeflatedTireTube = "Deflated Tire Tube",
 	ItemName_Aquatsar.TireTube = "Tire Tube",
-	ItemName_Base.SailingYachtName_Default_Item = "La Brigandine",
+	ItemName_Base.SailingYachtName_Default_Item = "No name",
+	ItemName_Base.SailingYachtName_La_Brigandine = "La Brigandine",
 	ItemName_Base.SailingYachtName_Sakharov_Item = "Akademik Sakharov",
-	ItemName_Base.BoatMotorName_Default_Item = "M/Y Orianna",
+	ItemName_Base.BoatMotorName_Default_Item = "No name",
+	ItemName_Base.BoatMotorName_Orianna_Item = "M/Y Orianna",
 	ItemName_Base.BoatMotorName_NP_Item = "Nautilus P.",
 }

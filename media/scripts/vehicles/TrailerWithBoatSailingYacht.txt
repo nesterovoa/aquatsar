@@ -68,10 +68,12 @@ module Base
 		template = ApiBoatAirbag,
 		template = Propeller,
 		template = Sails,
-		part Sails 
+
+		part Sails
 		{
 			category = nodisplay,
 		}
+
 		template = ManualStarter,
 		template = BoatStandartParts/part/WindowFrontLeft,
 		template = BoatStandartParts/part/WindowFrontRight,
@@ -283,7 +285,7 @@ module Base
 
 		attachment trailer
 		{
-			offset = 0.0000 -0.4389 2.8722,
+			offset = 0.0000 -0.4389 2.9778,
 			rotate = 0.0000 0.0000 0.0000,
 		}
 	}

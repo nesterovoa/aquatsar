@@ -1,6 +1,6 @@
 module Base
 {
-	model BoatSailingYachtName_Sakharov
+	model SailingYachtName_Sakharov
     {
         mesh = boats/SailingBoat|BodyName,
 		texture = Boats/Name_SailingYacht_Sakharov,
@@ -13,7 +13,26 @@ module Base
 	{
 		Weight	=	0.1,
         Type	=	Normal,
-        DisplayName	= BoatName Sakharov,
+        DisplayName	= Akademik Sakharov,
+        Icon	=	CarKey,
+		ConditionMax = 100,
+        MechanicsItem = TRUE,
+	}
+	
+	model SailingYachtName_La_Brigandine
+    {
+        mesh = boats/SailingBoat|BodyName,
+		texture = Boats/Name_SailingYacht_La_Brigandine,
+        shader = vehiclewheel,
+        invertX = FALSE,
+        scale = 0.0011,
+    }
+	
+	item SailingYachtName_La_Brigandine_Item
+	{
+		Weight	=	0.1,
+        Type	=	Normal,
+        DisplayName	= La Brigandine,
         Icon	=	CarKey,
 		ConditionMax = 100,
         MechanicsItem = TRUE,
@@ -23,7 +42,7 @@ module Base
 	{
 		Weight	=	0.1,
         Type	=	Normal,
-        DisplayName	= BoatName Default,
+        DisplayName	= No name,
         Icon	=	CarKey,
 		ConditionMax = 100,
         MechanicsItem = TRUE,
@@ -42,7 +61,26 @@ module Base
 	{
 		Weight	=	0.1,
         Type	=	Normal,
-        DisplayName	= BoatName NP,
+        DisplayName	= Nautilus P,
+        Icon	=	CarKey,
+		ConditionMax = 100,
+        MechanicsItem = TRUE,
+	}
+	
+	model BoatMotorName_Orianna
+    {
+        mesh = boats/BoatMotor|BodyName,
+		texture = Boats/Name_BoatMotor_Orianna,
+        shader = vehiclewheel,
+        invertX = FALSE,
+        scale = 0.0015,
+    }
+	
+	item BoatMotorName_Orianna_Item
+	{
+		Weight	=	0.1,
+        Type	=	Normal,
+        DisplayName	= Orianna,
         Icon	=	CarKey,
 		ConditionMax = 100,
         MechanicsItem = TRUE,
@@ -52,7 +90,7 @@ module Base
 	{
 		Weight	=	0.1,
         Type	=	Normal,
-        DisplayName	= BoatName Default,
+        DisplayName	= No name,
         Icon	=	CarKey,
 		ConditionMax = 100,
         MechanicsItem = TRUE,
@@ -64,15 +102,24 @@ module Base
 		{
 			model Sakharov
 			{
-				file = BoatSailingYachtName_Sakharov,
+				file = SailingYachtName_Sakharov,
 			}
 			model Sakharov_Trailer
 			{
-				file = BoatSailingYachtName_Sakharov,
+				file = SailingYachtName_Sakharov,
+				scale = 4.54,
+			}
+			model La_Brigandine
+			{
+				file = SailingYachtName_La_Brigandine,
+			}
+			model La_Brigandine_Trailer
+			{
+				file = SailingYachtName_La_Brigandine,
 				scale = 4.54,
 			}
 			specificItem = false,
-			itemType = Base.SailingYachtName_Default_Item;Base.SailingYachtName_Sakharov_Item,
+			itemType = Base.SailingYachtName_Default_Item;Base.SailingYachtName_La_Brigandine_Item;Base.SailingYachtName_Sakharov_Item,
 			category = BoatBody,
 			table install
 			{
@@ -126,8 +173,17 @@ module Base
 				file = BoatMotorName_NP,
 				scale = 4,
 			}
+			model Orianna
+			{
+				file = BoatMotorName_Orianna,
+			}
+			model Orianna_Trailer
+			{
+				file = BoatMotorName_Orianna,
+				scale = 4,
+			}
 			specificItem = false,
-			itemType = Base.BoatMotorName_Default_Item;Base.BoatMotorName_NP_Item,
+			itemType = Base.BoatMotorName_Default_Item;Base.BoatMotorName_NP_Item;Base.BoatMotorName_Orianna_Item,
 			category = BoatBody,
 			table install
 			{
