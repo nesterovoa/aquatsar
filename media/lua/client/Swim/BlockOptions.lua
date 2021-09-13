@@ -1,16 +1,17 @@
+require "CommonTemplates/ISUI/ISContextMenuExtension" 
 
 local function blockOptions(player, context, worldobjects, test)
 	local playerObj = getSpecificPlayer(player)
 	if not playerObj:getVehicle() and playerObj:getSquare() and playerObj:getSquare():Is(IsoFlagType.water) then
-		context:removeOption(context:getOptionFromName(getText("ContextMenu_Fishing")))
-		context:removeOption(context:getOptionFromName(getText("ContextMenu_Build")))
-		context:removeOption(context:getOptionFromName(getText("ContextMenu_SitGround")))
-		context:removeOption(context:getOptionFromName(getText("ContextMenu_Walk_to")))
-		context:removeOption(context:getOptionFromName(getText("ContextMenu_Wash")))
-		context:removeOption(context:getOptionFromName(getText("ContextMenu_SleepOnGround")))
+		context:removeOptionTsar(context:getOptionFromName(getText("ContextMenu_Fishing")))
+		context:removeOptionTsar(context:getOptionFromName(getText("ContextMenu_Build")))
+		context:removeOptionTsar(context:getOptionFromName(getText("ContextMenu_SitGround")))
+		context:removeOptionTsar(context:getOptionFromName(getText("ContextMenu_Walk_to")))
+		context:removeOptionTsar(context:getOptionFromName(getText("ContextMenu_Wash")))
+		context:removeOptionTsar(context:getOptionFromName(getText("ContextMenu_SleepOnGround")))
 		local heavyItem = playerObj:getPrimaryHandItem()
 		if isForceDropHeavyItem(heavyItem) then
-			context:removeOption(context:getOptionFromName(getText("ContextMenu_DropNamedItem", heavyItem:getDisplayName())))
+			context:removeOptionTsar(context:getOptionFromName(getText("ContextMenu_DropNamedItem", heavyItem:getDisplayName())))
 		end
 	end
 end

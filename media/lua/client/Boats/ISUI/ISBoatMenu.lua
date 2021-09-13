@@ -1237,11 +1237,11 @@ end
 -- end
 
 function ISBoatMenu.FillMenuOutsideBoat(playerObj, context, boat, test)
-	context:removeOption(context:getOptionFromName(getText("ContextMenu_VehicleMechanics")))
-	context:removeOption(context:getOptionFromName(getText("ContextMenu_Vehicle_Smashwindow")))
-	context:removeOption(context:getOptionFromName(getText("ContextMenu_RemoveBurntVehicle")))	
-	context:removeOption(context:getOptionFromName(getText("ContextMenu_Vehicle_Wash")))
-	context:removeOption(context:getOptionFromName(getText("UI_Text_PushByHands")))
+	context:removeOptionTsar(context:getOptionFromName(getText("ContextMenu_VehicleMechanics")))
+	context:removeOptionTsar(context:getOptionFromName(getText("ContextMenu_Vehicle_Smashwindow")))
+	context:removeOptionTsar(context:getOptionFromName(getText("ContextMenu_RemoveBurntVehicle")))	
+	context:removeOptionTsar(context:getOptionFromName(getText("ContextMenu_Vehicle_Wash")))
+	context:removeOptionTsar(context:getOptionFromName(getText("UI_Text_PushByHands")))
 end
 
 function ISBoatMenu.FillMenuInsideBoat(playerObj, context, boat, test)
@@ -1250,9 +1250,9 @@ function ISBoatMenu.FillMenuInsideBoat(playerObj, context, boat, test)
 
 	if old_option_update then
 		if not inCabin then
-			context:updateOption(old_option_update.id, old_option_update.name, old_option_update.target, ISBoatMenu.onDrink, old_option_update.param1, playerObj)
+			context:updateOptionTsar(old_option_update.id, old_option_update.name, old_option_update.target, ISBoatMenu.onDrink, old_option_update.param1, playerObj)
 		else
-			context:removeOption(context:getOptionFromName(getText("ContextMenu_Drink")))
+			context:removeOptionTsar(context:getOptionFromName(getText("ContextMenu_Drink")))
 		end
 	end
 	
@@ -1263,10 +1263,10 @@ function ISBoatMenu.FillMenuInsideBoat(playerObj, context, boat, test)
 			old_option_update.notAvailable = false
 			local old_subMenu = context:getSubMenu(old_option_update.subOption)
 			for i, subOption in pairs(old_subMenu.options) do 
-				context:updateSubOption(old_subMenu, subOption.id, subOption.name, subOption.target, ISBoatMenu.onTakeWater, subOption.param1, subOption.param2, subOption.param3, subOption.param4, subOption.param5)
+				context:updateSubOptionTsar(old_subMenu, subOption.id, subOption.name, subOption.target, ISBoatMenu.onTakeWater, subOption.param1, subOption.param2, subOption.param3, subOption.param4, subOption.param5)
 			end
 		else
-			context:removeOption(context:getOptionFromName(getText("ContextMenu_Fill")))
+			context:removeOptionTsar(context:getOptionFromName(getText("ContextMenu_Fill")))
 		end
 	end
 	
@@ -1277,28 +1277,28 @@ function ISBoatMenu.FillMenuInsideBoat(playerObj, context, boat, test)
 			local old_subMenu = context:getSubMenu(old_option_update.subOption)
 			for i, subOption in pairs(old_subMenu.options) do 
 				if subOption.name == getText("ContextMenu_Yourself") then
-					context:updateSubOption(old_subMenu, subOption.id, subOption.name, subOption.target, ISBoatMenu.onWashYourself, subOption.param1, subOption.param2, subOption.param3, subOption.param4, subOption.param5)
+					context:updateSubOptionTsar(old_subMenu, subOption.id, subOption.name, subOption.target, ISBoatMenu.onWashYourself, subOption.param1, subOption.param2, subOption.param3, subOption.param4, subOption.param5)
 				else
-					context:updateSubOption(old_subMenu, subOption.id, subOption.name, subOption.target, ISBoatMenu.onWashClothing, subOption.param1, subOption.param2, subOption.param3, subOption.param4, subOption.param5)
+					context:updateSubOptionTsar(old_subMenu, subOption.id, subOption.name, subOption.target, ISBoatMenu.onWashClothing, subOption.param1, subOption.param2, subOption.param3, subOption.param4, subOption.param5)
 				end
 			end
 		else
-			context:removeOption(context:getOptionFromName(getText("ContextMenu_Wash")))
+			context:removeOptionTsar(context:getOptionFromName(getText("ContextMenu_Wash")))
 		end
 	end
 	
 	-- old_option_update = context:getOptionFromName(getText("ContextMenu_Fishing"))
 	-- if old_option_update then
 	if inCabin then
-		context:removeOption(context:getOptionFromName(getText("ContextMenu_Fishing")))
+		context:removeOptionTsar(context:getOptionFromName(getText("ContextMenu_Fishing")))
 	end
 	-- end
 	
 	local heavyItem = playerObj:getPrimaryHandItem()
 	if isForceDropHeavyItem(heavyItem) then
-		context:removeOption(context:getOptionFromName(getText("ContextMenu_DropNamedItem", heavyItem:getDisplayName())))
+		context:removeOptionTsar(context:getOptionFromName(getText("ContextMenu_DropNamedItem", heavyItem:getDisplayName())))
 	end
-	context:removeOption(context:getOptionFromName(getText("ContextMenu_SleepOnGround")))
+	context:removeOptionTsar(context:getOptionFromName(getText("ContextMenu_SleepOnGround")))
 end
 
 function ISBoatMenu.onDrink (worldobjects, waterObject, playerObj)

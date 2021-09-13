@@ -24,7 +24,7 @@ ContextMenu_EN = {
 	ContextMenu_bind_boat = "Bind boat",
 	ContextMenu_unbind_boat = "Unbind boat",
 	
-	ContextMenu_Wooden_Pantone = "Wooden pantone",
+	ContextMenu_Wooden_Pantone = "Wooden pontoon",
 	
 	ContextMenu_Open_Cabin = "Unlock cabin",
 	ContextMenu_Open_Cabin_Force = "Unlock cabin<br>(with %1)",

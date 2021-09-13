@@ -13,7 +13,6 @@ end
 function ISRenameBoat:update()
 	--self.character:faceThisObject(self.vehicle)
 	self.item:setJobDelta(self:getJobDelta())
-
     self.character:setMetabolicTarget(Metabolics.MediumWork);
 end
 
