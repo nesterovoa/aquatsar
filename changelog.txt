@@ -7,6 +7,7 @@ v.1.13
 Исправлена ошибка возникающая при клике на спасательном круге и надутой камеры.
 Добавлена возможность чинить стартер и пропеллер.
 Добавлены текстуры ржавчины.
+Улучшено положение дышла на прицепах.
 
 Fixed boat engine sounds.
 Fixed a bug when leaving the boat ashore, the player began to walk through the walls.
@@ -15,6 +16,7 @@ Fixed English translation.
 Fixed bug that occurred when clicking on lifebuoy and inflated tire tube.
 Added the ability to repair the starter and propeller.
 Added rust textures.
+Improved drawbar position on trailers.
 -------------------
 v.1.12
 
