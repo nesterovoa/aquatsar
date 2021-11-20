@@ -23,7 +23,6 @@ module Base
 		textureLights = Boats/SailingYacht_light,
 		textureMask = Boats/SailingYacht_mask,
 		textureRust = Boats/BoatMotor_rust,
-		
 		extents = 1.6667 0.6333 5.1222,
 		mass = 300,
 		physicsChassisShape = 1.6667 0.5667 4.3222,
@@ -112,21 +111,21 @@ module Base
 
 		physics box
 		{
-			offset = -0.1444 0.1222 1.2167,
+			offset = -0.1444 0.1222 1.1111,
 			extents = 0.0556 0.0556 0.6833,
 			rotate = 0.0000 17.0000 0.0000,
 		}
 
 		physics box
 		{
-			offset = 0.1389 0.1222 1.2167,
+			offset = 0.1389 0.1222 1.1111,
 			extents = 0.0556 0.0556 0.6833,
 			rotate = 0.0000 -18.0000 0.0000,
 		}
 
 		physics sphere
 		{
-			offset = -0.0056 0.3056 1.5056,
+			offset = -0.0056 0.1278 1.4389,
 			radius = 0.0500,
 		}
 
@@ -289,7 +288,7 @@ module Base
 
 		attachment trailer
 		{
-			offset = 0.0000 -0.4389 2.9778,
+			offset = 0.0000 -0.4167 2.9778,
 			rotate = 0.0000 0.0000 0.0000,
 		}
 	}
