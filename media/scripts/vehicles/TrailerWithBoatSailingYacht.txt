@@ -20,6 +20,10 @@ module Base
 		}
 
 		textureShadow = Shadows/TrailerSailingYacht_shadow,
+		textureLights = Boats/SailingYacht_light,
+		textureMask = Boats/SailingYacht_mask,
+		textureRust = Boats/BoatMotor_rust,
+		
 		extents = 1.6667 0.6333 5.1222,
 		mass = 300,
 		physicsChassisShape = 1.6667 0.5667 4.3222,

@@ -70,8 +70,8 @@ IG_UI_EN = {
 	IGUI_SwimWord_Endurance5 = "...",
 
 	IGUI_SwimWord_Damage1 = "If I don't get some rest, I might not get there",
-	IGUI_SwimWord_Damage2 = "My leg is twisting, I need to go to the shore!",
-	IGUI_SwimWord_Damage3 = "My hand is squeezed, I urgently need to go to the shore!",
+	IGUI_SwimWord_Damage2 = "Cramp in the leg, I need to go to the shore!",
+	IGUI_SwimWord_Damage3 = "Cramp in the hand, I urgently need to go to the shore!",
 	IGUI_SwimWord_Damage4 = "...",
 
 	IGUI_SwimWord_LostItems1 = "Ah, I lost my things",

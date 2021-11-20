@@ -56,6 +56,7 @@ function ISLoadBoatOntoTrailer:perform()
 		VehicleUtils.callLua(sails:getLuaFunction("init"), self.trailer, sails, self.character)
 	end
 	self.trailer:setSkinIndex(self.boat:getSkinIndex())
+	self.trailer:setRust(self.boat:getRust())
 	if isClient() then
 		sendClientCommand(self.character, "vehicle", "remove", { vehicle = self.boat:getId() })
 	else

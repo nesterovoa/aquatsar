@@ -7,30 +7,30 @@ require "TimedActions/ISBaseTimedAction"
 ISStartBoatEngineManualy = ISBaseTimedAction:derive("ISStartBoatEngineManualy")
 
 function ISStartBoatEngineManualy:isValid()
-	local boat = self.character:getVehicle()
-	return boat ~= nil and
+	self.boat = self.character:getVehicle()
+	return self.boat ~= nil and
 --		boat:isEngineWorking() and
-		boat:isDriver(self.character) and
-		not boat:isEngineRunning() and 
-		not boat:isEngineStarted()
+		self.boat:isDriver(self.character) and
+		not self.boat:isEngineRunning() and 
+		not self.boat:isEngineStarted()
 end
 
 function ISStartBoatEngineManualy:start()
-	self.soundId = self.character:getEmitter():playSound("TryStartEngineManualy")
+	self.soundId = self.boat:getEmitter():playSound("TryStartEngineManualy")
 end
 
 function ISStartBoatEngineManualy:stop()
-	self.character:getEmitter():stopSound(self.soundId)
+	self.boat:getEmitter():stopSound(self.soundId)
 	ISBaseTimedAction.stop(self)
 end
 
 function ISStartBoatEngineManualy:perform()
-	local boat = self.character:getVehicle()
 	local haveKey = false;
 	-- if self.character:getInventory():haveThisKeyId(boat:getKeyId()) then
 		-- haveKey = true;
 	-- end
-	boat:setHotwired(true)
+	self.boat:getEmitter():stopSound(self.soundId)
+	self.boat:setHotwired(true)
 	sendClientCommand(self.character, 'vehicle', 'startEngine', {haveKey=haveKey})
 	-- needed to remove from queue / start next.
 	ISBaseTimedAction.perform(self)

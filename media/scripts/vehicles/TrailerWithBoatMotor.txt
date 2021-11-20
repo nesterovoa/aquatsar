@@ -18,8 +18,12 @@ module Base
 		{
 			texture = Boats/BoatMotor_base,
 		}
-
+		
 		textureShadow = Shadows/TrailerBoatMotor_shadow,
+		textureLights = Boats/BoatMotor_light,
+		textureMask = Boats/BoatMotor_mask,
+		textureRust = Boats/BoatMotor_rust,
+		
 		extents = 1.4222 0.6333 4.2222,
 		mass = 400,
 		physicsChassisShape = 1.4222 0.6333 4.2222,

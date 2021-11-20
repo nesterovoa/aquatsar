@@ -17,6 +17,8 @@ module Base
 		textureShadow = Shadows/BoatMotor_shadow,
 		textureLights = Boats/BoatMotor_light,
 		textureMask = Boats/BoatMotor_mask,
+		textureRust = Boats/BoatMotor_rust,
+		
 		mechanicType = 3,
 		offRoadEfficiency = 3,
 		engineRepairLevel = 5,
@@ -25,7 +27,11 @@ module Base
 
 		sound
 		{
+			engine = VehicleEngineModernCar02,
+			engineStart = motoryacht_engine_start,
+			engineTurnOff = motoryacht_engine_stop,
 			horn = BoatHorn,
+			ignitionFail = VehicleIgnitionFailModernCar02,
 		}
 
 		extents = 0.3171 0.3200 0.9971,

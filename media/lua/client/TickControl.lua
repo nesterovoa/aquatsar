@@ -153,6 +153,7 @@ function TickControl.main()
 					emiPl:stopSoundByName("Swim")
 					getSoundManager():PlaySound("LeaveWater", true, 0.0)
 					playerObj:getSprite():getProperties():UnSet(IsoFlagType.invisible)
+					playerObj:setNoClip(false)
 				end
 			elseif playerObj:getSquare() then			
 				if playerObj:getSquare():Is(IsoFlagType.water) then
@@ -197,17 +198,7 @@ function TickControl.main()
 										not sq:isWallTo(sideSqr2) and
 										not sq:isWindowTo(sideSqr2) and
 										sq:isWallTo(rearSqr) then
-									playerObj:setNoClip(true)
-									-- print("NOCLIP")
-									-- print("sq ", sq:getX(), " ", sq:getY())
-									-- print("sqDir ", sqDir:getX(), " ", sqDir:getY())
-									-- print("sideSqr1 ", sideSqr1:getX(), " ", sideSqr1:getY())
-									-- print(sq:isWallTo(sideSqr1))
-									-- print(sq:isWindowTo(sideSqr1))
-									-- print("sideSqr2 ", sideSqr2:getX(), " ", sideSqr2:getY())
-									-- print(sq:isWallTo(sideSqr2))
-									-- print(sq:isWindowTo(sideSqr2))
-									
+									playerObj:setNoClip(true)						
 								end
 							end
 						end

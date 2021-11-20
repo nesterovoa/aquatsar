@@ -933,7 +933,7 @@ function ISBoatMenu.replaceBoat(boat, newSriptName)
 		partsTable[part:getId()]["Condition"] = part:getCondition()
 		partsTable[part:getId()]["ItemContainer"] = nil
 		local itemContainer = part:getItemContainer()
-		if itemContainer and not itemContainer:isEmpty()then
+		if itemContainer and not itemContainer:isEmpty() then
 			partsTable[part:getId()]["ItemContainer"] = itemContainer
 		end
 	end

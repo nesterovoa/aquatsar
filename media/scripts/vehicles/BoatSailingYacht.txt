@@ -17,6 +17,8 @@ module Base
 		textureShadow = Shadows/SailingYacht_shadow,
 		textureLights = Boats/SailingYacht_light,
 		textureMask = Boats/SailingYacht_mask,
+		textureRust = Boats/BoatMotor_rust,
+		
 		mechanicType = 3,
 		offRoadEfficiency = 2,
 		engineRepairLevel = 5,
@@ -25,9 +27,13 @@ module Base
 
 		sound
 		{
+			engine = VehicleEngineOffRoad,
+			engineStart = SuccessStartEngineManualy,
+			engineTurnOff = VehicleEngineOffRoad,
 			horn = BoatHorn,
+			ignitionFail = FailStartEngineManualy,
 		}
-
+		
 		wheel FrontLeft
 		{
 			front = true,
