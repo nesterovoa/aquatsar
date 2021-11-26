@@ -367,17 +367,19 @@ function Boats.Update.GasTank(boat, part, elapsedMinutes)
 		local gasMultiplier = 90000;
 		local heater = boat:getHeater();
 		if heater and heater:getModData().active then
-			gasMultiplier = gasMultiplier + 5000;
+			gasMultiplier = gasMultiplier - 5000;
 		end
 		local qualityMultiplier = ((100 - boat:getEngineQuality()) / 200) + 1;
 		local massMultiplier =  ((math.abs(1000 - boat:getScript():getMass())) / 300) + 1;
 		-- if boat is stopped, we half the value of gas consummed
 		-- AUD.insp("Boat", "getCurrentSpeedKmHour:", boat:getCurrentSpeedKmHour())
-		if math.abs(boat:getCurrentSpeedKmHour()) > 0.4 then
+		
+		-- nesterovoa 26.11.2021 if math.abs(boat:getCurrentSpeedKmHour()) > 0.4 then
+		if math.abs(boat:getEngineSpeed()) > 1000  then -- idle
 			gasMultiplier = gasMultiplier / qualityMultiplier / massMultiplier;
 			speedMultiplier = 800;
 		else
-			gasMultiplier = (gasMultiplier / qualityMultiplier);
+			gasMultiplier = (gasMultiplier / qualityMultiplier) * 3; -- x3 - fuel consumption decrease fix 
 			speedMultiplier = 800;
 		end
 
