@@ -304,8 +304,10 @@ end
 
 function AquaPhysics.boatEngineShutDownOnGround(veh)
 	local sq = veh:getSquare()
-	if sq and not isWater(sq) and veh:isEngineRunning() then
-		veh:engineDoShutingDown()
+	if sq and not isWater(sq) then
+		if veh:isEngineRunning() then
+			veh:engineDoStalling()
+		end
 	end
 end
 
@@ -360,6 +362,7 @@ function AquaPhysics.heightFix(boat)
 			tempVec1:set(0, 5000, 0)
 			tempVec2:set(0, 0, 0)
 			boat:addImpulse(tempVec1, tempVec2)
+			print("AquaPhysics.heightFix")
 			-- boat:update()
 		end
 	elseif boat:getDebugZ() < 0.1 then

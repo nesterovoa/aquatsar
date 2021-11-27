@@ -94,17 +94,30 @@ end
 -- Replace functions
 -------------------------
 
+local ignoreParts = {
+["TireFrontLeft"] = true,
+["TireFrontRight"] = true,
+["TireRearLeft"] = true,
+["TireRearRight"] = true,
+["SuspensionFrontLeft"] = true,
+["SuspensionFrontRight"] = true,
+["SuspensionRearLeft"] = true,
+["SuspensionRearRight"] = true,
+}
+
 function ISVehicleMenuForTrailerWithBoat.replaceTrailerBoat(veh1, veh2)
 	local partsTable = {}
 	for i=1, veh1:getScript():getPartCount() do
 		local part = veh1:getPartByIndex(i-1)
-		partsTable[part:getId()] = {}
-		partsTable[part:getId()]["InventoryItem"] = part:getInventoryItem()
-		partsTable[part:getId()]["Condition"] = part:getCondition()
-		partsTable[part:getId()]["ItemContainer"] = nil
-		local itemContainer = part:getItemContainer()
-		if itemContainer and not itemContainer:isEmpty()then
-			partsTable[part:getId()]["ItemContainer"] = itemContainer
+		if not ignoreParts[part:getId()] then
+			partsTable[part:getId()] = {}
+			partsTable[part:getId()]["InventoryItem"] = part:getInventoryItem()
+			partsTable[part:getId()]["Condition"] = part:getCondition()
+			partsTable[part:getId()]["ItemContainer"] = nil
+			local itemContainer = part:getItemContainer()
+			if itemContainer and not itemContainer:isEmpty()then
+				partsTable[part:getId()]["ItemContainer"] = itemContainer
+			end
 		end
 	end
 	for i=1, veh2:getScript():getPartCount() do
@@ -131,13 +144,15 @@ function ISVehicleMenuForTrailerWithBoat.replaceTrailer(trailer, newTrailerName)
 	local keyId = trailer:getKeyId()
 	for i=1, trailer:getScript():getPartCount() do
 		local part = trailer:getPartByIndex(i-1)
-		partsTable[part:getId()] = {}
-		partsTable[part:getId()]["InventoryItem"] = part:getInventoryItem()
-		partsTable[part:getId()]["Condition"] = part:getCondition()
-		partsTable[part:getId()]["ItemContainer"] = nil
-		local itemContainer = part:getItemContainer()
-		if itemContainer and not itemContainer:isEmpty()then
-			partsTable[part:getId()]["ItemContainer"] = itemContainer
+		if not ignoreParts[part:getId()] then
+			partsTable[part:getId()] = {}
+			partsTable[part:getId()]["InventoryItem"] = part:getInventoryItem()
+			partsTable[part:getId()]["Condition"] = part:getCondition()
+			partsTable[part:getId()]["ItemContainer"] = nil
+			local itemContainer = part:getItemContainer()
+			if itemContainer and not itemContainer:isEmpty()then
+				partsTable[part:getId()]["ItemContainer"] = itemContainer
+			end
 		end
 	end
 	trailer:setScriptName(newTrailerName)

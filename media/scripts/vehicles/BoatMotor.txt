@@ -18,7 +18,6 @@ module Base
 		textureLights = Boats/BoatMotor_light,
 		textureMask = Boats/BoatMotor_mask,
 		textureRust = Boats/BoatMotor_rust,
-		
 		mechanicType = 3,
 		offRoadEfficiency = 3,
 		engineRepairLevel = 5,
@@ -159,7 +158,7 @@ module Base
 
 			position outside
 			{
-				offset = 0.2714 0.0000 -0.4700,
+				offset = 0.2714 0.0000 -0.4171,
 				rotate = 0.0000 0.0000 0.0000,
 				area = SeatRearLeft,
 			}
@@ -175,7 +174,7 @@ module Base
 
 			position outside
 			{
-				offset = -0.2714 0.0000 -0.4700,
+				offset = -0.2714 0.0000 -0.4171,
 				rotate = 0.0000 0.0000 0.0000,
 				area = SeatRearRight,
 			}

@@ -492,7 +492,7 @@ function ISBoatMenu.onExit(playerObj)
     boat:updateHasExtendOffsetForExit(playerObj)
 	if AquaConfig.isBoat(boat) then
 		local inCabin = boat:getPartById("InCabin" .. seatNameTable[boat:getSeat(playerObj)+1])
-		if math.abs(boat:getCurrentSpeedKmHour()) < 4 and not inCabin then 
+		if not inCabin then
 			-- exitPoint = ISBoatMenu.getNearLandForExit(boat)
 			local exitPoint = ISBoatMenu.getBestSeatExit(playerObj, boat, true)
 			if exitPoint then
@@ -916,11 +916,12 @@ function ISBoatMenu.offToggleHeadlights(playerObj)
 end
 
 function ISBoatMenu.exitBoatOnWater(playerObj)
-	local vehicle = playerObj:getVehicle()
-	vehicle:exit(playerObj)
-	playerObj:PlayAnim("Idle")
-	triggerEvent("OnExitVehicle", playerObj)
-	vehicle:updateHasExtendOffsetForExitEnd(playerObj)
+	ISTimedActionQueue.add(ISExitVehicle:new(playerObj))
+	-- local vehicle = playerObj:getVehicle()
+	-- vehicle:exit(playerObj)
+	-- playerObj:PlayAnim("Idle")
+	-- triggerEvent("OnExitVehicle", playerObj)
+	-- vehicle:updateHasExtendOffsetForExitEnd(playerObj)
 end
 
 function ISBoatMenu.replaceBoat(boat, newSriptName)

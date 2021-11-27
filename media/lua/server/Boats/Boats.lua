@@ -355,6 +355,25 @@ end
 
 --***********************************************************
 --**                                                       **
+--**                     ApiBoatAirbag                     **
+--**                                                       **
+--***********************************************************
+function Boats.Create.ApiBoatAirbag(vehicle, part)
+print("Boats.Create.ApiBoatAirbag")
+	local item = VehicleUtils.createPartInventoryItem(part)
+	part:setCondition(100)
+	part:setContainerContentAmount(part:getContainerCapacity()/2, false, true);
+end
+
+function Boats.Init.ApiBoatAirbag(vehicle, part)
+print("Boats.Init.ApiBoatAirbag")
+	local item = VehicleUtils.createPartInventoryItem(part)
+	part:setCondition(100)
+	part:setContainerContentAmount(part:getContainerCapacity()/2, false, true);
+end
+
+--***********************************************************
+--**                                                       **
 --**                        GasTank                        **
 --**                                                       **
 --***********************************************************
@@ -367,23 +386,22 @@ function Boats.Update.GasTank(boat, part, elapsedMinutes)
 		local gasMultiplier = 90000;
 		local heater = boat:getHeater();
 		if heater and heater:getModData().active then
-			gasMultiplier = gasMultiplier + 5000;
+			gasMultiplier = gasMultiplier - 5000;
 		end
 		local qualityMultiplier = ((100 - boat:getEngineQuality()) / 200) + 1;
-		local massMultiplier =  ((math.abs(1000 - boat:getScript():getMass())) / 300) + 1;
-		-- if boat is stopped, we half the value of gas consummed
+		-- local massMultiplier =  ((math.abs(1000 - boat:getScript():getMass())) / 300) + 1;
+		
 		-- AUD.insp("Boat", "getCurrentSpeedKmHour:", boat:getCurrentSpeedKmHour())
-		if math.abs(boat:getCurrentSpeedKmHour()) > 0.4 then
-			gasMultiplier = gasMultiplier / qualityMultiplier / massMultiplier;
-			speedMultiplier = 800;
+		speedMultiplier = 800;
+		if math.abs(boat:getEngineSpeed()) > 1000 then
+			gasMultiplier = (gasMultiplier / qualityMultiplier) / 2;
 		else
-			gasMultiplier = (gasMultiplier / qualityMultiplier);
-			speedMultiplier = 800;
+			gasMultiplier = (gasMultiplier / qualityMultiplier) * 3;
 		end
 
 		local newAmount = (speedMultiplier / gasMultiplier) * AquaConfig.Boat(boat).multiplierFuelConsumption * SandboxVars.CarGasConsumption;
 		newAmount =  newAmount * (boat:getEngineSpeed()/2500.0);
-		-- AUD.insp("Boat", "newAmount:", newAmount)
+		AUD.insp("Boat", "newAmount:", newAmount)
 		amount = amount - elapsedMinutes * newAmount;
 		-- if your gas tank is in bad condition, you can simply lose fuel
 		if part:getCondition() < 70 then

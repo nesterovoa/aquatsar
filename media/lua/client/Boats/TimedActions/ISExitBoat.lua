@@ -11,10 +11,12 @@ function ISExitBoat:isValid()
 end
 
 function ISExitBoat:update()
+-- print("ISExitBoat update")
 	local vehicle = self.character:getVehicle()
 	local seat = vehicle:getSeat(self.character)
 	vehicle:playPassengerAnim(seat, "exit")
 	if self.character:GetVariable("ExitAnimationFinished") == "true" then
+			-- print("ExitAnimationFinished")
 		self.character:ClearVariable("ExitAnimationFinished")
 		self.character:ClearVariable("bExitingVehicle")
 		self:forceComplete()

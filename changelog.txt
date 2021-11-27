@@ -1,4 +1,20 @@
 -------------------
+v.1.14dev1
+Изменена логика выхода из лодки (включены анимации, разрешено выходить в движении).
+Исправлена ошибка возникающая при попадании лодки на берег.
+Шины у прицепа больше не заменяются на "воздушную подушку" лодки.
+Уменьшен расход лодки на холостом ходу.
+Добавлены первые версии 3д-моделей.
+Улучшены иконки предметов.
+
+Changed logics of leaving the boat (animations included, allowed to leave in motion).
+Fixed an error that occurs when the boat hits the shore.
+Trailer's tires are not replaced by boat's "airbag" anymore.
+Decreased boat's idle power consumption.
+Added first versions of 3D models.
+Improved icons for items.
+
+-------------------
 v.1.13
 Исправлены звуки двигателя лодок.
 Исправлена ошибка, когда при выходе из лодки на берег игрок начинал проходить сквозь стены.

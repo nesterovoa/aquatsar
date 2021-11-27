@@ -34,9 +34,9 @@ module Base
 
 		part Tire*
 		{
-			/**/
+			/*
 			category = nodisplay,
-			
+			*/
 			itemType = Aquatsar.AirBagNormal,
 			container
 			{
@@ -46,19 +46,19 @@ module Base
 			}
 			lua
 			{
-				create = Vehicles.Create.Tire,
-				init = Vehicles.Init.Tire,
+				create = Boats.Create.ApiBoatAirbag,
+				init = Boats.Init.ApiBoatAirbag,
 			}
 			model InflatedTirePlusWheel
 			{
 				file = Vehicles_Wheel,
 			}
-			/**/
+			/*
 			model InflatedTirePlusWheel
 			{
-				file = WheelNull,
+				file = ,
 			}
-			
+			*/
 		}
 	}
 }

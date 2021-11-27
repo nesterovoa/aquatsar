@@ -33,6 +33,7 @@ module Aquatsar
 		Type	=	Normal,
 		DisplayName	=	Compass,
 		Icon	=	Compass,
+		WorldStaticModel = Compass_Ground,
 	}
 
 	item DeflatedTireTube
@@ -41,6 +42,7 @@ module Aquatsar
 		Type	=	Normal,
 		DisplayName	=	Deflated Tire Tube,
 		Icon	=	DeflatedTireTube,
+		WorldStaticModel = DeflatedTireTube_Ground,
 	}
 	
 	item Lifebuoy
@@ -52,6 +54,7 @@ module Aquatsar
 		BodyLocation = Jacket,
 		Icon = Lifebuoy,
 		Cosmetic = TRUE,
+		WorldStaticModel = Lifebuoy_Ground,
     }
 
 	item TireTube
@@ -63,6 +66,7 @@ module Aquatsar
 		BodyLocation = Jacket,
 		Icon = TireTube,
 		Cosmetic = TRUE,
+		WorldStaticModel = TireTube_Ground,
 	}
 	
 	recipe Extract Tire Tube
@@ -115,6 +119,7 @@ module Aquatsar
         ChanceToSpawnDamaged = 0,
         ConditionMax = 100,
         MechanicsItem = TRUE,
+		WorldStaticModel = Propeller_Ground,
     }
 	
 	item ManualStarter
@@ -127,6 +132,7 @@ module Aquatsar
         ChanceToSpawnDamaged = 50,
         ConditionMax = 100,
         MechanicsItem = TRUE,
+		WorldStaticModel = ManualStarter_Ground,
     }
 
     item Sails
@@ -139,6 +145,7 @@ module Aquatsar
         ChanceToSpawnDamaged = 10,
         ConditionMax = 100,
         MechanicsItem = TRUE,
+		WorldStaticModel = Sail_Ground,
     }
 	
 	/************************ Seats ************************/
@@ -244,7 +251,8 @@ module Aquatsar
         TeachedRecipes  =   Powerboats Mechanics; Sailboats Mechanics; Performance Boat Mechanics,
         ReplaceOnUse    =   BoatMag,
         Tooltip = Tooltip_item_BoatMag,
-        StaticModel = Magazine,
+        StaticModel = BoatMag_Reading,
+		WorldStaticModel = BoatMag_Ground,
     }
 	
 	item SwimMag
@@ -252,11 +260,12 @@ module Aquatsar
         Weight	=	0.1,
         Type	=	Literature,
         DisplayName	=	Swimming Times Magazine,
-        Icon	=	MagazineFish,
+        Icon	=	SwimMagIcon,
         TeachedRecipes  =   Swimming,
         ReplaceOnUse    =   SwimMag,
         Tooltip = Tooltip_item_SwimMag,
-        StaticModel = Magazine,
+        StaticModel = SwimMag_Reading,
+		WorldStaticModel = SwimMag_Ground,
     }
 	
 }
