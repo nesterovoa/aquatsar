@@ -25,7 +25,6 @@ function ISAnchorAction:perform()
 		elseif self.mode == "rope" then
 			self.boat:getEmitter():playSound("BindRoap")
 		end
-        self.boat:getModData()["aqua_anchor_on"] = true
     else
 		if self.mode == "anchor" then
 			self.boat:getEmitter():playSound("AnchorFromWater")
@@ -33,8 +32,8 @@ function ISAnchorAction:perform()
 			self.boat:getEmitter():playSound("BindRoap")
 		end
         --self.character:getEmitter():playSound("DropWater")
-        self.boat:getModData()["aqua_anchor_on"] = false
     end
+	Boats.Use.BoatAnchor(self.boat)
 	ISBaseTimedAction.perform(self)
 end
 
@@ -48,11 +47,9 @@ function ISAnchorAction:new(character, boat, drop, mode)
     else
         o.maxTime = 300
     end
-    
     o.drop = drop
     o.boat = boat
 	o.mode = mode
-	
 	return o
 end
 

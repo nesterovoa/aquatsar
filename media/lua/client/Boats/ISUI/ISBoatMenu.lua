@@ -394,11 +394,6 @@ end
 -- end
 
 function ISBoatMenu.onEnter(playerObj, boat)
-	-- if boat:getModData()["AquaCabin_isUnlocked"] == nil then
-		-- if ZombRand(100) < 20 then
-			-- boat:getModData()["AquaCabin_isUnlocked"] = true			    
-		-- end
-	-- end
 	local seat = ISBoatMenu.getBestSeatEnter(playerObj, boat)
 	if seat then
 		ISBoatMenu.onEnterAux(playerObj, boat, seat)
@@ -683,64 +678,66 @@ function ISBoatMenu.showRadialMenu(playerObj)
 		-- end
 		-- menu:addSlice(getText("ContextMenu_Open_Cabin"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
 	-- end
-	if not boat:getModData()["AquaCabin_isUnlocked"] then
-		if playerObj:getInventory():haveThisKeyId(boat:getKeyId()) or inCabin then
-			local func =  function(arg_boat, arg_pl) 
-				arg_boat:getModData()["AquaCabin_isUnlocked"] = true
-				arg_pl:getEmitter():playSound("UnlockDoor")
-			end
-			menu:addSlice(getText("ContextMenu_Open_Cabin"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
-		else
-			-- Предметы с помощью которых можно вскрыть каюту
-			local openTools = {
-				Crowbar = 60, 
-				Screwdriver = 40, 
-				HuntingKnife = 35, 
-				BreadKnife = 35,
-				KitchenKnife = 30, 
-				LetterOpener = 25, 
-				ButterKnife = 25, 
-				IcePick = 20, 
-				Scalpel = 20, 
-			}
-			local opener = ""
-			for tool, chance in pairs(openTools) do
-				opener = playerObj:getInventory():getFirstTypeRecurse(tool)
-				if opener then
-					
-					break
+	if boat:getPartById("CabinLock") then
+		if not boat:getModData()["AquaCabin_isUnlocked"] then
+			if playerObj:getInventory():haveThisKeyId(boat:getKeyId()) or inCabin then
+				local func =  function(arg_boat, arg_pl) 
+					arg_boat:getModData()["AquaCabin_isUnlocked"] = true
+					arg_pl:getEmitter():playSound("UnlockDoor")
 				end
-			end
-			
-			if opener then
-				local bored = playerObj:getBodyDamage():getBoredomLevel() > 25
-				local tired = playerObj:getStats():getEndurance() < 0.7
-				local unhappy = playerObj:getBodyDamage():getUnhappynessLevel() > 20
-
-				if not tired and not bored and not unhappy then				
-					local func = function(arg_boat, arg_pl) 
-						ISTimedActionQueue.add(ISEquipWeaponAction:new(playerObj, opener, 50, true, true));
-						ISTimedActionQueue.add(ISForceUnlockCabin:new(playerObj, boat, opener, openTools[opener:getType()]));
-					end
-					menu:addSlice(getText("ContextMenu_Open_Cabin_Force", string.lower(opener:getName())), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
-				elseif tired then
-					menu:addSlice(getText("ContextMenu_cabinForceUnlock_tooTired"), getTexture("media/ui/boats/RadialMenu_Door.png"), nil)
-				elseif bored then
-					menu:addSlice(getText("ContextMenu_cabinForceUnlock_tooBored"), getTexture("media/ui/boats/RadialMenu_Door.png"), nil)
-				elseif unhappy then
-					menu:addSlice(getText("ContextMenu_cabinForceUnlock_tooUnhappy"), getTexture("media/ui/boats/RadialMenu_Door.png"), nil)
-				end
+				menu:addSlice(getText("ContextMenu_Open_Cabin"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
 			else
-				menu:addSlice(getText("ContextMenu_Open_Cabin_Force_Need_Crowbar"), getTexture("media/ui/boats/RadialMenu_Door.png"))
+				-- Предметы с помощью которых можно вскрыть каюту
+				local openTools = {
+					Crowbar = 60, 
+					Screwdriver = 40, 
+					HuntingKnife = 35, 
+					BreadKnife = 35,
+					KitchenKnife = 30, 
+					LetterOpener = 25, 
+					ButterKnife = 25, 
+					IcePick = 20, 
+					Scalpel = 20, 
+				}
+				local opener = ""
+				for tool, chance in pairs(openTools) do
+					opener = playerObj:getInventory():getFirstTypeRecurse(tool)
+					if opener then
+						
+						break
+					end
+				end
+				
+				if opener then
+					local bored = playerObj:getBodyDamage():getBoredomLevel() > 25
+					local tired = playerObj:getStats():getEndurance() < 0.7
+					local unhappy = playerObj:getBodyDamage():getUnhappynessLevel() > 20
+
+					if not tired and not bored and not unhappy then				
+						local func = function(arg_boat, arg_pl) 
+							ISTimedActionQueue.add(ISEquipWeaponAction:new(playerObj, opener, 50, true, true));
+							ISTimedActionQueue.add(ISForceUnlockCabin:new(playerObj, boat, opener, openTools[opener:getType()]));
+						end
+						menu:addSlice(getText("ContextMenu_Open_Cabin_Force", string.lower(opener:getName())), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
+					elseif tired then
+						menu:addSlice(getText("ContextMenu_cabinForceUnlock_tooTired"), getTexture("media/ui/boats/RadialMenu_Door.png"), nil)
+					elseif bored then
+						menu:addSlice(getText("ContextMenu_cabinForceUnlock_tooBored"), getTexture("media/ui/boats/RadialMenu_Door.png"), nil)
+					elseif unhappy then
+						menu:addSlice(getText("ContextMenu_cabinForceUnlock_tooUnhappy"), getTexture("media/ui/boats/RadialMenu_Door.png"), nil)
+					end
+				else
+					menu:addSlice(getText("ContextMenu_Open_Cabin_Force_Need_Crowbar"), getTexture("media/ui/boats/RadialMenu_Door.png"))
+				end
 			end
-		end
-	elseif boat:getModData()["AquaCabin_isUnlocked"] and not boat:getModData()["AquaCabin_isLockRuined"] then
-		if playerObj:getInventory():haveThisKeyId(boat:getKeyId()) or inCabin  then
-			local func = function(arg_boat, arg_pl) 
-				arg_boat:getModData()["AquaCabin_isUnlocked"] = false
-				arg_pl:getEmitter():playSound("LockDoor")
+		elseif boat:getModData()["AquaCabin_isUnlocked"] and not boat:getModData()["AquaCabin_isLockRuined"] then
+			if playerObj:getInventory():haveThisKeyId(boat:getKeyId()) or inCabin  then
+				local func = function(arg_boat, arg_pl) 
+					arg_boat:getModData()["AquaCabin_isUnlocked"] = false
+					arg_pl:getEmitter():playSound("LockDoor")
+				end
+				menu:addSlice(getText("ContextMenu_Close_Cabin"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
 			end
-			menu:addSlice(getText("ContextMenu_Close_Cabin"), getTexture("media/ui/boats/RadialMenu_Door.png"), func, boat, playerObj)
 		end
 	end
 
@@ -826,13 +823,13 @@ function ISBoatMenu.showRadialMenu(playerObj)
 			menu:addSlice(getText("ContextMenu_Sleep"), getTexture("media/ui/vehicles/vehicle_sleep.png"), ISBoatMenu.onSleep, playerObj, boat);
 		end
 	end
-		
-	if boat:getCurrentSpeedKmHour() < 5 and boat:getCurrentSpeedKmHour() > -5 then
+	
+	local boatAnchor = boat:getPartById("BoatAnchor")
+	if boatAnchor and boat:getCurrentSpeedKmHour() < 5 and boat:getCurrentSpeedKmHour() > -5 then
 		if ISBoatMenu.getBestSeatExit(playerObj, boat, true) then
 			menu:addSlice(getText("IGUI_ExitBoat"), getTexture("media/ui/boats/RadialMenu_ExitOnGround.png"), ISBoatMenu.onExit, playerObj)
 			if not inCabin then
-				if not boat:getModData()["aqua_anchor_on"] then
-					boat:getModData()["aqua_anchor_on"] = false
+				if not boatAnchor:getInventoryItem() then
 					local funcAnchor = function(boat) ISTimedActionQueue.add(ISAnchorAction:new(playerObj, boat, true, "rope")) end
 					menu:addSlice(getText("ContextMenu_bind_boat"), getTexture("media/ui/boats/RadialMenu_BoatBind.png"), funcAnchor, boat)
 				else
@@ -842,8 +839,7 @@ function ISBoatMenu.showRadialMenu(playerObj)
 			end
 		else
 			if not inCabin then
-				if not boat:getModData()["aqua_anchor_on"] then
-					boat:getModData()["aqua_anchor_on"] = false
+				if not boatAnchor:getInventoryItem() then
 					local funcAnchor = function(boat) ISTimedActionQueue.add(ISAnchorAction:new(playerObj, boat, true, "anchor")) end
 					menu:addSlice(getText("ContextMenu_set_anchor_on"), getTexture("media/ui/boats/RadialMenu_AnchorDown.png"), funcAnchor, boat)
 				else

@@ -409,7 +409,7 @@ end
 function AquaPhysics.waterFlowRotation(boat, force)
 	local playerObj = getSpecificPlayer(0)
 	if not playerObj or not (boat:getDriver() == playerObj) then return end
-	if boat:getDriver() and boat:getPartById("Propeller") and boat:getPartById("Propeller"):getInventoryItem() and not boat:getModData()["aqua_anchor_on"] then
+	if boat:getDriver() and boat:getPartById("Propeller") and boat:getPartById("Propeller"):getInventoryItem() and (not boat:getPartById("BoatAnchor") or not boat:getPartById("BoatAnchor"):getInventoryItem()) then
 		local lenHalf = boat:getScript():getPhysicsChassisShape():z()/2
 		if isKeyDown(getCore():getKey("Right")) and 
 				not isKeyDown(getCore():getKey("Forward")) and 
@@ -547,7 +547,7 @@ function AquaPhysics.updateVehicles()
 					AquaPhysics.waterFlowRotation(boat, 800)
 				end
 				
-				if boat:getModData()["aqua_anchor_on"] then 
+				if boat:getPartById("BoatAnchor") and boat:getPartById("BoatAnchor"):getInventoryItem() then 
 					AquaPhysics.stopByAnchor(boat, 5000) 
 				end
 				AquaPhysics.boatEngineShutDownOnGround(boat)

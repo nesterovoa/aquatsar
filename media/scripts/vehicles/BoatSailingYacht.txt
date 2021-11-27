@@ -134,6 +134,7 @@ module Base
 		template = BatteryHeater/part/BatteryHeater,
 		template = ApiBoatAirbag,
 		template = Propeller,
+		template = BoatAnchor,
 		template = Sails,
 		template = ManualStarter,
 		template = BoatStandartParts/part/WindowFrontLeft,
@@ -145,10 +146,13 @@ module Base
 		template = Light/part/LightFloodlightLeft,
 		template = Light/part/LightFloodlightRight,
 		template = Light/part/LightCabin,
+	
+		template = InCabin/part/CabinLock,
 		template = InCabin/part/InCabinMiddleRight,
 		template = InCabin/part/InCabinMiddleLeft,
 		template = InCabin/part/InCabinRearLeft,
 		template = InCabin/part/InCabinRearRight,
+		
 		template = Cupboards/part/CupboardMiddleRight,
 		template = Counters/part/CounterMiddleRight,
 		template = Counters/part/CounterMiddleLeft,

@@ -314,19 +314,78 @@ end
 --**                     ApiBoatAirbag                     **
 --**                                                       **
 --***********************************************************
-function Boats.Create.ApiBoatAirbag(vehicle, part)
+function Boats.Create.ApiBoatAirbag(boat, part)
 -- print("Boats.Create.ApiBoatAirbag")
-	-- local item = VehicleUtils.createPartInventoryItem(part)
-	-- part:setCondition(100)
-	-- part:setContainerContentAmount(part:getContainerCapacity()/2, false, true);
+	local item = VehicleUtils.createPartInventoryItem(part)
+	part:setCondition(100)
+	part:setContainerContentAmount(part:getContainerCapacity()/2, false, true);
 end
 
-function Boats.Init.ApiBoatAirbag(vehicle, part)
+function Boats.Init.ApiBoatAirbag(boat, part)
+-- print("Boats.Init.ApiBoatAirbag")
+	local item = VehicleUtils.createPartInventoryItem(part)
+	part:setCondition(100)
+	part:setContainerContentAmount(part:getContainerCapacity()/2, false, true);
+end
+
+--***********************************************************
+--**                                                       **
+--**							Anchor					   **
+--**                                                       **
+--***********************************************************
+function Boats.Create.BoatAnchor(boat, part)
+-- print("Boats.Create.ApiBoatAirbag")
+	-- local item = VehicleUtils.createPartInventoryItem(part)
+	part:setInventoryItem(nil)
+end
+
+function Boats.Init.BoatAnchor(boat, part)
 -- print("Boats.Init.ApiBoatAirbag")
 	-- local item = VehicleUtils.createPartInventoryItem(part)
 	-- part:setCondition(100)
 	-- part:setContainerContentAmount(part:getContainerCapacity()/2, false, true);
 end
+
+function Boats.Use.BoatAnchor(boat)
+	if boat then
+		local part = boat:getPartById("BoatAnchor")
+		if part:getInventoryItem() then
+			part:setInventoryItem(nil)
+		else
+			local item = VehicleUtils.createPartInventoryItem(part)
+		end
+	else
+		print("AQUATSAR error: Boats.Use.BoatAnchor")
+	end
+end
+
+--***********************************************************
+--**                                                       **
+--**							BoatCabinLock					   **
+--**                                                       **
+--***********************************************************
+function Boats.Create.BoatCabinLock(boat, part)
+-- print("Boats.Create.ApiBoatAirbag")
+	-- local item = VehicleUtils.createPartInventoryItem(part)
+	part:setInventoryItem(nil)
+end
+
+function Boats.Init.BoatCabinLock(boat, part)
+-- print("Boats.Init.ApiBoatAirbag")
+	-- local item = VehicleUtils.createPartInventoryItem(part)
+	-- part:setCondition(100)
+	-- part:setContainerContentAmount(part:getContainerCapacity()/2, false, true);
+end
+
+function Boats.Use.BoatCabinLock(boat)
+	local part = boat:getPartById("BoatAnchor")
+	if part:getInventoryItem() then
+		part:setInventoryItem(nil)
+	else
+		local item = VehicleUtils.createPartInventoryItem(part)
+	end
+end
+
 
 --***********************************************************
 --**                                                       **
