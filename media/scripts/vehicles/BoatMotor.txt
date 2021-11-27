@@ -92,7 +92,7 @@ module Base
 		}
 
 		engineForce = 2500,
-		maxSpeed = 10f,
+		maxSpeed = 20f,
 		engineLoudness = 90,
 		engineQuality = 10,
 		brakingForce = 90,
@@ -102,8 +102,8 @@ module Base
 		stoppingMovementForce = 2.0f,
 		rollInfluence = 0.1f,
 		steeringIncrement = 0.03,
-		steeringClamp = 0.3,
-		suspensionStiffness = 50,
+		steeringClamp = 0.2,
+		suspensionStiffness = 80,
 		suspensionCompression = 20,
 		suspensionDamping = 1000,
 		maxSuspensionTravelCm = 1.1,
@@ -236,6 +236,17 @@ module Base
 		template = BoatStandartParts/part/WindowRearRight,
 		template = BoatStandartParts/part/Windshield,
 		template = BoatStandartParts/part/Radio,
+		template = Suspension,
+		part Suspension* 
+		{
+			category = nodisplay,
+			lua
+			{
+				create = Vehicles.Create.Default,
+				init = CommonTemplates.Init.Repair,
+			}
+		}
+		
 		template = BatteryHeater/part/BatteryHeater,
 		template = ApiBoatAirbag,
 		template = Propeller,

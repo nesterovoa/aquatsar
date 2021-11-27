@@ -246,9 +246,9 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 	elseif collisionWithGround then
 		savedWindForce = 0
 	elseif savedWindForce < windForceByDirection then
-		savedWindForce = (savedWindForce + 0.05)
+		savedWindForce = (savedWindForce + 0.2)
 	elseif savedWindForce >= windForceByDirection then
-		savedWindForce = (savedWindForce - 0.02)
+		savedWindForce = (savedWindForce - 0.08)
 	end
 	
 	boat:getModData()["windForceByDirection"] = savedWindForce
@@ -256,15 +256,16 @@ function AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 
 	local squareFrontVehicle = getCell():getGridSquare(frontVector:x(), frontVector:y(), 0)
 	if squareFrontVehicle ~= nil and isWater(squareFrontVehicle) then
-		if savedWindForce > 0 and boatSpeedKPH < (savedWindForce * 1.60934) and boatSpeedKPH < windSpeedKPH and not isKeyDown(getCore():getKey("Backward")) then
+		if savedWindForce > 1 and boatSpeedKPH < (savedWindForce * 1.60934) and boatSpeedKPH < windSpeedKPH and not isKeyDown(getCore():getKey("Backward")) then
+			-- print("squareFrontVehicle")
 			local startCoeff = 1
-			if boatSpeedKPH < 2 * 1.60934 then
-				startCoeff = 5
+			if boatSpeedKPH < 5 * 1.60934 then
+				startCoeff = 10
 			end
 			if collisionWithGround then 
 				boatDirVector:mul(150 * savedWindForce)
 			else
-				boatDirVector:mul(550 * savedWindForce * startCoeff)
+				boatDirVector:mul(1000 * savedWindForce * startCoeff)
 			end
 			boat:setPhysicsActive(true)
 			tempVec2:set(0, 0, 0)
@@ -352,6 +353,7 @@ function AquaPhysics.reverseSpeedFix(boat, limit)
 end
 
 function AquaPhysics.heightFix(boat)
+	-- print("AquaPhysics.heightFix")
 	local squareUnderVehicle = getCell():getGridSquare(boat:getX(), boat:getY(), 0)
 	-- AUD.insp("Boat", "getDebugZ:", boat:getDebugZ())
 	if squareUnderVehicle ~= nil then
@@ -362,7 +364,7 @@ function AquaPhysics.heightFix(boat)
 				tempVec1:set(0, 5000, 0)
 				tempVec2:set(0, 0, 0)
 				boat:addImpulse(tempVec1, tempVec2)
-				print("AquaPhysics.heightFix")
+
 			end
 			return true
 		else
@@ -372,6 +374,7 @@ function AquaPhysics.heightFix(boat)
 			return false
 		end
 	else
+		-- print("squareUnderVehicle = nil")
 		return false
 	end
 end
@@ -532,20 +535,22 @@ function AquaPhysics.updateVehicles()
 			-- dirTest (boat)
 			local collisionWithGround = AquaPhysics.Water.Borders(boat)
 			if AquaPhysics.heightFix(boat) then
+				
 				-- AquaPhysics.inertiaFix(boat)
 				if boatInfo.limitReverseSpeed ~= nil then
 					AquaPhysics.reverseSpeedFix(boat, boatInfo.limitReverseSpeed)
 				end
 				if boat:getPartById("Sails") then
-					if boat:getPartById("Sails"):getLight():getActive() and not boat:getModData()["aqua_anchor_on"] then
+					if boat:getPartById("Sails"):getLight():getActive() and not boat:getPartById("BoatAnchor"):getInventoryItem() then
+						-- print("windImpulse")
 						AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
 					end
 					AquaPhysics.changeSailAngle(boat)
 				end
 				
-				if math.abs(boat:getCurrentSpeedKmHour()) < 4 then
-					AquaPhysics.waterFlowRotation(boat, 800)
-				end
+				-- if math.abs(boat:getCurrentSpeedKmHour()) < 4 then
+					AquaPhysics.waterFlowRotation(boat, 2000)
+				-- end
 				
 				if boat:getPartById("BoatAnchor") and boat:getPartById("BoatAnchor"):getInventoryItem() then 
 					AquaPhysics.stopByAnchor(boat, 5000) 

@@ -232,6 +232,10 @@ function ISNewSalingBoatDashboard:prerender()
 	local alpha = self:getAlphaFlick(0.65)
 	local greyBg = {r=0.5, g=0.5, b=0.5, a=alpha}
 	local speedValue = self.boat:getCurrentSpeedKmHour()
+	if self.boat:getModData()["windForceByDirection"] > 5 then
+		speedValue = self.boat:getModData()["windForceByDirection"] * 1.7
+	end
+	
 	if not self.boat:getModData()["SpeedValueKph"] then
 		speedValue = speedValue/1.60934
 	end
