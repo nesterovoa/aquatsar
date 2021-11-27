@@ -91,40 +91,18 @@ end
 function Boats.SailingYachtName(boat, part, item)
 	if item then
 		if item:getType() == "SailingYachtName_Sakharov_Item" then
-			if string.match(string.lower(boat:getScriptName()), "trailer") then
-				part:setModelVisible("Sakharov_Trailer", true)
-				part:setModelVisible("Sakharov", false)
-				part:setModelVisible("La_Brigandine", false)
-				part:setModelVisible("La_Brigandine_Trailer", false)
-			else
-				part:setModelVisible("Sakharov_Trailer", false)
-				part:setModelVisible("Sakharov", true)
-				part:setModelVisible("La_Brigandine", false)
-				part:setModelVisible("La_Brigandine_Trailer", false)
-			end
+			part:setModelVisible("Sakharov", true)
+			part:setModelVisible("La_Brigandine", false)
 		elseif item:getType() == "SailingYachtName_La_Brigandine_Item" then
-			if string.match(string.lower(boat:getScriptName()), "trailer") then
-				part:setModelVisible("Sakharov_Trailer", false)
-				part:setModelVisible("Sakharov", false)
-				part:setModelVisible("La_Brigandine", false)
-				part:setModelVisible("La_Brigandine_Trailer", true)
-			else
-				part:setModelVisible("Sakharov_Trailer", false)
-				part:setModelVisible("Sakharov", false)
-				part:setModelVisible("La_Brigandine", true)
-				part:setModelVisible("La_Brigandine_Trailer", false)
-			end
+			part:setModelVisible("Sakharov", false)
+			part:setModelVisible("La_Brigandine", true)
 		else
 			part:setModelVisible("Sakharov",false)
-			part:setModelVisible("Sakharov_Trailer", false)
 			part:setModelVisible("La_Brigandine", false)
-			part:setModelVisible("La_Brigandine_Trailer", false)
 		end
 	else
 		part:setModelVisible("Sakharov",false)
-		part:setModelVisible("Sakharov_Trailer", false)
 		part:setModelVisible("La_Brigandine", false)
-		part:setModelVisible("La_Brigandine_Trailer", false)
 	end
 end
 
@@ -154,40 +132,18 @@ end
 function Boats.MotorBoatName(boat, part, item)
 	if item then
 		if item:getType() == "BoatMotorName_NP_Item" then
-			if string.match(string.lower(boat:getScriptName()), "trailer") then
-				part:setModelVisible("NP", false)
-				part:setModelVisible("NP_Trailer", true)
-				part:setModelVisible("Orianna", false)
-				part:setModelVisible("Orianna_Trailer", false)
-			else
-				part:setModelVisible("NP", true)
-				part:setModelVisible("NP_Trailer", false)
-				part:setModelVisible("Orianna", false)
-				part:setModelVisible("Orianna_Trailer", false)
-			end
+			part:setModelVisible("NP", true)
+			part:setModelVisible("Orianna", false)
 		elseif item:getType() == "BoatMotorName_Orianna_Item" then
-			if string.match(string.lower(boat:getScriptName()), "trailer") then
-				part:setModelVisible("NP", false)
-				part:setModelVisible("NP_Trailer", false)
-				part:setModelVisible("Orianna", false)
-				part:setModelVisible("Orianna_Trailer", true)
-			else
-				part:setModelVisible("NP", false)
-				part:setModelVisible("NP_Trailer", false)
-				part:setModelVisible("Orianna", true)
-				part:setModelVisible("Orianna_Trailer", false)
-			end
+			part:setModelVisible("NP", false)
+			part:setModelVisible("Orianna", true)
 		else
 			part:setModelVisible("NP", false)
-			part:setModelVisible("NP_Trailer", false)
 			part:setModelVisible("Orianna", false)
-			part:setModelVisible("Orianna_Trailer", false)
 		end
 	else
 		part:setModelVisible("NP", false)
-		part:setModelVisible("NP_Trailer", false)
 		part:setModelVisible("Orianna", false)
-		part:setModelVisible("Orianna_Trailer", false)
 	end
 end
 
@@ -359,17 +315,17 @@ end
 --**                                                       **
 --***********************************************************
 function Boats.Create.ApiBoatAirbag(vehicle, part)
-print("Boats.Create.ApiBoatAirbag")
-	local item = VehicleUtils.createPartInventoryItem(part)
-	part:setCondition(100)
-	part:setContainerContentAmount(part:getContainerCapacity()/2, false, true);
+-- print("Boats.Create.ApiBoatAirbag")
+	-- local item = VehicleUtils.createPartInventoryItem(part)
+	-- part:setCondition(100)
+	-- part:setContainerContentAmount(part:getContainerCapacity()/2, false, true);
 end
 
 function Boats.Init.ApiBoatAirbag(vehicle, part)
-print("Boats.Init.ApiBoatAirbag")
-	local item = VehicleUtils.createPartInventoryItem(part)
-	part:setCondition(100)
-	part:setContainerContentAmount(part:getContainerCapacity()/2, false, true);
+-- print("Boats.Init.ApiBoatAirbag")
+	-- local item = VehicleUtils.createPartInventoryItem(part)
+	-- part:setCondition(100)
+	-- part:setContainerContentAmount(part:getContainerCapacity()/2, false, true);
 end
 
 --***********************************************************

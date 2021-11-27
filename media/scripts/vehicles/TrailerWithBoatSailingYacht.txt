@@ -68,10 +68,31 @@ module Base
 		template = BoatStandartParts/part/Engine,
 		template = BoatStandartParts/part/Radio,
 		template = BatteryHeater/part/BatteryHeater,
-		template = ApiBoatAirbag,
 		template = Propeller,
-		template = Sails,
+		part Propeller
+		{
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Wrench,
+						count = 1,
+						keep = true,
+						equip = secondary,
+					}
+				}
 
+				time = 2000,
+				skills = Mechanics:3,
+				recipes = Powerboats Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				complete = Boats.UninstallComplete.Propeller,
+			}
+		}
+
+		template = Sails,
 		part Sails
 		{
 			category = nodisplay,
@@ -108,7 +129,20 @@ module Base
 		template = Mattresses/part/MattressMiddleLeft,
 		template = Mattresses/part/MattressMiddleRight,
 		template = SailingYachtName/part/BoatName,
-
+		part BoatName
+		{
+			model Sakharov
+			{
+				file = SailingYachtName_Sakharov,
+				scale = 4.54,
+			}
+			model La_Brigandine
+			{
+				file = SailingYachtName_La_Brigandine,
+				scale = 4.54,
+			}
+		}
+		
 		physics box
 		{
 			offset = -0.1444 0.1222 1.1111,
@@ -246,29 +280,6 @@ module Base
 		part Radio
 		{
 			category = nodisplay,
-		}
-
-		part Propeller
-		{
-			table uninstall
-			{
-				items
-				{
-					1
-					{
-						type = Base.Wrench,
-						count = 1,
-						keep = true,
-						equip = secondary,
-					}
-				}
-
-				time = 2000,
-				skills = Mechanics:3,
-				recipes = Powerboats Mechanics,
-				test = Vehicles.UninstallTest.Default,
-				complete = Boats.UninstallComplete.Propeller,
-			}
 		}
 
 		part BatteryHeater

@@ -1,7 +1,7 @@
 --**************************************************************
 --**                    Developer: Aiteron                    **
 --**************************************************************
-require 'AquaConfig'
+require "AquaConfig"
 require "TimedActions/ISBaseTimedAction"
 
 ISLoadBoatOntoTrailer = ISBaseTimedAction:derive("ISLoadBoatOntoTrailer")
@@ -45,8 +45,8 @@ end
 
 function ISLoadBoatOntoTrailer:perform()
 	local newTrailerName = AquaConfig.Trailers[self.trailer:getScript():getName()].trailerWithBoatTable[self.boat:getScript():getName()]
-	ISVehicleMenuForTrailerWithBoat.replaceTrailer(self.trailer, newTrailerName)
-	ISVehicleMenuForTrailerWithBoat.replaceTrailerBoat(self.boat, self.trailer)
+	AquaConfig.replaceVehicleScript(self.trailer, newTrailerName)
+	AquaConfig.exchangePartsVehicle(self.boat, self.trailer)
 	local boatName = self.trailer:getPartById("BoatName")
 	if boatName then
 		VehicleUtils.callLua(boatName:getLuaFunction("init"), self.trailer, boatName, self.character)

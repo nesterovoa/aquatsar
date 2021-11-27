@@ -1,7 +1,7 @@
 --**************************************************************
 --**                    Developer: Aiteron                    **
 --**************************************************************
-require 'AquaConfig'
+require "AquaConfig"
 require "TimedActions/ISBaseTimedAction"
 
 ISLaunchBoatOnWater = ISBaseTimedAction:derive("ISLaunchBoatOnWater")
@@ -51,8 +51,8 @@ function ISLaunchBoatOnWater:perform()
 	boat:setDebugZ(0.75)
 	boat:setAngles(self.trailer:getAngleX(), self.trailer:getAngleY(), self.trailer:getAngleZ())
 	boat:setRust(self.trailer:getRust())
-	ISVehicleMenuForTrailerWithBoat.replaceTrailerBoat(self.trailer, boat)
-	ISVehicleMenuForTrailerWithBoat.replaceTrailer(self.trailer, newTrailerName)
+	AquaConfig.exchangePartsVehicle(self.trailer, boat)
+	AquaConfig.replaceVehicleScript(self.trailer, newTrailerName)
 	local boatName = boat:getPartById("BoatName")
 	if boatName then
 		VehicleUtils.callLua(boatName:getLuaFunction("init"), boat, boatName, self.character)

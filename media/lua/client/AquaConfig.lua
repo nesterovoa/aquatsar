@@ -23,6 +23,88 @@ function AquaConfig.Boat(boat)
     return AquaConfig.Boats[boat:getScript():getName()]
 end
 
+
+-------------------------
+-- Replace functions
+-------------------------
+
+local ignoreParts = {
+["TireFrontLeft"] = true,
+["TireFrontRight"] = true,
+["TireRearLeft"] = true,
+["TireRearRight"] = true,
+["SuspensionFrontLeft"] = true,
+["SuspensionFrontRight"] = true,
+["SuspensionRearLeft"] = true,
+["SuspensionRearRight"] = true,
+}
+
+function AquaConfig.exchangePartsVehicle(veh1, veh2)
+	local partsTable = {}
+	for i=1, veh1:getScript():getPartCount() do
+		local part = veh1:getPartByIndex(i-1)
+		if not ignoreParts[part:getId()] then
+			partsTable[part:getId()] = {}
+			partsTable[part:getId()]["InventoryItem"] = part:getInventoryItem()
+			partsTable[part:getId()]["Condition"] = part:getCondition()
+			partsTable[part:getId()]["ItemContainer"] = nil
+			local itemContainer = part:getItemContainer()
+			if itemContainer and not itemContainer:isEmpty()then
+				partsTable[part:getId()]["ItemContainer"] = itemContainer
+			end
+		end
+	end
+	for i=1, veh2:getScript():getPartCount() do
+		local part = veh2:getPartByIndex(i-1)
+		if partsTable[part:getId()] then
+			part:setInventoryItem(partsTable[part:getId()]["InventoryItem"])
+			part:setCondition(partsTable[part:getId()]["Condition"])
+			if partsTable[part:getId()]["ItemContainer"] then
+				part:setItemContainer(partsTable[part:getId()]["ItemContainer"])
+			end
+		end
+	end
+	-- print("veh1 keyId: ", veh1:getKeyId())
+	-- print("veh2 keyId: ", veh2:getKeyId())
+	veh2:setKeyId(veh1:getKeyId())
+	veh2:setSkinIndex(veh1:getSkinIndex())
+	-- print("veh2 new keyId: ", veh2:getKeyId())
+	return veh2
+end
+
+function AquaConfig.replaceVehicleScript(vehicle, newTrailerName)
+	-- print("vehicle keyId: ", vehicle:getKeyId())
+	local partsTable = {}
+	local keyId = vehicle:getKeyId()
+	for i=1, vehicle:getScript():getPartCount() do
+		local part = vehicle:getPartByIndex(i-1)
+		partsTable[part:getId()] = {}
+		partsTable[part:getId()]["InventoryItem"] = part:getInventoryItem()
+		partsTable[part:getId()]["Condition"] = part:getCondition()
+		partsTable[part:getId()]["ItemContainer"] = nil
+		local itemContainer = part:getItemContainer()
+		if itemContainer and not itemContainer:isEmpty()then
+			partsTable[part:getId()]["ItemContainer"] = itemContainer
+		end
+	end
+	vehicle:setScriptName(newTrailerName)
+	vehicle:scriptReloaded()
+	for i=1, vehicle:getScript():getPartCount() do
+		local part = vehicle:getPartByIndex(i-1)
+		if partsTable[part:getId()] then
+			part:setInventoryItem(partsTable[part:getId()]["InventoryItem"])
+			part:setCondition(partsTable[part:getId()]["Condition"])
+			if partsTable[part:getId()]["ItemContainer"] then
+				part:setItemContainer(partsTable[part:getId()]["ItemContainer"])
+			end
+		end
+	end
+	-- print("trailer2 keyId: ", vehicle:getKeyId())
+	vehicle:setKeyId(keyId)
+	-- print("trailer2 new keyId: ", vehicle:getKeyId())
+	return vehicle
+end
+
 --------------
 -- Boats
 --------------
@@ -55,9 +137,61 @@ boat.boatSeatUI_SeatOffsetY = {
 	["RearRight"] = 0,
 }
 
+AquaConfig.Boats["BoatMotor_Ground"] = {}
+boat = AquaConfig.Boats["BoatMotor_Ground"]
+boat.onGround = true
+boat.dashboard = "ISBoatDashboard"
+boat.multiplierFuelConsumption = 2
+boat.limitReverseSpeed = 6
+boat.boatSeatUI_Image = "BoatMotorYacht_seat"
+boat.boatSeatUI_Scale = 1
+boat.windInfluence = 1.1
+boat.boatSeatUI_SeatOffsetX = {
+	["FrontLeft"] = 0,
+	["FrontRight"] = 0,
+	["MiddleLeft"] = 0,
+	["MiddleRight"] = 0,
+	["RearLeft"] = 0,
+	["RearRight"] = 0,
+}
+boat.boatSeatUI_SeatOffsetY = {
+	["FrontLeft"] = 0,
+	["FrontRight"] = 0,
+	["MiddleLeft"] = 0, 
+	["MiddleRight"] = 0,
+	["RearLeft"] = 0,
+	["RearRight"] = 0,
+}
+
 -- BoatSailingYacht --
 AquaConfig.Boats["BoatSailingYacht"] = {}
 boat = AquaConfig.Boats["BoatSailingYacht"]
+boat.dashboard = "ISNewSalingBoatDashboard"
+boat.multiplierFuelConsumption = 4
+boat.limitReverseSpeed = 6
+boat.windInfluence = 1.1
+boat.boatSeatUI_Image = "BoatSailingYacht_seat"
+boat.boatSeatUI_Scale = 0.75
+boat.boatSeatUI_SeatOffsetX = {
+	["FrontLeft"] = 0,
+	["FrontRight"] = 0,
+	["MiddleLeft"] = 0,
+	["MiddleRight"] = 0,
+	["RearLeft"] = 0,
+	["RearRight"] = 0,
+}
+boat.boatSeatUI_SeatOffsetY = {
+	["FrontLeft"] = 120,
+	["FrontRight"] = 120,
+	["MiddleLeft"] = -50, 
+	["MiddleRight"] = -30,
+	["RearLeft"] = -40,
+	["RearRight"] = 50,
+}
+
+AquaConfig.Boats["BoatSailingYacht_Ground"] = {}
+boat = AquaConfig.Boats["BoatSailingYacht_Ground"]
+boat.onGround = true
 boat.dashboard = "ISNewSalingBoatDashboard"
 boat.multiplierFuelConsumption = 4
 boat.limitReverseSpeed = 6
@@ -115,7 +249,9 @@ local trailer = AquaConfig.Trailers["TrailerForBoat"]
 trailer.isWithBoat = false
 trailer.trailerWithBoatTable = {}
 trailer.trailerWithBoatTable["BoatSailingYacht"] = "TrailerWithBoatSailingYacht"
+trailer.trailerWithBoatTable["BoatSailingYacht_Ground"] = "TrailerWithBoatSailingYacht"
 trailer.trailerWithBoatTable["BoatMotor"] = "TrailerWithBoatMotor"
+trailer.trailerWithBoatTable["BoatMotor_Ground"] = "TrailerWithBoatMotor"
 
 AquaConfig.Trailers["TrailerWithBoatSailingYacht"] = {}
 local trailer = AquaConfig.Trailers["TrailerWithBoatSailingYacht"]

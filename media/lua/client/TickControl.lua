@@ -19,6 +19,7 @@ function TickControl.switchTheWind(emi, nameOfWind, volume)
 	TickTable.Wind = {}
 	TickTable.Wind[nameOfWind] = songId
 	emi:setVolume(TickTable.Wind[nameOfWind], volume)
+	emi:set3D(TickTable.Wind[nameOfWind], false)
 end
 
 function TickControl.stopWeatherSound(emi)

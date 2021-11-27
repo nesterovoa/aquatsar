@@ -1984,6 +1984,7 @@ function ISBoatMenu.onEnterVehicle(playerObj)
 				if not emi:isPlaying("BoatSailing") then
 					local songID = emi:playSoundLooped("BoatSailing")
 					emi:setVolume(songID, 0.3)
+					emi:set3D(songID, false)
 				end
 			end
 		end

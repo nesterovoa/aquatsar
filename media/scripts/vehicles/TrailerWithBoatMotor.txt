@@ -74,8 +74,30 @@ module Base
 		template = BoatStandartParts/part/Windshield,
 		template = BoatStandartParts/part/Radio,
 		template = BatteryHeater/part/BatteryHeater,
-		template = ApiBoatAirbag,
 		template = Propeller,
+		part Propeller
+		{
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Wrench,
+						count = 1,
+						keep = true,
+						equip = secondary,
+					}
+				}
+
+				time = 2000,
+				skills = Mechanics:3,
+				recipes = Powerboats Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				complete = Boats.UninstallComplete.Propeller,
+			}
+		}
+		
 		template = LightApi,
 		template = Light/part/LightFloodlightLeft,
 		template = Light/part/LightCabin,
@@ -93,6 +115,19 @@ module Base
 		template = Mattresses/part/MattressMiddleLeft,
 		template = Mattresses/part/MattressMiddleRight,
 		template = BoatMotorName/part/BoatName,
+		part BoatName
+		{
+			model NP
+			{
+				file = BoatMotorName_NP,
+				scale = 4,
+			}
+			model Orianna
+			{
+				file = BoatMotorName_Orianna,
+				scale = 4,
+			}
+		}
 
 		physics box
 		{
@@ -216,29 +251,6 @@ module Base
 		part Radio
 		{
 			category = nodisplay,
-		}
-
-		part Propeller
-		{
-			table uninstall
-			{
-				items
-				{
-					1
-					{
-						type = Base.Wrench,
-						count = 1,
-						keep = true,
-						equip = secondary,
-					}
-				}
-
-				time = 2000,
-				skills = Mechanics:3,
-				recipes = Powerboats Mechanics,
-				test = Vehicles.UninstallTest.Default,
-				complete = Boats.UninstallComplete.Propeller,
-			}
 		}
 
 		part BatteryHeater

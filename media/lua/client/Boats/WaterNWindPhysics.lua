@@ -354,19 +354,25 @@ end
 function AquaPhysics.heightFix(boat)
 	local squareUnderVehicle = getCell():getGridSquare(boat:getX(), boat:getY(), 0)
 	-- AUD.insp("Boat", "getDebugZ:", boat:getDebugZ())
-	if squareUnderVehicle ~= nil and isWater(squareUnderVehicle) then
-		-- AUD.insp("Boat", "getDebugZ:", boat:getDebugZ())
-		if boat:getDebugZ() < 0.62 and boat:getCurrentSpeedKmHour() < 2 then 
-			-- boat:setPhysicsActive(true)
-			-- print("AquaPhysics.heightFix")
-			tempVec1:set(0, 5000, 0)
-			tempVec2:set(0, 0, 0)
-			boat:addImpulse(tempVec1, tempVec2)
-			print("AquaPhysics.heightFix")
-			-- boat:update()
+	if squareUnderVehicle ~= nil then
+		-- print(boat:getDebugZ())
+		if isWater(squareUnderVehicle) then
+			-- AUD.insp("Boat", "getDebugZ:", boat:getDebugZ())
+			if boat:getDebugZ() < 0.62 and boat:getCurrentSpeedKmHour() < 2 then 
+				tempVec1:set(0, 5000, 0)
+				tempVec2:set(0, 0, 0)
+				boat:addImpulse(tempVec1, tempVec2)
+				print("AquaPhysics.heightFix")
+			end
+			return true
+		else
+			AquaConfig.replaceVehicleScript(boat, "Base.".. boat:getScript():getName() .. "_Ground")
+			boat:flipUpright()
+			boat:setZ(0)
+			return false
 		end
-	elseif boat:getDebugZ() < 0.1 then
-		boat:setZ(0.9 - boat:getDebugZ())
+	else
+		return false
 	end
 end
 
@@ -521,32 +527,33 @@ function AquaPhysics.updateVehicles()
 	local vehicles = getCell():getVehicles()
     for i=0, vehicles:size()-1 do
         local boat = vehicles:get(i)
-		if boat ~= nil and AquaConfig.isBoat(boat) then
+		local boatInfo = AquaConfig.Boat(boat)
+		if boatInfo and not boatInfo.onGround then
 			-- dirTest (boat)
 			local collisionWithGround = AquaPhysics.Water.Borders(boat)
-			AquaPhysics.heightFix(boat)
-			-- AquaPhysics.inertiaFix(boat)
-			if AquaConfig.Boat(boat).limitReverseSpeed ~= nil then
-				AquaPhysics.reverseSpeedFix(boat, AquaConfig.Boats[boat:getScript():getName()].limitReverseSpeed)
-			end
-			if boat:getPartById("Sails") then
-				if boat:getPartById("Sails"):getLight():getActive() and not boat:getModData()["aqua_anchor_on"] then
-					AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
+			if AquaPhysics.heightFix(boat) then
+				-- AquaPhysics.inertiaFix(boat)
+				if boatInfo.limitReverseSpeed ~= nil then
+					AquaPhysics.reverseSpeedFix(boat, boatInfo.limitReverseSpeed)
 				end
-				AquaPhysics.changeSailAngle(boat)
+				if boat:getPartById("Sails") then
+					if boat:getPartById("Sails"):getLight():getActive() and not boat:getModData()["aqua_anchor_on"] then
+						AquaPhysics.Wind.windImpulse(boat, collisionWithGround)
+					end
+					AquaPhysics.changeSailAngle(boat)
+				end
+				
+				if math.abs(boat:getCurrentSpeedKmHour()) < 4 then
+					AquaPhysics.waterFlowRotation(boat, 800)
+				end
+				
+				if boat:getModData()["aqua_anchor_on"] then 
+					AquaPhysics.stopByAnchor(boat, 5000) 
+				end
+				AquaPhysics.boatEngineShutDownOnGround(boat)
 			end
-			
-			if math.abs(boat:getCurrentSpeedKmHour()) < 4 then
-				AquaPhysics.waterFlowRotation(boat, 800)
-			end
-			
-			if boat:getModData()["aqua_anchor_on"] then 
-				AquaPhysics.stopByAnchor(boat, 5000) 
-			end
-			AquaPhysics.boatEngineShutDownOnGround(boat)
         end
     end
-	
 end
 
 Events.OnTick.Add(AquaPhysics.updateVehicles)
